@@ -1,1 +1,3 @@
-export { AttendanceModule } from "./home/attendanceModule";
+export { TicketsModule } from "./home/ticketsModule";
+export { ActivieTicketsModule } from "./home/ticketsModule";
+

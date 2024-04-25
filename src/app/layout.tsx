@@ -10,8 +10,8 @@ import { AuditProvider } from "@/shared/tools/auditMonit";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TRAINLOG",
-  description: "Track in-house training attendance",
+  title: "LEGEND TIME MANAGEMENT",
+  description: "Log Customer Problems and Comnpany Tasks",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
