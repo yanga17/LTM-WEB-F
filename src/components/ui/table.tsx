@@ -1,12 +1,12 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
+import { apiEndPoint, colors } from '@/utils/colors';
 
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className="relative w-full overflow-x-hidden">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}
@@ -58,7 +58,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b transition-colors hover:bg-gray-100/50 data-[state=selected]:bg-gray-100 dark:hover:bg-gray-800/50 dark:data-[state=selected]:bg-gray-800",
+      "border-b transition-colors bg-greyDarker hover:bg-gray-100/50 data-[state=selected]:bg-gray-100 dark:hover:bg-gray-800/50 dark:data-[state=selected]:bg-gray-800",
       className
     )}
     {...props}
@@ -73,7 +73,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "px-4 text-center align-middle font-medium text-gray-500 dark:text-gray-400 py-3 min-w-[120px]",
+      "bg-grey px-4 text-center align-middle font-medium text-black dark:text-gray-400 py-3 min-w-[120px]",
       className
     )}
     {...props}
