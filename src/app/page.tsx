@@ -14,11 +14,22 @@ import { EachTicketsModule } from "@/modules/home/ticketsDetail";
 import logo from "../../public/images/LTM logo@3x.png";
 import Image from 'next/image';
 
+import * as React from "react"
+import {useState, useEffect} from 'react'
+
 //import { MachineDetail } from "./ticketsDetail";
 //EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon
 
+import {StartCall} from "@/components/component/start-call"
+
+
 export default function Home() {
   const { addAuditLog } = useAudit() //Downloads
+  const [startCallPopup, setStartCallPopup] = useState(false);
+
+  const toggleStartCall = () => {
+    setStartCallPopup(!startCallPopup);
+  }
 
   return (
     <div className="bg-white">
@@ -50,10 +61,14 @@ export default function Home() {
       </div>
     </header>
       <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
-        <Button size="lg" className="bg-purple">
+        <Button
+          size="lg"
+          onClick={toggleStartCall}
+          className="bg-purple">
           <PhoneIcon className="h-4 w-4 mr-2" />
           <span>Start Call</span>
         </Button>
+        {startCallPopup && <StartCall onClose={toggleStartCall} />}
         <Button size="lg" className="bg-purple">
           <CoffeeIcon className="h-4 w-4 mr-2" />
           <span>Start Break</span>
@@ -69,9 +84,6 @@ export default function Home() {
             <h6 className="ml-6 text-3xl py-4 font-bold">Active Tickets</h6>
           </div>
           <Card className="ml-4 mr-4">
-            {/* <CardHeader className="p-6 flex items-left">
-              <CardTitle className="text-3xl">Active Tickets</CardTitle>
-            </CardHeader> */}
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
                 <Table className="w-full">
@@ -98,9 +110,6 @@ export default function Home() {
             <h6 className="ml-6 text-3xl py-4 font-bold">Logged Tickets</h6>
           </div>
           <Card className="ml-4 mr-4">
-            {/* <CardHeader className="p-6 flex items-left">
-              <CardTitle className="font-bold text-3xl">Logged Tickets</CardTitle>
-            </CardHeader> */}
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
                 <Table className="w-full">

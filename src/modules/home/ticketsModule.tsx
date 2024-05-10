@@ -110,7 +110,7 @@ export const TicketsModule = () => {
           issueType: ticket.IssueType
         };
     
-        const response = await axios.post(`${apiEndPoint}/tickets/inserttickets`, payLoad);
+        const response = await axios.post(`${apiEndPoint}/tickets/insertnewtickets`, payLoad);
         console.log('Ticket taken successfully:', response.data);
     
         // After successfully taking the ticket, call updateTakenTicket to update the EndTime and Taken status
@@ -250,9 +250,9 @@ export const TicketsModule = () => {
     )
 }
 
-  if (error) {
-    triggerToastError();
-  }
+  // if (error) {
+  //   triggerToastError();
+  // }
 
   if (!data && !isEmpty(data)) {
     toastNodata();
