@@ -223,9 +223,9 @@ export const ActiveTicketsModule = () => {
         )
     }
 
-    if (error) {
-        triggerToastError();
-    }
+    // if (error) {
+    //     triggerToastError();
+    // }
 
     if (!data && !isEmpty(data)) {
         toastNodata();
