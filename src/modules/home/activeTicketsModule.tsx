@@ -16,8 +16,8 @@ import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table
 import { EachActiveTicketsModule } from "./activeTicketsDetail";
 import OctagonAlert from 'lucide-react';
 
-import alert from '../../assets/alert.svg';
 import Image from 'next/image';
+import { SolutionModule } from "@/components/component/solution"
 
 
 interface ActiveProps {
