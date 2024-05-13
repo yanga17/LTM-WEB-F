@@ -73,10 +73,11 @@ export const TicketsModule = () => {
     expandView: null
   });
 
+  //gviewAll loggedTickets
   const url = `tickets/getickets`
   const { data, loading, error } = useQuery<ResponseType>(url); 
 
-
+    //view loggedTicket using ID
     const generateEachTicket = async (currentCallId: number) => {
       try {
 
@@ -93,24 +94,36 @@ export const TicketsModule = () => {
       }
     }
 
-    const takeTicket = async (ticket: CheckProps) => {
+    //takeBtn - rename to insertLoggedTicket
+    //employee, customer, activity, phoneNumber, clientAnydesk, startTime, type, supportNo, comments, name, timeTaken, issueType
+    //include logger once you've setup the userAuthentication what what
+    const takeLoggedTicket = async (ticket: CheckProps) => {
+      let customerData = ticket.Customer
+      let supportNo = null;
+
+    if (ticket.Customer.includes(",")) {
+      const customerArray = ticket.Customer.split(",");
+      customerData = customerArray[0].trim();
+      supportNo = customerArray[1].trim();
+    }
+
       try {
         const payLoad = {
           employee: ticket.Empl,
-          customer: ticket.Customer,
+          customer: customerData,
           activity: ticket.Problem,
           phoneNumber: ticket.Phone_Number,
           clientAnydesk: ticket.Clients_Anydesk,
           startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
           type: ticket.Type,
-          supportNo: ticket.Support_No,
+          supportNo: supportNo,
           comments: ticket.Comments,
           name: ticket.Name,
           timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
-          issueType: ticket.IssueType
+          issueType: ticket.IssueType,
         };
-    
-        const response = await axios.post(`${apiEndPoint}/tickets/insertnewtickets`, payLoad);
+
+        const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
         console.log('Ticket taken successfully:', response.data);
     
         // After successfully taking the ticket, call updateTakenTicket to update the EndTime and Taken status
@@ -125,7 +138,7 @@ export const TicketsModule = () => {
       try {
         const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
         // Use PATCH method and include EndTime and Call_ID in the URL
-        const updateUrl = `${apiEndPoint}/tickets/updateticket/${encodeURIComponent(endTime)}/${callId}`;
+        const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
         const updateResponse = await axios.patch(updateUrl);
     
         console.log('Ticket updated successfully:', updateResponse.data);
@@ -137,7 +150,6 @@ export const TicketsModule = () => {
         console.error('Error updating ticket:', error);
       }
     }
-
     
 
     useEffect(() => {
@@ -147,21 +159,6 @@ export const TicketsModule = () => {
       }
 
     }, [data]);
-
-    // const openModal = (parameter: any) => {
-    //   if (currentOpen === parameter) {
-    //     setState({ ...state, isOpen: false, expandView: null });
-    //     setCurrentOpen('');
-    //     setViewTicket([]);
-    //   } else {
-    //     setCurrentOpen(parameter);
-    //     setState({ ...state, isOpen: true, expandView: parameter });
-    //     setCallID(parameter);
-  
-    //     setViewTicket([]); // Reset viewticket when opening a new ticket to ensure previous ticket data is not displayed
-    //     generateEachTicket(parameter); // Call generateEachTicket here to load the new ticket data
-    //   }
-    // }
 
     const openModal = (parameter: any) => {
       if (currentOpen === parameter) {
@@ -258,27 +255,6 @@ export const TicketsModule = () => {
     toastNodata();
   }
 
-  // const checkInLog = data?.map((property) => ({
-  //   Call_ID: property?.Call_ID,
-  //   Customer: property.Customer,
-  //   Problem: property.Problem,
-  //   Clients_Anydesk: property.Clients_Anydesk,
-  //   Phone_Number: property.Phone_Number,
-  //   Time: new Date(property.Time).toISOString().slice(0, 19).replace('T', ' '),
-  //   EndTime: property.EndTime,
-  //   Duration: property.Duration,
-  //   Taken: property.Taken,
-  //   Support_No: property.Support_No,
-  //   Empl: property.Empl,
-  //   logger: property.logger,
-  //   Comments: property.Comments,
-  //   Solution: property.Solution,
-  //   Name: property.Name,
-  //   urgent: property.urgent,
-  //   IssueType: property.IssueType,
-  //   Type: property.Type // Assuming there's a Type property you want to include as well
-  // }));
-
   return (
     <>
       {tickets?.map(({ Call_ID, Customer, Problem, Name, Time }) => (
@@ -302,8 +278,8 @@ export const TicketsModule = () => {
                   onClick={() => {
                     const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {
-                        takeTicket(selectedTicket);
-                        console.log('GRABBED THE SELECTED TICKET', selectedTicket);
+                      takeLoggedTicket(selectedTicket);
+                        console.log('INSERTED THE LOGGED TICKET TO tblTime x Updated EndTime in tblcalls', selectedTicket);
                     } else {
                         console.error('Selected ticket not found');
                     }

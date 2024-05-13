@@ -11,7 +11,6 @@ interface EachTicketProps {
 
 }
 
-
 export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTicketProps) => {
 
     return (

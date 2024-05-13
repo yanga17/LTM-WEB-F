@@ -221,9 +221,11 @@ export function StartCall({ onClose}: Props) {
       const customerArray = customer.split(",");
       customerData = customerArray[0].trim();
       supportNo = customerArray[1].trim();
+      //status of support numberr supportNo: LEG00029 
     }
 
-    //property names which be exactly like the ones declared in the backend routes
+
+    //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
       customer: customerData,
       problem: problem,
@@ -237,11 +239,14 @@ export function StartCall({ onClose}: Props) {
       comments: comments,
       urgent: urgent, // Assuming "high" is represented as 1 and other priorities as 0
       issueType: issueType, // Assuming the issueType is the same as the problem
+      type: type, // Assuming the issueType is the
     };
 
     try {
       const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
       console.log('Ticket submitted successfully:', response.data);
+
+      console.log('my ticket type:', ticketData.support_No)
 
       //setCustomer(response.data)
 
