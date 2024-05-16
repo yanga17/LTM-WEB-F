@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSession } from "@/context";
 import { colors } from "@/utils/colors";
 import { usePathname } from 'next/navigation';
-import { CalendarClock, LayoutDashboard, X } from "lucide-react";
+import { CalendarClock, LayoutDashboard, X, ContactRound, Contact } from "lucide-react";
 
 //import logo from "/public/images/LTM logo@3x.png";
 import logo from "../../../../../../public/images/LTM logo@3x.png";
@@ -87,6 +87,10 @@ export const Navigation = () => {
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <CalendarClock size={25} strokeWidth={1} color={pathname === '/' ? colors?.purple : colors?.white} />
             <Link href='/check-in' className="text-sm font-medium text-black-dark group-hover:text-purple">Attend</Link>
+          </li>
+          <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
+            <Contact size={25} strokeWidth={1} color={pathname === '/' ? colors?.purple : colors?.white} />
+            <Link href='/customers' className="text-sm font-medium text-black-dark group-hover:text-purple">Customers</Link>
           </li>
         </ul>
         <button className="gap-2 flex items-center justify-center w-10/12 mx-auto rounded p-2 bg-red text-white" onClick={logout}>

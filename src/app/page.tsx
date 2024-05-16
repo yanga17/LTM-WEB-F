@@ -17,9 +17,6 @@ import Image from 'next/image';
 import * as React from "react"
 import {useState, useEffect} from 'react'
 
-//import { MachineDetail } from "./ticketsDetail";
-//EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon
-
 import {StartCall} from "@/components/component/start-call"
 
 
@@ -72,10 +69,6 @@ export default function Home() {
         <Button size="lg" className="bg-purple">
           <CoffeeIcon className="h-4 w-4 mr-2" />
           <span>Start Break</span>
-        </Button>
-        <Button size="lg" className="bg-purple mr-10">
-          <ActivityIcon className="h-4 w-4 mr-2" />
-          <span>Start Activity</span>
         </Button>
       </div>
       <div className="grid gap-6">

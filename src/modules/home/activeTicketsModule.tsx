@@ -17,7 +17,7 @@ import { EachActiveTicketsModule } from "./activeTicketsDetail";
 import OctagonAlert from 'lucide-react';
 
 import Image from 'next/image';
-import { SolutionModule } from "@/components/component/solution"
+import { TicketSolution } from "@/components/component/ticket-solution";
 
 
 interface ActiveProps {
@@ -73,6 +73,8 @@ export const ActiveTicketsModule = () => {
     const [currentOpen, setCurrentOpen] = useState('');
     const [viewticket, setViewTicket] = useState<DetailResponseType>([]); //view ticket holds my returned data
     const [callId, setCallID] = useState(0);
+    const [solutionPopup, setSolutionPopup] = useState(false);
+    const [solutionid, setSolutionId] = useState(0);
 
     const [state, setState] = useState({
         isOpen: true,
@@ -107,6 +109,10 @@ export const ActiveTicketsModule = () => {
             const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
             setViewTicket(response.data)
 
+            setSolutionId(callid)
+            setSolutionPopup(true)
+            //setMinusClicked(true);
+
             console.log('Ticket ended successfully:', response.data);
 
         } catch (error) {
@@ -116,22 +122,11 @@ export const ActiveTicketsModule = () => {
         }
     }
 
-    //open and close
-    // const openModal = (parameter: any) => {
-    //     if (currentOpen === parameter) {
-    //     setState({ ...state, isOpen: false, expandView: null });
-    //     setCurrentOpen('');
-    //     setViewTicket([]);
-    //     } else {
-    //     setCurrentOpen(parameter);
-    //     setState({ ...state, isOpen: true, expandView: parameter });
-    //     setCallID(parameter);
+    const toggleSolution = () => {
+        setSolutionPopup(!solutionPopup);
+    }
+
     
-    //     setViewTicket([]); // Reset viewticket when opening a new ticket to ensure previous ticket data is not displayed
-    //     generateEachTicket(parameter); // Call generateEachTicket here to load the new ticket data
-    //     console.log('lets see this my callid', parameter);
-    //     }
-    // }
 
     const openModal = (parameter: any) => {
         if (currentOpen === parameter) {
@@ -255,6 +250,7 @@ export const ActiveTicketsModule = () => {
 
     return (
     <>
+    {solutionPopup && <TicketSolution callId={solutionid} onClose={toggleSolution} />}
     {activecheckInLog?.map(({ callid, customer, problem, name, time, employee }, index) => (
         <>
             <TableRow key={callid}>
@@ -266,11 +262,9 @@ export const ActiveTicketsModule = () => {
             <TableCell className="text-center">
                 <div className="flex gap-2">
                     <Button size="sm" className="bg-purple" onClick={() => { openModal(callid)}}>
-                        {/* <span>View</span> */}
                         <EyeIcon className="h-4 w-4" />
                     </Button>
                     <Button size="sm" className="bg-red" onClick={() => { endTicket( employee, callid)}}>
-                        {/* <span>End</span> */}
                         <MinusIcon className="h-4 w-4" />
                     </Button>
                 </div>
