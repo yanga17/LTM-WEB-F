@@ -11,6 +11,8 @@ import { useQuery } from "@/hooks/useQuery";
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from "react-hot-toast"
+import { Checkbox } from "@/components/ui/checkbox"
+import { DoorClosedIcon } from "@/components/component/ticket-solution"
 
 
 interface Props {
@@ -48,6 +50,30 @@ interface TypesProps {
 
 type TypeErrors = TypesProps[]
 
+//interface for tbltime - TakeCall
+interface TakeCallProps {
+  Call_ID: number,
+  Customer: string,
+  Problem: string,
+  Clients_Anydesk: number,
+  Phone_Number: number,
+  Time: string,
+  EndTime: string,
+  Duration: number,
+  Taken: number,
+  Support_No: number,
+  Empl: string,
+  logger: string,
+  Comments: string,
+  Solution: string,
+  Name: string,
+  urgent: number,
+  IssueType: string,
+  Type: string,
+}
+
+type TakeCallType = TakeCallProps[]
+
 export function StartCall({ onClose}: Props) {
   //storing data for input fields
   const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
@@ -68,11 +94,8 @@ export function StartCall({ onClose}: Props) {
   const [comments, setComments] = useState("");
   const [issueType, setIssueType] = useState("Problem");
 
-  const [tickets, setTickets] = useState(""); 
-  
-  //insert new ticket
-  const startCallurl = 'insertnewtickets'
-  const { data, loading, error } = useQuery<ResponseType>(startCallurl);
+  const [tickets, setTickets] = useState("");
+  const [checkStatus, setCheckStatus] = useState(false); //checkbos
 
   const generateCustomers = async () => {
     try {
@@ -169,7 +192,45 @@ export function StartCall({ onClose}: Props) {
       
     }
   }
+
+
+  const takeCall = async () => {
+    let customerData = customer
+    let supportNo = null;
+
+  if (customer.includes(",")) {
+    const customerArray = customer.split(",");
+    customerData = customerArray[0].trim();
+    supportNo = customerArray[1].trim();
+  }
+
+    try {
+      const payLoad = {
+        employee: employee,
+        customer: customerData,
+        activity: problem,
+        phoneNumber: phonenumber,
+        clientAnydesk: anydesk,
+        startTime: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        type: type,
+        supportNo: supportNo,
+        comments: comments,
+        name: clientName,
+        timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        issueType: issueType,
+      };
+
+      const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
+      console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
   
+    } catch (error) {
+      console.error('Error taking ticket:', error);
+    }
+  }
+
+  const handleCheckStatus = () => {
+    setCheckStatus((prevStatus) => !prevStatus);
+  }
   
   // Function to save comments
   const saveComments = (comments: string) => {
@@ -208,11 +269,20 @@ export function StartCall({ onClose}: Props) {
     generateTypes();
   }, []);
 
+  useEffect(() => {
+    if (checkStatus === true) {
+      setIssueType("Task");
+    } else {
+      setIssueType("Problem");
+    }
+    console.log("MY CHECKSTATUS TEXT:", checkStatus)
+  }, [checkStatus])
+
 
   const submitTicket = async () => {
-    const currentDate = new Date().toISOString().slice(0, 10); // Extracting YYYY-MM-DD part
-    const currentTime = new Date().toISOString().slice(11, 19); // Extracting HH:MM:SS part
-    const dateTime = currentDate + ' ' + currentTime; // Concatenate date and time
+    const currentDate = new Date().toISOString().slice(0, 10); 
+    const currentTime = new Date().toISOString().slice(11, 19); 
+    const dateTime = currentDate + ' ' + currentTime; 
 
     let customerData = customer
     let supportNo = null;
@@ -221,9 +291,7 @@ export function StartCall({ onClose}: Props) {
       const customerArray = customer.split(",");
       customerData = customerArray[0].trim();
       supportNo = customerArray[1].trim();
-      //status of support numberr supportNo: LEG00029 
     }
-
 
     //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
@@ -233,13 +301,13 @@ export function StartCall({ onClose}: Props) {
       phoneNumber: phonenumber,
       clientsAnydesk: anydesk,
       name: clientName,
-      support_No: supportNo, // Assuming a default value
+      support_No: supportNo, 
       empl: employee,
-      logger: null, // Assuming a default value
+      logger: null, 
       comments: comments,
-      urgent: urgent, // Assuming "high" is represented as 1 and other priorities as 0
-      issueType: issueType, // Assuming the issueType is the same as the problem
-      type: type, // Assuming the issueType is the
+      urgent: urgent, 
+      issueType: issueType, 
+      type: type,
     };
 
     try {
@@ -248,7 +316,7 @@ export function StartCall({ onClose}: Props) {
 
       console.log('my ticket type:', ticketData.support_No)
 
-      //setCustomer(response.data)
+
 
       console.log('my ticketData', ticketData);
       
@@ -263,7 +331,6 @@ export function StartCall({ onClose}: Props) {
       setPriority("");
       setComments("");
 
-      // Close the modal
       onClose();
     } catch (error) {
       
@@ -275,10 +342,9 @@ export function StartCall({ onClose}: Props) {
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
-    <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
-        <XIcon className="w-5 h-5" onClick={onClose}/>
-        <span className="sr-only">Close</span>
-      </button>
+        <div className="flex items-center justify-end">
+          <DoorClosedIcon className="h-6 w-6" onClick={onClose} />
+        </div>
       <h1 className="text-2xl font-bold mb-6">Start Call</h1>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="space-y-2">
@@ -291,7 +357,7 @@ export function StartCall({ onClose}: Props) {
             >
               <option value="" className="border rounded-md">Select customer</option>
                 {allCustomers?.map(({ uid, Customer }) =>
-                  <option key={uid} value={Customer}>{Customer}</option>
+                  <option key={uid} value={Customer} className="border border-gray-300 px-2 py-1 text-gray-700 hover:bg-gray-100 focus:bg-gray-200">{Customer}</option>
                 )}
             </select>
           </div>
@@ -369,18 +435,26 @@ export function StartCall({ onClose}: Props) {
               </div>
             </div>
       </div>
-      <div className="space-y-2 mt-6">
-        <label htmlFor="comments">Comments</label>
-        <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
+      <div className="flex items-center justify-between space-y-2 mt-6">
+        <div className="flex items-center">
+          <label htmlFor="comments">Comments</label>
+        </div>
+        <div className="flex items-center space-x-2 mt-6 mb-2">
+          <Checkbox id="task" checked={checkStatus} onClick={handleCheckStatus}/>
+            <label className="ml-2 text-sm" htmlFor="task">
+              Task
+            </label>
+        </div>
       </div>
+      <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1" variant="outline">
+        <Button className="flex-1 bg-purple" variant="outline" onClick={takeCall}>
           Take Call
         </Button>
-        <Button className="flex-1" variant="outline" onClick={onClose}>
+        <Button className="flex-1 bg-red" variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button className="flex-1"
+        <Button className="flex-1 bg-green"
         onClick={submitTicket}
         >Save</Button>
       </div>

@@ -94,18 +94,16 @@ export const TicketsModule = () => {
       }
     }
 
-    //takeBtn - rename to insertLoggedTicket
-    //employee, customer, activity, phoneNumber, clientAnydesk, startTime, type, supportNo, comments, name, timeTaken, issueType
     //include logger once you've setup the userAuthentication what what
     const takeLoggedTicket = async (ticket: CheckProps) => {
       let customerData = ticket.Customer
       let supportNo = null;
 
-    if (ticket.Customer.includes(",")) {
-      const customerArray = ticket.Customer.split(",");
-      customerData = customerArray[0].trim();
-      supportNo = customerArray[1].trim();
-    }
+      if (ticket.Customer.includes(",")) {
+        const customerArray = ticket.Customer.split(",");
+        customerData = customerArray[0].trim();
+        supportNo = customerArray[1].trim();
+      }
 
       try {
         const payLoad = {
@@ -126,8 +124,9 @@ export const TicketsModule = () => {
         const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
         console.log('Ticket taken successfully:', response.data);
     
-        // After successfully taking the ticket, call updateTakenTicket to update the EndTime and Taken status
-        await updateTakenTicket(ticket.Call_ID);
+        // After successfully deleting the ticket, call updateTakenTicket to update the EndTime and Taken status
+        setTickets(prevTickets => prevTickets.filter(t => t.Call_ID!== ticket.Call_ID));
+        //await updateTakenTicket(ticket.Call_ID);
     
       } catch (error) {
         console.error('Error taking ticket:', error);
@@ -150,6 +149,7 @@ export const TicketsModule = () => {
         console.error('Error updating ticket:', error);
       }
     }
+    
     
 
     useEffect(() => {
@@ -266,11 +266,10 @@ export const TicketsModule = () => {
             <TableCell className="max-w-[200px]">{Name}</TableCell>
             <TableCell className="max-w-[200px] text-center">
               {new Date(Time).toISOString().slice(0, 19).replace('T', ' ')}
-            </TableCell> {/* Modified Time property here */}
+            </TableCell>
             <TableCell className="text-center">
               <div className="flex gap-2">
                 <Button size="sm" className="bg-purple" onClick={() => { openModal(Call_ID)}}>
-                  {/* <span>View</span> */}
                   <EyeIcon className="h-4 w-4" />
                 </Button>
                 <Button size="sm"
@@ -284,7 +283,6 @@ export const TicketsModule = () => {
                         console.error('Selected ticket not found');
                     }
                 }}>
-                  {/* <span>Take</span> */}
                   <PlusIcon className="h-4 w-4" />
                 </Button>
               </div>
