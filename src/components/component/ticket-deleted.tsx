@@ -6,9 +6,12 @@ import {useState, useEffect, useRef} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+
+import { toast } from 'react-hot-toast';
+import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
 
 
 interface TicketDeletedProps {
@@ -20,6 +23,13 @@ onClose: () => void;
 export function TicketDeletion({ callId, onClose }: TicketDeletedProps ){
     const [reason, setReason] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const deleteNotification = () => {
+        toast.success('Ticket Deleted successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
 
     const saveReason = async () => {
     if (reason.trim() === '') {
@@ -36,6 +46,8 @@ export function TicketDeletion({ callId, onClose }: TicketDeletedProps ){
         const ticketDeleteUrl = `tickets/deleteloggedticket/${callId}`;
         await axios.delete<TicketDeletedProps>(`${apiEndPoint}/${ticketDeleteUrl}`);
         console.log("TICKET DELETED SUCCESSFULLY");
+
+        deleteNotification();
         onClose();
 
     } catch (error) {
