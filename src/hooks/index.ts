@@ -1,2 +1,2 @@
 export { useInputHandler } from './useInputHandler';
-export { Operators, Managers, Products } from './data/data';
+export { Customers, Employees, Types } from './data/data';

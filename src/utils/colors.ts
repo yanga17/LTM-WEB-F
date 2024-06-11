@@ -22,8 +22,7 @@ export const colors = {
     }
 
 
-export const apiEndPoint = process.env.REST_ENDPOINT || `http://localhost:4200`
+export const  apiEndPoint = process.env.REST_ENDPOINT || `http://localhost:4200`
 
 
 //export const apiEndPoint = process.env.REST_ENDPOINT || `https://internal-checkin-backend.vercel.app` 
-//http://localhost:3000

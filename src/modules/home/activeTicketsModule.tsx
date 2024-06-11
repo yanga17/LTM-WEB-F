@@ -18,9 +18,10 @@ import OctagonAlert from 'lucide-react';
 
 import Image from 'next/image';
 import { TicketSolution } from "@/components/component/ticket-solution";
+import { TicketTransfer } from "@/components/component/ticket-transfer";
+import { Undo2, CircleSlash2, CircleSlash  } from "lucide-react";
 
-
-interface ActiveProps {
+export interface ActiveProps {
     ID: number,
     Employee: string,
     Customer: string,
@@ -40,9 +41,10 @@ interface ActiveProps {
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
+    Priority: number
 }
 
-type ActiveResponseType = ActiveProps[]
+export type ActiveResponseType = ActiveProps[]
 
 interface DetailTicketProps {
     ID: number,
@@ -64,6 +66,7 @@ interface DetailTicketProps {
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
+    Priority: number
 }
 
 export type DetailResponseType = DetailTicketProps[]
@@ -73,8 +76,14 @@ export const ActiveTicketsModule = () => {
     const [currentOpen, setCurrentOpen] = useState('');
     const [viewticket, setViewTicket] = useState<DetailResponseType>([]); //view ticket holds my returned data
     const [callId, setCallID] = useState(0);
+
     const [solutionPopup, setSolutionPopup] = useState(false);
+    const [transferPopUp, setTransferPopUp] = useState(false);
+
     const [solutionid, setSolutionId] = useState(0);
+    const [transferid, setTransferId] = useState(0);
+    const [transferedEmployee, setTransferEmployee] = useState('');
+    
 
     const [state, setState] = useState({
         isOpen: true,
@@ -111,6 +120,26 @@ export const ActiveTicketsModule = () => {
 
             setSolutionId(callid)
             setSolutionPopup(true)
+            toast.success('Ticket has been ended successfully.');
+
+            console.log('Ticket ended successfully:', response.data);
+
+        } catch (error) {
+
+            console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
+
+        }
+    }
+
+    const transferTicket = async (transferemployee: string, callid: number) => {
+        try {
+            //transferTicket - transferTicket
+            const transferurl = `tickets/endticket/${transferemployee}/${callid}`
+            const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${transferurl}`);
+            setViewTicket(response.data)
+
+            setSolutionId(callid)
+            setSolutionPopup(true)
             //setMinusClicked(true);
 
             console.log('Ticket ended successfully:', response.data);
@@ -122,11 +151,6 @@ export const ActiveTicketsModule = () => {
         }
     }
 
-    const toggleSolution = () => {
-        setSolutionPopup(!solutionPopup);
-    }
-
-    
 
     const openModal = (parameter: any) => {
         if (currentOpen === parameter) {
@@ -148,83 +172,90 @@ export const ActiveTicketsModule = () => {
         //setViewTicket([]); // Optionally reset the view ticket data
     };
 
-    const triggerToastError = () => {
-        toast.error('We encountered an error loading data within Active Tickets Table.', {
-            icon: <span role="img" aria-label="cross-mark" style={{ marginRight: '0.5rem' }}>❌</span>,
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
-        });
-    };
+    const toggleSolution = () => {
+        setSolutionPopup(!solutionPopup);
+    }
 
-    const toastNodata = () => {
-        toast.error('There is no data within the Active Tickets table.', {
-            icon: <span role="img" aria-label="cross-mark" style={{ marginRight: '0.5rem' }}>❌</span>,
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
-        });
-    };
+    const toggleTransfer = () => {
+        setTransferPopUp(!transferPopUp);
+    }
 
 
     if (loading) {
-        return (
-            <>
-            {
-            [...Array(500)].map((_, index) => (
-                <>
-                    <TableRow key={index}>
-                    <TableCell className="font-medium">
-                        <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                    </TableCell>
-                    <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[120px]">
-                        <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                    </TableCell>
-                    <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">
-                        <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                    </TableCell>
-                    <TableCell>
-                        <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                    </TableCell>
-                    <TableCell className="text-center">
-                        <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                    </TableCell>
-                    <TableCell className="text-center">
-                        <div className="flex gap-2">
-                            <Button
-                                disabled
-                                size="sm"
-                                className="bg-purple">
-                                {/* <span>View</span> */}
-                                <EyeIcon className="h-4 w-4 ml-2" />
-                            </Button>
-                            <Button
-                                disabled
-                                size="sm"
-                                className="bg-red">
-                                {/* <span>End</span> */}
-                                <MinusIcon className="h-4 w-4 ml-2" />
-                            </Button>
-                        </div>
-                    </TableCell>
-                    </TableRow>
-                </>
-            ))}
-            </>
-        )
+    return (
+        <>
+        {
+        [...Array(500)].map((_, index) => (
+            <TableRow key={index}>
+                <TableCell className="p-2 lg:w-[50px] xl:w-[70px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[200px] xl:w-[250px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[120px] xl:w-[150px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[80px] xl:w-[100px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[110px] xl:w-[130px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[50px] xl:w-[60px]">
+                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
+                </TableCell>
+                <TableCell className="p-2 lg:w-[60px] xl:w-[80px]">
+                    <div className="flex gap-2">
+                        <Button
+                            disabled
+                            size="sm"
+                            className="bg-purple">
+                            <EyeIcon className="h-4 w-4 ml-2" />
+                        </Button>
+                        <Button
+                            disabled
+                            size="sm"
+                            className="bg-red">
+                            <MinusIcon className="h-4 w-4 ml-2" />
+                        </Button>
+                    </div>
+                </TableCell>
+            </TableRow>
+        ))}
+        </>
+    )
     }
 
-    // if (error) {
-    //     triggerToastError();
-    // }
-
-    if (!data && !isEmpty(data)) {
-        toastNodata();
+if (error) {
+    return (
+        <tr>
+            <td colSpan={7} className="h-[150px]">
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                    <CircleSlash className="h-14 w-14" />
+                    <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                </div>
+            </td>
+        </tr>
+    );
+}
+    
+if (!data && !isEmpty(data)) {
+    return (
+      <>
+        <tr>
+            <td colSpan={7} className="h-[150px]">
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                    <CircleSlash2 className="h-14 w-14" />
+                    <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING WORKED ON</p>
+                </div>
+            </td>
+        </tr>
+      </>
+    )
     }
+
+    
 
     const activecheckInLog = data?.map((property) => ({
     callid: property?.ID,
@@ -245,42 +276,46 @@ export const ActiveTicketsModule = () => {
     numberOfDays: property.number_of_days,
     timetaken: property.Time_Taken,
     issuetype: property.IssueType,
-    employee: property.Employee
+    employee: property.Employee,
+    priority: property.Priority
     }))
 
     return (
-    <>
-    {solutionPopup && <TicketSolution callId={solutionid} onClose={toggleSolution} />}
-    {activecheckInLog?.map(({ callid, customer, problem, name, time, employee }, index) => (
         <>
-            <TableRow key={callid}>
-            <TableCell className="font-medium">{callid}</TableCell>
-            <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">{customer}</TableCell>
-            <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">{problem}</TableCell>
-            <TableCell className="max-w-[200px]">{name}</TableCell>
-            <TableCell className="max-w-[200px] text-center">{time}</TableCell>
-            <TableCell className="text-center">
-                <div className="flex gap-2">
-                    <Button size="sm" className="bg-purple" onClick={() => { openModal(callid)}}>
-                        <EyeIcon className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" className="bg-red" onClick={() => { endTicket( employee, callid)}}>
-                        <MinusIcon className="h-4 w-4" />
-                    </Button>
-                </div>
-            </TableCell>
-            </TableRow>
-            {state.isOpen && state.expandView === callid && (
-                <TableRow>
-                    <TableCell colSpan={6} className="p-0">
-                        <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                            <EachActiveTicketsModule ticketData={viewticket} callid={callid} onClose={closeModal}/>
-                        </div>
-                    </TableCell>
-                </TableRow>
-            )}
+            {transferPopUp && <TicketTransfer callId={transferid} onClose={toggleTransfer} />}
+            {solutionPopup && <TicketSolution callId={solutionid} onClose={toggleSolution} />}
+        
+            {activecheckInLog?.map(({ callid, customer, problem, name, time, employee, type, issuetype, phoneNumber }, index) => (
+                <>
+                    <tr key={callid}>
+                        <td className="px-2">{callid}</td> 
+                        <td className="p-2 whitespace-nowrap truncate">{customer}</td>
+                        <td className="p-2 whitespace-nowrap truncate">{problem || '--:--'}</td>
+                        <td className="p-2">{name || '--:--'}</td>
+                        <td className="p-2">{time}</td>  
+                        <td className="p-2">{employee}</td>
+                        <td className="text-center">
+                            <div className="flex gap-2">
+                                <Button size="sm" className="bg-purple" onClick={() => { openModal(callid)}}>
+                                    <EyeIcon className="h-4 w-4" />
+                                </Button>
+                                <Button size="sm" className="bg-red" onClick={() => { endTicket( employee, callid)}}>
+                                    <MinusIcon className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </td>
+                    </tr>
+                    {state.isOpen && state.expandView === callid && (
+                        <tr>
+                            <td colSpan={6} className="p-0">
+                                <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
+                                    <EachActiveTicketsModule ticketData={viewticket} callid={callid} onClose={closeModal}/>
+                                </div>
+                            </td>
+                        </tr>
+                    )}
+                </>
+            ))}
         </>
-    ))}
-    </>
-);
+    );
 }

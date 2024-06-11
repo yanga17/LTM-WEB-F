@@ -122,11 +122,12 @@ export const Problems = () => {
     return problems //'/getemployees', '/getypes'
 }
 //interface for gettinEmployees
-interface EmployeeProps {
+export interface EmployeeProps {
+    ID: number;
     Employee: string;
 }
 
-type EmployeeType = EmployeeProps[]
+export type EmployeeType = EmployeeProps[]
 
 export const Employees = () => {
     const [employees, setEmployees] = useState<EmployeeType>()

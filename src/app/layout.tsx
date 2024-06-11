@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LEGEND TIME MANAGEMENT",
-  description: "Log Customer Problems and Comnpany Tasks",
+  description: "Solving Customer Problems and Completing Company Tasks",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -2,18 +2,20 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button"
-import { ResponseTypeEachTicket } from './ticketsModule';
 
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 
-import {useState, useEffect} from 'react'
-import { TicketDeletion } from "@/components/component/ticket-deleted"
+import {useState, useEffect} from 'react';
+import { TicketDeletion } from "@/components/component/ticket-deleted";
 
+import { toast } from 'react-hot-toast';
+import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
+
+import { useContext } from 'react';
+import { TicketsContext } from './ticketsModule';
 
 interface EachTicketsProps {
-    ticketData: ResponseTypeEachTicket;
-    callid: number;
     onClose: () => void;
 }
 
@@ -41,87 +43,95 @@ interface CheckProps {
 
 type ResponseType = CheckProps[]
 
-export const EachTicketsModule = ({ ticketData, callid, onClose }: EachTicketsProps) => {
+export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
+    const ticket = useContext(TicketsContext);
+
+    if (!ticket) {
+        return <div>No data available</div>;
+    }
+
     const [deletePopUp, setDeletePopUp] = useState(false);
-    const [deletionId, setDeletionId] = useState(0)
+    const [deletionId, setDeletionId] = useState(0);
 
-    // const deleteTicket = async (ticket: CheckProps) => {
-    //     const target = event.target as HTMLButtonElement;
-    //     const ticket = target.closest('[data-ticket-id]')?.dataset.ticketId;
-
-    //     if (!ticket) {
-    //         console.log('Ticket not found')
-    //     }
-
-    //     const ticketData = tickets.find(t => t.Call_ID === parseInt(ticket));
-
-    //     if (!ticketData) {
-    //         console.error('Ticket data not found');
-    //         return;
-    //     }
-
-
-
-
-
-    //     let customerData = ticket.Customer
-    //     let supportNo = null;
-
-    //     if (ticket.Customer.includes(",")) {
-    //         const customerArray = ticket.Customer.split(",");
-    //         customerData = customerArray[0].trim();
-    //         supportNo = customerArray[1].trim();
-    //     }
-    
-    //     try {
-    //     const payload = {
-    //         callid: ticket.Call_ID,
-    //         employee: ticket.Empl,
-    //         customer: customerData,
-    //         problem: ticket.Problem,
-    //         clientname: ticket.Name,
-    //         phonenumber: ticket.Phone_Number,
-    //         startime: ticket.Time,
-    //         supportnumber: supportNo,
-    //         priority: ticket.urgent,
-    //         issueType: ticket.IssueType,
-    //         type: ticket.Type,
-    //         comments: ticket.Comments,
-    //         insertiontime: new Date().toISOString().slice(0, 19).replace('T', ' ')
-    //     }
-
-
-    //     const response = await axios.post(`${apiEndPoint}/tickets/insertdeletedticket`, payload);
-    //     console.log('Ticket deleted successfully:', response.data);
-
-    //     } catch (error) {
-
-    //     console.error('Error deleting ticket:', error);
-
-    //     }
-    // }
-
-    async function deleteTicket(callID: any, ticketData: any) {
-    try {
-        // Find the ticket with the matching callID
-        const ticket = ticketData.find((ticket: { Call_ID: number; }) => ticket.Call_ID === callid);
-
-        if (!ticket) {
-            throw new Error(`Ticket with callID ${callID} not found.`);
-        }
-
-        setDeletionId(ticket.Call_ID)
-        console.log('SHOW ME THE DELETED CallID MY NIGGA!!!!!!!!!!!!!!!!!!!!!!!!:', ticket.Call_ID)
-
-
-        // Extract necessary data from the ticket
-        // clientname, phonenumber, startime, supportnumber, priority, issueType, type, comments, insertiontime
-        const { Empl, Customer, Problem, Name, Phone_Number, Time, Support_No, IssueType, Comments, urgent } = ticket;
-
+    const takeLoggedTicket = async (ticket: any) => {
         let customerData = ticket.Customer
         let supportNo = null;
 
         if (ticket.Customer.includes(",")) {
+            const customerArray = ticket.Customer.split(",");
+            customerData = customerArray[0].trim();
+            supportNo = customerArray[1].trim();
+        }
+
+        try {
+            const payLoad = {
+                employee: ticket.Empl,
+                customer: customerData,
+                activity: ticket.Problem,
+                phoneNumber: ticket.Phone_Number,
+                clientAnydesk: ticket.Clients_Anydesk,
+                startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
+                type: ticket.Type,
+                supportNo: supportNo,
+                comments: ticket.Comments,
+                name: ticket.Name,
+                timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                issueType: ticket.IssueType,
+            };
+
+            const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
+            console.log('Ticket taken successfully:', response.data);
+
+            await updateTakenTicket(ticket.Call_ID);
+
+        } catch (error) {
+            console.error('Error taking ticket:', error);
+        }
+    }
+
+    const updateTakenTicket = async (callId: number) => {
+        try {
+            const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
+            const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
+            const updateResponse = await axios.patch(updateUrl);
+
+            console.log('Ticket updated successfully:', updateResponse.data);
+
+            // Remove the ticket from the local state to reflect the change in the UI
+            // This is optional if you want to update the state or UI
+        } catch (error) {
+            console.error('Error updating ticket:', error);
+        }
+    }
+
+    async function deleteTicket(callID: any) {
+    try {
+        //const deleteTicket = ticket?.find((ticket: { Call_ID: number; }) => ticket.Call_ID === callID);
+        // Ensure ticket is an array of tickets
+        if (!Array.isArray(ticket)) {
+            throw new Error('Tickets data is not an array');
+        }
+
+        // Find the ticket with the specified callID
+        const deleteTicket = ticket.find((ticket: CheckProps) => ticket.Call_ID === callID);
+
+
+        if (!deleteTicket) {
+            throw new Error(`Ticket with callID ${callID} not found.`);
+        }
+
+        setDeletionId(deleteTicket.Call_ID)
+        console.log('SHOW ME THE DELETED CallID MY NIGGA!!!!!!!!!!!!!!!!!!!!!!!!:', deleteTicket.Call_ID)
+
+
+        // Extract necessary data from the ticket
+        // clientname, phonenumber, startime, supportnumber, priority, issueType, type, comments, insertiontime
+        const { Empl, Customer, Problem, Name, Phone_Number, Time, Support_No, IssueType, Comments, urgent } = deleteTicket;
+
+        let customerData = ticket?.Customer
+        let supportNo = null;
+
+        if (ticket?.Customer.includes(",")) {
             const customerArray = ticket.Customer.split(",");
             customerData = customerArray[0].trim();
             supportNo = customerArray[1].trim();
@@ -145,7 +155,7 @@ export const EachTicketsModule = ({ ticketData, callid, onClose }: EachTicketsPr
 
 
         const response = await axios.post(`${apiEndPoint}/tickets/insertdeletedticket`, payload);
-        console.log('Ticket DELETED successfully:', response.data);
+        console.log('Ticket DELETED successfully with useContext:', response.data);
         setDeletePopUp(true);
 
         
@@ -156,7 +166,7 @@ export const EachTicketsModule = ({ ticketData, callid, onClose }: EachTicketsPr
 
         console.error('Error inserting ticket:', error);
     }
-}
+    }
 
     const toggleDeletePage = () => {
         setDeletePopUp(!deletePopUp);
@@ -166,69 +176,72 @@ export const EachTicketsModule = ({ ticketData, callid, onClose }: EachTicketsPr
     return (
     <>
     {deletePopUp && <TicketDeletion callId={deletionId} onClose={toggleDeletePage} />}
-    {ticketData?.map(({ Call_ID, Customer, Problem, Clients_Anydesk, Phone_Number, Time, EndTime, Duration, Taken, Support_No, Empl, logger, Comments, Solution, Name, urgent, IssueType}) => (
-        <div key={callid} className="p-4 bg-white" data-ticket-id={callid}>
+        <div className="p-4 bg-white">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                 <div className="flex flex-wrap">
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 text-md">Call ID</p>
-                            <p className="font-semibold text-md">{Call_ID}</p>
+                            <p className="font-semibold text-md">{ticket.Call_ID}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Employee</p>
-                            <p className="font-semibold text-md">{Empl || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.Empl || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p>{Support_No || '--:--'}</p>
+                            <p>{ticket.Support_No || '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">IssueType</p>
-                            <p className="font-semibold text-md">{IssueType || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.IssueType || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Customer</p>
-                            <p className="font-semibold text-md">{Customer}</p>
+                            <p className="font-semibold text-md">{ticket.Customer}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Problem</p>
-                            <p className="font-semibold text-md">{Problem || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.Problem || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Start Time</p>
-                            <p>{new Date(Time).toLocaleString()}</p>
+                            <p>{new Date(ticket.Time).toLocaleString()}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">Logger</p>
-                            <p>{logger || '--:--'}</p>
+                            <p>{ticket.logger || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Client Name</p>
-                            <p className="font-semibold text-md">{Name || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.Name || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                            <p className="font-semibold text-md">{Phone_Number || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.Phone_Number || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Comments</p>
-                            <p className="font-semibold text-md">{Comments || '--:--'}</p>
+                            <p className="font-semibold text-md">{ticket.Comments || '--:--'}</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 text-md">Priority</p>
+                            <p className={`font-semibold text-md ${ticket.urgent === 1 ? 'text-red' : ticket.urgent === 2 ? 'text-orange' : ticket.urgent === 0 ? 'text-grey' : ''}`}>
+                                {ticket.urgent === 1 ? "Urgent" : ticket.urgent === 2 ? "Moderate" : "Low"}
+                            </p>
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button onClick={() => console.log("Take Call")} className="mr-2 bg-green">Take Call</Button>
-                        <Button onClick={() => console.log("Transfer Call")} className="mr-2 bg-purple">Transfer Call</Button>
-                        <Button onClick={() => deleteTicket(callid, ticketData)} className="mr-2 bg-red">Delete</Button>
+                        <Button onClick={() => takeLoggedTicket(ticket)} className="mr-2 bg-green">Take Call</Button>
+                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red">Delete</Button>
                         <Button onClick={onClose} className="mr-2 bg-orange">Close</Button>
                     </div>
                 </div>
             </div>
-        ))}
     </>
     );
 }

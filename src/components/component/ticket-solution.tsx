@@ -10,12 +10,35 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 
-
 interface TicketSolutionProps {
   callId: number;
   onClose: () => void; 
 }
 
+interface ActiveTableProps {
+  ID: number,
+  Employee: string,
+  Customer: string,
+  Activity: string,
+  Clients_Anydesk: number,
+  Phone_Number: number,
+  StartTime: string,
+  EndTime: string,
+  Duration: number,
+  Type: string,
+  Solution: string,
+  Support_No: number,
+  Comments: string,
+  FollowUp: string,
+  Completed: number,
+  Name: string,
+  number_of_days: number,
+  Time_Taken: number,
+  IssueType: string,
+  Priority: number
+}
+
+type ActiveResponseType = ActiveTableProps[]
 
 export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
   const [solution, setSolution] = useState('');
@@ -23,40 +46,93 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
     const [followup, setFollowUp] = useState(0);
     const [completed, setCompleted] = useState(0);
     const [checkStatus, setCheckStatus] = useState(false);
-    const [isOpen, setIsOpen] = useState(true); // New state variable
     const textareaRef = useRef<HTMLTextAreaElement>(null); // New ref for textarea
-    
 
     const handleCheckStatus = (event: any) => {
       setCheckStatus(event.target.checked);
     }
 
-    const saveSolution = async () => {
+    const saveSolution = async () => { 
       if (solution.trim() === '') {
         textareaRef.current?.focus();
         return;
       }
 
-      if (numberofdays > 0) {
-        setNumberOfDays(numberofdays);
-        setFollowUp(1);
-        setCompleted(1);
-      }
+      const newNumberOfDays = numberofdays > 0 ? numberofdays : 0;
+      const newFollowUp = numberofdays > 0 ? 1 : 0;
+      const newCompleted = 1;
 
       try {
-
-        const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${numberofdays}/${followup}/${completed}/${callId}`
+        const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${newNumberOfDays}/${newFollowUp}/${newCompleted}/${callId}`
         const updatedSolution = await axios.patch<TicketSolutionProps>(`${apiEndPoint}/${ticketSolutionurl}`);
-        console.log("TICKETSOLUTION UPDATED SOLUTION SUCCESSFULLY");
+        
+        await insertfollowup();
+        console.log("called the insert followup function")
         onClose();
 
       } catch (error) {
-  
+
         console.error("ERROR UPDATING TICKET'S SOLUTION", error);
-  
+
       }
     }
 
+    const insertfollowup = async () => {
+      try {
+        // Fetch the ticket data using callId
+        const ticketsurl = `tickets/getfollowupticket/${callId}`
+        const ticketResponse = await axios.get<ActiveResponseType>(`${apiEndPoint}/${ticketsurl}`);
+
+        console.log("my followup tickets callid:", ticketResponse);
+        const ticketData = ticketResponse.data[0]; // Assuming the response is an array and we're interested in the first item
+
+        const newNumberOfDays = numberofdays > 0 ? numberofdays : 0;
+        const newFollowUp = numberofdays > 0 ? 1 : 0;
+        const newCompleted = 1;
+
+        const currentDate = new Date().toISOString().slice(0, 10); 
+        const currentTime = new Date().toISOString().slice(11, 19); 
+        const dateTime = currentDate + ' ' + currentTime;
+  
+        if (!ticketData) {
+          throw new Error('No ticket data found');
+        }
+        
+  
+        // Prepare data for inserting follow-up ticket
+        const followUpData = {
+          id: ticketData.ID,
+          employee: ticketData.Employee,
+          customer: ticketData.Customer,
+          activity: ticketData.Activity,
+          clientsAnydesk: ticketData.Clients_Anydesk,
+          phoneNumber: ticketData.Phone_Number,
+          startTime: new Date(ticketData.StartTime).toISOString().slice(0, 19).replace('T', ' '),
+          endTime: new Date(ticketData.EndTime).toISOString().slice(0, 19).replace('T', ' '),
+          duration: ticketData.Duration,
+          type: ticketData.Type,
+          solution: ticketData.Solution,
+          supportNo: ticketData.Support_No,
+          comments: ticketData.Comments,
+          followUp: newFollowUp,
+          completed: newCompleted,
+          name: ticketData.Name,
+          numberOfDays: newNumberOfDays,
+          issueType: ticketData.IssueType,
+          priority: ticketData.Priority
+        };
+  
+        const response = await axios.post(`${apiEndPoint}/tickets/insertfollowup`, followUpData);
+        console.log("inserted the followUp successfully:",  response.data);
+
+        onClose();
+  
+      } catch (error) {
+        console.error("ERROR INSERTING FOLLOW-UP TICKET", error);
+      }
+    }
+
+    
     useEffect(() => {
       if (textareaRef.current) {
         textareaRef.current.style.borderColor = solution.trim() === ''? 'ed' : 'initial';
@@ -70,7 +146,9 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg font-bold">Solution</h1>
         <div className="flex items-center">
-          <DoorClosedIcon className="h-6 w-6" onClick={onClose} />
+          <MinimizeIcon className="h-5 w-5" onClick={onClose} />
+          <MaximizeIcon className="h-5 w-5" onClick={onClose} />
+          <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
         </div>
       </div>
       <div className="mb-4">
@@ -136,7 +214,6 @@ export function DoorClosedIcon(props: any) {
     </svg>
   )
 }
-
 
 export function MaximizeIcon(props: any) {
   return (
