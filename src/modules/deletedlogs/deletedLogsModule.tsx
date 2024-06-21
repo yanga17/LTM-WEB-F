@@ -8,10 +8,12 @@ import { toast } from 'react-hot-toast';
 import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
 
+import { createContext } from "react"
 import { Button } from "@/components/ui/button";
 import { EyeIcon, CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
+import { EachDeletedTicketsModule } from './deletedLogsDetail'
 
 import Image from 'next/image';
 
@@ -35,24 +37,32 @@ interface DeletedProps {
 }
 type DeletedResponseType = DeletedProps[]
 
+export const DeletedLogsContext = createContext<DeletedProps | null>(null)
+
 
 export const DeletedLogsModule = () => {
     const [undoID, setUndoID] = useState(0);
     const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
     const [input, setInput] = useState('');
 
+    const [currentOpen, setCurrentOpen] = useState('');
+    const [viewticket, setViewTicket] = useState<DeletedProps | null>(null); 
+
+    const [state, setState] = useState({
+        isOpen: true,
+        expandView: null
+        });
+
     const generateDeletedLogs = async () => {
-      try {
-        const deletedurl = `deletedlogs/getdeletedlogs`
-        const response = await axios.get(`${apiEndPoint}/${deletedurl}`)
-        console.log("DELETED LOGS DATA:", response)
-        setDeletedData(response.data)
-
-      } catch (error) {
-
+        try {
+            const deletedurl = `deletedlogs/getdeletedlogs`
+            const response = await axios.get(`${apiEndPoint}/${deletedurl}`)
+            console.log("DELETED LOGS DATA:", response)
+            setDeletedData(response.data)
+    } catch (error) {
         console.error("Error getting deleted logs:", error);
 
-      }
+    }
     }
 
     const undoNotification = () => {
@@ -101,290 +111,38 @@ export const DeletedLogsModule = () => {
     // const deletedTicket 
 
     const searchDeletedLogs = (clientname: any) => {
-      setInput(clientname);
-      console.log("MY CLIENTNAME:+++++", clientname);
+        setInput(clientname);
+        console.log("MY CLIENTNAME:+++++", clientname);
     }
+
+    const openModal = (id: any) => {
+        if (currentOpen === id) {
+            setCurrentOpen('');
+            setState({ ...state, isOpen: false, expandView: null });
+  
+        } else {
+            setCurrentOpen(id);
+            setState({ ...state, isOpen: true, expandView: id});
+  
+            const selectedTicket = deletedData?.find(client => client.Call_ID === id || null);
+  
+            if (selectedTicket) {
+              setViewTicket(selectedTicket);
+            }
+  
+            console.log('lets see my loggedTicket id', selectedTicket);
+        }
+    }
+  
+      const closeModal = () => {
+      setState({...state, isOpen: false, expandView: null });
+      setCurrentOpen('');
+      }
     
     useEffect(() => {
         generateDeletedLogs();
     }, [])
 
-
-    // if (loading) {
-    //     return (
-    //       <>
-    //         <div className="bg-white">
-    //           <div className="h-screen w-full overflow-auto">
-    //             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
-    //               <div className="flex items-center">
-    //                 <div className="text-right">
-    //                   <input
-    //                     className="border-grey text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
-    //                     placeholder="Search Ticket"
-    //                     style={{ width: "440px" }}
-    //                   />
-    //                 </div>
-    //               </div>
-    //               <div className="flex items-center">
-    //                 <Button size="lg" variant="ghost">
-    //                   <img
-    //                     alt="Avatar"
-    //                     height="32"
-    //                     src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-    //                     style={{
-    //                       aspectRatio: "32/32",
-    //                       objectFit: "cover",
-    //                     }}
-    //                     width="32"
-    //                   />
-    //                   <span className="sr-only">User Profile</span>
-    //                 </Button>
-    //               </div>
-    //             </header>
-    //             <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
-    //               <Button size="lg" className="bg-purple">
-    //                 <PhoneIcon className="h-4 w-4 mr-2" />
-    //                 <span>Start Call</span>
-    //               </Button>
-    //               <Button size="lg" className="bg-purple">
-    //                 <CoffeeIcon className="h-4 w-4 mr-2" />
-    //                 <span>Start Break</span>
-    //               </Button>
-    //             </div>
-    //             <div className="grid gap-6">
-    //               <div className="h-screen overflow-auto">
-    //                 <div>
-    //                   <h6 className="ml-6 text-3xl py-4 font-bold">Legend Customers</h6>
-    //                 </div>
-    //                 <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-    //                   <div className="p-0">
-    //                     <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
-    //                       <table className="w-full table-auto">
-    //                         <thead className="bg-greyDarker">
-    //                           <tr className="bg-grey text-left h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
-    //                             <th className="p-2">Call ID</th>
-    //                             <th className="">Employee</th>
-    //                             <th className="">Customer</th>
-    //                             <th className="">Problem</th>
-    //                             <th className="">Client Name</th>
-    //                             <th className="">Issue Type</th>
-    //                             <th className="p-2">Insertion Time</th>
-    //                             <th className="">Reason</th>
-    //                             <th className="">Action</th>
-    //                           </tr>
-    //                         </thead>
-    //                         <tbody>
-    //                           {[...Array(10)].map((_, index) => (
-    //                             <tr key={index} className="border-b">
-    //                               <td className="p-2 font-medium">
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[120px]">
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td>
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td>
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td>
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td className="p-2">
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td>
-    //                                 <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-    //                               </td>
-    //                               <td className="text-center">
-    //                                 <div className="flex gap-2">
-    //                                   <Button size="sm" className="bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded" disabled>
-    //                                     <Undo2 className="h-4 w-4" />
-    //                                   </Button>
-    //                                 </div>
-    //                               </td>
-    //                             </tr>
-    //                           ))}
-    //                         </tbody>
-    //                       </table>
-    //                     </div>
-    //                   </div>
-    //                 </div>
-    //                 <div className="flex flex-col items-center justify-center mt-40">
-    //                     <CircleSlash className="h-14 w-14" />
-    //                     <p className="text-red text-lg mt-2">An Error was encountered when fetching Data!</p>
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </>
-    //     )
-    //   }
-
-
-    // if (error) {
-    //     return (
-    //       <>
-    //         <div className="bg-white">
-    //           <div className="h-screen w-full overflow-auto">
-    //           <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
-    //                 <div className="flex items-center">
-    //                     <div className="text-right">
-    //                         <input
-    //                             className="border-grey text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
-    //                             placeholder="Search Ticket"
-    //                             style={{ width: "440px" }}
-    //                         />
-    //                     </div>
-    //                 </div>
-    //                 <div className="flex items-center">
-    //                     <Button size="lg" variant="ghost">
-    //                         <img
-    //                             alt="Avatar"
-    //                             height="32"
-    //                             src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-    //                             style={{
-    //                                 aspectRatio: "32/32",
-    //                                 objectFit: "cover",
-    //                             }}
-    //                             width="32"
-    //                         />
-    //                         <span className="sr-only">User Profile</span>
-    //                     </Button>
-    //                 </div>
-    //             </header>
-    //             <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
-    //                 <Button size="lg" className="bg-purple">
-    //                     <PhoneIcon className="h-4 w-4 mr-2" />
-    //                     <span>Start Call</span>
-    //                 </Button>
-    //                 <Button size="lg" className="bg-purple">
-    //                     <CoffeeIcon className="h-4 w-4 mr-2" />
-    //                     <span>Start Break</span>
-    //                 </Button>
-    //             </div>
-    //             <div className="grid gap-6">
-    //               <div className="h-screen overflow-auto">
-    //                 <div>
-    //                   <h6 className="ml-6 text-3xl py-4 font-bold">Legend Customers</h6>
-    //                 </div>
-    //                 <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-    //                   <div className="p-0">
-    //                     <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
-    //                       <table className="w-full table-auto">
-    //                         <thead className="bg-greyDarker">
-    //                           <tr className="bg-grey text-cnter h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
-    //                             <th className="">Call ID</th>
-    //                             <th className="">Employee</th>
-    //                             <th className="">Customer</th>
-    //                             <th className="">Problem</th>
-    //                             <th className="">Client Name</th>
-    //                             <th className="">Issue Type</th>
-    //                             <th className="">Insertion Time</th>
-    //                             <th className="">Reason</th>
-    //                             <th className="">Action</th>
-    //                           </tr>
-    //                         </thead>
-    //                       </table>
-    //                     </div>
-    //                   </div>
-    //                 </div>
-    //                 <div className="flex flex-col items-center justify-center mt-40">
-    //                     <CircleSlash2 className="h-14 w-14" />
-    //                     <p className="text-red text-lg mt-2">An Error was encountered when fetching Data!</p>
-    //                 </div>
-    //               </div>
-    //             </div> 
-    //           </div>
-    //         </div>
-    //       </>
-    //     )
-    //   }
-
-
-    // if (!data && !isEmpty(data)) {
-    //   return (
-    //     <>
-    //       <div className="bg-white">
-    //         <div className="h-screen w-full overflow-auto">
-    //         <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
-    //               <div className="flex items-center">
-    //                   <div className="text-right">
-    //                       <input
-    //                           className="border-grey text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
-    //                           placeholder="Search Ticket"
-    //                           style={{ width: "440px" }}
-    //                       />
-    //                   </div>
-    //               </div>
-    //               <div className="flex items-center">
-    //                   <Button size="lg" variant="ghost">
-    //                       <img
-    //                           alt="Avatar"
-    //                           height="32"
-    //                           src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-    //                           style={{
-    //                               aspectRatio: "32/32",
-    //                               objectFit: "cover",
-    //                           }}
-    //                           width="32"
-    //                       />
-    //                       <span className="sr-only">User Profile</span>
-    //                   </Button>
-    //               </div>
-    //           </header>
-    //           <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
-    //               <Button size="lg" className="bg-purple">
-    //                   <PhoneIcon className="h-4 w-4 mr-2" />
-    //                   <span>Start Call</span>
-    //               </Button>
-    //               <Button size="lg" className="bg-purple">
-    //                   <CoffeeIcon className="h-4 w-4 mr-2" />
-    //                   <span>Start Break</span>
-    //               </Button>
-    //           </div>
-    //           <div className="grid gap-6">
-    //             <div className="h-screen overflow-auto">
-    //               <div>
-    //                 <h6 className="ml-6 text-3xl py-4 font-bold">Legend Customers</h6>
-    //               </div>
-    //               <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-    //                 <div className="p-0">
-    //                   <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
-    //                     <table className="w-full table-auto">
-    //                       <thead className="bg-greyDarker">
-    //                         <tr className="bg-grey text-cnter h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
-    //                           <th className="">Call ID</th>
-    //                           <th className="">Employee</th>
-    //                           <th className="">Custoemr</th>
-    //                           <th className="">Problem</th>
-    //                           <th className="">Client Name</th>
-    //                           <th className="">IssueType</th>
-    //                           <th className="">Insertion Time</th>
-    //                           <th className="">Reason</th>
-    //                           <th className="">Action</th>
-    //                         </tr>
-    //                       </thead>
-    //                     </table>
-    //                   </div>
-    //                 </div>
-    //               </div>
-    //               <div className="text-center mt-10">
-    //                   <Image src="/covers/circle-slash.png" alt="Archive X" width={50} height={50} className="mx-auto" />
-    //                   <p className="text-red text-lg">THERE IS CURRENTLY NO DATA FOR THE LEGEND CUSTOMERS</p>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </>
-    //   )
-    // }
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -413,10 +171,11 @@ export const DeletedLogsModule = () => {
         console.log("MY FILTERED DATA", filteredData)
 
 
-
+        console.log("view datat from view tickets:", viewticket)
 
     return (
         <>
+        <DeletedLogsContext.Provider value={viewticket}>
         <div className="bg-white">
             <div className="h-screen w-full overflow-auto">
             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
@@ -487,6 +246,9 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Reason || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
+                                                        <Button size="sm" className="bg-purple" onClick={() => { openModal(Call_ID)}}>
+                                                            <EyeIcon className="h-4 w-4" />
+                                                        </Button>
                                                             <Button size="sm" className="bg-purple py-4 w-11/12"
                                                             onClick={() => {
                                                                 const selectedTicket = deletedData.find(t => t.Call_ID === Call_ID);
@@ -502,15 +264,15 @@ export const DeletedLogsModule = () => {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                {/* {state.isOpen && state.expandView === uid && (
+                                                {state.isOpen && state.expandView === Call_ID && (
                                                     <tr>
                                                         <td colSpan={9} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                                                                <ClientsDetail clientData={viewClient} uid={uid} onClose={closeModal}/>
+                                                                <EachDeletedTicketsModule onClose={closeModal}/>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                )} */}
+                                                )}
                                                 </>
                                             ))}
                                         </tbody>
@@ -522,6 +284,7 @@ export const DeletedLogsModule = () => {
                 </div>
             </div>
         </div>
+        </DeletedLogsContext.Provider>
         </>
     );
 }
