@@ -20,38 +20,37 @@ interface EachTicketsProps {
 }
 
 //interface for TblCalls
-interface CheckProps {
-    Call_ID: number,
-    Customer: string,
-    Problem: string,
-    Clients_Anydesk: number,
-    Phone_Number: number,
-    Time: string,
-    EndTime: string,
-    Duration: number,
-    Taken: number,
-    Support_No: number,
-    Empl: string,
-    logger: string,
-    Comments: string,
-    Solution: string,
-    Name: string,
-    urgent: number,
-    IssueType: string,
-    Type: string,
-}
+// interface CheckProps {
+//     Call_ID: number,
+//     Customer: string,
+//     Problem: string,
+//     Clients_Anydesk: number,
+//     Phone_Number: number,
+//     Time: string,
+//     EndTime: string,
+//     Duration: number,
+//     Taken: number,
+//     Support_No: number,
+//     Empl: string,
+//     logger: string,
+//     Comments: string,
+//     Solution: string,
+//     Name: string,
+//     urgent: number,
+//     IssueType: string,
+//     Type: string,
+// }
 
-type ResponseType = CheckProps[]
+// type ResponseType = CheckProps[]
 
 export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
+    const [deletePopUp, setDeletePopUp] = useState(false);
+    const [deletionId, setDeletionId] = useState(0);
     const ticket = useContext(TicketsContext);
 
     if (!ticket) {
         return <div>No data available</div>;
     }
-
-    const [deletePopUp, setDeletePopUp] = useState(false);
-    const [deletionId, setDeletionId] = useState(0);
 
     const takeLoggedTicket = async (ticket: any) => {
         let customerData = ticket.Customer
@@ -104,58 +103,51 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         }
     }
 
-    async function deleteTicket(callID: any) {
+    const undoNotification = () => {
+        toast.success('Ticket deleted successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
+
+    const deleteTicket = async (callID: any) => {
     try {
-        //const deleteTicket = ticket?.find((ticket: { Call_ID: number; }) => ticket.Call_ID === callID);
-        // Ensure ticket is an array of tickets
-        if (!Array.isArray(ticket)) {
-            throw new Error('Tickets data is not an array');
+        if (!ticket) {
+            return <div>No data available</div>;
         }
 
-        // Find the ticket with the specified callID
-        const deleteTicket = ticket.find((ticket: CheckProps) => ticket.Call_ID === callID);
-
-
-        if (!deleteTicket) {
-            throw new Error(`Ticket with callID ${callID} not found.`);
-        }
-
-        setDeletionId(deleteTicket.Call_ID)
-        console.log('SHOW ME THE DELETED CallID MY NIGGA!!!!!!!!!!!!!!!!!!!!!!!!:', deleteTicket.Call_ID)
-
-
-        // Extract necessary data from the ticket
-        // clientname, phonenumber, startime, supportnumber, priority, issueType, type, comments, insertiontime
-        const { Empl, Customer, Problem, Name, Phone_Number, Time, Support_No, IssueType, Comments, urgent } = deleteTicket;
+        setDeletionId(callID)
+        console.log('SHOW ME THE DELETED CallID MY NIGGA!!!!!!!!!!!!!!!!!!!!!!!!:', callID)
 
         let customerData = ticket?.Customer
-        let supportNo = null;
+        let supportNo 
 
-        if (ticket?.Customer.includes(",")) {
-            const customerArray = ticket.Customer.split(",");
-            customerData = customerArray[0].trim();
-            supportNo = customerArray[1].trim();
-        }
+        // if (ticket?.Customer.includes(",")) {
+        //     const customerArray = ticket.Customer.split(",");
+        //     customerData = customerArray[0].trim();
+        //     supportNo = customerArray[1].trim();
+        // }
 
         // Create payload object
         const payload = {
             callid: callID,
-            employee: Empl,
-            customer: customerData,
-            problem: Problem,
-            clientname: Name,
-            phonenumber: Phone_Number,
-            startime: Time,
-            supportnumber: supportNo,
-            priority: urgent,
-            issueType: IssueType,
-            comments: Comments,
+            employee: ticket.Empl,
+            customer: ticket.Customer,
+            problem: ticket.Problem,
+            clientname: ticket.Name,
+            phonenumber: ticket.Phone_Number,
+            startime: ticket.Time,
+            supportnumber: ticket.Support_No,
+            priority: ticket.urgent,
+            issueType: ticket.IssueType,
+            comments: ticket.Comments,
             insertiontime: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
 
 
         const response = await axios.post(`${apiEndPoint}/tickets/insertdeletedticket`, payload);
         console.log('Ticket DELETED successfully with useContext:', response.data);
+        undoNotification();
         setDeletePopUp(true);
 
         
@@ -171,6 +163,8 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     const toggleDeletePage = () => {
         setDeletePopUp(!deletePopUp);
     }
+
+    console.log("urgent value:", ticket.urgent)
 
 
     return (

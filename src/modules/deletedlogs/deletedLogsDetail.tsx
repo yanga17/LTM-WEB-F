@@ -12,8 +12,13 @@ import { TicketDeletion } from "@/components/component/ticket-deleted";
 import { toast } from 'react-hot-toast';
 import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
 
-import { useContext } from 'react';
+import { useContext } from 'react'; 
+import { DeletedProps } from './deletedLogsModule';
+import { DeletedResponseType } from './deletedLogsModule';
+
 import { DeletedLogsContext } from './deletedLogsModule';
+
+
 
 interface EachTicketsProps {
     onClose: () => void;
@@ -24,22 +29,59 @@ interface EachTicketsProps {
 export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
     const deletedlog = useContext(DeletedLogsContext);
 
+    //for the undoFn
+    const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
+
     if (!deletedlog) {
         return <div>No data available</div>;
     }
 
-    const [deletePopUp, setDeletePopUp] = useState(false);
-    const [deletionId, setDeletionId] = useState(0);
+    const undoNotification = () => {
+        toast.success('Ticket undone successfully', {
+            icon: <Check color={colors.green} size={24} />,
+            duration: 3000,
+        });
+    }
 
+    const undoTicket = async (ticket: DeletedProps) => {
+        let customerData = ticket.Customer
+        let supportNo = null;
+  
+        if (ticket.Customer.includes(",")) {
+          const customerArray = ticket.Customer.split(",");
+          customerData = customerArray[0].trim();
+          supportNo = customerArray[1].trim();
+        }
+  
+        try {
+          const payLoad = {
+            customer: customerData,
+            problem: ticket.Problem,
+            phoneNo: ticket.Phone_Number,
+            starttime: new Date(ticket.Start_Time).toISOString().slice(0, 19).replace('T', ' '),
+            emp: ticket.Employee,
+            clientname: ticket.Client_Name,
+            Supportnumber: supportNo,
+            urgent: ticket.Priority,
+            issueType: ticket.IssueType,
+            type: ticket.Type,
+            comments: ticket.Comments
+            }
+            //const insertCallUrl = `deletedlogs/insertcallticket`
+            const response = await axios.post(`${apiEndPoint}/deletedlogs/insertcallticket`, payLoad);
+            console.log('Ticket undone successfully:', response.data);
+            setDeletedData(deletedData.filter(t => t.idx !== ticket.idx));
+            undoNotification();
 
-    const toggleDeletePage = () => {
-        setDeletePopUp(!deletePopUp);
+        } catch (err) {
+            console.error('Error undo-ing the selected ticket:', err);
+
+        }
     }
 
 
     return (
     <>
-    {deletePopUp && <TicketDeletion callId={deletionId} onClose={toggleDeletePage} />}
         <div className="p-4 bg-white">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                 <div className="flex flex-wrap">
@@ -90,8 +132,16 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button className="mr-2 bg-green">Undo</Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange">Close</Button>
+                        <Button className="mr-2 bg-green" onClick={() => {
+                                                                const selectedTicket = deletedData.find(t => t.Call_ID === deletedlog.Call_ID);
+                                                                if (selectedTicket) {
+                                                                    undoTicket(selectedTicket);
+                                                                    console.log('INSERTED THE deleted ticket back into tblcalls', selectedTicket);
+                                                                } else {
+                                                                    console.error('Selected ticket not found');
+                                                                }
+                                                            }}>Undo</Button>
+                        <Button onClick={onClose} className="mr-2 bg-red">Close</Button>
                     </div>
                 </div>
             </div>

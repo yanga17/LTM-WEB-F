@@ -23,9 +23,8 @@ export type EmployeeAvgResponse = EmployeeAvgProps[]
 
 
 export const CustomerCallTimesReport = () => {
-    //http://localhost:4200/reports/getcalltimesdata/2024-06-01 08:00:17/2024-06-18 08:00:00
-    const [startTime, setStartTime] = useState('2024-06-01 08:00:17');
-    const [endTime, setEndTime] = useState('2024-06-18 08:00:00');
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
     const [data, setData] = useState<EmployeeAvgResponse>([]);
 
     const headers = ['Call ID', 'Employee', 'Problem', 'Customer', 'Phone Number', 'Start Time', 'End Time', 'Duration']
@@ -40,9 +39,6 @@ export const CustomerCallTimesReport = () => {
         }
     }
 
-    useEffect(() => {
-        filterCallTimesReport();
-    }, []);
 
     const employeeAvgLog = data?.map((property) => ({
         id: property?.ID,
@@ -64,7 +60,7 @@ export const CustomerCallTimesReport = () => {
     return (
         <>
         <div className="h-screen overflow-auto">
-            <div className="w-full p-2 lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
+            <div className="w-full lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
                     <label>Start Date:</label>
                     <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>

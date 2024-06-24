@@ -227,36 +227,35 @@ export const ActiveTicketsModule = () => {
     )
     }
 
-if (error) {
-    return (
-        <tr>
-            <td colSpan={7} className="h-[150px]">
-                <div className="flex flex-col items-center justify-center h-full w-full">
-                    <CircleSlash className="h-14 w-14" />
-                    <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
-                </div>
-            </td>
-        </tr>
-    );
-}
+    if (error) {
+        return (
+            <tr>
+                <td colSpan={7} className="h-[150px]">
+                    <div className="flex flex-col items-center justify-center h-full w-full">
+                        <CircleSlash className="h-14 w-14" />
+                        <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                    </div>
+                </td>
+            </tr>
+        );
+    }
     
-if (!data && !isEmpty(data)) {
-    return (
-      <>
-        <tr>
-            <td colSpan={7} className="h-[150px]">
-                <div className="flex flex-col items-center justify-center h-full w-full">
-                    <CircleSlash2 className="h-14 w-14" />
-                    <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING WORKED ON</p>
-                </div>
-            </td>
-        </tr>
-      </>
-    )
+    if (!data && !isEmpty(data)) {
+        return (
+        <>
+            <tr>
+                <td colSpan={7} className="h-[150px]">
+                    <div className="flex flex-col items-center justify-center h-full w-full">
+                        <CircleSlash2 className="h-14 w-14" />
+                        <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING WORKED ON</p>
+                    </div>
+                </td>
+            </tr>
+        </>
+        )
     }
 
     
-
     const activecheckInLog = data?.map((property) => ({
     callid: property?.ID,
     customer: property.Customer,
@@ -296,10 +295,10 @@ if (!data && !isEmpty(data)) {
                         <td className="p-2">{employee}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple" onClick={() => { openModal(callid)}}>
+                                <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(callid)}}>
                                     <EyeIcon className="h-4 w-4" />
                                 </Button>
-                                <Button size="sm" className="bg-red" onClick={() => { endTicket( employee, callid)}}>
+                                <Button size="sm" className="bg-red w-20" onClick={() => { endTicket( employee, callid)}}>
                                     <MinusIcon className="h-4 w-4" />
                                 </Button>
                             </div>

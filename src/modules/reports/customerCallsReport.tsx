@@ -16,9 +16,8 @@ export type CustomerCallsResponse = CustomerCallsProps[]
 
 
 export const CustomerCallsReport = () => {
-    //http://localhost:4200/reports/getcustomercalldata/2024-06-01 08:00:17/2024-06-18 08:00:00
-    const [startTime, setStartTime] = useState('2024-06-01 08:00:17');
-    const [endTime, setEndTime] = useState('2024-06-18 08:00:00');
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
     const [data, setData] = useState<CustomerCallsResponse>([]);
 
     const headers = ['Call ID', 'Customer', 'Issue Type', 'No. Times Called']
@@ -33,9 +32,6 @@ export const CustomerCallsReport = () => {
         }
     }
 
-    useEffect(() => {
-        filterCustomerCallsReport();
-    }, []);
 
     const customerCallsLog = data?.map((property) => ({
         id: property?.ID,
@@ -48,7 +44,7 @@ export const CustomerCallsReport = () => {
     return (
         <>
         <div className="h-screen overflow-auto">
-            <div className="w-full p-2 lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
+            <div className="w-full lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
                     <label>Start Date:</label>
                     <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>

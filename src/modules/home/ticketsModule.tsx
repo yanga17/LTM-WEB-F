@@ -117,13 +117,13 @@ export const TicketsModule = () => {
     }
     
 
-    useEffect(() => {
-      if (data) {
-        setTickets(data);
-        console.log('REFRESED LOGGED TICKETS', data);
-      }
+    // useEffect(() => {
+    //   if (data) {
+    //     setTickets(data);
+    //     console.log('REFRESED LOGGED TICKETS', data);
+    //   }
 
-    }, [data]);
+    // }, [data]);
 
 
     const openModal = (id: any) => {
@@ -141,9 +141,9 @@ export const TicketsModule = () => {
             setViewTicket(selectedTicket);
           }
 
-          console.log('lets see my loggedTicket id', selectedTicket);
+          console.log('lets see my seletected ticket from view', selectedTicket);
       }
-  }
+    }
 
     const closeModal = () => {
     setState({...state, isOpen: false, expandView: null });
@@ -231,7 +231,7 @@ export const TicketsModule = () => {
   return (
     <>
     <TicketsContext.Provider value={viewticket}>
-      {tickets?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
+      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
         <>
           <tr key={Call_ID}>
             <td className="px-2">{Call_ID}</td>
@@ -239,16 +239,15 @@ export const TicketsModule = () => {
             <td className="p-2 whitespace-nowrap truncate">{Problem}</td>
             <td className="p-2">{Name}</td>
             <td className="p-2">
-              {new Date(Time).toISOString().slice(0, 19).replace('T', ' ')}
+              {new Date(Time).toLocaleString()}
             </td>
             <td className="p-2">{Empl}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple" onClick={() => { openModal(Call_ID)}}>
+                <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(Call_ID)}}>
                   <EyeIcon className="h-4 w-4" />
                 </Button>
-                <Button size="sm"
-                  className="bg-green"
+                <Button size="sm" className="bg-green w-20"
                   onClick={() => {
                     const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

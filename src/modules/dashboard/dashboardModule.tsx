@@ -14,9 +14,9 @@ import { Button } from "@/components/ui/button";
 
 //EmployeeChart
 interface EmployeeProps {
-    name: string,
-    Tasks: number,
-    Errors: number
+    Employee: string,
+    Tasks: string,
+    Errors: number,
     Overall: number
 }
 export type EmployeeResponse = EmployeeProps[]
@@ -81,8 +81,8 @@ export type EmployeeTasksResponse = EmployeeTasksProps[]
 
 export const DashboardModule = () => {
     //EmployeeBarChart
-    const [starttime, setStartTime] = useState('2024-05-16 10:05:29');
-    const [endtime, setEndTime] = useState('2024-06-11 09:25:26');
+    const [empStarttime, setStartTime] = useState('2024-06-01 08:00:17');
+    const [empEndtime, setEndTime] = useState('2024-06-18 08:00:00');
     const [employeeData, setEmployeeData] = useState<EmployeeResponse>([]);
 
     //CustomersBarChart
@@ -104,7 +104,8 @@ export const DashboardModule = () => {
     //EMPLOYEEData - Chart
     const filterEmployeeBarChart = async () => {
         try {
-            const url = `dashboard/getempsummary/${starttime}/${endtime}`;
+            //http://localhost:4200/dashboard/getempsummary/2024-06-03 08:00:17/2024-06-24 08:30:44
+            const url = `dashboard/getempsummary/${empStarttime}/${empEndtime}`;
             const response = await axios.get<EmployeeResponse>(`${apiEndPoint}/${url}`);
             setEmployeeData(response?.data);
 
@@ -198,11 +199,11 @@ export const DashboardModule = () => {
         filterEmployeeBarChart();
         filterCustomerErrorsChart();
         filterCustomerCallChart();
+        filterEmployeeTasksChart();
         getClientGridData();
         getErrorsGridData();
         getTasksGridData();
         getTicketSummGridData();
-        filterEmployeeTasksChart();
     }, [])
 
     return (
@@ -240,7 +241,7 @@ export const DashboardModule = () => {
                         <TicketX size={40} color='red' strokeWidth={1.2} />
                     </div>
                     {errorsGridData.map((error, index) => (
-                    <div className="mt-4 flex justify-between uppercase">
+                    <div key={index} className="mt-4 flex justify-between uppercase">
                         <p>{error.Activity}</p>
                         <p>{error.CommonErrors}</p>
                     </div>
@@ -252,7 +253,7 @@ export const DashboardModule = () => {
                         <ClipboardCheck size={40} color='blue' strokeWidth={1.2} />
                     </div>
                     {tasksGridData.map((task, index) => (
-                    <div className="mt-4 flex justify-between">
+                    <div key={index} className="mt-4 flex justify-between">
                         <p>{task.Activity}</p>
                         <p>{task.CommonTasks}</p>
                     </div>
@@ -298,7 +299,7 @@ export const DashboardModule = () => {
                             <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
                             <label className="mr-2">End Date</label>
                             <input type="datetime-local" name="empendtime" onChange={(e) => setEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterEmployeeBarChart } className="flex justify-start bg-purple py-4 px-2 w-30 h-18 mr-8 lg:h-19 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 hover:bg-white text-white hover:text-purple border border-purple cursor-pointer rounded-full">
+                            <button onClick={ filterEmployeeBarChart } className="flex justify-start bg-purple py-4 px-2 w-30 h-18 mr-8 lg:h-19 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 hover:bg-white text-white hover:text-purple border border-purple cursor-pointer rounded">
                                 <span>Filter</span>
                                 <Filter className="h-4 w-4 mt-1" />
                             </button>

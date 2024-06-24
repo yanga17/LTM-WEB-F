@@ -110,7 +110,7 @@ export function TicketSummary() {
     {totalTasks.map(({ NumberOfTasks }, index) => (
       <div key={index} className="w-[400px] bg-white rounded-lg shadow-md dark:bg-gray-800">
       <header className="bg-gray-100 px-3 py-2 rounded-t-lg dark:bg-gray-700">
-        <h2 className="text-gray-800 font-medium text-lg dark:text-gray-200">Today's Summary:</h2>
+        <h2 className="text-gray-800 font-medium text-lg dark:text-gray-200">Today`s Summary:</h2>
       </header>
       <div className="grid grid-cols-3 gap-3 p-3">
         <div className="bg-gray-100 rounded-lg p-3 dark:bg-gray-700">

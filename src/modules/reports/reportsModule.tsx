@@ -26,8 +26,8 @@ export type ClientHistoryResponse = ClientHistoryProps[]
 
 
 export const ReportsModule = () => {
-    const [clHistoryStartTime, setCLHistoryStartTime] = useState('2024-06-01 08:00:17');
-    const [clHistoryEndTime, setCLHistoryEndTime] = useState('2024-06-18 08:00:00');
+    const [clHistoryStartTime, setCLHistoryStartTime] = useState('');
+    const [clHistoryEndTime, setCLHistoryEndTime] = useState('');
     const [currentReport, setCurrentReport] = useState('ClientHistory');
 
 
@@ -45,10 +45,6 @@ export const ReportsModule = () => {
             console.error('An error occurred while fetching the Client History Reports:', error);
         }
     }
-
-    useEffect(() => {
-        filterClientHistoryReport();
-    }, []);
 
     const clientHistoryLog = data?.map((property) => ({
         id: property?.ID,
@@ -75,7 +71,7 @@ export const ReportsModule = () => {
             </div>
             {currentReport === 'ClientHistory' && (
                 <>
-            <div className="w-full p-2 lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
+            <div className="w-full lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
                     <label>Start Date:</label>
                     <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>

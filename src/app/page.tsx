@@ -16,16 +16,22 @@ import Image from 'next/image';
 import * as React from "react"
 import {useState, useEffect} from 'react'
 
-import {StartCall} from "@/components/component/start-call"
+import { StartCall } from "@/components/component/start-call"
+import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 
 
 export default function Home() {
   const { addAuditLog } = useAudit() //Downloads
   const [startCallPopup, setStartCallPopup] = useState(false);
+  const [startActivityPopup, setStartActivityPopup] = useState(false);
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
+  }
+
+  const toggleStartActivity = () => {
+    setStartActivityPopup(!startActivityPopup);
   }
 
   return (
@@ -68,18 +74,13 @@ export default function Home() {
             {startCallPopup && <StartCall onClose={toggleStartCall} />}
             <Button
                 size="lg"
-                className="bg-purple mr-2"
-            >
-                <CoffeeIcon className="h-4 w-4 mr-2" />
-                <span>Start Break</span>
-            </Button>
-            <Button
-                size="lg"
+                onClick={toggleStartActivity}
                 className="bg-purple"
             >
                 <ActivityIcon className="h-4 w-4 mr-2" />
                 <span>Start Activity</span>
-            </Button>
+            </Button>\
+            {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
 </header>
@@ -100,7 +101,7 @@ export default function Home() {
                       <th className="p-2 lg:w-[120px]">Problem</th>
                       <th className="p-2 lg:w-[70px]">Client Name</th>
                       <th className="p-2 lg:w-[120px]">Time</th>
-                      <th className="p-2 lg:w-[50px]">Employee</th>
+                      <th className="p-2 lg:w-[70px]">Employee</th>
                       <th className="p-2 lg:w-[60px]">Action</th>
                     </tr>
                   </thead>

@@ -17,7 +17,7 @@ import { EachDeletedTicketsModule } from './deletedLogsDetail'
 
 import Image from 'next/image';
 
-interface DeletedProps {
+export interface DeletedProps {
     idx: number,
     Call_ID: number,
     Employee: string,
@@ -35,7 +35,7 @@ interface DeletedProps {
     insertion_time: string,
     Reason: string
 }
-type DeletedResponseType = DeletedProps[]
+export type DeletedResponseType = DeletedProps[]
 
 export const DeletedLogsContext = createContext<DeletedProps | null>(null)
 
@@ -51,7 +51,7 @@ export const DeletedLogsModule = () => {
     const [state, setState] = useState({
         isOpen: true,
         expandView: null
-        });
+    });
 
     const generateDeletedLogs = async () => {
         try {
@@ -133,11 +133,11 @@ export const DeletedLogsModule = () => {
             console.log('lets see my loggedTicket id', selectedTicket);
         }
     }
-  
-      const closeModal = () => {
-      setState({...state, isOpen: false, expandView: null });
-      setCurrentOpen('');
-      }
+
+    const closeModal = () => {
+        setState({...state, isOpen: false, expandView: null });
+        setCurrentOpen('');
+    }
     
     useEffect(() => {
         generateDeletedLogs();
@@ -253,7 +253,7 @@ export const DeletedLogsModule = () => {
                                                             onClick={() => {
                                                                 const selectedTicket = deletedData.find(t => t.Call_ID === Call_ID);
                                                                 if (selectedTicket) {
-                                                                  undoTicket(selectedTicket);
+                                                                    undoTicket(selectedTicket);
                                                                     console.log('INSERTED THE deleted ticket back into tblcalls', selectedTicket);
                                                                 } else {
                                                                     console.error('Selected ticket not found');
@@ -268,7 +268,7 @@ export const DeletedLogsModule = () => {
                                                     <tr>
                                                         <td colSpan={9} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                                                                <EachDeletedTicketsModule onClose={closeModal}/>
+                                                                <EachDeletedTicketsModule onClose={closeModal} />
                                                             </div>
                                                         </td>
                                                     </tr>
