@@ -89,24 +89,24 @@ export const ClientsModule = () => {
         console.log("closeModal called");
     };
     
-    const fetchSearchedCustomer = async (clientname: any) => {
-      try {
-        const url = `customers/getsearchedcustomer/${clientname}`
-        const eachclient = await axios.get<ClientResponseType>(`${apiEndPoint}/${url}`);
+    // const fetchSearchedCustomer = async (clientname: any) => {
+    //   try {
+    //     const url = `customers/getsearchedcustomer/${clientname}`
+    //     const eachclient = await axios.get<ClientResponseType>(`${apiEndPoint}/${url}`);
 
-        setMyFilteredClients(eachclient.data);
-        console.log('MY SEARCHED CLIENT!!!!!!!!:', clientname);
+    //     setMyFilteredClients(eachclient.data);
+    //     console.log('MY SEARCHED CLIENT!!!!!!!!:', clientname);
 
-      } catch (error) {
-          console.error('error loading each ticket:', error);
-      }
-    }
+    //   } catch (error) {
+    //       console.error('error loading each ticket:', error);
+    //   }
+    // }
 
     //update input state x call backendurl to search customer
     const searchCustomers = (clientname: any) => {
       setInput(clientname);
       console.log("MY CLIENTNAME:+++++", clientname);
-      fetchSearchedCustomer(clientname);
+      //fetchSearchedCustomer(clientname);
     }
 
 
@@ -143,17 +143,13 @@ export const ClientsModule = () => {
                             </div>
                         </header>
                         <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                            <Button size="lg" className="bg-purple rounded-full" disabled>
+                            <Button size="lg" className="bg-purple" disabled>
                                 <PhoneIcon className="h-4 w-4 mr-2" />
                                 <span>Start Call</span>
                             </Button>
-                            <Button size="lg" className="bg-purple rounded-full" disabled>
+                            <Button size="lg" className="bg-purple" disabled>
                                 <CoffeeIcon className="h-4 w-4 mr-2" />
                                 <span>Start Break</span>
-                            </Button>
-                            <Button size="lg" className="bg-purple rounded-full" disabled>
-                                <ActivityIcon className="h-4 w-4 mr-2" />
-                                <span>Add New Client</span>
                             </Button>
                         </div>
                         <div className="grid gap-6">
@@ -404,7 +400,13 @@ export const ClientsModule = () => {
         return formattedDate;
     }
 
-    const displayedClients = input ? myFilteredClients : data;
+    //const displayedClients = input ? myFilteredClients : data;
+    const filterClients = input
+        ? data?.filter(ticket => 
+            ticket.uid?.toString().toLowerCase().includes(input.toLowerCase()) ||
+            ticket.client_name.toLowerCase().includes(input.toLowerCase()),
+        )
+        : data;
 
     return (
         <>
@@ -440,17 +442,13 @@ export const ClientsModule = () => {
                     </div>
                 </header>
                 <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    <Button size="lg" className="bg-purple rounded-full">
+                    <Button size="lg" className="bg-purple">
                         <PhoneIcon className="h-4 w-4 mr-2" />
                         <span>Start Call</span>
                     </Button>
-                    <Button size="lg" className="bg-purple rounded-full">
-                        <CoffeeIcon className="h-4 w-4 mr-2" />
-                        <span>Start Break</span>
-                    </Button>
-                    <Button size="lg" className="bg-purple rounded-full">
+                    <Button size="lg" className="bg-purple">
                         <ActivityIcon className="h-4 w-4 mr-2" />
-                        <span>Add New Client</span>
+                        <span>Start Activity</span>
                     </Button>
                 </div>
                 <div className="grid gap-6">
@@ -476,7 +474,7 @@ export const ClientsModule = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {displayedClients?.map(({ uid, client_name, LEG_num, phone_number, cellphone, Enabled, Licenses, expiry_date, total_balance, current, thirtyDays, sixtyDays, ninetyDays, support, support_package }) => (
+                                            {filterClients?.map(({ uid, client_name, LEG_num, phone_number, cellphone, Enabled, Licenses, expiry_date, total_balance, current, thirtyDays, sixtyDays, ninetyDays, support, support_package }) => (
                                                 <>
                                                     <tr key={uid} className="border-b">
                                                     <td className="p-2 font-medium">{uid}</td>

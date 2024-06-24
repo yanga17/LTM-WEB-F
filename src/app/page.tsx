@@ -60,7 +60,7 @@ export default function Home() {
             <Button
                 size="lg"
                 onClick={toggleStartCall}
-                className="bg-purple rounded-full mr-2"
+                className="bg-purple mr-2"
             >
                 <PhoneIcon className="h-4 w-4 mr-2" />
                 <span>Start Call</span>
@@ -68,14 +68,14 @@ export default function Home() {
             {startCallPopup && <StartCall onClose={toggleStartCall} />}
             <Button
                 size="lg"
-                className="bg-purple rounded-full mr-2"
+                className="bg-purple mr-2"
             >
                 <CoffeeIcon className="h-4 w-4 mr-2" />
                 <span>Start Break</span>
             </Button>
             <Button
                 size="lg"
-                className="bg-purple rounded-full"
+                className="bg-purple"
             >
                 <ActivityIcon className="h-4 w-4 mr-2" />
                 <span>Start Activity</span>

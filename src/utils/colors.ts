@@ -21,7 +21,6 @@ export const colors = {
         darkblue: '#0038FF',
     }
 
-
 export const  apiEndPoint = process.env.REST_ENDPOINT || `http://localhost:4200`
 
 

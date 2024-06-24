@@ -51,6 +51,8 @@ export const FollowUpsModule = () => {
     const [viewFollowUp, setViewFollowUp] = useState<FollowUpsProps | null>(null); //view ticket holds my selectedticket 4 view -- changed to FollowUpsProps to send an single object NOT an array
     const [filteredFollowUps, setFilteredFollowUps] = useState<FollowUpsType>([]); 
 
+    // const [input, setInput] = useState('');
+
     const [state, setState] = useState({
         isOpen: true,
         expandView: null
@@ -146,6 +148,11 @@ export const FollowUpsModule = () => {
         setState({ ...state, isOpen: false, expandView: null });
         setCurrentOpen('');
     };
+
+    // const searchCustomerFollowUp = (clientname: any) => {
+    //     setInput(clientname);
+    //     console.log("MY CLIENTNAME:+++++", clientname);
+    // }
 
     if (loading) {
         return (
@@ -297,6 +304,16 @@ export const FollowUpsModule = () => {
         numberofdays: property.NumberOfDays,
         issuetype: property.IssueType
     }))
+
+    // const filteredData = input
+    //     ? data?.filter(ticket => 
+    //         ticket.ID?.toString().toLowerCase().includes(input.toLowerCase()) ||
+    //         ticket.Customer.toLowerCase().includes(input.toLowerCase()) || 
+    //         ticket.Employee.toLowerCase().includes(input.toLowerCase()),
+    //     )
+    //     : followUpsLog; 
+
+    //     console.log("MY FILTERED DATA", filteredData)
 
     return (
         <>
