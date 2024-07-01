@@ -53,6 +53,8 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     const [deletePopUp, setDeletePopUp] = useState(false);
     const [deletionId, setDeletionId] = useState(0);
 
+    console.log("MY TICKETSCONTEXT URGENT VALUE:", ticket)
+
     const takeLoggedTicket = async (ticket: any) => {
         let customerData = ticket.Customer
         let supportNo = null;

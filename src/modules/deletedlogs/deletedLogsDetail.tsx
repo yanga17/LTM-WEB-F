@@ -14,9 +14,11 @@ import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
 
 import { useContext } from 'react';
 import { DeletedLogsContext } from './deletedLogsModule';
+import { DeletedProps } from './deletedLogsModule'
 
 interface EachTicketsProps {
     onClose: () => void;
+    // undoFn: (tickets: DeletedProps) => void;
 }
 
 //type ResponseType = CheckProps[]
@@ -26,6 +28,48 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     if (!deletedlog) {
         return <div>No data available</div>;
+    }
+
+    const undoNotification = () => {
+        toast.success('Ticket undone successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
+
+    const undoTicket = async () => {
+      let customerData = deletedlog.Customer
+      let supportNo = null;
+
+      if (customerData.includes(",")) {
+        const newCustomer = customerData.split(",");
+        customerData = newCustomer[0].trim();
+        supportNo = newCustomer[1].trim();
+      }
+
+      try {
+        const payLoad = {
+          customer: customerData,
+          problem: deletedlog.Problem,
+          phoneNo: deletedlog.Phone_Number,
+          starttime: new Date(deletedlog.Start_Time).toISOString().slice(0, 19).replace('T', ' '),
+          emp: deletedlog.Employee,
+          clientname: deletedlog.Client_Name,
+          Supportnumber: supportNo,
+          urgent: deletedlog.Priority,
+          issueType: deletedlog.IssueType,
+          type: deletedlog.Type,
+          comments: deletedlog.Comments
+          }
+          //const insertCallUrl = `deletedlogs/insertcallticket`
+          const response = await axios.post(`${apiEndPoint}/deletedlogs/insertcallticket`, payLoad);
+          console.log('Ticket in DeletedLogsDetails was undone successfully:', response.data);
+          undoNotification();
+
+        } catch (err) {
+          console.error('Error undo-ing the selected ticket within DeletedLogsdetail:', err);
+
+        }
     }
 
     const [deletePopUp, setDeletePopUp] = useState(false);
@@ -90,7 +134,7 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button className="mr-2 bg-green">Undo</Button>
+                        <Button onClick={undoTicket} className="mr-2 bg-green">Undo</Button>
                         <Button onClick={onClose} className="mr-2 bg-orange">Close</Button>
                     </div>
                 </div>

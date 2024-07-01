@@ -1,10 +1,14 @@
 'use client'
 
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState, useEffect, createContext } from "react";
-import { Filter, UserRound, TicketX, AlignCenterVertical, ClipboardCheck  } from "lucide-react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+
+import { EmployeeAvgTimePDF } from '../../components/component/employeeAvgPDF'
+import ReactPDF from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import { X } from "lucide-react";
 
 interface EmployeeAvgProps {
     ID: number,
@@ -20,45 +24,95 @@ export type EmployeeAvgResponse = EmployeeAvgProps[]
 
 
 export const EmployeeAvgReport = () => {
-    //http://localhost:4200/reports/getemployeeavgdata/2024-06-01 08:00:17/2024-06-18 08:00:00
-    const [startTime, setStartTime] = useState('2024-06-01 08:00:17');
-    const [endTime, setEndTime] = useState('2024-06-18 08:00:00');
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
     const [data, setData] = useState<EmployeeAvgResponse>([]);
 
     const headers = ['Call ID', 'Employee', 'Average Time Per Ticket', 'Total Tickets']
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const filterEmployeeAvgReport = async () => {
         try {
             const url = `reports/getemployeeavgdata/${startTime}/${endTime}`
             const response = await axios.get<EmployeeAvgResponse>(`${apiEndPoint}/${url}`);
             setData(response?.data)
+
+            if (response.data.length === 0) {
+                toast.error('There is no available data between between the selected date periods!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                })
+            }
         } catch (error) {
             console.error('An error occurred while fetching the Client Error Report:', error);
+            filterNotification();
         }
     }
 
-    useEffect(() => {
-        filterEmployeeAvgReport();
-    }, []);
+    const generateEmployeeAvgPDF = async () => {
+        if (data.length === 0) {
+            generateNotification();
 
-    const employeeAvgLog = data?.map((property) => ({
-        id: property?.ID,
-        employee: property.Employee,
-        avgTime: property.AvgTimePerTicket,
-        totalTickets: property.TotalTickets,
-        minStartTime: property.MinStartTime,
-        maxEndTime: property.MaxEndTime,
-        totalAllEmpTickets: property.TotalAllEmpTickets,
-    }))
-    
+        } else {
 
-    console.log("EMPLOYEE AVERAGE TIME REPORT DATA", data)
+            const blob = await ReactPDF.pdf(<EmployeeAvgTimePDF data={data} starttime={startTime} endtime={endTime} />).toBlob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Employee Average Time Report.pdf';
+            document.body.appendChild(a); // Append to the document to trigger the download
+            a.click();
+            document.body.removeChild(a); // Remove after download
+        }
+    };
+
+    const viewNotification = () => {
+        toast.error('Please generate the report before viewing the PDF File!', {
+            icon: <X color={colors.red} size={24} />,
+            duration: 3000,
+        })
+    }
+
+    const filterNotification = () => {
+        toast.error('Please select dates before generating the report!', {
+            icon: <X color={colors.red} size={24} />,
+            duration: 3000,
+        })
+    }
+
+    const generateNotification = () => {
+        toast.error('Please generate the report before downloading the PDF File!', {
+            icon: <X color={colors.red} size={24} />,
+            duration: 3000,
+        })
+    }
+
+    const viewPDF = () => {
+        if (data.length === 0) {
+            viewNotification();
+        } else {
+            setIsModalOpen(true);
+        }
+    };
 
 
     return (
         <>
+        {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className='relative w-[800px]'>
+                    <button className="absolute top-0 right-0 p-2 h-25 w-25 text-red" onClick={() => setIsModalOpen(false)}
+                    >
+                        &times;
+                    </button>
+                    <PDFViewer width="100%" height="600">
+                        <EmployeeAvgTimePDF data={data} starttime={startTime} endtime={endTime} />
+                    </PDFViewer>
+                </div>
+            </div>
+        )}
         <div className="h-screen overflow-auto">
-            <div className="w-full p-2 lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
+            <div className="w-full lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
                     <label>Start Date:</label>
                     <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
@@ -72,17 +126,27 @@ export const EmployeeAvgReport = () => {
                         Filter
                     </button>
                 </div>
+                <div className="flex flex-col mt-5">
+                    <button onClick={ viewPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        View PDF
+                    </button>
+                </div>
+                <div className="flex flex-col mt-5">
+                    <button onClick={ generateEmployeeAvgPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        Generate PDF
+                    </button>
+                </div>
             </div>
             <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {employeeAvgLog?.map(({ id, employee, avgTime, totalTickets, minStartTime, maxEndTime, totalAllEmpTickets }, index) => (
-                <div key={id} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{id}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{employee}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{avgTime}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{totalTickets}</p>
+            {data?.map(({ ID, Employee, EmployeeCount, AvgTimePerTicket, TotalTickets, MinStartTime, MaxEndTime, TotalAllEmpTickets }, index) => (
+                <div key={ID} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{ID}</p>
+                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
+                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{TotalTickets}</p>
                 </div>
             ))}
         </div>

@@ -5,6 +5,8 @@ import {useState, useEffect, useRef } from 'react'
 
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { X, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button"
 
@@ -30,30 +32,30 @@ interface EmployeeProps {
 type EmployeeResponseType = EmployeeProps[];
 
 //tblcalls
-interface CheckProps {
-  Call_ID: number,
-  Customer: string,
-  Problem: string,
-  Clients_Anydesk: number,
-  Phone_Number: number,
-  Time: string,
-  EndTime: string,
-  Duration: number,
-  Taken: number,
-  Support_No: number,
-  Empl: string,
-  logger: string,
-  Comments: string,
-  Solution: string,
-  Name: string,
-  urgent: number,
-  IssueType: string,
-  Type: string,
-}
+// interface CheckProps {
+//   Call_ID: number,
+//   Customer: string,
+//   Problem: string,
+//   Clients_Anydesk: number,
+//   Phone_Number: number,
+//   Time: string,
+//   EndTime: string,
+//   Duration: number,
+//   Taken: number,
+//   Support_No: number,
+//   Empl: string,
+//   logger: string,
+//   Comments: string,
+//   Solution: string,
+//   Name: string,
+//   urgent: number,
+//   IssueType: string,
+//   Type: string,
+// }
 
-type ResponseType = CheckProps[]
+// type ResponseType = CheckProps[]
 
-export function TicketTransfer({ onClose }: TicketTransferProps){
+export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     const [technician, setTechnician] = useState("");
     const [allTechnicians, setAllTechnicians] = useState<EmployeeResponseType>([]);
 
@@ -72,35 +74,47 @@ export function TicketTransfer({ onClose }: TicketTransferProps){
       }
     }
 
-    
-    const transferTicket = async (ticket: any)  => {
-      try {
-        const transferData = {
-          empl: ticket.Call_ID,
-          Customer: ticket.Customer,
-          Activity: ticket.Problem,
-          Clients_Anydesk: ticket.Clients_Anydesk,
-          Phone_Number: ticket.Phone_Number,
-          StartTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '), 
-          Support_No: ticket.Support_No,
-          Type: ticket.Type,
-          Comments: ticket.Comments,
-          IssueType: ticket.IssueType,
-          Priority: ticket.urgent,
-          Name: ticket.name
-        };
+    const viewNotification = () => {
+      toast.error(`The ticket was transferred to ${technician} Successfully.`, {
+        icon: <Check color={colors.green} size={24} />,
+        duration: 3000,
+      });
+    };
 
-          const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, transferData);
-          setTransferedTicket(response.data)
-          console.log('Ticket transfered successfully:', response.data);
-          console.log('MY TRANSFERED DATA!!!!!!!!!!!!!!!!!!!!:', transferData);
-
-      } catch (error) {
-
-          console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
-
+    const transferTicket = async () => {
+      //http://localhost:4200/tickets/transferticket/yanga/16128
+      if (technician === '' || null) {
+        toast.error('Please select a technician from the dropdown.', {
+          icon: <X color={colors.red} size={24} />,
+          duration: 3000,
+        });
+        return;
       }
-  }
+
+      try {
+        const url = `tickets/transferticket/${technician}/${callId}`;
+        const response = await axios.post<ActiveProps>(`${apiEndPoint}/${url}`);
+        viewNotification()
+
+        
+        onClose();
+      } catch (error) {
+        console.log('ERROR ENCOUNTERED WHEN TRANSFERING TICKET TO SELECTED EMPLOYEE', error);
+      }
+
+    }
+
+    const updateTransferedTicket = async () => {
+      //http://localhost:4200/tickets/updatetransferedticket/16139
+      try {
+        const url = `tickets/updatetransferedticket/${callId}`;
+        const response = await axios.patch(`${apiEndPoint}/${url}`);
+        console.log("UPDATED TRANSFERED TICKET DATA:", response.data);
+        
+      } catch (error) {
+        console.log("AN ERROR WAS ENCOUNTERED WHEN UPDATING TRANSFERED TICKET DATA", error);
+      }
+    }
     
     useEffect(() => {
       getTechnicians();
@@ -136,7 +150,7 @@ export function TicketTransfer({ onClose }: TicketTransferProps){
             </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <Button className="w-full bg-green">Save</Button>
+        <Button onClick={updateTransferedTicket} className="w-full bg-green">Save</Button>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ import { EyeIcon, CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/compo
 import { createContext } from "react";
 import { ClientsDetail } from "./clientsDetail";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-
+import { CircleSlash2, CircleSlash, Loader } from "lucide-react";
 import Image from 'next/image';
 
 interface ClientProps {
@@ -88,21 +88,7 @@ export const ClientsModule = () => {
         setCurrentOpen('');
         console.log("closeModal called");
     };
-    
-    // const fetchSearchedCustomer = async (clientname: any) => {
-    //   try {
-    //     const url = `customers/getsearchedcustomer/${clientname}`
-    //     const eachclient = await axios.get<ClientResponseType>(`${apiEndPoint}/${url}`);
 
-    //     setMyFilteredClients(eachclient.data);
-    //     console.log('MY SEARCHED CLIENT!!!!!!!!:', clientname);
-
-    //   } catch (error) {
-    //       console.error('error loading each ticket:', error);
-    //   }
-    // }
-
-    //update input state x call backendurl to search customer
     const searchCustomers = (clientname: any) => {
       setInput(clientname);
       console.log("MY CLIENTNAME:+++++", clientname);
@@ -125,21 +111,6 @@ export const ClientsModule = () => {
                                         disabled
                                     />
                                 </div>
-                            </div>
-                            <div className="flex items-center ml-4">
-                                <Button size="lg" variant="ghost" disabled>
-                                    <img
-                                        alt="Avatar"
-                                        height="32"
-                                        src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-                                        style={{
-                                            aspectRatio: "32/32",
-                                            objectFit: "cover",
-                                        }}
-                                        width="32"
-                                    />
-                                    <span className="sr-only">User Profile</span>
-                                </Button>
                             </div>
                         </header>
                         <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
@@ -175,41 +146,14 @@ export const ClientsModule = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {[...Array(10)].map((_, index) => (
-                                                        <tr key={index} className="border-b">
-                                                            <td className="p-2 font-medium">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="break-all overflow-hidden text-ellipsis max-w-[300px]">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="p-2">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="text-center">
-                                                                <div className="flex gap-2">
-                                                                    <Button size="sm" className="bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded" disabled>
-                                                                        <EyeIcon className="h-4 w-4" />
-                                                                    </Button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
+                                                <tr>
+                                                    <td colSpan={9} className="h-[150px]">
+                                                        <div className="flex flex-col items-center justify-center h-full w-full">
+                                                            <Loader className="h-12 w-12" />
+                                                            <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -240,21 +184,6 @@ export const ClientsModule = () => {
                                 onChange={(e) => setInput(e.target.value)}
                             />
                         </div>
-                    </div>
-                    <div className="flex items-center">
-                        <Button size="lg" variant="ghost">
-                            <img
-                                alt="Avatar"
-                                height="32"
-                                src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-                                style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                }}
-                                width="32"
-                            />
-                            <span className="sr-only">User Profile</span>
-                        </Button>
                     </div>
                 </header>
                 <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
@@ -289,11 +218,17 @@ export const ClientsModule = () => {
                                 <th className="">Action</th>
                               </tr>
                             </thead>
+                            <tbody>
+                            <tr>
+                                <td colSpan={9} className="h-[150px]">
+                                    <div className="flex flex-col items-center justify-center h-full w-full">
+                                        <CircleSlash className="h-12 w-12" />
+                                        <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data, Please Refresh!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
                           </table>
-                          <div className="text-center mt-10">
-                              <Image src="/covers/archive-x.png" alt="Archive X" width={50} height={50} className="mx-auto" />
-                              <p className="text-red text-lg">An Error was encountered when fetching Data!</p>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -306,7 +241,7 @@ export const ClientsModule = () => {
     }
 
 
-    if (!data && !isEmpty(data)) {
+    if (data?.length === 0) {
       return (
         <>
           <div className="bg-white">
@@ -372,7 +307,7 @@ export const ClientsModule = () => {
                         </table>
                         <div className="text-center mt-10">
                             <Image src="/covers/circle-slash.png" alt="Archive X" width={50} height={50} className="mx-auto" />
-                            <p className="text-red text-lg">THERE IS CURRENTLY NO DATA FOR THE LEGEND CUSTOMERS</p>
+                            <p className="text-red text-lg uppercase">An Error was encountered when fetching data, Please Refresh.</p>
                         </div>
                       </div>
                     </div>
@@ -425,21 +360,6 @@ export const ClientsModule = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex items-center">
-                        <Button size="lg" variant="ghost">
-                            <img
-                                alt="Avatar"
-                                height="32"
-                                src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-                                style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                }}
-                                width="32"
-                            />
-                            <span className="sr-only">User Profile</span>
-                        </Button>
-                    </div>
                 </header>
                 <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
                     <Button size="lg" className="bg-purple">
@@ -487,7 +407,7 @@ export const ClientsModule = () => {
                                                     <td className="">{total_balance}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple py-4 w-11/12" onClick={() => { openModal(uid)}}>
+                                                            <Button size="sm" className="bg-purple py-4 w-20 md:w-20" onClick={() => { openModal(uid)}}>
                                                                 <EyeIcon className="h-4 w-4" />
                                                             </Button>
                                                         </div>

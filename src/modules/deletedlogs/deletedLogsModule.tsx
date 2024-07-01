@@ -12,12 +12,12 @@ import { createContext } from "react"
 import { Button } from "@/components/ui/button";
 import { EyeIcon, CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
-import { EachDeletedTicketsModule } from './deletedLogsDetail'
+import { Undo2, Loader, Check, CircleSlash  } from "lucide-react";
+import { EachDeletedTicketsModule } from './deletedLogsDetail';
 
 import Image from 'next/image';
 
-interface DeletedProps {
+export interface DeletedProps {
     idx: number,
     Call_ID: number,
     Employee: string,
@@ -51,19 +51,11 @@ export const DeletedLogsModule = () => {
     const [state, setState] = useState({
         isOpen: true,
         expandView: null
-        });
+    });
 
-    const generateDeletedLogs = async () => {
-        try {
-            const deletedurl = `deletedlogs/getdeletedlogs`
-            const response = await axios.get(`${apiEndPoint}/${deletedurl}`)
-            console.log("DELETED LOGS DATA:", response)
-            setDeletedData(response.data)
-    } catch (error) {
-        console.error("Error getting deleted logs:", error);
-
-    }
-    }
+    const deletedLogsUrl = `deletedlogs/getdeletedlogs`;
+    const { data, loading, error} = useQuery<DeletedResponseType>(deletedLogsUrl);
+    console.log("loading deleted logs:", data)
 
     const undoNotification = () => {
         toast.success('Ticket undone successfully', {
@@ -108,40 +100,34 @@ export const DeletedLogsModule = () => {
         }
     }
 
-    // const deletedTicket 
-
     const searchDeletedLogs = (clientname: any) => {
         setInput(clientname);
         console.log("MY CLIENTNAME:+++++", clientname);
     }
 
-    const openModal = (id: any) => {
-        if (currentOpen === id) {
+    const openModal = (idx: any) => {
+        if (currentOpen === idx) {
             setCurrentOpen('');
             setState({ ...state, isOpen: false, expandView: null });
   
         } else {
-            setCurrentOpen(id);
-            setState({ ...state, isOpen: true, expandView: id});
+            setCurrentOpen(idx);
+            setState({ ...state, isOpen: true, expandView: idx});
   
-            const selectedTicket = deletedData?.find(client => client.Call_ID === id || null);
+            const selectedTicket = filteredData?.find(client => client.idx === idx || null);
   
             if (selectedTicket) {
               setViewTicket(selectedTicket);
             }
   
-            console.log('lets see my loggedTicket id', selectedTicket);
+            console.log('lets see my deletedloggedTicket id', selectedTicket);
         }
     }
-  
-      const closeModal = () => {
+
+    const closeModal = () => {
       setState({...state, isOpen: false, expandView: null });
       setCurrentOpen('');
-      }
-    
-    useEffect(() => {
-        generateDeletedLogs();
-    }, [])
+    }
 
 
     const formatDate = (dateString: string) => {
@@ -159,29 +145,12 @@ export const DeletedLogsModule = () => {
         return formattedDate;
     }
 
-    
-    const filteredData = input
-        ? deletedData.filter(ticket => 
-            ticket.Call_ID?.toString().toLowerCase().includes(input.toLowerCase()) ||
-            ticket.Customer.toLowerCase().includes(input.toLowerCase()) || 
-            ticket.Employee.toLowerCase().includes(input.toLowerCase()),
-        )
-        : deletedData; 
-
-        console.log("MY FILTERED DATA", filteredData)
-
-
-        console.log("view datat from view tickets:", viewticket)
-
-    return (
-        <>
-        <DeletedLogsContext.Provider value={viewticket}>
-        <div className="bg-white">
+    if (loading) {
+        return (
+            <>
+            <div className="bg-white">
             <div className="h-screen w-full overflow-auto">
             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
-                    {/* <div className="flex align-left mt-10 items-center">
-                        <Image src="/covers/legendSystems.png" alt="Archive X" width={400} height={200} className="mr-2" />
-                    </div> */}
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
@@ -192,19 +161,6 @@ export const DeletedLogsModule = () => {
                                 onChange={(e) => searchDeletedLogs(e.target.value)}
                             />
                         </div>
-                        <Button size="lg" variant="ghost">
-                            <img
-                                alt="Avatar"
-                                height="62"
-                                src="/covers/placeholder-user.jpg"
-                                style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                }}
-                                width="32"
-                            />
-                            <span className="sr-only">User Profile</span>
-                        </Button>
                     </div>
                 </header>
                 <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
@@ -227,9 +183,162 @@ export const DeletedLogsModule = () => {
                                                 <th className="">Problem</th>
                                                 <th className="">Client Name</th>
                                                 <th className="">IssueType</th>
-                                                <th className="p-2 w-[220px] lg:w-[220px] xl:lg:w-[220px]">Insertion Time</th>
-                                                <th className="">Reason</th>
-                                                <th className="w-[90px]">Action</th>
+                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
+                                                <th className="w-[70px]">Reason</th>
+                                                <th className="w-[140px]">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan={9} className="h-[150px]">
+                                                    <div className="flex flex-col items-center justify-center h-full w-full">
+                                                        <Loader className="h-12 w-12" />
+                                                        <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading Data, Please be patient.</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+            </>
+        )
+    }
+
+    if (error) {
+        return (
+            <>
+            <div className="bg-white">
+            <div className="h-screen w-full overflow-auto">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+                    <div className="flex items-center">
+                        <div className="text-right">
+                            <input
+                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                placeholder="Search Ticket"
+                                value={input}
+                                style={{ width: "440px" }}
+                                onChange={(e) => searchDeletedLogs(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </header>
+                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
+                    
+                </div>
+                <div className="grid gap-6">
+                    <div className="h-screen overflow-auto">
+                        <div>
+                            <h6 className="ml-6 text-3xl py-4 font-bold">Deleted Logs</h6>
+                        </div>
+                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
+                            <div className="p-0">
+                                <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
+                                    <table className="w-full table-fixed">
+                                        <thead className="bg-greyDarker">
+                                            <tr className="bg-grey text-left h-10 p-2 text-medium">
+                                                <th className="p-2">Call ID</th>
+                                                <th className="">Employee</th>
+                                                <th className="">Customer</th>
+                                                <th className="">Problem</th>
+                                                <th className="">Client Name</th>
+                                                <th className="">IssueType</th>
+                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
+                                                <th className="w-[70px]">Reason</th>
+                                                <th className="w-[140px]">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colSpan={9} className="h-[150px]">
+                                                <div className="flex flex-col items-center justify-center h-full w-full">
+                                                    <CircleSlash className="h-12 w-12" />
+                                                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data, Please Refresh!</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </>
+        )
+    }
+
+    if (data?.length === 0) {
+        return (
+            <tr>
+                <td colSpan={9} className="h-[150px]">
+                    <div className="flex flex-col items-center justify-center h-full w-full">
+                        <CircleSlash className="h-12 w-12" />
+                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no tickets that have been deleted.</p>
+                    </div>
+                </td>
+            </tr>
+        );
+    }
+
+    
+    const filteredData = input
+        ? data?.filter(ticket => 
+            ticket.Call_ID?.toString().toLowerCase().includes(input.toLowerCase()) ||
+            ticket.Customer.toLowerCase().includes(input.toLowerCase()) || 
+            ticket.Employee.toLowerCase().includes(input.toLowerCase()),
+        )
+        : data; 
+
+    return (
+        <>
+        <DeletedLogsContext.Provider value={viewticket}>
+        <div className="bg-white">
+            <div className="h-screen w-full overflow-auto">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+                    <div className="flex items-center">
+                        <div className="text-right">
+                            <input
+                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                placeholder="Search Ticket"
+                                value={input}
+                                style={{ width: "440px" }}
+                                onChange={(e) => searchDeletedLogs(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </header>
+                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
+                    
+                </div>
+                <div className="grid gap-6">
+                    <div className="h-screen overflow-auto">
+                        <div>
+                            <h6 className="ml-6 text-3xl py-4 font-bold">Deleted Logs</h6>
+                        </div>
+                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
+                            <div className="p-0">
+                                <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
+                                    <table className="w-full table-fixed">
+                                        <thead className="bg-greyDarker">
+                                            <tr className="bg-grey text-left h-10 p-2 text-medium">
+                                                <th className="p-2">Call ID</th>
+                                                <th className="">Employee</th>
+                                                <th className="">Customer</th>
+                                                <th className="">Problem</th>
+                                                <th className="">Client Name</th>
+                                                <th className="">IssueType</th>
+                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
+                                                <th className="w-[70px]">Reason</th>
+                                                <th className="w-[140px]">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -246,12 +355,12 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Reason || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                        <Button size="sm" className="bg-purple" onClick={() => { openModal(Call_ID)}}>
+                                                        <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(idx)}}>
                                                             <EyeIcon className="h-4 w-4" />
                                                         </Button>
-                                                            <Button size="sm" className="bg-purple py-4 w-11/12"
+                                                            <Button size="sm" className="bg-purple py-4 w-20 mr-2 md:w-20 md:mr-2"
                                                             onClick={() => {
-                                                                const selectedTicket = deletedData.find(t => t.Call_ID === Call_ID);
+                                                                const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
                                                                   undoTicket(selectedTicket);
                                                                     console.log('INSERTED THE deleted ticket back into tblcalls', selectedTicket);
@@ -264,11 +373,11 @@ export const DeletedLogsModule = () => {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                {state.isOpen && state.expandView === Call_ID && (
+                                                {state.isOpen && state.expandView === idx && (
                                                     <tr>
                                                         <td colSpan={9} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                                                                <EachDeletedTicketsModule onClose={closeModal}/>
+                                                                <EachDeletedTicketsModule onClose={closeModal} />
                                                             </div>
                                                         </td>
                                                     </tr>

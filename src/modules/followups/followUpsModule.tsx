@@ -11,7 +11,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
 import { CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Undo2, CircleSlash2, CircleSlash, Check, PhoneOutgoing, PhoneOff, ViewIcon } from "lucide-react";
+import { Undo2, CircleSlash2, CircleSlash, Check, PhoneOutgoing, PhoneOff, Loader } from "lucide-react";
 import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 
 import { createContext } from "react";
@@ -51,14 +51,14 @@ export const FollowUpsModule = () => {
     const [viewFollowUp, setViewFollowUp] = useState<FollowUpsProps | null>(null); //view ticket holds my selectedticket 4 view -- changed to FollowUpsProps to send an single object NOT an array
     const [filteredFollowUps, setFilteredFollowUps] = useState<FollowUpsType>([]); 
 
-    // const [input, setInput] = useState('');
+    const [input, setInput] = useState('');
 
     const [state, setState] = useState({
         isOpen: true,
         expandView: null
     });
 
-    const url = `followups/getfollowups`
+    const url = `followupas/getfollowups`
     const { data, loading, error, } = useQuery<FollowUpsType>(url);
     console.log("my follow up data:", data);
 
@@ -149,112 +149,22 @@ export const FollowUpsModule = () => {
         setCurrentOpen('');
     };
 
-    // const searchCustomerFollowUp = (clientname: any) => {
-    //     setInput(clientname);
-    //     console.log("MY CLIENTNAME:+++++", clientname);
-    // }
+    const searchCustomerFollowUp = (clientname: any) => {
+        setInput(clientname);
+        console.log("MY CLIENTNAME:+++++", clientname);
+    }
 
     if (loading) {
         return (
-            <>
-                <div className="bg-white">
-            <div className="h-screen w-full overflow-auto">
-            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
-                    <div className="flex items-center">
-                        <div className="text-right">
-                            <input
-                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
-                                placeholder="Search Ticket"
-                                style={{ width: "440px" }}
-                            />
-                        </div>
-                        <Button size="lg" variant="ghost">
-                            <img
-                                alt="Avatar"
-                                height="62"
-                                src="/covers/placeholder-user.jpg"
-                                style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                }}
-                                width="32"
-                            />
-                            <span className="sr-only">User Profile</span>
-                        </Button>
-                    </div>
-                </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    
-                </div>
-                <div className="grid gap-6">
-                    <div className="h-screen overflow-auto">
-                        <div>
-                            <h6 className="ml-6 text-3xl py-4 font-bold">Customer Follow-Ups</h6>
-                        </div>
-                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-                            <div className="p-0">
-                                <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
-                                <table className="w-full table-auto">
-                                    <thead className="bg-greyDarker">
-                                        <tr className="bg-grey text-left h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
-                                            <th className="p-2">UID</th>
-                                            <th className="">Customer</th>
-                                            <th className="">Support No.</th>
-                                            <th className="">Number 1</th>
-                                            <th className="">Number 2</th>
-                                            <th className="">Enabled</th>
-                                            <th className="p-2">Expiry Date</th>
-                                            <th className="">Balance</th>
-                                                <th className="">Action</th>
-                                            </tr>
-                                            </thead>
-                                                <tbody>
-                                                    {[...Array(10)].map((_, index) => (
-                                                        <tr key={index} className="border-b">
-                                                            <td className="p-2 font-medium">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[300px]">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="p-2">
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td>
-                                                                <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                                                            </td>
-                                                            <td className="text-center">
-                                                                <div className="flex gap-2">
-                                                                    <Button size="sm" className="bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded" disabled>
-                                                                        <EyeIcon className="h-4 w-4" />
-                                                                    </Button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </>
-        )
+            <tr>
+              <td colSpan={8} className="h-[150px]">
+                  <div className="flex flex-col items-center justify-center h-full w-full">
+                      <Loader className="h-12 w-12" />
+                      <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
+                  </div>
+              </td>
+          </tr>
+        );
     }
 
     if (error) {
@@ -262,21 +172,21 @@ export const FollowUpsModule = () => {
             <tr>
                 <td colSpan={8} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
-                        <CircleSlash className="h-14 w-14" />
-                        <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                        <CircleSlash className="h-12 w-12" />
+                        <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching data!</p>
                     </div>
                 </td>
             </tr>
         );
     }
 
-    if (!data && !isEmpty(data)) {
+    if (data?.length === 0) {
         return (
             <tr>
                 <td colSpan={8} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
-                        <CircleSlash className="h-14 w-14" />
-                        <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO TICKETS NEEDED FOLLOWED-UP 0N</p>
+                        <CircleSlash className="h-12 w-12" />
+                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no customers that need to be Followed-Up</p>
                     </div>
                 </td>
             </tr>
@@ -305,20 +215,20 @@ export const FollowUpsModule = () => {
         issuetype: property.IssueType
     }))
 
-    // const filteredData = input
-    //     ? data?.filter(ticket => 
-    //         ticket.ID?.toString().toLowerCase().includes(input.toLowerCase()) ||
-    //         ticket.Customer.toLowerCase().includes(input.toLowerCase()) || 
-    //         ticket.Employee.toLowerCase().includes(input.toLowerCase()),
-    //     )
-    //     : followUpsLog; 
+    const filteredData = input
+        ? followUpsLog?.filter(ticket => 
+            ticket.id?.toString().toLowerCase().includes(input.toLowerCase()) ||
+            ticket.customer.toLowerCase().includes(input.toLowerCase()) || 
+            ticket.employee.toLowerCase().includes(input.toLowerCase()),
+        )
+        : followUpsLog; 
 
-    //     console.log("MY FILTERED DATA", filteredData)
+        console.log("MY FILTERED DATA", filteredData)
 
     return (
         <>
         <FollowUpContext.Provider value={viewFollowUp} >
-            {followUpsLog?.map(({ idx, id, employee, customer, activity, phoneNumber, starTime, endTime, duration, type, solution, supportnumber, comments, followUp, completed, name, clientsAnydesk, numberofdays, issuetype }, index) => (
+            {filteredData?.map(({ idx, id, employee, customer, activity, phoneNumber, starTime, endTime, duration, type, solution, supportnumber, comments, followUp, completed, name, clientsAnydesk, numberofdays, issuetype }, index) => (
                 <>
                     <tr className="border-b font-medium">
                         <td key={id}className="p-2">{id}</td>

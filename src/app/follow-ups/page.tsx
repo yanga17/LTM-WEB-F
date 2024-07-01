@@ -3,21 +3,13 @@
 import { FollowUpsModule } from "@/modules/followups/followUpsModule";
 import { CompFollowUpsModule } from "@/modules/followups/compFollowUpsModule";
 
-import { useAudit } from "@/shared/tools/auditMonit";
-import Link from "next/link"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+import { CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-
-import { EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon} from "@/components/component/tickets-table"
-import { EachTicketsModule } from "@/modules/home/ticketsDetail";
-import Image from 'next/image';
+import {  PhoneIcon } from "@/components/component/tickets-table"
 
 import * as React from "react"
-import {useState, useEffect} from 'react'
+import { useState } from 'react'
 
-import {StartCall} from "@/components/component/start-call"
-import { TicketSummary } from "@/components/component/ticket-summary"
 
 export default function Page() {
     const [startCallPopup, setStartCallPopup] = useState(false);
@@ -30,7 +22,6 @@ export default function Page() {
         <div className="bg-white">
         <div className="h-screen w-full overflow-auto">
         <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
-        {/* <TicketSummary /> */}
         <div className="relative flex ml-auto mt-4">
             <div className="flex">
                 <div className="text-right">
@@ -40,44 +31,16 @@ export default function Page() {
                         style={{ width: "440px" }} // Adjust width here
                     />
                 </div>
-                <Button size="lg" variant="ghost" className="ml-4">
-                    <img
-                        alt="Avatar"
-                        height="32"
-                        src="/public/placeholder-user.jpg"
-                        style={{
-                            aspectRatio: "32/32",
-                            objectFit: "cover",
-                        }}
-                        width="32"
-                    />
-                    <span className="sr-only">User Profile</span>
-                </Button>
             </div>
             <div className="absolute mt-14 right-0 flex items-end">
                 <Button
                     size="lg"
                     onClick={toggleStartCall}
-                    className="bg-purple rounded-full mr-2"
+                    className="bg-purple mr-2"
                 >
                     <PhoneIcon className="h-4 w-4 mr-2" />
                     <span>Upcoming Tickets</span>
                 </Button>
-                {/* {startCallPopup && <StartCall onClose={toggleStartCall} />} */}
-                {/* <Button
-                    size="lg"
-                    className="bg-purple rounded-full mr-2"
-                >
-                    <CoffeeIcon className="h-4 w-4 mr-2" />
-                    <span>Start Break</span>
-                </Button>
-                <Button
-                    size="lg"
-                    className="bg-purple rounded-full"
-                >
-                    <ActivityIcon className="h-4 w-4 mr-2" />
-                    <span>Start Activity</span>
-                </Button> */}
             </div>
         </div>
         </header>
@@ -106,6 +69,9 @@ export default function Page() {
                         <CompFollowUpsModule />
                     </tbody>
                         </table>
+                        <div className="webkit-scrollbar">
+                            <div className="webkit-scrollbar-thumb" onClick={() => console.log("Scrollbar clicked!")}></div>
+                        </div>
                     </div>
                 </CardContent>
                 </Card>

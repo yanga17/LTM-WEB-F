@@ -2,30 +2,30 @@
 
 import { TicketsModule } from "@/modules";
 import { ActiveTicketsModule } from "@/modules";
-import { useAudit } from "@/shared/tools/auditMonit";
 
-import Link from "next/link"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+import {  CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-import { EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon} from "@/components/component/tickets-table"
-import { EachTicketsModule } from "@/modules/home/ticketsDetail";
-import Image from 'next/image';
+import { ActivityIcon, PhoneIcon } from "@/components/component/tickets-table"
 
 import * as React from "react"
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 
 import {StartCall} from "@/components/component/start-call"
+import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 
 
 export default function Home() {
-  const { addAuditLog } = useAudit() //Downloads
   const [startCallPopup, setStartCallPopup] = useState(false);
+  const [startActivityPopUp, setActivityPopup] = useState(false);
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
+  }
+
+  const toggleStartActivity = () => {
+    setActivityPopup(!startActivityPopUp);
   }
 
   return (
@@ -42,19 +42,6 @@ export default function Home() {
                     style={{ width: "440px" }} // Adjust width here
                 />
             </div>
-            <Button size="lg" variant="ghost" className="ml-4">
-                <img
-                    alt="Avatar"
-                    height="32"
-                    src="/public/placeholder-user.jpg"
-                    style={{
-                        aspectRatio: "32/32",
-                        objectFit: "cover",
-                    }}
-                    width="32"
-                />
-                <span className="sr-only">User Profile</span>
-            </Button>
         </div>
         <div className="absolute mt-14 right-0 flex items-end">
             <Button
@@ -68,22 +55,16 @@ export default function Home() {
             {startCallPopup && <StartCall onClose={toggleStartCall} />}
             <Button
                 size="lg"
-                className="bg-purple mr-2"
-            >
-                <CoffeeIcon className="h-4 w-4 mr-2" />
-                <span>Start Break</span>
-            </Button>
-            <Button
-                size="lg"
+                onClick={toggleStartActivity}
                 className="bg-purple"
             >
                 <ActivityIcon className="h-4 w-4 mr-2" />
                 <span>Start Activity</span>
             </Button>
+            {startActivityPopUp && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
 </header>
-
       <div className="grid gap-6 w-full">
         <div className="max-h-[600px] overflow-auto">
           <div>
