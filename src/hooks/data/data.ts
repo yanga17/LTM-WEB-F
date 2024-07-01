@@ -5,67 +5,23 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
-export const Operators = () => {
-    const [operators, setOperators] = useState<any[]>()
-
-    const getOperators = async () => {
-        try {
-            const url = `api/v1/user/getoperator`
-            const operators = await axios.get(`${apiEndPoint}/${url}`)
-
-            if (operators?.data) {
-                setOperators(operators?.data)
-            }
-            else {
-                toast(``,
-                    {
-                        icon: '🔄',
-                        style: {
-                            borderRadius: '10px',
-                            background: '#333',
-                            color: '#fff',
-                        },
-                    }
-                );
-            }
-        }
-        catch (error) {
-            toast(``,
-                {
-                    icon: '🔄',
-                    style: {
-                        borderRadius: '10px',
-                        background: '#333',
-                        color: '#fff',
-                    },
-                }
-            );
-        }
-    }
-
-    useEffect(() => {
-        getOperators()
-
-        const intervalId = setInterval(getOperators, 2000);
-
-        return () => clearInterval(intervalId);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    return operators
+//interface for getcustomers
+interface CustomerProps {
+    Customer: string;
 }
 
-export const Managers = () => {
-    const [managers, setManagers] = useState<any[]>()
+type CustomerType = CustomerProps[]
 
-    const getManagers = async () => {
+export const Customers = () => {
+    const [customers, setCustomers] = useState<CustomerType>()
+
+    const getCustomers = async () => {
         try {
-            const url = `api/v1/user/getteamleader`
-            const managers = await axios.get(`${apiEndPoint}/${url}`)
+            const url = `/tickets/getcustomers`
+            const customers = await axios.get(`${apiEndPoint}/${url}`)
 
-            if (managers?.data) {
-                setManagers(managers?.data)
+            if (customers?.data) {
+                setCustomers(customers?.data)
             }
             else {
                 toast(``,
@@ -95,28 +51,36 @@ export const Managers = () => {
     }
 
     useEffect(() => {
-        getManagers()
+        getCustomers();
+        console.log("GRABBED CUSTOMERS FROM DATA PAGE", customers);
 
-        const intervalId = setInterval(getManagers, 2000);
+        //const intervalId = setInterval(getCustomers, 2000);
 
-        return () => clearInterval(intervalId);
+        //return () => clearInterval(intervalId);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return managers
+    return customers
 }
 
-export const Products = () => {
-    const [products, setProducts] = useState<any[]>()
+//interface for gettinErrors
+interface ErrorProps {
+    Errors: string;
+}
 
-    const getProducts = async () => {
+type ErrorsType = ErrorProps[]
+
+export const Problems = () => {
+    const [problems, setProblems] = useState<ErrorsType>()
+
+    const getProblems = async () => {
         try {
-            const url = `api/v1/product/getproducts`
-            const products = await axios.get(`${apiEndPoint}/${url}`)
+            const url = `/tickets/geterrors`
+            const problems = await axios.get(`${apiEndPoint}/${url}`)
 
-            if (products?.data) {
-                setProducts(products?.data)
+            if (problems?.data) {
+                setProblems(problems?.data)
             }
             else {
                 toast(``,
@@ -146,14 +110,131 @@ export const Products = () => {
     }
 
     useEffect(() => {
-        getProducts()
+        getProblems()
 
-        const intervalId = setInterval(getProducts, 2000);
+        //const intervalId = setInterval(getManagers, 2000);
 
-        return () => clearInterval(intervalId);
+        //return () => clearInterval(intervalId);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return products
+    return problems //'/getemployees', '/getypes'
+}
+//interface for gettinEmployees
+export interface EmployeeProps {
+    ID: number;
+    Employee: string;
+}
+
+export type EmployeeType = EmployeeProps[]
+
+export const Employees = () => {
+    const [employees, setEmployees] = useState<EmployeeType>()
+
+    const getEmployees = async () => {
+        try {
+            const url = `/tickets/getemployees`
+            const employees = await axios.get(`${apiEndPoint}/${url}`)
+
+            if (employees?.data) {
+                setEmployees(employees?.data)
+            }
+            else {
+                toast(``,
+                    {
+                        icon: '🔄',
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
+            }
+        }
+        catch (error) {
+            toast(``,
+                {
+                    icon: '🔄',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
+        }
+    }
+
+    useEffect(() => {
+        getEmployees();
+        console.log("GRABBED Employees FROM DATA PAGE", employees);
+
+        //const intervalId = setInterval(getEmployees, 2000);
+
+        //return () => clearInterval(intervalId);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return employees
+}
+//interface for gettinTypes
+interface TypesProps {
+    Type: string;
+}
+
+type TypeErrors = TypesProps[]
+
+export const Types = () => {
+    const [type, setType] = useState<TypeErrors>()
+
+    const getTypes = async () => {
+        try {
+            const url = `/tickets/getypes`
+            const type = await axios.get(`${apiEndPoint}/${url}`)
+
+            if (type?.data) {
+                setType(type?.data)
+            }
+            else {
+                toast(``,
+                    {
+                        icon: '🔄',
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
+            }
+        }
+        catch (error) {
+            toast(``,
+                {
+                    icon: '🔄',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
+        }
+    }
+
+    useEffect(() => {
+        getTypes();
+        console.log("GRABBED Types FROM DATA PAGE", type);
+
+        //const intervalId = setInterval(getEmployees, 2000);
+
+        //return () => clearInterval(intervalId);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return type
 }

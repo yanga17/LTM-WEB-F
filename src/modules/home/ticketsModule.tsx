@@ -8,10 +8,12 @@ import { toast } from 'react-hot-toast';
 import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
 
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 import { EachTicketsModule } from "./ticketsDetail";
+import { CircleSlash2, CircleSlash, Loader } from "lucide-react";
+
+import { createContext } from "react";
 
 //interface for all tickets - tblcalls
 interface CheckProps {
@@ -37,107 +39,80 @@ interface CheckProps {
 
 type ResponseType = CheckProps[]
 
-//interface for each ticket
-interface EachProps {
-  Call_ID: number,
-  Customer: string,
-  Problem: string,
-  Clients_Anydesk: number,
-  Phone_Number: number,
-  Time: string,
-  EndTime: string,
-  Duration: number,
-  Taken: number,
-  Support_No: number,
-  Empl: string,
-  logger: string,
-  Comments: string,
-  Solution: string,
-  Name: string,
-  urgent: number,
-  IssueType: string,
-}
-
-export type ResponseTypeEachTicket = EachProps[]
+export const TicketsContext = createContext<CheckProps | null>(null)
 
 
 export const TicketsModule = () => {
-  const [currentOpen, setCurrentOpen] = useState('');
-  const [viewticket, setViewTicket] = useState<ResponseTypeEachTicket>([]); //view ticket holds my returned data
+    const [currentOpen, setCurrentOpen] = useState('');
+    const [viewticket, setViewTicket] = useState<CheckProps | null>(null); 
 
-  const [callId, setCallID] = useState(0);
+    const [tickets, setTickets] = useState<ResponseType>([]);
 
-  const [tickets, setTickets] = useState<ResponseType>([]);
-  const [state, setState] = useState({
+    const [state, setState] = useState({
     isOpen: true,
     expandView: null
-  });
+    });
 
-  const url = `tickets/getickets`
-  const { data, loading, error } = useQuery<ResponseType>(url); 
+    //gviewAll loggedTickets
+    const url = `tickets/getickets`
+    const { data, loading, error } = useQuery<ResponseType>(url); 
 
+    //include logger once you've setup the userAuthentication what what
+    const takeLoggedTicket = async (ticket: CheckProps) => {
+      let customerData = ticket.Customer
+      let supportNo = null;
 
-    const generateEachTicket = async (currentCallId: number) => {
-      try {
-
-        const url = `tickets/getickets/${currentCallId}`
-        const eachticket = await axios.get<ResponseTypeEachTicket>(`${apiEndPoint}/${url}`);
-
-        setViewTicket(eachticket.data)
-        console.log('TICKETS UPLOADED', viewticket)
-
-      } catch (error) {
-
-        console.error('error loading each ticket:', error);
-
+      if (ticket.Customer.includes(",")) {
+        const customerArray = ticket.Customer.split(",");
+        customerData = customerArray[0].trim();
+        supportNo = customerArray[1].trim();
       }
-    }
 
-    const takeTicket = async (ticket: CheckProps) => {
       try {
         const payLoad = {
           employee: ticket.Empl,
-          customer: ticket.Customer,
+          customer: customerData,
           activity: ticket.Problem,
           phoneNumber: ticket.Phone_Number,
           clientAnydesk: ticket.Clients_Anydesk,
           startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
           type: ticket.Type,
-          supportNo: ticket.Support_No,
+          supportNo: supportNo,
           comments: ticket.Comments,
           name: ticket.Name,
           timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
-          issueType: ticket.IssueType
+          issueType: ticket.IssueType,
+          urgent: ticket.urgent,
         };
+
+        const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
+        toast.success('Ticket has been started successfully.');
+
+
+        console.log('Ticket taken successfully:', response.data)
+        console.log('my ticket priority:', ticket.urgent);
     
-        const response = await axios.post(`${apiEndPoint}/tickets/inserttickets`, payLoad);
-        console.log('Ticket taken successfully:', response.data);
-    
-        // After successfully taking the ticket, call updateTakenTicket to update the EndTime and Taken status
         await updateTakenTicket(ticket.Call_ID);
     
       } catch (error) {
-        console.error('Error taking ticket:', error);
+        console.error('Error taking logged ticket:', error);
       }
     }
     
     const updateTakenTicket = async (callId: number) => {
       try {
-        const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
-        // Use PATCH method and include EndTime and Call_ID in the URL
-        const updateUrl = `${apiEndPoint}/tickets/updateticket/${encodeURIComponent(endTime)}/${callId}`;
+        const endTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
         const updateResponse = await axios.patch(updateUrl);
     
         console.log('Ticket updated successfully:', updateResponse.data);
     
-        // Remove the ticket from the local state to reflect the change in the UI
         setTickets(prevTickets => prevTickets.filter(t => t.Call_ID !== callId));
     
       } catch (error) {
         console.error('Error updating ticket:', error);
       }
     }
-
     
 
     useEffect(() => {
@@ -148,183 +123,127 @@ export const TicketsModule = () => {
 
     }, [data]);
 
-    // const openModal = (parameter: any) => {
-    //   if (currentOpen === parameter) {
-    //     setState({ ...state, isOpen: false, expandView: null });
-    //     setCurrentOpen('');
-    //     setViewTicket([]);
-    //   } else {
-    //     setCurrentOpen(parameter);
-    //     setState({ ...state, isOpen: true, expandView: parameter });
-    //     setCallID(parameter);
-  
-    //     setViewTicket([]); // Reset viewticket when opening a new ticket to ensure previous ticket data is not displayed
-    //     generateEachTicket(parameter); // Call generateEachTicket here to load the new ticket data
-    //   }
-    // }
 
-    const openModal = (parameter: any) => {
-      if (currentOpen === parameter) {
-        return;
+    const openModal = (id: any) => {
+      if (currentOpen === id) {
+          setCurrentOpen('');
+          setState({ ...state, isOpen: false, expandView: null });
+
+      } else {
+          setCurrentOpen(id);
+          setState({ ...state, isOpen: true, expandView: id});
+
+          const selectedTicket = data?.find(client => client.Call_ID === id || null);
+
+          if (selectedTicket) {
+            setViewTicket(selectedTicket);
+          }
+
+          console.log('lets see my loggedTicket id', selectedTicket);
       }
-
-      setCurrentOpen(parameter);
-      setState({ ...state, isOpen: true, expandView: parameter });
-      setCallID(parameter);
-
-      setViewTicket([]); // Reset viewticket when opening a new ticket to ensure previous ticket data is not displayed
-      generateEachTicket(parameter); // Call generateEachTicket here to load the new ticket data
-    }
+  }
 
     const closeModal = () => {
     setState({...state, isOpen: false, expandView: null });
     setCurrentOpen('');
     }
 
-    const triggerToastError = () => {
-      toast.error('We encountered an error loading data within Logged Tickets Table.', {
-          icon: <span role="img" aria-label="cross-mark" style={{ marginRight: '0.5rem' }}>❌</span>,
-          style: {
-              borderRadius: '10px',
-              background: '#333',
-              color: '#fff',
-          },
-      });
-  };
 
-  const toastNodata = () => {
-      toast.error('There is no data within the Logged Tickets table.', {
-          icon: <span role="img" aria-label="cross-mark" style={{ marginRight: '0.5rem' }}>❌</span>,
-          style: {
-              borderRadius: '10px',
-              background: '#333',
-              color: '#fff',
-          },
-      });
-  };
+    if (loading) {
+      return (
+          <tr>
+              <td colSpan={7} className="h-[150px]">
+                  <div className="flex flex-col items-center justify-center h-full w-full">
+                      <Loader className="h-12 w-12" />
+                      <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
+                  </div>
+              </td>
+          </tr>
+      );
+  }
 
-  if (loading) {
+
+    if (error) {
     return (
-        <>
-        {
-        [...Array(500)].map((_, index) => (
-            <>
-                <TableRow key={index}>
-                <TableCell className="font-medium">
-                    <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                </TableCell>
-                <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[120px]">
-                    <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                </TableCell>
-                <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[200px]">
-                    <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                </TableCell>
-                <TableCell>
-                    <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                </TableCell>
-                <TableCell className="text-center">
-                    <div className='bg-black-light animate-pulse py-4 w-11/12 mx-auto rounded'></div>
-                </TableCell>
-                <TableCell className="text-center">
-                    <div className="flex gap-2">
-                        <Button
-                            disabled
-                            size="sm"
-                            className="bg-purple">
-                            <span>View</span>
-                            <EyeIcon className="h-4 w-4 ml-2" />
-                        </Button>
-                        <Button
-                            disabled
-                            size="sm"
-                            className="bg-green">
-                            <span>Take</span>
-                            <MinusIcon className="h-4 w-4 ml-2" />
-                        </Button>
-                    </div>
-                </TableCell>
-                </TableRow>
-            </>
-        ))}
-        </>
+        <tr>
+            <td colSpan={7} className="h-[150px]">
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                    <CircleSlash className="h-12 w-12" />
+                    <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                </div>
+            </td>
+        </tr>
+    );
+    }
+
+
+    if (data?.length === 0) {
+    return (
+      <>
+        <tr>
+            <td colSpan={7} className="h-[150px]">
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                    <CircleSlash2 className="h-12 w-12" />
+                    <p className="text-green text-lg mt-2 text-center uppercase">There are currently no logged tickets!</p>
+                </div>
+            </td>
+        </tr>
+      </>
     )
-}
+    }
 
-  if (error) {
-    triggerToastError();
-  }
+    console.log('VIEW TICKET DATA!***************', viewticket)
 
-  if (!data && !isEmpty(data)) {
-    toastNodata();
-  }
 
-  // const checkInLog = data?.map((property) => ({
-  //   Call_ID: property?.Call_ID,
-  //   Customer: property.Customer,
-  //   Problem: property.Problem,
-  //   Clients_Anydesk: property.Clients_Anydesk,
-  //   Phone_Number: property.Phone_Number,
-  //   Time: new Date(property.Time).toISOString().slice(0, 19).replace('T', ' '),
-  //   EndTime: property.EndTime,
-  //   Duration: property.Duration,
-  //   Taken: property.Taken,
-  //   Support_No: property.Support_No,
-  //   Empl: property.Empl,
-  //   logger: property.logger,
-  //   Comments: property.Comments,
-  //   Solution: property.Solution,
-  //   Name: property.Name,
-  //   urgent: property.urgent,
-  //   IssueType: property.IssueType,
-  //   Type: property.Type // Assuming there's a Type property you want to include as well
-  // }));
 
   return (
     <>
-      {tickets?.map(({ Call_ID, Customer, Problem, Name, Time }) => (
+    <TicketsContext.Provider value={viewticket}>
+      {tickets?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
         <>
-          <TableRow key={Call_ID}>
-            <TableCell className="font-medium">{Call_ID}</TableCell>
-            <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[185px]">{Customer}</TableCell>
-            <TableCell className="whitespace-normal break-all overflow-hidden text-ellipsis max-w-[175px]">{Problem}</TableCell>
-            <TableCell className="max-w-[200px]">{Name}</TableCell>
-            <TableCell className="max-w-[200px] text-center">
-              {new Date(Time).toISOString().slice(0, 19).replace('T', ' ')}
-            </TableCell> {/* Modified Time property here */}
-            <TableCell className="text-center">
+          <tr key={Call_ID}>
+            <td className="px-2">{Call_ID}</td>
+            <td className="p-2 whitespace-nowrap truncate">{Customer}</td>
+            <td className="p-2 whitespace-nowrap truncate">{Problem}</td>
+            <td className="p-2">{Name}</td>
+            <td className="p-2">
+              {new Date(Time).toLocaleString()}
+            </td>
+            <td className="p-2">{Empl}</td>
+            <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple" onClick={() => { openModal(Call_ID)}}>
-                  {/* <span>View</span> */}
+                <Button size="sm" className="bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
                   <EyeIcon className="h-4 w-4" />
                 </Button>
                 <Button size="sm"
-                  className="bg-green"
+                  className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {
-                        takeTicket(selectedTicket);
-                        console.log('GRABBED THE SELECTED TICKET', selectedTicket);
+                      takeLoggedTicket(selectedTicket);
+                        console.log('INSERTED THE LOGGED TICKET TO tblTime x Updated EndTime in tblcalls', selectedTicket);
                     } else {
                         console.error('Selected ticket not found');
                     }
                 }}>
-                  {/* <span>Take</span> */}
                   <PlusIcon className="h-4 w-4" />
                 </Button>
               </div>
-            </TableCell>
-          </TableRow>
+            </td>
+          </tr>
           {state.isOpen && state.expandView === Call_ID && (
-            <TableRow>
-              <TableCell colSpan={6} className="p-0">
+            <tr>
+              <td colSpan={6} className="p-0">
                 <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                  <EachTicketsModule ticketData={viewticket} callid={Call_ID} onClose={closeModal}/>
+                  <EachTicketsModule onClose={closeModal} />
                 </div>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           )}
+          
         </>
       ))}
+      </TicketsContext.Provider>
     </>
   );
 }

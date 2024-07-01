@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LEGEND TIME MANAGEMENT",
-  description: "Log Customer Problems and Comnpany Tasks",
+  description: "Solving Customer Problems and Completing Company Tasks",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <SessionProvider>
         <AuditProvider>
-          <body className={`${inter.className} p-0 m-0 overflow-hidden`}>
+          <body className={`${inter.className} p-0 m-0 overflow-hidden bg-grey`}>
             <AppWrapper>
               {children}
               <Toaster
