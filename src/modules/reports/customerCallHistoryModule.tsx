@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { CustomerCallsReport } from './customerCallsReport';
 import { CustomerErrorsReport } from './customerErrorsReport';
@@ -16,7 +16,6 @@ import { CallHistoryPDF } from '../../components/component/customerCallHistoryPD
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import { X } from "lucide-react";
-
 
 interface CallHistoryProps {
     ID: number,
@@ -32,6 +31,13 @@ interface CallHistoryProps {
 }
 export type CallHistoryResponse = CallHistoryProps[]
 
+//getAll Customers
+interface CustomerProps {
+    uid: number;
+    Customer: any;
+  }
+  type CustomerType = CustomerProps[]
+
 
 export const ReportsModule = () => {
     const [clHistoryStartTime, setCLHistoryStartTime] = useState('');
@@ -39,37 +45,73 @@ export const ReportsModule = () => {
     const [currentReport, setCurrentReport] = useState('CallHistory');
 
     const [data, setData] = useState<CallHistoryResponse>([]);
+    const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
 
-    const headers = ['Call ID', 'Customer', 'Activity', 'StartTime', 'EndTime', 'Duration', 'Issue Type']
+    const [customer, setCustomer] = useState('')
+    const [filteredData, setFilteredData] = useState<CallHistoryResponse>([]);
+    const [dropdownValue, setDropDownvalue] = useState('');
+
+    const headers = ['Customer', 'Activity', 'Comments', 'StartTime', 'EndTime', 'Duration', 'Solution']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const filterClientHistoryReport = async () => {
+    const splitCustomerName = (customerName: string) => {
+        return customerName.split(',')[0].trim().toLocaleLowerCase();
+    };
+
+    const filterCallHistoryReport = async () => {
         try {
             const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
             const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
-            setData(response?.data)
+            const fetchedData = response.data;
+
+            if (fetchedData.length === 0) {
+                toast.error('There is no available data between the selected date periods!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+                return;
+            }
+
+            const filtered = customer 
+                ? fetchedData.filter(item => splitCustomerName(item.Customer) === splitCustomerName(customer)) 
+                : fetchedData;
+                
+                if (filtered.length === 0) {
+                    toast.error('No data was found for the selected customer between the date periods!', {
+                        duration: 3000,
+                    });
+                }
+        
+                setFilteredData(filtered);
         } catch (error) {
             console.error('An error occurred while fetching the Client History Reports:', error);
             filterNotification();
         }
     }
 
-    const generateClientHistoryPDF = async () => {
-        if (data.length === 0) {
-            generateNotification();
-
-        } else {
-
-            const blob = await ReactPDF.pdf(<CallHistoryPDF data={data} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />).toBlob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Client History Report.pdf';
-            document.body.appendChild(a); // Append to the document to trigger the download
-            a.click();
-            document.body.removeChild(a); // Remove after download
+    const generateCustomers = async () => {
+        try {
+          const url = `tickets/getcustomers`
+          const response = await axios.get<CustomerType>(`${apiEndPoint}/${url}`);
+      
+          setAllCustomers(response.data)
+      
+          if (response.data.length === 0) {
+            toast.error(`No data available for legend clients.`, {
+              icon: '❌',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
+      
+        }} catch (error) {
+      
+          console.error('An error occurred while fetching clients:', error);
+          
         }
-    };
+    }
 
     const viewNotification = () => {
         toast.error('Please generate the report before viewing the PDF File!', {
@@ -85,20 +127,17 @@ export const ReportsModule = () => {
         })
     }
 
-    const generateNotification = () => {
-        toast.error('Please generate the report before downloading the PDF File!', {
-            icon: <X color={colors.red} size={24} />,
-            duration: 3000,
-        })
-    }
-
     const viewPDF = () => {
-        if (data.length === 0) {
+        if (filteredData.length === 0) {
             viewNotification();
         } else {
             setIsModalOpen(true);
         }
     };
+
+    useEffect(() => {
+        generateCustomers();
+    }, [])
 
 
     
@@ -112,7 +151,7 @@ export const ReportsModule = () => {
                         &times;
                     </button>
                     <PDFViewer width="100%" height="600">
-                        <CallHistoryPDF data={data} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />
+                        <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />
                     </PDFViewer>
                 </div>
             </div>
@@ -129,43 +168,53 @@ export const ReportsModule = () => {
             </div>
             {currentReport === 'CallHistory' && (
                 <>
-            <div className="w-full lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
+            <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
                     <label>Start Date:</label>
-                    <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                    <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
                 </div>
                 <div className="flex flex-col p-2 text-black">
                     <label>End Date:</label>
-                    <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="p-3 w-full border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                    <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
                 </div>
-                <div className="flex flex-col mt-5">
-                    <button onClick={ filterClientHistoryReport } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
-                        Filter
-                    </button>
+                <div className="mt-6 w-56 sm:w-52 md:w-60 lg:w-64 flex flex-col text-gray-500 rounded">
+                <select 
+                    className='p-3 border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
+                    value={customer}
+                    onChange={(e) => setCustomer(e.target.value)}
+                    >
+                    <option value="" className="text-black">All</option>
+                        {allCustomers?.map(({ uid, Customer }) =>
+                        <option key={uid} value={Customer}>{Customer}</option>
+                    )}
+                </select>
                 </div>
-                <div className="flex flex-col mt-5">
-                    <button onClick={ viewPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
-                        View PDF
-                    </button>
-                </div>
-                <div className="flex flex-col mt-5">
-                    <button onClick={ generateClientHistoryPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
-                        Generate PDF
-                    </button>
+                <div className="flex-grow"></div>
+                <div className="flex items-center gap-4 mt-6 mr-2">
+                    <div className="flex flex-col">
+                        <button onClick={ filterCallHistoryReport } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                            Filter
+                        </button>
+                    </div>
+                    <div className="flex flex-col">
+                        <button onClick={ viewPDF } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                            View PDF
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
+            <div className="flex items-center justify-between divide-x-500 divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
-            {data?.map(({ ID, Customer, Activity, StartTime, EndTime, Duration, IssueType }, index) => (
-                <div key={ID} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{ID}</p>
+            {filteredData?.map(({ ID, Customer, Activity, StartTime, EndTime, Duration, IssueType, Comments, Solution }, index) => (
+                <div key={ID} className={` bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center p-2">{Customer}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Activity}</p>
+                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Comments}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{StartTime}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{EndTime}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Duration}</p>
-                    <p className={`text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
+                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Solution}</p>
                 </div>
             ))}
         </>

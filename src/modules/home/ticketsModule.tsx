@@ -194,7 +194,6 @@ export const TicketsModule = () => {
 
     console.log('VIEW TICKET DATA!***************', viewticket)
 
-    //log - where i separate the customer x supportNumber
 
 
   return (
@@ -213,11 +212,11 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple w-20 md:w-20" onClick={() => { openModal(Call_ID)}}>
+                <Button size="sm" className="bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
                   <EyeIcon className="h-4 w-4" />
                 </Button>
                 <Button size="sm"
-                  className="bg-green w-20 mr-2 md:w-20 md:mr-2"
+                  className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

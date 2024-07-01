@@ -94,7 +94,13 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
       try {
         const url = `tickets/transferticket/${technician}/${callId}`;
         const response = await axios.post<ActiveProps>(`${apiEndPoint}/${url}`);
+
+        console.log("MY TECHNICIAN AFTER SELECTION!!!!!!!!!!!", technician)
+        await updateTransferedTicket();
         viewNotification()
+
+        
+        console.log('Ticket transferred successfully:', response.data);
 
         
         onClose();
@@ -150,7 +156,7 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
             </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <Button onClick={updateTransferedTicket} className="w-full bg-green">Save</Button>
+        <Button onClick={transferTicket} className="w-full bg-green">Save</Button>
       </div>
     </div>
   </div>

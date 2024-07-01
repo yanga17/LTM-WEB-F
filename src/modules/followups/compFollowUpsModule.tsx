@@ -57,8 +57,8 @@ export const CompFollowUpsModule = () => {
 
 
     const [state, setState] = useState({
-    isOpen: true,
-    expandView: null
+      isOpen: true,
+      expandView: null
     });
 
     //getactivefollowup - getcompletedfollowup

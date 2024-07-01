@@ -58,7 +58,7 @@ export const FollowUpsModule = () => {
         expandView: null
     });
 
-    const url = `followupas/getfollowups`
+    const url = `followups/getfollowups`
     const { data, loading, error, } = useQuery<FollowUpsType>(url);
     console.log("my follow up data:", data);
 

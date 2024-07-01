@@ -64,7 +64,7 @@ export default function Home() {
             {startActivityPopUp && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
-</header>
+    </header>
       <div className="grid gap-6 w-full">
         <div className="max-h-[600px] overflow-auto">
           <div>
@@ -100,7 +100,7 @@ export default function Home() {
           <Card className="ml-4 mr-4">
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
-                <table className="w-full table-fixed">
+                <table className="w-full table-fixed p-4">
                 <thead className="bg-gray-300">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>

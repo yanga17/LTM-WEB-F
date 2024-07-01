@@ -23,6 +23,7 @@ export const CustomerCallsReport = () => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [data, setData] = useState<CustomerCallsResponse>([]);
+
     const [filteredData, setFilteredData] = useState<CustomerCallsResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
@@ -40,17 +41,76 @@ export const CustomerCallsReport = () => {
             switch (dropdownValue) {
                 case 'TopTen':
                     topData = fetchedData.slice(0, 10);
+
+                    if (fetchedData.length === 0) {
+                        toast.error('No data found for the selected date range.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                        return;
+                    } else if (fetchedData.length < 10) {
+                        toast.error('Report between dates selected does not exceed 10.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                    }
                     break;
                 case 'TopTwenty':
                     topData = fetchedData.slice(0, 20);
+
+                    if (fetchedData.length === 0) {
+                        toast.error('No data found for the selected date range.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                        return;
+                    } else if (fetchedData.length < 20) {
+                        toast.error('Report between dates selected does not exceed 20.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                    }
                     break;
                 case 'TopThirty':
                     topData = fetchedData.slice(0, 30);
+
+                    if (fetchedData.length === 0) {
+                        toast.error('No data found for the selected date range.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                        return;
+                    } else if (fetchedData.length < 30) {
+                        toast.error('Report between dates selected does not exceed 30.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                    }
                     break;
                 case 'TopFifty':
                     topData = fetchedData.slice(0, 50);
+
+                    if (fetchedData.length === 0) {
+                        toast.error('No data found for the selected date range.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                        return;
+                    } else if (fetchedData.length < 50) {
+                        toast.error('Report between dates selected does not exceed 50.', {
+                            icon: <X color={colors.red} size={24} />,
+                            duration: 3000,
+                        });
+                    }
                     break;
                 default:
+
+                if (topData.length <= 0) {
+                    toast.error('There is no data between the selected date periods!', {
+                        icon: <X color={colors.red} size={24} />,
+                        duration: 3000,
+                    })
+                }
                     break;
             }
 
@@ -100,7 +160,7 @@ export const CustomerCallsReport = () => {
     }
 
     const viewPDF = () => {
-        if (data.length === 0) {
+        if (filteredData.length === 0) {
             viewNotification();
         } else {
             setIsModalOpen(true);
@@ -133,8 +193,8 @@ export const CustomerCallsReport = () => {
                     <label>End Date:</label>
                     <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
                 </div>
-                <div className="mt-6 flex flex-col p-2 text-gray-500 rounded">
-                    <select value={dropdownValue} onChange={(e) => setDropDownvalue(e.target.value)} className='p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'>
+                <div className="mt-6 w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
+                    <select value={dropdownValue} onChange={(e) => setDropDownvalue(e.target.value)} className='p-3 border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'>
                         <option value="">All</option>
                         <option value="TopTen">Top 10</option>
                         <option value="TopTwenty">Top 20</option>
@@ -154,11 +214,6 @@ export const CustomerCallsReport = () => {
                             View PDF
                         </button>
                     </div>
-                    {/* <div className="flex flex-col">
-                        <button onClick={ generateCustomerCallsPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
-                            Generate PDF
-                        </button>
-                    </div> */}
                 </div>
             </div>
             <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">

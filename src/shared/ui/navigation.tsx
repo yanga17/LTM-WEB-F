@@ -51,6 +51,15 @@ export const Navigation = () => {
                   <Link href='/dashboard'>Dashboard</Link>
                 </li>
                 <li>
+                  <Link href='/reports'>Reports</Link>
+                </li>
+                <li>
+                  <Link href='/deletedlogs'>Deleted Logs</Link>
+                </li>
+                <li>
+                  <Link href='/follow-ups'>Follow-Ups</Link>
+                </li>
+                <li>
                   <button className="text-sm font-medium uppercase rounded bg-red text-white w-full py-2 px-10" onClick={logout}>Logout</button>
                 </li>
               </ul>

@@ -18,8 +18,9 @@ import { Button } from "@/components/ui/button";
 interface EmployeeProps {
     name: string,
     Tasks: number,
-    Errors: number
-    Overall: number
+    Errors: number,
+    Overall: number,
+    AverageTime: number
 }
 export type EmployeeResponse = EmployeeProps[]
 
@@ -154,7 +155,7 @@ export const DashboardModule = () => {
     const filterCustomerCallChart = async () => {
         try {
             setCustomerCallsErrorState(false);
-            const url = `dashboardd/getcustomercalldata/${customerCallStartTime}/${customerCallEndTime}`
+            const url = `dashboard/getcustomercalldata/${customerCallStartTime}/${customerCallEndTime}`
             const response = await axios.get<CustomerCallsResponse>(`${apiEndPoint}/${url}`);
             setCustomerCallsData(response?.data)
 
