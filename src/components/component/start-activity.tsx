@@ -16,7 +16,7 @@ import { DoorClosedIcon, MinimizeIcon, MaximizeIcon } from "@/components/compone
 
 
 interface Props {
-  onClose: () => void;
+    onClose: () => void;
 }
 
 //interface for gettingAllcustomers
@@ -74,30 +74,30 @@ interface TakeCallProps {
 
 type TakeCallType = TakeCallProps[]
 
-export function StartActivity({ onClose}: Props) {
+export function StartActivity({ onClose }: Props) {
   //storing data for input fields
-  const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
-  const [allProblems, setAllProblems] = useState<ErrorsType>([]);
-  const [allEmployees, setAllEmployees] = useState<EmployeeType>([]);
-  const [alltypes, setAllType] = useState<TypeErrors>([]);
+    const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
+    const [allProblems, setAllProblems] = useState<ErrorsType>([]);
+    const [allEmployees, setAllEmployees] = useState<EmployeeType>([]);
+    const [alltypes, setAllType] = useState<TypeErrors>([]);
 
   //inserting data into tables
-  const [customer, setCustomer] = useState("");
-  const [problem, setProblem] = useState("");
-  const [phonenumber, setPhoneNumber] = useState("");
-  const [clientName, setClientName] = useState("");
-  const [anydesk, setAnydesk] = useState("");
-  const [type, setType] = useState("");
-  const [employee, setEmployee] = useState("");
-  const [priority, setPriority] = useState("");
-  const [urgent, setUrgent] = useState(0);
-  const [comments, setComments] = useState("");
-  const [issueType, setIssueType] = useState("Problem");
+    const [customer, setCustomer] = useState("");
+    const [problem, setProblem] = useState("");
+    const [phonenumber, setPhoneNumber] = useState("");
+    const [clientName, setClientName] = useState("");
+    const [anydesk, setAnydesk] = useState("");
+    const [type, setType] = useState("");
+    const [employee, setEmployee] = useState("");
+    const [priority, setPriority] = useState("");
+    const [urgent, setUrgent] = useState(0);
+    const [comments, setComments] = useState("");
+    const [issueType, setIssueType] = useState("Problem");
 
-  const [tickets, setTickets] = useState("");
-  const [checkStatus, setCheckStatus] = useState(false); //checkbos
+    const [tickets, setTickets] = useState("");
+    const [checkStatus, setCheckStatus] = useState(false); //checkbos
 
-  const generateCustomers = async () => {
+    const generateCustomers = async () => {
     try {
       const url = `tickets/getcustomers`
       const response = await axios.get<CustomerType>(`${apiEndPoint}/${url}`);
@@ -119,9 +119,9 @@ export function StartActivity({ onClose}: Props) {
       console.error('An error occurred while fetching clients:', error);
       
     }
-  }
+    }
 
-  const generateProblems = async () => {
+    const generateProblems = async () => {
     try {
       const url = `tickets/geterrors`
       const response = await axios.get<ErrorsType>(`${apiEndPoint}/${url}`);
@@ -143,9 +143,9 @@ export function StartActivity({ onClose}: Props) {
       console.error('An error occurred while client problems:', error);
       
     }
-  }
+    }
 
-  const generateEmployees = async () => {
+    const generateEmployees = async () => {
     try {
       const url = `tickets/getemployees`
       const response = await axios.get<EmployeeType>(`${apiEndPoint}/${url}`);
@@ -167,41 +167,40 @@ export function StartActivity({ onClose}: Props) {
       console.error('An error occurred while problem types:', error);
       
     }
-  }
-
-  const generateTypes = async () => {
-    try {
-      const url = `tickets/getypes`
-      const response = await axios.get<TypeErrors>(`${apiEndPoint}/${url}`);
-  
-      setAllType(response.data)
-  
-      if (response.data.length === 0) {
-        toast.error(`No data available for call types.`, {
-          icon: '❌',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
-  
-    }} catch (error) {
-  
-      console.error('An error occurred while call types:', error);
-      
     }
-  }
 
-  const undoNotification = () => {
-    toast.success('Activity Started', {
-      icon: <Check color={colors.green} size={24} />,
-      duration: 3000,
-    });
-  }
+    const generateTypes = async () => {
+        try {
+            const url = `tickets/getypes`
+            const response = await axios.get<TypeErrors>(`${apiEndPoint}/${url}`);
+
+            setAllType(response.data)
+
+            if (response.data.length === 0) {
+                toast.error(`No data available for call types.`, {
+                icon: '❌',
+                style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+            }});
+
+            }} catch (error) {
+
+                console.error('An error occurred while call types:', error);
+    
+        }
+    }
+
+    const activityNotification = () => {
+        toast.success('Activity has been started successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
 
 
-  const takeCall = async () => {
+    const takeCall = async () => {
     let customerData = customer
     let supportNo = null;
 
@@ -229,245 +228,240 @@ export function StartActivity({ onClose}: Props) {
 
       const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
       console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
-      close();
-      undoNotification()
   
     } catch (error) {
       console.error('Error taking ticket:', error);
     }
-  }
+    }
 
-  const handleCheckStatus = () => {
+    const handleCheckStatus = () => {
     setCheckStatus((prevStatus) => !prevStatus);
-  }
-  
-  // Function to save comments
-  const saveComments = (comments: string) => {
-    setComments(comments);
-  };
-
-  const savePriority = (priority: string) => {
-
-    let urgency: number;
-
-    if (priority  === "Urgent") {
-      urgency = 1;
-
-    } else if (priority === "Moderate") {
-      urgency = 2;
-
-    } else if (priority === "Low") {
-      urgency = 0;
-
-    } else {
-      urgency = 0;
     }
 
-    console.log('Priority:', priority); // Add this line to log the priority state
-    console.log('Urgent:', urgency); // Add this line to log the urgent state
-
-    setPriority(priority)
-    setUrgent(urgency)
-  }
-
-  
-  useEffect(() => {
-    generateCustomers();
-    generateProblems();
-    generateEmployees();
-    generateTypes();
-  }, []);
-
-
-  useEffect(() => {
-    if (checkStatus === true) {
-      setIssueType("Task");
-    } else {
-      setIssueType("Problem");
-    }
-    console.log("MY CHECKSTATUS TEXT:", checkStatus)
-  }, [checkStatus])
-
-
-  const submitTicket = async () => {
-    const currentDate = new Date().toISOString().slice(0, 10); 
-    const currentTime = new Date().toISOString().slice(11, 19); 
-    const dateTime = currentDate + ' ' + currentTime; 
-
-    let customerData = customer
-    let supportNo = null;
-
-    if (customer.includes(",")) {
-      const customerArray = customer.split(",");
-      customerData = customerArray[0].trim();
-      supportNo = customerArray[1].trim();
-    }
-
-    //property names should be exactly like the ones declared in the backend routes
-    const ticketData = {
-      customer: customerData,
-      problem: problem,
-      time: dateTime,
-      phoneNumber: phonenumber,
-      clientsAnydesk: anydesk,
-      name: clientName,
-      support_No: supportNo, 
-      empl: employee,
-      logger: null, 
-      comments: comments,
-      urgent: urgent, 
-      issueType: issueType, 
-      type: type,
+    // Function to save comments
+    const saveComments = (comments: string) => {
+        setComments(comments);
     };
 
-    try {
-      const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
-      console.log('Ticket submitted successfully:', response.data);
+    const savePriority = (priority: string) => {
+        let urgency: number;
 
-      console.log('my ticket type:', ticketData.support_No)
+        if (priority  === "Urgent") {
+            urgency = 1;
 
+        } else if (priority === "Moderate") {
+            urgency = 2;
 
+        } else if (priority === "Low") {
+            urgency = 0;
 
-      console.log('my ticketData', ticketData);
-      
-      //Reset form fields
-      setCustomer("");
-      setProblem("");
-      setPhoneNumber("");
-      setClientName("");
-      setAnydesk("");
-      setType("");
-      setEmployee("");
-      setPriority("");
-      setComments("");
+        } else {
+            urgency = 0;
+        }
 
-      onClose();
-    } catch (error) {
-      
-      console.error('Error submitting ticket:', error);
+        console.log('Priority:', priority); // Add this line to log the priority state
+        console.log('Urgent:', urgency); // Add this line to log the urgent state
+
+        setPriority(priority)
+        setUrgent(urgency)
     }
-  }; 
 
 
-  return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-    <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
-        <div className="text-black flex items-center gap-2 justify-end">
-          <MinimizeIcon className="h-5 w-5" onClick={onClose} />
-          <MaximizeIcon className="h-5 w-5" onClick={onClose} />
-          <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
-        </div>
-      <h1 className="text-black text-2xl font-bold mb-6">Start Activity</h1>
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="space-y-2">
-          <label htmlFor="customer" className="text-black">Customer</label>
-          <div className="relative">
-            <select
-              className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
-              value={customer}
-              onChange={(e) => setCustomer(e.target.value)}
-            >
-              <option value="" className="border rounded-md">Select Customer</option>
-                {allCustomers?.map(({ uid, Customer }) =>
-                  <option key={uid} value={Customer} className="border border-gray-300 px-2 py-1 text-gray-700 hover:bg-gray-100 focus:bg-gray-200">{Customer}</option>
-                )}
-            </select>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-black">Problem</label>
-            <div className="relative">
-              <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={problem}
-                onChange={(e) => setProblem(e.target.value)}
-            >
-              <option value="">Select Problem</option>
-                {allProblems?.map(({ idx, Errors }) =>
-                  <option key={idx} value={Errors}>{Errors}</option>
-                )}
-              </select>
+    useEffect(() => {
+        generateCustomers();
+        generateProblems();
+        generateEmployees();
+        generateTypes();
+    }, []);
+
+
+    useEffect(() => {
+        if (checkStatus === true) {
+            setIssueType("Task");
+        } else {
+            setIssueType("Problem");
+        }
+            console.log("MY CHECKSTATUS TEXT:", checkStatus)
+    }, [checkStatus])
+
+
+    const submitTicket = async () => {
+        const currentDate = new Date().toISOString().slice(0, 10); 
+        const currentTime = new Date().toISOString().slice(11, 19); 
+        const dateTime = currentDate + ' ' + currentTime; 
+
+        let customerData = customer
+        let supportNo = null;
+
+        if (customer.includes(",")) {
+            const customerArray = customer.split(",");
+            customerData = customerArray[0].trim();
+            supportNo = customerArray[1].trim();
+        }
+
+        //property names should be exactly like the ones declared in the backend routes
+        const ticketData = {
+            customer: customerData,
+            problem: problem,
+            time: dateTime,
+            phoneNumber: phonenumber,
+            clientsAnydesk: anydesk,
+            name: clientName,
+            support_No: supportNo, 
+            empl: employee,
+            logger: null, 
+            comments: comments,
+            urgent: urgent, 
+            issueType: issueType, 
+            type: type,
+        };
+
+        try {
+            //http://localhost:4200/tickets/insertloggedticket
+            const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, ticketData);
+            console.log('Ticket submitted successfully:', response.data);
+            console.log('my ticket type:', ticketData.support_No)
+            console.log('my ticketData', ticketData);  
+
+            //Reset form fields
+            setCustomer("");
+            setProblem("");
+            setPhoneNumber("");
+            setClientName("");
+            setAnydesk("");
+            setType("");
+            setEmployee("");
+            setPriority("");
+            setComments("");
+
+            activityNotification();
+            onClose();
+            } catch (error) {
+
+                console.error('Error submitting ticket:', error);
+            }
+    }; 
+
+
+    return (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
+                <div className="text-black flex items-center gap-2 justify-end">
+                    <MinimizeIcon className="h-5 w-5" onClick={onClose} />
+                    <MaximizeIcon className="h-5 w-5" onClick={onClose} />
+                    <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
+                </div>
+                <h1 className="text-black text-2xl font-bold mb-6">Start Activity</h1>
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                        <label htmlFor="customer" className="text-black">Customer</label>
+                        <div className="relative">
+                            <select
+                                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+                                value={customer}
+                                onChange={(e) => setCustomer(e.target.value)}
+                            >
+                                <option value="" className="border rounded-md">Select Customer</option>
+                                    {allCustomers?.map(({ uid, Customer }) =>
+                                <option key={uid} value={Customer} className="border border-gray-300 px-2 py-1 text-gray-700 hover:bg-gray-100 focus:bg-gray-200">{Customer}</option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-black">Problem</label>
+                        <div className="relative">
+                        <select
+                            className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            value={problem}
+                            onChange={(e) => setProblem(e.target.value)}
+                        >
+                            <option value="">Select Problem</option>
+                            {allProblems?.map(({ idx, Errors }) =>
+                                <option key={idx} value={Errors}>{Errors}</option>
+                            )}
+                        </select>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="phone" className="text-black">Phone Number</label>
+                        <input id="phone" placeholder="Enter phone number" type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(e.target.value)}/>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="name" className="text-black">Name</label>
+                        <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
+                        <input id="anydesk" placeholder="Enter Anydesk ID" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setAnydesk(e.target.value)}/>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="type" className="text-black">Type</label>
+                        <div className="relative">
+                            <select
+                                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option value="" className="text-black">Select Type</option>
+                                {alltypes?.map(({ ID, Type }) =>
+                                    <option key={ID} value={Type}>{Type}</option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="employee" className="text-black">Employee</Label>
+                        <div className="relative">
+                            <select
+                                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                value={employee}
+                                onChange={(e) => setEmployee(e.target.value)}
+                            >
+                                <option value="" className="text-black">Select Employee</option>
+                                    {allEmployees?.map(({ ID, Technician }) =>
+                                        <option key={ID} value={Technician}>{Technician}</option>
+                                    )}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="urgent" className="text-black">Priority</label>
+                            <div className="relative">
+                                <select
+                                    className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    value={priority}
+                                    onChange={(e) => savePriority(e.target.value)}
+                                >
+                                    <option value="">Determine Priority</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between space-y-2 mt-6">
+                    <div className="flex items-center">
+                        <label htmlFor="comments" className="text-black">Comments</label>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-6 mb-2">
+                        <Checkbox id="task" checked={checkStatus} onClick={handleCheckStatus}/>
+                            <label className="ml-2 text-sm text-black" htmlFor="task">
+                                Task
+                            </label>
+                    </div>
+                </div>
+                <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
+                <div className="flex justify-between gap-2 mt-6">
+                    <Button onClick={onClose} className="bg-red mr-2">
+                        <span>Cancel</span>
+                    </Button>
+                    <Button onClick={submitTicket} className="bg-green mr-2">
+                        <span>Save</span>
+                    </Button>
+                </div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="phone" className="text-black">Phone Number</label>
-            <input id="phone" placeholder="Enter phone number" type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(e.target.value)}/>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="name" className="text-black">Name</label>
-            <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
-          </div>
-        <div className="space-y-2">
-          <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
-          <input id="anydesk" placeholder="Enter Anydesk ID" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setAnydesk(e.target.value)}/>
         </div>
-        <div className="space-y-2">
-          <label htmlFor="type" className="text-black">Type</label>
-            <div className="relative">
-              <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-              >
-                <option value="" className="text-black">Select Type</option>
-                  {alltypes?.map(({ ID, Type }) =>
-                  <option key={ID} value={Type}>{Type}</option>
-                )}
-              </select>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="employee" className="text-black">Employee</Label>
-            <div className="relative">
-              <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={employee}
-                onChange={(e) => setEmployee(e.target.value)}
-              >
-                <option value="" className="text-black">Select Employee</option>
-                  {allEmployees?.map(({ ID, Technician }) =>
-                  <option key={ID} value={Technician}>{Technician}</option>
-                )}
-              </select>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="urgent" className="text-black">Priority</label>
-              <div className="relative">
-                <select
-                  className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  value={priority}
-                  onChange={(e) => savePriority(e.target.value)}
-                >
-                  <option value="">Determine Priority</option>
-                  <option value="Low">Low</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Urgent">Urgent</option>
-                </select>
-              </div>
-            </div>
-      </div>
-      <div className="flex items-center justify-between space-y-2 mt-6">
-        <div className="flex items-center">
-          <label htmlFor="comments" className="text-black">Comments</label>
-        </div>
-        <div className="flex items-center space-x-2 mt-6 mb-2">
-          <Checkbox id="task" checked={checkStatus} onClick={handleCheckStatus}/>
-            <label className="ml-2 text-sm text-black" htmlFor="task">
-              Task
-            </label>
-        </div>
-      </div>
-      <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
-      <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-red" variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button className="flex-1 bg-green"
-        onClick={takeCall}
-        >Save</Button>
-      </div>
-      </div>
-    </div>
-  )
+    )
 }

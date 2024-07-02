@@ -12,9 +12,11 @@ import { TicketDeletion } from "@/components/component/ticket-deleted";
 import { toast } from 'react-hot-toast';
 import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
 
-import { useContext } from 'react';
+import { useContext } from 'react'; 
+import { DeletedProps } from './deletedLogsModule';
+import { DeletedResponseType } from './deletedLogsModule';
+
 import { DeletedLogsContext } from './deletedLogsModule';
-import { DeletedProps } from './deletedLogsModule'
 
 interface EachTicketsProps {
     onClose: () => void;
@@ -25,6 +27,9 @@ interface EachTicketsProps {
 
 export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
     const deletedlog = useContext(DeletedLogsContext);
+
+    //for the undoFn
+    const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
 
     if (!deletedlog) {
         return <div>No data available</div>;
@@ -83,7 +88,6 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     return (
     <>
-    {deletePopUp && <TicketDeletion callId={deletionId} onClose={toggleDeletePage} />}
         <div className="p-4 bg-white">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                 <div className="flex flex-wrap">

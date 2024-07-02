@@ -7,12 +7,16 @@ interface props {
     employeeData: EmployeeResponse;
 }
 
+//Employee, AverageTime, #ff6600
+//AverageTime
+
+
 export const BarChartComponent = ({ employeeData }: props) => {
 
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart width={300} height={300} data={employeeData} margin={{ right: 40, top: 20, bottom: 20}}>
-                <XAxis dataKey="name"/>
+                <XAxis dataKey="Employee"/>
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
                 <Tooltip />

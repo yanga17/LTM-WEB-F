@@ -46,12 +46,11 @@ export const ClientsModule = () => {
     const [currentOpen, setCurrentOpen] = useState('');
     const [uID, setUID] = useState(0);
 
-    //const [viewClient, setViewClient] = useState<DetailClientType>([]);
     const [viewClient, setViewClient] = useState<ClientProps | null>(null);
 
     const [input, setInput] = useState('');
 
-    const [myFilteredClients, setMyFilteredClients] = useState<ClientResponseType>([]);
+    //const [myFilteredClients, setMyFilteredClients] = useState<ClientResponseType>([]);
 
     const [state, setState] = useState({
             isOpen: true,
@@ -90,8 +89,8 @@ export const ClientsModule = () => {
     };
 
     const searchCustomers = (clientname: any) => {
-      setInput(clientname);
-      console.log("MY CLIENTNAME:+++++", clientname);
+        setInput(clientname);
+        console.log("MY CLIENTNAME:+++++", clientname);
       //fetchSearchedCustomer(clientname);
     }
 
@@ -173,7 +172,7 @@ export const ClientsModule = () => {
           <>
             <div className="bg-white">
               <div className="h-screen w-full overflow-auto">
-              <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+              <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
@@ -186,7 +185,7 @@ export const ClientsModule = () => {
                         </div>
                     </div>
                 </header>
-                <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
+                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
                     <Button size="lg" className="bg-purple">
                         <PhoneIcon className="h-4 w-4 mr-2" />
                         <span>Start Call</span>
@@ -407,7 +406,7 @@ export const ClientsModule = () => {
                                                     <td className="">{total_balance}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple py-4 w-20 md:w-20" onClick={() => { openModal(uid)}}>
+                                                            <Button size="sm" className="bg-purple py-4 w-20" onClick={() => { openModal(uid)}}>
                                                                 <EyeIcon className="h-4 w-4" />
                                                             </Button>
                                                         </div>

@@ -11,21 +11,21 @@ import { ActivityIcon, PhoneIcon } from "@/components/component/tickets-table"
 import * as React from "react"
 import {useState} from 'react'
 
-import {StartCall} from "@/components/component/start-call"
+import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 
 
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
-  const [startActivityPopUp, setActivityPopup] = useState(false);
+  const [startActivityPopup, setStartActivityPopup] = useState(false);
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
   }
 
   const toggleStartActivity = () => {
-    setActivityPopup(!startActivityPopUp);
+    setStartActivityPopup(!startActivityPopup);
   }
 
   return (
@@ -60,8 +60,8 @@ export default function Home() {
             >
                 <ActivityIcon className="h-4 w-4 mr-2" />
                 <span>Start Activity</span>
-            </Button>
-            {startActivityPopUp && <StartActivity onClose={toggleStartActivity} />}
+            </Button>\
+            {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
     </header>
@@ -81,7 +81,7 @@ export default function Home() {
                       <th className="p-2 lg:w-[120px]">Problem</th>
                       <th className="p-2 lg:w-[70px]">Client Name</th>
                       <th className="p-2 lg:w-[120px]">Time</th>
-                      <th className="p-2 lg:w-[50px]">Employee</th>
+                      <th className="p-2 lg:w-[70px]">Employee</th>
                       <th className="p-2 lg:w-[60px]">Action</th>
                     </tr>
                   </thead>

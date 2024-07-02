@@ -35,7 +35,7 @@ export interface DeletedProps {
     insertion_time: string,
     Reason: string
 }
-type DeletedResponseType = DeletedProps[]
+export type DeletedResponseType = DeletedProps[]
 
 export const DeletedLogsContext = createContext<DeletedProps | null>(null)
 
@@ -125,8 +125,8 @@ export const DeletedLogsModule = () => {
     }
 
     const closeModal = () => {
-      setState({...state, isOpen: false, expandView: null });
-      setCurrentOpen('');
+        setState({...state, isOpen: false, expandView: null });
+        setCurrentOpen('');
     }
 
 
@@ -362,7 +362,7 @@ export const DeletedLogsModule = () => {
                                                             onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
-                                                                  undoTicket(selectedTicket);
+                                                                    undoTicket(selectedTicket);
                                                                     console.log('INSERTED THE deleted ticket back into tblcalls', selectedTicket);
                                                                 } else {
                                                                     console.error('Selected ticket not found');

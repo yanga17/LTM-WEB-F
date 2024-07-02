@@ -115,13 +115,13 @@ export const TicketsModule = () => {
     }
     
 
-    useEffect(() => {
-      if (data) {
-        setTickets(data);
-        console.log('REFRESED LOGGED TICKETS', data);
-      }
+    // useEffect(() => {
+    //   if (data) {
+    //     setTickets(data);
+    //     console.log('REFRESED LOGGED TICKETS', data);
+    //   }
 
-    }, [data]);
+    // }, [data]);
 
 
     const openModal = (id: any) => {
@@ -139,9 +139,9 @@ export const TicketsModule = () => {
             setViewTicket(selectedTicket);
           }
 
-          console.log('lets see my loggedTicket id', selectedTicket);
+          console.log('lets see my seletected ticket from view', selectedTicket);
       }
-  }
+    }
 
     const closeModal = () => {
     setState({...state, isOpen: false, expandView: null });
@@ -199,7 +199,7 @@ export const TicketsModule = () => {
   return (
     <>
     <TicketsContext.Provider value={viewticket}>
-      {tickets?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
+      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
         <>
           <tr key={Call_ID}>
             <td className="px-2">{Call_ID}</td>

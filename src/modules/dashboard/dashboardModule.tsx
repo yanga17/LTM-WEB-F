@@ -216,11 +216,11 @@ export const DashboardModule = () => {
         filterEmployeeBarChart();
         filterCustomerErrorsChart();
         filterCustomerCallChart();
+        filterEmployeeTasksChart();
         getClientGridData();
         getErrorsGridData();
         getTasksGridData();
         getTicketSummGridData();
-        filterEmployeeTasksChart();
     }, [])
 
 
@@ -259,7 +259,7 @@ export const DashboardModule = () => {
                         <TicketX size={40} color='red' strokeWidth={1.2} />
                     </div>
                     {errorsGridData.map((error, index) => (
-                    <div className="mt-4 flex justify-between uppercase">
+                    <div key={index} className="mt-4 flex justify-between uppercase">
                         <p>{error.Activity}</p>
                         <p>{error.CommonErrors}</p>
                     </div>
@@ -271,7 +271,7 @@ export const DashboardModule = () => {
                         <ClipboardCheck size={40} color='blue' strokeWidth={1.2} />
                     </div>
                     {tasksGridData.map((task, index) => (
-                    <div className="mt-4 flex justify-between">
+                    <div key={index} className="mt-4 flex justify-between">
                         <p>{task.Activity}</p>
                         <p>{task.CommonTasks}</p>
                     </div>

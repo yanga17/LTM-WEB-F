@@ -123,6 +123,15 @@ export const CustomerErrorsReport = () => {
         }
     }
 
+    const customerErrorsLog = data?.map((property) => ({
+        callid: property?.Call_ID,
+        error: property.Problem,
+        customer: property.Customer,
+        errorCount: property.ErrorCount
+    }))
+
+    console.log("CUSTOMER ERRORS REPORT DATA", data)
+
     const generateCustomerErrorsPDF = async () => {
         if (data.length === 0) {
             generateNotification();

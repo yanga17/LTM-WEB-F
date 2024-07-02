@@ -216,7 +216,6 @@ export const ActiveTicketsModule = () => {
         )
     }
 
-
     const activecheckInLog = data?.map((property) => ({
     callid: property?.ID,
     customer: property.Customer,

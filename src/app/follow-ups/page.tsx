@@ -5,18 +5,18 @@ import { CompFollowUpsModule } from "@/modules/followups/compFollowUpsModule";
 
 import { CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import {  PhoneIcon } from "@/components/component/tickets-table"
+
+import { EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon} from "@/components/component/tickets-table"
+import { EachTicketsModule } from "@/modules/home/ticketsDetail";
 
 import * as React from "react"
-import { useState } from 'react'
+import {useState, useEffect} from 'react'
 
+import {StartCall} from "@/components/component/start-call"
+import { TicketSummary } from "@/components/component/ticket-summary"
 
 export default function Page() {
-    const [startCallPopup, setStartCallPopup] = useState(false);
 
-  const toggleStartCall = () => {
-    setStartCallPopup(!startCallPopup);
-  }
 
     return (
         <div className="bg-white">
@@ -34,9 +34,7 @@ export default function Page() {
             </div>
             <div className="absolute mt-14 right-0 flex items-end">
                 <Button
-                    size="lg"
-                    onClick={toggleStartCall}
-                    className="bg-purple mr-2"
+                    className="bg-purple rounded mr-2"
                 >
                     <PhoneIcon className="h-4 w-4 mr-2" />
                     <span>Upcoming Tickets</span>
