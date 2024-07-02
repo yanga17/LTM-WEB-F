@@ -32,7 +32,7 @@ export default function Home() {
     <div className="bg-white">
     <div className="h-screen w-full overflow-auto">
     <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
-    <TicketSummary />
+      <TicketSummary />
     <div className="relative flex ml-auto mt-4">
         <div className="flex">
             <div className="text-right">
@@ -108,11 +108,11 @@ export default function Home() {
                       <th className="p-2 lg:w-[120px]">Problem</th>
                       <th className="p-2 lg:w-[70px]">Client Name</th>
                       <th className="p-2 lg:w-[120px]">Time</th>
-                      <th className="p-2 lg:w-[50px]">Employee</th>
+                      <th className="p-2 lg:w-[70px]">Employee</th>
                       <th className="p-2 lg:w-[60px]">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="mb-4">
                     <TicketsModule />
                   </tbody>
                 </table>

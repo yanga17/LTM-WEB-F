@@ -31,29 +31,6 @@ interface EmployeeProps {
 
 type EmployeeResponseType = EmployeeProps[];
 
-//tblcalls
-// interface CheckProps {
-//   Call_ID: number,
-//   Customer: string,
-//   Problem: string,
-//   Clients_Anydesk: number,
-//   Phone_Number: number,
-//   Time: string,
-//   EndTime: string,
-//   Duration: number,
-//   Taken: number,
-//   Support_No: number,
-//   Empl: string,
-//   logger: string,
-//   Comments: string,
-//   Solution: string,
-//   Name: string,
-//   urgent: number,
-//   IssueType: string,
-//   Type: string,
-// }
-
-// type ResponseType = CheckProps[]
 
 export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     const [technician, setTechnician] = useState("");
@@ -82,7 +59,6 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     };
 
     const transferTicket = async () => {
-      //http://localhost:4200/tickets/transferticket/yanga/16128
       if (technician === '' || null) {
         toast.error('Please select a technician from the dropdown.', {
           icon: <X color={colors.red} size={24} />,
@@ -111,12 +87,12 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     }
 
     const updateTransferedTicket = async () => {
-      //http://localhost:4200/tickets/updatetransferedticket/16139
       try {
+
         const url = `tickets/updatetransferedticket/${callId}`;
         const response = await axios.patch(`${apiEndPoint}/${url}`);
+
         console.log("UPDATED TRANSFERED TICKET DATA:", response.data);
-        
       } catch (error) {
         console.log("AN ERROR WAS ENCOUNTERED WHEN UPDATING TRANSFERED TICKET DATA", error);
       }
@@ -126,17 +102,12 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
       getTechnicians();
     }, []);
 
-    console.log("my technicians bxtch", allTechnicians)
-    console.log("my transfered employee:", technician)
-
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="bg-white p-4 w-160 rounded-md shadow overlay">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg font-bold">Transfer Call</h1>
         <div className="flex items-center space-x-2">
-          <MinimizeIcon className="h-5 w-5" onClick={onClose}/>
-          <MaximizeIcon className="h-5 w-5" onClick={onClose}/>
           <DoorClosedIcon className="h-5 w-5" onClick={onClose}/>
         </div>
       </div>

@@ -11,7 +11,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button"
 import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 import { EachTicketsModule } from "./ticketsDetail";
-import { CircleSlash2, CircleSlash, Loader } from "lucide-react";
+import { CircleSlash2, CircleSlash, Loader, Check } from "lucide-react";
 
 import { createContext } from "react";
 
@@ -20,21 +20,17 @@ interface CheckProps {
   Call_ID: number,
   Customer: string,
   Problem: string,
-  Clients_Anydesk: number,
   Phone_Number: number,
+  Name: string,
   Time: string,
-  EndTime: string,
-  Duration: number,
-  Taken: number,
-  Support_No: number,
   Empl: string,
+  Support_No: string,
+  Clients_Anydesk: number,
   logger: string,
   Comments: string,
-  Solution: string,
-  Name: string,
   urgent: number,
   IssueType: string,
-  Type: string,
+  Type: string
 }
 
 type ResponseType = CheckProps[]
@@ -58,71 +54,110 @@ export const TicketsModule = () => {
     const { data, loading, error } = useQuery<ResponseType>(url); 
 
     //include logger once you've setup the userAuthentication what what
+    // const takeLoggedTicket = async (ticket: CheckProps) => {
+    //   let customerData = ticket.Customer
+    //   let supportNo = null;
+
+    //   if (ticket.Customer.includes(",")) {
+    //     const customerArray = ticket.Customer.split(",");
+    //     customerData = customerArray[0].trim();
+    //     supportNo = customerArray[1].trim();
+    //   }
+
+    //   try {
+    //     const payLoad = {
+    //       employee: ticket.Empl,
+    //       customer: customerData,
+    //       activity: ticket.Problem,
+    //       phoneNumber: ticket.Phone_Number,
+    //       clientAnydesk: ticket.Clients_Anydesk,
+    //       startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
+    //       type: ticket.Type,
+    //       supportNo: supportNo,
+    //       comments: ticket.Comments,
+    //       name: ticket.Name,
+    //       timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+    //       issueType: ticket.IssueType,
+    //       urgent: ticket.urgent,
+    //     };
+
+    //     const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
+    //     toast.success('Ticket has been started successfully.');
+    
+    //     await updateTakenTicket(ticket.Call_ID);
+    
+    //   } catch (error) {
+    //     console.error('Error taking logged ticket:', error);
+    //   }
+    // }
+    
+    // const updateTakenTicket = async (callId: number) => {
+    //   try {
+    //     const endTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    //     const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
+    //     const updateResponse = await axios.patch(updateUrl);
+    
+    //     console.log('Ticket updated successfully:', updateResponse.data);
+    
+    //     setTickets(prevTickets => prevTickets.filter(t => t.Call_ID !== callId));
+    
+    //   } catch (error) {
+    //     console.error('Error updating ticket:', error);
+    //   }
+    // }
+
     const takeLoggedTicket = async (ticket: CheckProps) => {
       let customerData = ticket.Customer
       let supportNo = null;
 
       if (ticket.Customer.includes(",")) {
-        const customerArray = ticket.Customer.split(",");
-        customerData = customerArray[0].trim();
-        supportNo = customerArray[1].trim();
+          const customerArray = ticket.Customer.split(",");
+          customerData = customerArray[0].trim();
+          supportNo = customerArray[1].trim();
       }
 
       try {
-        const payLoad = {
-          employee: ticket.Empl,
-          customer: customerData,
-          activity: ticket.Problem,
-          phoneNumber: ticket.Phone_Number,
-          clientAnydesk: ticket.Clients_Anydesk,
-          startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
-          type: ticket.Type,
-          supportNo: supportNo,
-          comments: ticket.Comments,
-          name: ticket.Name,
-          timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
-          issueType: ticket.IssueType,
-          urgent: ticket.urgent,
-        };
+          const payLoad = {
+              employee: ticket.Empl,
+              customer: customerData,
+              activity: ticket.Problem,
+              phoneNumber: ticket.Phone_Number,
+              clientAnydesk: ticket.Clients_Anydesk,
+              startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
+              type: ticket.Type,
+              supportNo: supportNo,
+              comments: ticket.Comments,
+              name: ticket.Name,
+              timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              issueType: ticket.IssueType,
+              priority: ticket.urgent,
+          };
 
-        const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
-        toast.success('Ticket has been started successfully.');
+          const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
+          console.log('Ticket taken successfully:', response.data);
 
+          await updateTakenTicket(ticket.Call_ID);
+          startCallNotification()
 
-        console.log('Ticket taken successfully:', response.data)
-        console.log('my ticket priority:', ticket.urgent);
-    
-        await updateTakenTicket(ticket.Call_ID);
-    
       } catch (error) {
-        console.error('Error taking logged ticket:', error);
+          console.error('Error taking ticket:', error);
       }
     }
-    
+
     const updateTakenTicket = async (callId: number) => {
       try {
-        const endTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
-        const updateResponse = await axios.patch(updateUrl);
-    
-        console.log('Ticket updated successfully:', updateResponse.data);
-    
-        setTickets(prevTickets => prevTickets.filter(t => t.Call_ID !== callId));
-    
+          const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
+          const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
+          const updateResponse = await axios.patch(updateUrl);
+
+          console.log('Ticket updated successfully:', updateResponse.data);
+
+          // Remove the ticket from the local state to reflect the change in the UI
+          // This is optional if you want to update the state or UI
       } catch (error) {
-        console.error('Error updating ticket:', error);
+          console.error('Error updating ticket:', error);
       }
     }
-    
-
-    // useEffect(() => {
-    //   if (data) {
-    //     setTickets(data);
-    //     console.log('REFRESED LOGGED TICKETS', data);
-    //   }
-
-    // }, [data]);
-
 
     const openModal = (id: any) => {
       if (currentOpen === id) {
@@ -148,6 +183,13 @@ export const TicketsModule = () => {
     setCurrentOpen('');
     }
 
+    const startCallNotification = () => {
+      toast.success('Ticket has been started successfully', {
+        icon: <Check color={colors.green} size={24} />,
+        duration: 3000,
+      });
+    }
+
 
     if (loading) {
       return (
@@ -160,7 +202,7 @@ export const TicketsModule = () => {
               </td>
           </tr>
       );
-  }
+    }
 
 
     if (error) {
@@ -192,14 +234,12 @@ export const TicketsModule = () => {
     )
     }
 
-    console.log('VIEW TICKET DATA!***************', viewticket)
-
 
 
   return (
     <>
     <TicketsContext.Provider value={viewticket}>
-      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl }) => (
+      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl, urgent }) => (
         <>
           <tr key={Call_ID}>
             <td className="px-2">{Call_ID}</td>
@@ -218,7 +258,7 @@ export const TicketsModule = () => {
                 <Button size="sm"
                   className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
-                    const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
+                    const selectedTicket = data.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {
                       takeLoggedTicket(selectedTicket);
                         console.log('INSERTED THE LOGGED TICKET TO tblTime x Updated EndTime in tblcalls', selectedTicket);

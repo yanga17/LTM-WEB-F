@@ -13,6 +13,7 @@ import axios from 'axios';
 import { toast } from "react-hot-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DoorClosedIcon, MinimizeIcon, MaximizeIcon } from "@/components/component/ticket-solution"
+import { useSession } from '@/context'; // Import the useSession hook
 
 
 interface Props {
@@ -90,12 +91,14 @@ export function StartCall({ onClose}: Props) {
   const [type, setType] = useState("");
   const [employee, setEmployee] = useState("");
   const [priority, setPriority] = useState("");
-  const [urgent, setUrgent] = useState(0);
+  //const [urgent, setUrgent] = useState(0);
   const [comments, setComments] = useState("");
   const [issueType, setIssueType] = useState("Problem");
 
   const [tickets, setTickets] = useState("");
-  const [checkStatus, setCheckStatus] = useState(false); //checkbos
+  const [checkStatus, setCheckStatus] = useState(false); //checkbox
+
+  const { user } = useSession(); // Use the useSession hook to get the current user
 
   const generateCustomers = async () => {
     try {
@@ -193,7 +196,6 @@ export function StartCall({ onClose}: Props) {
     }
   }
 
-
   const takeCall = async () => {
     let customerData = customer
     let supportNo = null;
@@ -237,30 +239,6 @@ export function StartCall({ onClose}: Props) {
     setComments(comments);
   };
 
-  const savePriority = (priority: string) => {
-
-    let urgency: number;
-
-    if (priority  === "Urgent") {
-      urgency = 1;
-
-    } else if (priority === "Moderate") {
-      urgency = 2;
-
-    } else if (priority === "Low") {
-      urgency = 0;
-
-    } else {
-      urgency = 0;
-    }
-
-    console.log('Priority:', priority); // Add this line to log the priority state
-    console.log('Urgent:', urgency); // Add this line to log the urgent state
-
-    setPriority(priority)
-    setUrgent(urgency)
-  }
-
   
   useEffect(() => {
     generateCustomers();
@@ -294,6 +272,15 @@ export function StartCall({ onClose}: Props) {
       supportNo = customerArray[1].trim();
     }
 
+    let priorityValue = 0;
+    if (priority === "Urgent") {
+        priorityValue = 1;
+    } else if (priority === "Moderate") {
+        priorityValue = 2;
+    } else if (priority === "Low") {
+        priorityValue = 0;
+    }
+
     //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
       customer: customerData,
@@ -304,9 +291,9 @@ export function StartCall({ onClose}: Props) {
       name: clientName,
       support_No: supportNo, 
       empl: employee,
-      logger: null, 
+      logger: user ? `${user.emp_name}` : null,
       comments: comments,
-      urgent: urgent, 
+      urgent: priorityValue, 
       issueType: issueType, 
       type: type,
     };
@@ -315,11 +302,7 @@ export function StartCall({ onClose}: Props) {
       const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
       console.log('Ticket submitted successfully:', response.data);
 
-      console.log('my ticket type:', ticketData.support_No)
-
-
-
-      console.log('my ticketData', ticketData);
+      console.log('my logger wtf is it!?:', ticketData.logger)
       
       //Reset form fields
       setCustomer("");
@@ -332,7 +315,7 @@ export function StartCall({ onClose}: Props) {
       setPriority("");
       setComments("");
 
-      onClose();
+      //onClose();
     } catch (error) {
       
       console.error('Error submitting ticket:', error);
@@ -344,8 +327,8 @@ export function StartCall({ onClose}: Props) {
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
         <div className="text-black flex items-center gap-2 justify-end">
-          <MinimizeIcon className="h-5 w-5" onClick={onClose} />
-          <MaximizeIcon className="h-5 w-5" onClick={onClose} />
+          {/* <MinimizeIcon className="h-5 w-5" onClick={onClose} />
+          <MaximizeIcon className="h-5 w-5" onClick={onClose} /> */}
           <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
         </div>
       <h1 className="text-black text-2xl font-bold mb-6">Start Call</h1>
@@ -428,7 +411,7 @@ export function StartCall({ onClose}: Props) {
                 <select
                   className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={priority}
-                  onChange={(e) => savePriority(e.target.value)}
+                  onChange={(e) => setPriority(e.target.value)}
                 >
                   <option value="">Determine Priority</option>
                   <option value="Low">Low</option>
@@ -451,15 +434,9 @@ export function StartCall({ onClose}: Props) {
       </div>
       <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple" variant="outline" onClick={takeCall}>
-          Take Call
-        </Button>
-        <Button className="flex-1 bg-red" variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button className="flex-1 bg-green"
-        onClick={submitTicket}
-        >Save</Button>
+        <Button className="flex-1 bg-purple" variant="outline" onClick={takeCall}>Take Call</Button>
+        <Button className="flex-1 bg-red" variant="outline" onClick={onClose}>Cancel</Button>
+        <Button className="flex-1 bg-green" variant="outline" onClick={submitTicket}>Save</Button>
       </div>
       </div>
     </div>
