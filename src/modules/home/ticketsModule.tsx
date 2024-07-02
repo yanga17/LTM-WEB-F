@@ -8,12 +8,10 @@ import { toast } from 'react-hot-toast';
 import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
 
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 import { EachTicketsModule } from "./ticketsDetail";
-import { Vault } from "lucide-react";
-import { Undo2, CircleSlash2, CircleSlash  } from "lucide-react";
+import { CircleSlash2, CircleSlash, Loader } from "lucide-react";
 
 import { createContext } from "react";
 
@@ -153,49 +151,16 @@ export const TicketsModule = () => {
 
     if (loading) {
       return (
-          <>
-          {
-          [...Array(500)].map((_, index) => (
-              <tr key={index}>
-                  <td className="p-2 lg:w-[50px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[180px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[120px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[70px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[120px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[50px]">
-                      <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                  </td>
-                  <td className="p-2 lg:w-[60px] text-center">
-                      <div className="flex gap-2 justify-center">
-                          <Button
-                              disabled
-                              size="sm"
-                              className="bg-purple w-full">
-                              <EyeIcon className="h-4 w-4 ml-2" />
-                          </Button>
-                          <Button
-                              disabled
-                              size="sm"
-                              className="bg-green w-full">
-                              <MinusIcon className="h-4 w-4 ml-2" />
-                          </Button>
-                      </div>
-                  </td>
-              </tr>
-          ))}
-          </>
-      )
-    }
+          <tr>
+              <td colSpan={7} className="h-[150px]">
+                  <div className="flex flex-col items-center justify-center h-full w-full">
+                      <Loader className="h-12 w-12" />
+                      <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
+                  </div>
+              </td>
+          </tr>
+      );
+  }
 
 
     if (error) {
@@ -203,7 +168,7 @@ export const TicketsModule = () => {
         <tr>
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
-                    <CircleSlash className="h-14 w-14" />
+                    <CircleSlash className="h-12 w-12" />
                     <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
                 </div>
             </td>
@@ -212,20 +177,23 @@ export const TicketsModule = () => {
     }
 
 
-    if (!data && !isEmpty(data)) {
+    if (data?.length === 0) {
     return (
       <>
         <tr>
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
-                    <CircleSlash2 className="h-14 w-14" />
-                    <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO LOGGED TICKETS!</p>
+                    <CircleSlash2 className="h-12 w-12" />
+                    <p className="text-green text-lg mt-2 text-center uppercase">There are currently no logged tickets!</p>
                 </div>
             </td>
         </tr>
       </>
     )
     }
+
+    console.log('VIEW TICKET DATA!***************', viewticket)
+
 
 
   return (
@@ -244,10 +212,11 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(Call_ID)}}>
+                <Button size="sm" className="bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
                   <EyeIcon className="h-4 w-4" />
                 </Button>
-                <Button size="sm" className="bg-green w-20"
+                <Button size="sm"
+                  className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = tickets.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

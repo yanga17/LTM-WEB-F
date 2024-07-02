@@ -6,8 +6,14 @@ import { CompFollowUpsModule } from "@/modules/followups/compFollowUpsModule";
 import { CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-import { PhoneIcon } from "@/components/component/tickets-table"
+import { EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon} from "@/components/component/tickets-table"
+import { EachTicketsModule } from "@/modules/home/ticketsDetail";
+
 import * as React from "react"
+import {useState, useEffect} from 'react'
+
+import {StartCall} from "@/components/component/start-call"
+import { TicketSummary } from "@/components/component/ticket-summary"
 
 export default function Page() {
 
@@ -25,19 +31,6 @@ export default function Page() {
                         style={{ width: "440px" }} // Adjust width here
                     />
                 </div>
-                <Button size="lg" variant="ghost" className="ml-4">
-                    <img
-                        alt="Avatar"
-                        height="32"
-                        src="/public/placeholder-user.jpg"
-                        style={{
-                            aspectRatio: "32/32",
-                            objectFit: "cover",
-                        }}
-                        width="32"
-                    />
-                    <span className="sr-only">User Profile</span>
-                </Button>
             </div>
             <div className="absolute mt-14 right-0 flex items-end">
                 <Button
@@ -74,6 +67,9 @@ export default function Page() {
                         <CompFollowUpsModule />
                     </tbody>
                         </table>
+                        <div className="webkit-scrollbar">
+                            <div className="webkit-scrollbar-thumb" onClick={() => console.log("Scrollbar clicked!")}></div>
+                        </div>
                     </div>
                 </CardContent>
                 </Card>

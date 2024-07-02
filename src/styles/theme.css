@@ -8,7 +8,7 @@
 }
 
 ::-webkit-scrollbar {
-    width: 1px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -105,6 +105,21 @@ li {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
     margin: 15px 0;
+}
+
+.wrapper {
+    min-height: 100vh;
+    padding: 0 3rem;
+}
+
+.title {
+    margin-bottom: 10px;
+}
+
+.btn__container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 /* .card {

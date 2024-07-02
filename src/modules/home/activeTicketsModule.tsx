@@ -7,19 +7,13 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
-import { Check, CheckCheck, X } from "lucide-react";
 
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
+import {EyeIcon, MinusIcon} from "@/components/component/tickets-table"
 import { EachActiveTicketsModule } from "./activeTicketsDetail";
-import OctagonAlert from 'lucide-react';
-
-import Image from 'next/image';
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Undo2, CircleSlash2, CircleSlash  } from "lucide-react";
+import { Loader, CircleSlash2, CircleSlash  } from "lucide-react";
 
 export interface ActiveProps {
     ID: number,
@@ -131,25 +125,25 @@ export const ActiveTicketsModule = () => {
         }
     }
 
-    const transferTicket = async (transferemployee: string, callid: number) => {
-        try {
-            //transferTicket - transferTicket
-            const transferurl = `tickets/endticket/${transferemployee}/${callid}`
-            const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${transferurl}`);
-            setViewTicket(response.data)
+    // const transferTicket = async (transferemployee: string, callid: number) => {
+    //     try {
+    //         //transferTicket - transferTicket
+    //         const transferurl = `tickets/endticket/${transferemployee}/${callid}`
+    //         const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${transferurl}`);
+    //         setViewTicket(response.data)
 
-            setSolutionId(callid)
-            setSolutionPopup(true)
-            //setMinusClicked(true);
+    //         setSolutionId(callid)
+    //         setSolutionPopup(true)
+    //         //setMinusClicked(true);
 
-            console.log('Ticket ended successfully:', response.data);
+    //         console.log('Ticket ended successfully:', response.data);
 
-        } catch (error) {
+    //     } catch (error) {
 
-            console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
+    //         console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
 
-        }
-    }
+    //     }
+    // }
 
 
     const openModal = (parameter: any) => {
@@ -182,49 +176,16 @@ export const ActiveTicketsModule = () => {
 
 
     if (loading) {
-    return (
-        <>
-        {
-        [...Array(500)].map((_, index) => (
-            <TableRow key={index}>
-                <TableCell className="p-2 lg:w-[50px] xl:w-[70px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[200px] xl:w-[250px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[120px] xl:w-[150px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[80px] xl:w-[100px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[110px] xl:w-[130px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[50px] xl:w-[60px]">
-                    <div className='bg-black-light animate-pulse py-4 w-full rounded'></div>
-                </TableCell>
-                <TableCell className="p-2 lg:w-[60px] xl:w-[80px]">
-                    <div className="flex gap-2">
-                        <Button
-                            disabled
-                            size="sm"
-                            className="bg-purple">
-                            <EyeIcon className="h-4 w-4 ml-2" />
-                        </Button>
-                        <Button
-                            disabled
-                            size="sm"
-                            className="bg-red">
-                            <MinusIcon className="h-4 w-4 ml-2" />
-                        </Button>
+        return (
+            <tr>
+                <td colSpan={7} className="h-[150px]">
+                    <div className="flex flex-col items-center justify-center h-full w-full">
+                        <Loader className="h-14 w-14" />
+                        <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
                     </div>
-                </TableCell>
-            </TableRow>
-        ))}
-        </>
-    )
+                </td>
+            </tr>
+        );
     }
 
     if (error) {
@@ -255,7 +216,6 @@ export const ActiveTicketsModule = () => {
         )
     }
 
-    
     const activecheckInLog = data?.map((property) => ({
     callid: property?.ID,
     customer: property.Customer,
@@ -295,10 +255,10 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2">{employee}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(callid)}}>
+                                <Button size="sm" className="bg-purple  w-20 md:w-20" onClick={() => { openModal(callid)}}>
                                     <EyeIcon className="h-4 w-4" />
                                 </Button>
-                                <Button size="sm" className="bg-red w-20" onClick={() => { endTicket( employee, callid)}}>
+                                <Button size="sm" className="bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
                                     <MinusIcon className="h-4 w-4" />
                                 </Button>
                             </div>

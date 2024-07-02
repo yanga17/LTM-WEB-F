@@ -2,19 +2,14 @@
 
 import { TicketsModule } from "@/modules";
 import { ActiveTicketsModule } from "@/modules";
-import { useAudit } from "@/shared/tools/auditMonit";
 
-import Link from "next/link"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+import {  CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-import { EyeIcon, PlusIcon, MinusIcon, ActivityIcon, CoffeeIcon, MoveIcon, PhoneIcon, PhoneOffIcon, SearchIcon} from "@/components/component/tickets-table"
-import { EachTicketsModule } from "@/modules/home/ticketsDetail";
-import Image from 'next/image';
+import { ActivityIcon, PhoneIcon } from "@/components/component/tickets-table"
 
 import * as React from "react"
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 
 import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
@@ -22,7 +17,6 @@ import { TicketSummary } from "@/components/component/ticket-summary"
 
 
 export default function Home() {
-  const { addAuditLog } = useAudit() //Downloads
   const [startCallPopup, setStartCallPopup] = useState(false);
   const [startActivityPopup, setStartActivityPopup] = useState(false);
 
@@ -48,19 +42,6 @@ export default function Home() {
                     style={{ width: "440px" }} // Adjust width here
                 />
             </div>
-            <Button size="lg" variant="ghost" className="ml-4">
-                <img
-                    alt="Avatar"
-                    height="32"
-                    src="/public/placeholder-user.jpg"
-                    style={{
-                        aspectRatio: "32/32",
-                        objectFit: "cover",
-                    }}
-                    width="32"
-                />
-                <span className="sr-only">User Profile</span>
-            </Button>
         </div>
         <div className="absolute mt-14 right-0 flex items-end">
             <Button
@@ -83,8 +64,7 @@ export default function Home() {
             {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
-</header>
-
+    </header>
       <div className="grid gap-6 w-full">
         <div className="max-h-[600px] overflow-auto">
           <div>
@@ -120,7 +100,7 @@ export default function Home() {
           <Card className="ml-4 mr-4">
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
-                <table className="w-full table-fixed">
+                <table className="w-full table-fixed p-4">
                 <thead className="bg-gray-300">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>

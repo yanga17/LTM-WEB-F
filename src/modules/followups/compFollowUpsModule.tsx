@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 
 import { Vault } from "lucide-react";
-import { Undo2, CircleSlash2, CircleSlash, Check, PhoneOutgoing, PhoneOff, ViewIcon } from "lucide-react";
+import { Undo2, CircleSlash2, CircleSlash, Check, PhoneOutgoing, PhoneOff, ViewIcon, Loader } from "lucide-react";
 
 import { createContext } from "react";
 import { CompFollowUpsDetail } from "./compFollowUpsDetail"
@@ -57,8 +57,8 @@ export const CompFollowUpsModule = () => {
 
 
     const [state, setState] = useState({
-    isOpen: true,
-    expandView: null
+      isOpen: true,
+      expandView: null
     });
 
     //getactivefollowup - getcompletedfollowup
@@ -114,10 +114,15 @@ export const CompFollowUpsModule = () => {
 
     if (loading) {
       return (
-        <>
-        
-        </>
-      )
+          <tr>
+            <td colSpan={8} className="h-[150px]">
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                    <Loader className="h-12 w-12" />
+                    <p className="text-gray-500 text-lg mt-2 text-center">Loading data, Please be patient</p>
+                </div>
+            </td>
+        </tr>
+      );
     }
 
     if (error) {
@@ -125,22 +130,22 @@ export const CompFollowUpsModule = () => {
           <tr>
               <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
-                      <CircleSlash className="h-14 w-14" />
-                      <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                      <CircleSlash className="h-12 w-12" />
+                      <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching data, Please Refresh!</p>
                   </div>
               </td>
           </tr>
       );
-      }
+    }
   
   
-      if (!data && !isEmpty(data)) {
-      return (
-        <>
-          <tr>
-              <td colSpan={8} className="h-[150px]">
+      if (compfollowUps.length === 0) {
+        return (
+          <>
+            <tr>
+                <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
-                      <CircleSlash2 className="h-14 w-14" />
+                      <CircleSlash2 className="h-12 w-12" />
                       <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING FOLLOWED-UP!</p>
                   </div>
               </td>

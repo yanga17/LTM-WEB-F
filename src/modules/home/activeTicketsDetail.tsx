@@ -89,15 +89,11 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
             setTransferPopUp(true);
         }
     }
-
-    const transferData = (callId: number) => {
-
-    }
-    //ticketData={transferTicketData}
+    
 
     return (
     <>
-    {/* {transferPopUp && transferTicketData && <TicketTransfer onClose={onClose} />} */}
+    {transferPopUp && transferTicketData && <TicketTransfer callId={callid} onClose={onClose} />}
     {ticketData?.map(({ ID, Employee, Customer, Activity, Clients_Anydesk, Phone_Number, StartTime, EndTime, Duration, Type, Solution, Support_No, Comments, FollowUp, Completed, Name, number_of_days, Time_Taken, IssueType, Priority}) => (
         <div key={callid} className="p-4 bg-white">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
