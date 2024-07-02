@@ -179,8 +179,8 @@ export const TicketsModule = () => {
     }
 
     const closeModal = () => {
-    setState({...state, isOpen: false, expandView: null });
-    setCurrentOpen('');
+      setState({...state, isOpen: false, expandView: null });
+      setCurrentOpen('');
     }
 
     const startCallNotification = () => {

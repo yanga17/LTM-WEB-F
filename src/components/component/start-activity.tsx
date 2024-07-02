@@ -454,10 +454,10 @@ export function StartActivity({ onClose }: Props) {
                 </div>
                 <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
                 <div className="flex justify-between gap-2 mt-6">
-                    <Button onClick={onClose} className="bg-red mr-2">
+                    <Button onClick={onClose} className="bg-red mr-2 w-full">
                         <span>Cancel</span>
                     </Button>
-                    <Button onClick={submitTicket} className="bg-green mr-2">
+                    <Button onClick={takeCall} className="bg-green mr-2 w-full">
                         <span>Save</span>
                     </Button>
                 </div>
