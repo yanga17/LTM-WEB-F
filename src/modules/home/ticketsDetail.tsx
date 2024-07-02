@@ -14,6 +14,7 @@ import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
 
 import { useContext } from 'react';
 import { TicketsContext } from './ticketsModule';
+import { useSession } from '@/context';
 
 interface EachTicketsProps {
     onClose: () => void;
@@ -48,6 +49,8 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     const [deletionId, setDeletionId] = useState(0);
     const ticket = useContext(TicketsContext);
 
+    const { user } = useSession();
+
     if (!ticket) {
         return <div>No data available</div>;
     }
@@ -76,6 +79,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 name: ticket.Name,
                 timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 issueType: ticket.IssueType,
+                priority: ticket.urgent,
             };
 
             const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
@@ -164,7 +168,19 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         setDeletePopUp(!deletePopUp);
     }
 
-    console.log("urgent value:", ticket.urgent)
+    const filterCustomer = () => {
+        if (ticket.Customer.includes(":")) {
+            let customerData = ticket.Customer.split(":")[0].trim();
+            let supportNo = ticket.Customer.split(":")[1].trim();
+            return { customerData, supportNo };
+        } else {
+            return { customerData: ticket.Customer, supportNo: null };
+        }
+    }
+
+    const { customerData, supportNo } = filterCustomer();
+
+    console.log("my logger, wtf is it?:", ticket.logger)
 
 
     return (
@@ -184,7 +200,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p>{ticket.Support_No || '--:--'}</p>
+                            <p>{supportNo || ticket.Support_No || '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">IssueType</p>
@@ -194,7 +210,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Customer</p>
-                            <p className="font-semibold text-md">{ticket.Customer}</p>
+                            <p className="font-semibold text-md">{customerData || ticket.Customer || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Problem</p>

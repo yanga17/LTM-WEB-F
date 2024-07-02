@@ -125,26 +125,6 @@ export const ActiveTicketsModule = () => {
         }
     }
 
-    // const transferTicket = async (transferemployee: string, callid: number) => {
-    //     try {
-    //         //transferTicket - transferTicket
-    //         const transferurl = `tickets/endticket/${transferemployee}/${callid}`
-    //         const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${transferurl}`);
-    //         setViewTicket(response.data)
-
-    //         setSolutionId(callid)
-    //         setSolutionPopup(true)
-    //         //setMinusClicked(true);
-
-    //         console.log('Ticket ended successfully:', response.data);
-
-    //     } catch (error) {
-
-    //         console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
-
-    //     }
-    // }
-
 
     const openModal = (parameter: any) => {
         if (currentOpen === parameter) {
