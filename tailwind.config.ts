@@ -41,7 +41,7 @@ const config: Config = {
         "black-dark": "#000000",
       },
       backgroundImage: {
-        'login': "url('/covers/cover.webp')",
+        'login': "url('/covers/Boardroomm.webp')",
       }
     },
   },

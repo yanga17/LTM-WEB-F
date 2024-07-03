@@ -100,7 +100,7 @@ export default function Page() {
     };
 
     return (
-        <div className="w-full h-screen flex items-center justify-center overflow-hidden bg-login bg-cover bg-no-repeat bg-center"> 
+        <div className="w-full h-screen flex items-center justify-center overflow-hidden bg-login bg-Boardroomm bg-no-repeat bg-center"> 
             <div className="w-11/12 md:w-5/12 lg:w-3/12 xl:w-4/12 shadow-lg p-2 md:p-4 flex flex-col justify-start items-center gap-5 rounded bg-white bg-opacity-50 backdrop-blur-md">
                 <div className="flex flex-col items-center justify-center gap-0">
                     <h1 className="leading-none font-medium">Welcome</h1>
