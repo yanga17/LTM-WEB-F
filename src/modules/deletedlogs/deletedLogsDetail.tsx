@@ -26,12 +26,12 @@ interface EachTicketsProps {
 //type ResponseType = CheckProps[]
 
 export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
-    const deletedlog = useContext(DeletedLogsContext);
-
     //for the undoFn
     const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
     const [deletePopUp, setDeletePopUp] = useState(false);
     const [deletionId, setDeletionId] = useState(0);
+
+    const deletedlog = useContext(DeletedLogsContext);
 
     if (!deletedlog) {
         return <div>No data available</div>;
