@@ -14,11 +14,18 @@ import {useState} from 'react'
 import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
   const [startActivityPopup, setStartActivityPopup] = useState(false);
+
+  const router = useRouter();
+
+    const handleSearchClick = () => {
+        router.push('/customers');
+    };
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
@@ -40,6 +47,7 @@ export default function Home() {
                     className="border-black text-black p-2 border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                     placeholder="Search Ticket"
                     style={{ width: "440px" }} // Adjust width here
+                    onClick={handleSearchClick}
                 />
             </div>
         </div>

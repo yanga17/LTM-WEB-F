@@ -32,55 +32,55 @@ export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpPro
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 text-md">Nr</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.ID}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.ID || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Employee</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Employee}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Employee || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p>{ActiveFollowUps.Support_No}</p>
+                            <p>{ActiveFollowUps.Support_No || '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">IssueType</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.IssueType}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.IssueType || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Customer</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Customer}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Customer || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Problem</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Activity}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Activity || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Start Time/Date</p>
-                            <p>{ActiveFollowUps.StartTime}</p>
+                            <p>{new Date(ActiveFollowUps.StartTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">End Time/Date</p>
-                            <p>{ActiveFollowUps.EndTime}</p>
+                            <p>{new Date(ActiveFollowUps.EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Client Name</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Name}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Name || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Phone_Number}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Phone_Number || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Comments</p>
-                            <p className="font-semibold text-md">{ActiveFollowUps.Comments}</p>
+                            <p className="font-semibold text-md">{ActiveFollowUps.Comments || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Priority</p>
-                            <p className="">{ActiveFollowUps.Priority}</p>
+                            <p className="">{ActiveFollowUps.Priority || '--:--'}</p>
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">

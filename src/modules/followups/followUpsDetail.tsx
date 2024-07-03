@@ -59,11 +59,11 @@ export const FollowUpsDetail= ({ onClose, followUpFn }: FollowUpsDetailProps) =>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Start Time/Date</p>
-                            <p>{followUp.StartTime || '--:--'}</p>
+                            <p>{new Date(followUp.StartTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 text-md">End Time/Date</p>
-                            <p>{followUp.EndTime || '--:--'}</p>
+                            <p>{new Date(followUp.EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">

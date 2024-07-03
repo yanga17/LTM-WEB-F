@@ -38,7 +38,7 @@ export const CustomerErrorComponent = ({ customerData }: props) => {
 
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <BarChart width={300} height={300} data={customerData} barSize={window.screen.width > 1200 ? 25 : 10} margin={{ right: 40, top: 10, bottom: 70}}>
+            <BarChart width={300} height={300} data={customerData} barSize={window.screen.width > 1200 ? 25 : 10} margin={{ right: 40, top: 10, bottom: 30}}>
                 <XAxis dataKey="Customer" interval={0} tick={<ItalizeLabels />} 
                 padding={{
                     left: 30,
@@ -47,7 +47,7 @@ export const CustomerErrorComponent = ({ customerData }: props) => {
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
                 <Tooltip />
-                {/* <Legend /> */}
+                <Legend wrapperStyle={{ paddingTop: 40 }} />
                 <Bar 
                     type="monotone"
                     dataKey="Error"

@@ -22,7 +22,7 @@ interface CallHistoryProps {
     Customer: string,
     Activity: string,
     StartTime: string,
-    EndTime: string
+    EndTime: string,
     Duration: string,
     Comments: string,
     Phone_Number: number,
@@ -51,7 +51,7 @@ export const ReportsModule = () => {
     const [filteredData, setFilteredData] = useState<CallHistoryResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['Customer', 'Activity', 'Comments', 'StartTime', 'EndTime', 'Duration', 'Solution']
+    const headers = ['Customer', 'Activity', 'Comments', 'Start Time', 'End Time', 'Duration', 'Solution']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const splitCustomerName = (customerName: string) => {
@@ -203,18 +203,18 @@ export const ReportsModule = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between divide-x-500 divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
+            <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             {filteredData?.map(({ ID, Customer, Activity, StartTime, EndTime, Duration, IssueType, Comments, Solution }, index) => (
-                <div key={ID} className={` bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                <div key={ID} className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center p-2">{Customer}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Activity}</p>
-                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Comments}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{StartTime}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{EndTime}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Duration}</p>
-                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Solution}</p>
+                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Activity}</p>
+                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Comments || '--:--'}</p>
+                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
+                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Solution || '--:--'}</p>
                 </div>
             ))}
         </>

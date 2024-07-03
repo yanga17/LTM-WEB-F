@@ -38,7 +38,7 @@ export const CustomerCallsComponent = ({ customerCallsData }: props) => {
     };
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <BarChart width={300} height={300} data={customerCallsData} margin={{ right: 40, top: 20, bottom: 60}}>
+            <BarChart width={300} height={300} data={customerCallsData} margin={{ right: 40, top: 20, bottom: 10}}>
                 <XAxis dataKey="Customer" interval={0} tick={<ItalizeLabels />} 
                 padding={{
                     left: 30,
@@ -47,7 +47,7 @@ export const CustomerCallsComponent = ({ customerCallsData }: props) => {
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
                 <Tooltip />
-                {/* <Legend /> */}
+                <Legend wrapperStyle={{ paddingTop: 60 }} />
                 <Bar 
                     type="monotone"
                     dataKey="CallCount"
