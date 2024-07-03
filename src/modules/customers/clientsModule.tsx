@@ -112,7 +112,7 @@ export const ClientsModule = () => {
                                 </div>
                             </div>
                         </header>
-                        <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
+                        {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
                             <Button size="lg" className="bg-purple" disabled>
                                 <PhoneIcon className="h-4 w-4 mr-2" />
                                 <span>Start Call</span>
@@ -121,7 +121,7 @@ export const ClientsModule = () => {
                                 <CoffeeIcon className="h-4 w-4 mr-2" />
                                 <span>Start Break</span>
                             </Button>
-                        </div>
+                        </div> */}
                         <div className="grid gap-6">
                             <div className="h-screen overflow-auto">
                                 <div>
@@ -185,7 +185,7 @@ export const ClientsModule = () => {
                         </div>
                     </div>
                 </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
+                {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
                     <Button size="lg" className="bg-purple">
                         <PhoneIcon className="h-4 w-4 mr-2" />
                         <span>Start Call</span>
@@ -194,7 +194,7 @@ export const ClientsModule = () => {
                         <CoffeeIcon className="h-4 w-4 mr-2" />
                         <span>Start Break</span>
                     </Button>
-                </div>
+                </div> */}
                 <div className="grid gap-6">
                   <div className="h-screen overflow-auto">
                     <div>
@@ -255,7 +255,7 @@ export const ClientsModule = () => {
                           />
                       </div>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                       <Button size="lg" variant="ghost">
                           <img
                               alt="Avatar"
@@ -269,9 +269,9 @@ export const ClientsModule = () => {
                           />
                           <span className="sr-only">User Profile</span>
                       </Button>
-                  </div>
+                  </div> */}
               </header>
-              <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
+              {/* <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
                   <Button size="lg" className="bg-purple">
                       <PhoneIcon className="h-4 w-4 mr-2" />
                       <span>Start Call</span>
@@ -280,7 +280,7 @@ export const ClientsModule = () => {
                       <CoffeeIcon className="h-4 w-4 mr-2" />
                       <span>Start Break</span>
                   </Button>
-              </div>
+              </div> */}
               <div className="grid gap-6">
                 <div className="h-screen overflow-auto">
                   <div>
@@ -360,7 +360,7 @@ export const ClientsModule = () => {
                         </div>
                     </div>
                 </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
+                {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
                     <Button size="lg" className="bg-purple">
                         <PhoneIcon className="h-4 w-4 mr-2" />
                         <span>Start Call</span>
@@ -369,7 +369,7 @@ export const ClientsModule = () => {
                         <ActivityIcon className="h-4 w-4 mr-2" />
                         <span>Start Activity</span>
                     </Button>
-                </div>
+                </div> */}
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
                         <div>

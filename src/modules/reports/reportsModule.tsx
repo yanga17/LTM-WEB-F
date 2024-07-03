@@ -50,8 +50,8 @@ export const ReportsModule = () => {
         id: property?.ID,
         customer: property.Customer,
         activity: property.Activity,
-        starttime: new Date(property.StartTime).toLocaleString(),
-        endtime: new Date(property.EndTime).toLocaleString(),
+        starttime: new Date(property.StartTime?.slice(10, 19)?.replace('T', '')).toLocaleString(),
+        endtime: new Date(property.EndTime?.slice(10, 19)?.replace('T', '')).toLocaleString(),
         duration: property.Duration,
         issueType: property.IssueType
     }))
@@ -90,12 +90,12 @@ export const ReportsModule = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             {clientHistoryLog?.map(({ id, customer, activity, starttime, endtime, duration, issueType }, index) => (
-                <div key={id} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                <div key={id} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{id}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center p-2">{customer}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{activity}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{starttime}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{endtime}</p>
+                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{new Date(endtime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
                     <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{duration}</p>
                     <p className={`text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center ${issueType === 'Task' ? 'text-green' : 'text-red'}`}>{issueType || '--:--'}</p>
                 </div>

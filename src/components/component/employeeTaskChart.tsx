@@ -47,7 +47,7 @@ export const EmployeeTaskComponent = ({ employeeTasksData }: props) => {
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
                 <Tooltip />
-                <Legend />
+                <Legend wrapperStyle={{ paddingTop: 30 }} />
                 <Bar 
                     type="monotone"
                     dataKey="TasksCount"

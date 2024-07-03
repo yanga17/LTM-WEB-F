@@ -23,23 +23,23 @@ export default function Page() {
         <div className="h-screen w-full overflow-auto">
         <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
         <div className="relative flex ml-auto mt-4">
-            <div className="flex">
+            {/* <div className="flex">
                 <div className="text-right">
                     <input
                         className="border-black text-black p-2 border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                         placeholder="Search Ticket"
                         style={{ width: "440px" }} // Adjust width here
-                    />
+                    />S
                 </div>
-            </div>
-            <div className="absolute mt-14 right-0 flex items-end">
+            </div> */}
+            {/* <div className="absolute mt-14 right-0 flex items-end">
                 <Button
                     className="bg-purple rounded mr-2"
                 >
                     <PhoneIcon className="h-4 w-4 mr-2" />
                     <span>Upcoming Tickets</span>
                 </Button>
-            </div>
+            </div> */}
         </div>
         </header>
             <div className="grid gap-6 w-full">
