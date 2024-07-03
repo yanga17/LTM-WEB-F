@@ -38,12 +38,9 @@ export const Navigation = () => {
             <div className="text-white bg-black-dark rounded w-11/12 h-1/2 relative">
               <X size={40} strokeWidth={1.5} color={colors?.red} className="cursor-pointer absolute top-2 right-2" onClick={toggleVisibility} />
               <ul className="w-full h-full flex flex-col items-center justify-center gap-4">
-                {
-                  role === 'Admin' &&
                   <li>
                     <Link href='/'>Home</Link>
                   </li>
-                }
                 <li>
                   <Link href='/customers'>Customers</Link>
                 </li>
@@ -81,13 +78,10 @@ export const Navigation = () => {
       <div className="lg:flex flex-col justify-between gap-1 h-full bg-white rounded py-4 lg:w-[100%]">
         <ul className="flex flex-col justify-between gap-2 w-full">
           <Image src="/covers/legendSystems.png" alt="Legend Systems" width={400} height={400} className="m-0 p-5 h-20px" />
-          {
-            role === 'Admin' &&
             <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
               <LayoutDashboard size={25} strokeWidth={1} color={pathname === '/' ? colors?.purple : colors?.black} />
               <Link href='/' className="text-md font-medium text-black-dark group-hover:text-purple" >Home</Link>
             </li>
-          }
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <CalendarClock size={25} strokeWidth={1} color={pathname === '/customers' ? colors?.purple : colors?.black} />
             <Link href='/customers' className="text-md font-medium text-black-dark group-hover:text-purple">Customers</Link>
