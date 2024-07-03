@@ -67,7 +67,7 @@ export const SessionProvider: React.FunctionComponent<{ children: ReactNode }> =
             }
         );
 
-        const path = data?.role === 'Admin' ? '/' : '/check-in'
+        const path = data?.role === 'Admin' ? '/' : '/'
 
         router.push(path);
     };
