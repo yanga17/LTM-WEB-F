@@ -30,6 +30,8 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     //for the undoFn
     const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
+    const [deletePopUp, setDeletePopUp] = useState(false);
+    const [deletionId, setDeletionId] = useState(0);
 
     if (!deletedlog) {
         return <div>No data available</div>;
@@ -76,9 +78,6 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
 
         }
     }
-
-    const [deletePopUp, setDeletePopUp] = useState(false);
-    const [deletionId, setDeletionId] = useState(0);
 
 
     const toggleDeletePage = () => {
