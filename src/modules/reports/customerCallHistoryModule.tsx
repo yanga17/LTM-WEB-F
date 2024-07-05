@@ -258,7 +258,7 @@ export const ReportsModule = () => {
                     </div>
                     <div>
                         <div className={`w-full p-4 mr-2 mt-2 mx-2 rounded bg-white text-black ${state.isOpen && state.expandView === ID? 'block' : 'hidden'}`}>
-                            <div className="flex flex-wrap">
+                            <div key={ID} className="flex flex-wrap">
                                 <div className="w-1/3">
                                     <div>
                                         <p className="font-medium text-gray-500 text-md">Call ID</p>
