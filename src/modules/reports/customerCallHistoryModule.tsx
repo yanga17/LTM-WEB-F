@@ -245,8 +245,8 @@ export const ReportsModule = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             {filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
-                <div>
-                    <div key={ID} className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
+                <div key={ID}>
+                    <div className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
                         <p className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center uppercase">{ID}</p>
                         <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
                         <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate uppercase">{Activity}</p>
@@ -258,7 +258,7 @@ export const ReportsModule = () => {
                     </div>
                     <div>
                         <div className={`w-full p-4 mr-2 mt-2 mx-2 rounded bg-white text-black ${state.isOpen && state.expandView === ID? 'block' : 'hidden'}`}>
-                            <div key={ID} className="flex flex-wrap">
+                            <div className="flex flex-wrap">
                                 <div className="w-1/3">
                                     <div>
                                         <p className="font-medium text-gray-500 text-md">Call ID</p>
