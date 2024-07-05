@@ -2,18 +2,16 @@
 
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Check, CheckCheck, XIcon } from "lucide-react";
 
 import * as React from "react"
 import {useState, useEffect} from 'react'
-import { useQuery } from "@/hooks/useQuery";
 
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from "react-hot-toast"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DoorClosedIcon, MinimizeIcon, MaximizeIcon } from "@/components/component/ticket-solution"
-import { useSession } from '@/context'; // Import the useSession hook
+import { DoorClosedIcon } from "@/components/component/ticket-solution"
+import { useSession } from '@/context';
 
 
 interface Props {
@@ -76,6 +74,8 @@ interface TakeCallProps {
 type TakeCallType = TakeCallProps[]
 
 export function StartCall({ onClose}: Props) {
+  const { user } = useSession();
+
   //storing data for input fields
   const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
   const [allProblems, setAllProblems] = useState<ErrorsType>([]);
@@ -97,8 +97,6 @@ export function StartCall({ onClose}: Props) {
 
   const [tickets, setTickets] = useState("");
   const [checkStatus, setCheckStatus] = useState(false); //checkbox
-
-  const { user } = useSession(); // Use the useSession hook to get the current user
 
   const generateCustomers = async () => {
     try {
@@ -257,6 +255,12 @@ export function StartCall({ onClose}: Props) {
     console.log("MY CHECKSTATUS TEXT:", checkStatus)
   }, [checkStatus])
 
+  useEffect(() => {
+    if (user?.emp_name) {
+      setEmployee(user.emp_name);
+    }
+  }, [user]);
+
 
   const submitTicket = async () => {
     const currentDate = new Date().toISOString().slice(0, 10); 
@@ -299,6 +303,32 @@ export function StartCall({ onClose}: Props) {
     };
 
     try {
+
+      const fields = [
+        { value: customer, message: 'Please select a client.' },
+        { value: problem, message: 'Please select a problem.' },
+        { value: phonenumber, message: 'Please enter the phone number.' },
+        { value: clientName, message: 'Please enter the client name.' },
+        { value: anydesk, message: 'Please enter the client`s Anydesk.' },
+        { value: type, message: 'Please select a call type.' },
+        { value: employee, message: 'Please select an employee.' },
+        { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+      ];
+
+      for (const field of fields) {
+        if (!field.value) {
+            toast.error(field.message, {
+                icon: '🚨',
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+            return;
+          }
+      }
+
       const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
       console.log('Ticket submitted successfully:', response.data);
 
@@ -315,7 +345,7 @@ export function StartCall({ onClose}: Props) {
       setPriority("");
       setComments("");
 
-      //onClose();
+      onClose();
     } catch (error) {
       
       console.error('Error submitting ticket:', error);
@@ -327,8 +357,6 @@ export function StartCall({ onClose}: Props) {
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
         <div className="text-black flex items-center gap-2 justify-end">
-          {/* <MinimizeIcon className="h-5 w-5" onClick={onClose} />
-          <MaximizeIcon className="h-5 w-5" onClick={onClose} /> */}
           <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
         </div>
       <h1 className="text-black text-2xl font-bold mb-6">Start Call</h1>
@@ -434,9 +462,9 @@ export function StartCall({ onClose}: Props) {
       </div>
       <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple" variant="outline" onClick={takeCall}>Take Call</Button>
-        <Button className="flex-1 bg-red" variant="outline" onClick={onClose}>Cancel</Button>
-        <Button className="flex-1 bg-green" variant="outline" onClick={submitTicket}>Save</Button>
+        <Button className="flex-1 bg-purple hover:bg-black hover:text-white" variant="outline" onClick={takeCall}>Take Call</Button>
+        <Button className="flex-1 bg-red hover:bg-black hover:text-white" variant="outline" onClick={onClose}>Cancel</Button>
+        <Button className="flex-1 bg-green hover:bg-black hover:text-white" variant="outline" onClick={submitTicket}>Save</Button>
       </div>
       </div>
     </div>

@@ -146,8 +146,6 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg font-bold">Solution</h1>
         <div className="flex items-center">
-          <MinimizeIcon className="h-5 w-5" onClick={onClose} />
-          <MaximizeIcon className="h-5 w-5" onClick={onClose} />
           <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
         </div>
       </div>
