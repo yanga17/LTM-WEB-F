@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { DetailResponseType } from './activeTicketsModule'; 
 import { ActiveResponseType } from './activeTicketsModule';  
 
-import {useState, useEffect} from 'react'
+import { useState } from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
