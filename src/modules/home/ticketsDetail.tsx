@@ -20,30 +20,6 @@ interface EachTicketsProps {
     onClose: () => void;
 }
 
-//interface for TblCalls
-// interface CheckProps {
-//     Call_ID: number,
-//     Customer: string,
-//     Problem: string,
-//     Clients_Anydesk: number,
-//     Phone_Number: number,
-//     Time: string,
-//     EndTime: string,
-//     Duration: number,
-//     Taken: number,
-//     Support_No: number,
-//     Empl: string,
-//     logger: string,
-//     Comments: string,
-//     Solution: string,
-//     Name: string,
-//     urgent: number,
-//     IssueType: string,
-//     Type: string,
-// }
-
-// type ResponseType = CheckProps[]
-
 export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     const [deletePopUp, setDeletePopUp] = useState(false);
     const [deletionId, setDeletionId] = useState(0);
