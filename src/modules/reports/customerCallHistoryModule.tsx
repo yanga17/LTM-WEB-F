@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 
 import { CustomerCallsReport } from './customerCallsReport';
 import { CustomerErrorsReport } from './customerErrorsReport';
@@ -13,21 +13,27 @@ import { EmployeeSummaryReport } from './employeeSummaryReport';
 import { CustomerCallTimesReport } from './customerCallTimesReport'
 
 import { CallHistoryPDF } from '../../components/component/customerCallHistoryPDF'
-import ReactPDF from '@react-pdf/renderer';
+import { Button } from "@/components/ui/button"
+import { Expand } from "lucide-react";
 import { PDFViewer } from '@react-pdf/renderer';
 import { X } from "lucide-react";
+
 
 interface CallHistoryProps {
     ID: number,
     Customer: string,
     Activity: string,
+    Support_No: string,
     StartTime: string,
     EndTime: string,
     Duration: string,
     Comments: string,
     Phone_Number: number,
     Solution: string,
-    IssueType: string
+    IssueType: string,
+    Employee: string,
+    Type: string,
+    name: string
 }
 export type CallHistoryResponse = CallHistoryProps[]
 
@@ -35,9 +41,10 @@ export type CallHistoryResponse = CallHistoryProps[]
 interface CustomerProps {
     uid: number;
     Customer: any;
-  }
-  type CustomerType = CustomerProps[]
+}
+type CustomerType = CustomerProps[]
 
+export const ReportsContext = createContext<CallHistoryProps | null>(null)
 
 export const ReportsModule = () => {
     const [clHistoryStartTime, setCLHistoryStartTime] = useState('');
@@ -49,10 +56,16 @@ export const ReportsModule = () => {
 
     const [customer, setCustomer] = useState('')
     const [filteredData, setFilteredData] = useState<CallHistoryResponse>([]);
-    const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['Customer', 'Activity', 'Comments', 'Start Time', 'End Time', 'Duration', 'Solution']
+    const headers = ['Call ID', 'Customer', 'Activity', 'Start Time', 'End Time', 'Duration', 'Issue Type', 'Action']
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [reportDetail, setReportDetail] = useState<CallHistoryProps | null>(null);
+    const [currentOpen, setCurrentOpen] = useState('');
+    const [state, setState] = useState({
+        isOpen: true,
+        expandView: null
+    });
 
     const splitCustomerName = (customerName: string) => {
         return customerName.split(',')[0].trim().toLocaleLowerCase();
@@ -135,6 +148,30 @@ export const ReportsModule = () => {
         }
     };
 
+    const openReport = (id: any) => {
+        if (currentOpen === id) {
+            setCurrentOpen('');
+            setState({ ...state, isOpen: false, expandView: null });
+
+        } else {
+            setCurrentOpen(id);
+            setState({ ...state, isOpen: true, expandView: id});
+
+            const selectedTicket = filteredData?.find(client => client.ID === id || null);
+
+            if (selectedTicket) {
+                setReportDetail(selectedTicket);
+            }
+  
+            console.log('Customer Call History ID:', selectedTicket);
+        }
+    }
+
+    const closeReport = () => {
+        setState({...state, isOpen: false, expandView: null });
+        setCurrentOpen('');
+    }
+
     useEffect(() => {
         generateCustomers();
     }, [])
@@ -143,7 +180,8 @@ export const ReportsModule = () => {
     
     return (
         <>
-        {isModalOpen && (
+            <ReportsContext.Provider value={reportDetail}>
+            {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div className='relative w-[800px]'>
                     <button className="absolute top-0 right-0 p-2 h-25 w-25 text-red" onClick={() => setIsModalOpen(false)}
@@ -206,15 +244,85 @@ export const ReportsModule = () => {
             <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
-            {filteredData?.map(({ ID, Customer, Activity, StartTime, EndTime, Duration, IssueType, Comments, Solution }, index) => (
-                <div key={ID} className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center p-2">{Customer}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Activity}</p>
-                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Comments || '--:--'}</p>
-                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                    <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
-                    <p className="text-sm p-2 uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate">{Solution || '--:--'}</p>
+            {filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
+                <div>
+                    <div key={ID} className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
+                        <p className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center uppercase">{ID}</p>
+                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
+                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate uppercase">{Activity}</p>
+                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
+                        <p className={`text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType}</p>
+                        <Expand onClick={() => { openReport(ID)}} className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center hover:cursor-pointer z-10" />
+                    </div>
+                    <div>
+                        <div className={`w-full p-4 mr-2 mt-2 mx-2 rounded bg-white text-black ${state.isOpen && state.expandView === ID? 'block' : 'hidden'}`}>
+                            <div className="flex flex-wrap">
+                                <div className="w-1/3">
+                                    <div>
+                                        <p className="font-medium text-gray-500 text-md">Call ID</p>
+                                        <p className="font-semibold text-md">{ID || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4 mt-4">
+                                        <p className="font-medium text-gray-500 text-md">Employee</p>
+                                        <p className="font-semibold text-md uppercase">{Employee || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-2">
+                                        <p className="font-medium text-gray-500 text-md">Support No</p>
+                                        <p>{Support_No || '--:--'}</p>
+                                    </div>
+                                    <div className='mt-4'>
+                                        <p className="font-medium text-gray-500 text-md">IssueType</p>
+                                        <p className={`font-medium text-gray-500 text-md ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
+                                    </div>
+                                    <div className="mt-4">
+                                        <p className="font-medium text-gray-500 text-md">Solution</p>
+                                        <p className="font-semibold text-md">{Solution || '--:--'}</p>
+                                    </div>
+                                </div>
+                                <div className="w-1/3">
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Customer</p>
+                                        <p className="font-semibold text-md">{Customer || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Problem</p>
+                                        <p className="font-semibold text-md">{Activity || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Start Time</p>
+                                        <p>{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-medium text-gray-500 text-md">End Time</p>
+                                        <p>{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                    </div>
+                                </div>
+                                <div className="w-1/3">
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Client Name</p>
+                                        <p className="font-semibold text-md">{name  || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4 mt-4">
+                                        <p className="font-medium text-gray-500 text-md">Phone Number</p>
+                                        <p className="font-semibold text-md">{Phone_Number  || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Comments</p>
+                                        <p className="font-semibold text-md">{Comments  || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4">
+                                        <p className="font-medium text-gray-500 text-md">Duration</p>
+                                        <p className="font-semibold text-md">{Duration  || '--:--'}</p>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end mt-5 gap-4">
+                                    <Button onClick={ closeReport } className="mr-2 bg-red">Close</Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             ))}
         </>
@@ -226,8 +334,7 @@ export const ReportsModule = () => {
         {currentReport === 'EmployeeAvg' && (<EmployeeAvgReport />)}
         {currentReport === 'EmployeeSummary' && (<EmployeeSummaryReport />)}
         </div>
+            </ReportsContext.Provider>
         </>
     )
 }
-
-// ReactPDF.render(<CustomerCallsPDF />, `${__dirname}/test.pdf`);

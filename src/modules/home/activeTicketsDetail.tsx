@@ -4,13 +4,14 @@ import React from 'react';
 import { Button } from "@/components/ui/button"
 import { DetailResponseType } from './activeTicketsModule'; 
 import { ActiveResponseType } from './activeTicketsModule';  
-import { ActiveProps } from './activeTicketsModule';  
-
 
 import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
+import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { Minimize2, PhoneOff, Move3d, Send } from "lucide-react";
 
 interface EachTicketProps {
     ticketData: DetailResponseType;
@@ -40,7 +41,7 @@ type TransferType = TransferProps[]
 export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTicketProps) => {
     const [transferPopUp, setTransferPopUp] = useState(false);
     const [transferid, setTransferId] = useState(0);
-    const [soltuionid, setSolutionId] = useState(0);
+    const [solutuionid, setSolutionId] = useState(0);
 
     const [viewedticket, setViewedTicket] = useState<ActiveResponseType>([]); //view ticket holds my returned data
     const [transferTicketData, setTransferTicketData] = useState<TransferType>([]);
@@ -56,6 +57,7 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
 
             setSolutionId(callid)
             setSolutionPopup(true)
+            toast.success('Ticket has been ended successfully.');
 
             console.log('Ticket ended successfully:', response.data);
 
@@ -91,6 +93,10 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
         }
     }
 
+    const toggleSolution = () => {
+        setSolutionPopup(!solutionPopup);
+    }
+
     const filterCustomer = (customer: string) => {
         if (customer.includes(":")) {
             let customerData = customer.split(":")[0].trim();
@@ -103,6 +109,7 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
 
     return (
         <>
+            {solutionPopup && <TicketSolution callId={solutuionid} onClose={toggleSolution} />}
             {transferPopUp && transferTicketData && <TicketTransfer callId={callid} onClose={onClose} />}
             {ticketData?.map(({ ID, Employee, Customer, Activity, Clients_Anydesk, Phone_Number, StartTime, EndTime, Duration, Type, Solution, Support_No, Comments, FollowUp, Completed, Name, number_of_days, Time_Taken, IssueType, Priority }) => {
                 const { customerData, supportNo } = filterCustomer(Customer);
@@ -170,9 +177,15 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                 </div>
                             </div>
                             <div className="flex justify-end mt-5 gap-4">
-                                <Button onClick={() => { endTicket(Employee, callid) }} className="mr-2 bg-green">End Call</Button>
-                                <Button onClick={() => { toggleTransfer(callid) }} className="mr-2 bg-purple">Transfer Call</Button>
-                                <Button onClick={onClose} className="mr-2 bg-orange">Close</Button>
+                                <Button onClick={() => { endTicket(Employee, callid) }} className="mr-2 bg-green">End Call
+                                    <PhoneOff size={18} strokeWidth={2} className="ml-2" />
+                                </Button>
+                                <Button onClick={() => { toggleTransfer(callid) }} className="mr-2 bg-purple">Transfer Call
+                                    <Move3d size={18} strokeWidth={2} className="ml-2" />
+                                </Button>
+                                <Button onClick={onClose} className="mr-2 bg-orange">Close
+                                    <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
+                                </Button>
                             </div>
                         </div>
                     </div>

@@ -13,6 +13,7 @@ import axios from 'axios';
 import { toast } from "react-hot-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DoorClosedIcon, MinimizeIcon, MaximizeIcon } from "@/components/component/ticket-solution"
+import { useSession } from '@/context';
 
 
 interface Props {
@@ -37,44 +38,45 @@ type ErrorsType = ErrorProps[]
 
 //interface for gettinEmployees
 interface EmployeeProps {
-  ID: number;
-  Technician: string;
+    ID: number;
+    Technician: string;
 }
 type EmployeeType = EmployeeProps[]
 
 //interface for gettinTypes
 interface TypesProps {
-  ID: number;
-  Type: string;
+    ID: number;
+    Type: string;
 }
 
 type TypeErrors = TypesProps[]
 
 //interface for tbltime - TakeCall
 interface TakeCallProps {
-  Call_ID: number,
-  Customer: string,
-  Problem: string,
-  Clients_Anydesk: number,
-  Phone_Number: number,
-  Time: string,
-  EndTime: string,
-  Duration: number,
-  Taken: number,
-  Support_No: number,
-  Empl: string,
-  logger: string,
-  Comments: string,
-  Solution: string,
-  Name: string,
-  urgent: number,
-  IssueType: string,
-  Type: string,
+    Call_ID: number,
+    Customer: string,
+    Problem: string,
+    Clients_Anydesk: number,
+    Phone_Number: number,
+    Time: string,
+    EndTime: string,
+    Duration: number,
+    Taken: number,
+    Support_No: number,
+    Empl: string,
+    logger: string,
+    Comments: string,
+    Solution: string,
+    Name: string,
+    urgent: number,
+    IssueType: string,
+    Type: string,
 }
 
 type TakeCallType = TakeCallProps[]
 
 export function StartActivity({ onClose }: Props) {
+    const { user } = useSession();
   //storing data for input fields
     const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
     const [allProblems, setAllProblems] = useState<ErrorsType>([]);
@@ -98,75 +100,69 @@ export function StartActivity({ onClose }: Props) {
     const [checkStatus, setCheckStatus] = useState(false); //checkbos
 
     const generateCustomers = async () => {
-    try {
-      const url = `tickets/getcustomers`
-      const response = await axios.get<CustomerType>(`${apiEndPoint}/${url}`);
-  
-      setAllCustomers(response.data)
-  
-      if (response.data.length === 0) {
-        toast.error(`No data available for legend clients.`, {
-          icon: '❌',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
-  
-    }} catch (error) {
-  
-      console.error('An error occurred while fetching clients:', error);
-      
-    }
+        try {
+            const url = `tickets/getcustomers`
+            const response = await axios.get<CustomerType>(`${apiEndPoint}/${url}`);
+
+            setAllCustomers(response.data)
+
+            if (response.data.length === 0) {
+                toast.error(`No data available for legend clients.`, {
+                    icon: '❌',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                },
+            });
+
+        }} catch (error) {
+            console.error('An error occurred while fetching clients:', error);
+        }
     }
 
     const generateProblems = async () => {
-    try {
-      const url = `tickets/geterrors`
-      const response = await axios.get<ErrorsType>(`${apiEndPoint}/${url}`);
-  
-      setAllProblems(response.data)
-  
-      if (response.data.length === 0) {
-        toast.error(`No data available for client problems.`, {
-          icon: '❌',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
-  
-    }} catch (error) {
-  
-      console.error('An error occurred while client problems:', error);
-      
-    }
+        try {
+            const url = `tickets/geterrors`
+            const response = await axios.get<ErrorsType>(`${apiEndPoint}/${url}`);
+
+            setAllProblems(response.data)
+
+            if (response.data.length === 0) {
+                toast.error(`No data available for client problems.`, {
+                    icon: '❌',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                },
+            });
+
+        }} catch (error) {
+            console.error('An error occurred while client problems:', error);
+        }
     }
 
     const generateEmployees = async () => {
-    try {
-      const url = `tickets/getemployees`
-      const response = await axios.get<EmployeeType>(`${apiEndPoint}/${url}`);
-  
-      setAllEmployees(response.data)
-  
-      if (response.data.length === 0) {
-        toast.error(`No data available for problem types.`, {
-          icon: '❌',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
-  
-    }} catch (error) {
-  
-      console.error('An error occurred while problem types:', error);
-      
-    }
+        try {
+            const url = `tickets/getemployees`
+            const response = await axios.get<EmployeeType>(`${apiEndPoint}/${url}`);
+
+            setAllEmployees(response.data)
+
+            if (response.data.length === 0) {
+                toast.error(`No data available for problem types.`, {
+                icon: '❌',
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+
+        }} catch (error) {
+            console.error('An error occurred while problem types:', error);
+        }
     }
 
     const generateTypes = async () => {
@@ -193,45 +189,72 @@ export function StartActivity({ onClose }: Props) {
     }
 
     const activityNotification = () => {
-        toast.success('Activity has been started successfully', {
+        toast.success('Activity has been started', {
           icon: <Check color={colors.green} size={24} />,
           duration: 3000,
         });
     }
 
-
     const takeCall = async () => {
-    let customerData = customer
-    let supportNo = null;
+        let customerData = customer
+        let supportNo = null;
 
-  if (customer.includes(",")) {
-    const customerArray = customer.split(",");
-    customerData = customerArray[0].trim();
-    supportNo = customerArray[1].trim();
-  }
+        if (customer.includes(",")) {
+            const customerArray = customer.split(",");
+            customerData = customerArray[0].trim();
+            supportNo = customerArray[1].trim();
+        }
 
-    try {
-      const payLoad = {
-        employee: employee,
-        customer: customerData,
-        activity: problem,
-        phoneNumber: phonenumber,
-        clientAnydesk: anydesk,
-        startTime: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        type: type,
-        supportNo: supportNo,
-        comments: comments,
-        name: clientName,
-        timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        issueType: issueType,
-      };
+        try {
+            const payLoad = {
+                employee: employee,
+                customer: customerData,
+                activity: problem,
+                phoneNumber: phonenumber,
+                clientAnydesk: anydesk,
+                startTime: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                type: type,
+                supportNo: supportNo,
+                comments: comments,
+                name: clientName,
+                timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                issueType: issueType,
+        };
 
-      const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
-      console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
-  
-    } catch (error) {
-      console.error('Error taking ticket:', error);
-    }
+        //check if values have been entered/selected
+        const fields = [
+            { value: customer, message: 'Please select a client.' },
+            { value: problem, message: 'Please select a problem.' },
+            { value: phonenumber, message: 'Please enter the phone number.' },
+            { value: clientName, message: 'Please enter the client name.' },
+            { value: anydesk, message: 'Please enter the client`s Anydesk.' },
+            { value: type, message: 'Please select a call type.' },
+            { value: employee, message: 'Please select an employee.' },
+            { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+        ];
+    
+        for (const field of fields) {
+            if (!field.value) {
+                toast.error(field.message, {
+                    icon: '🚨',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+                return;
+            }
+        }
+
+        const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
+        console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
+        onClose();
+        activityNotification();
+
+        } catch (error) {
+            console.error('Error starting an activity ticket:', error);
+        }
     }
 
     const handleCheckStatus = () => {
@@ -283,6 +306,12 @@ export function StartActivity({ onClose }: Props) {
         }
             console.log("MY CHECKSTATUS TEXT:", checkStatus)
     }, [checkStatus])
+
+    useEffect(() => {
+        if (user?.emp_name) {
+            setEmployee(user.emp_name);
+        }
+    }, [user]);
 
 
     const submitTicket = async () => {
@@ -347,8 +376,6 @@ export function StartActivity({ onClose }: Props) {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
                 <div className="text-black flex items-center gap-2 justify-end">
-                    <MinimizeIcon className="h-5 w-5" onClick={onClose} />
-                    <MaximizeIcon className="h-5 w-5" onClick={onClose} />
                     <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
                 </div>
                 <h1 className="text-black text-2xl font-bold mb-6">Start Activity</h1>
@@ -453,11 +480,11 @@ export function StartActivity({ onClose }: Props) {
                     </div>
                 </div>
                 <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
-                <div className="flex justify-between gap-2 mt-6">
-                    <Button onClick={onClose} className="bg-red mr-2 w-full">
+                <div className="flex justify-between mt-4">
+                    <Button onClick={ onClose } className="bg-red hover:bg-black hover:text-white w-60 sm:w-52 ">
                         <span>Cancel</span>
                     </Button>
-                    <Button onClick={takeCall} className="bg-green mr-2 w-full">
+                    <Button onClick={ takeCall } className="bg-green hover:bg-black hover:text-white w-60 sm:w-52">
                         <span>Save</span>
                     </Button>
                 </div>
