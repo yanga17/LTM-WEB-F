@@ -1,11 +1,9 @@
 'use client'
 
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState, useEffect, createContext } from "react";
-import { Filter, UserRound, TicketX, AlignCenterVertical, ClipboardCheck  } from "lucide-react";
+import { useState } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
 import { CustomerCallPDF } from '../../components/component/customerCallsPDF'
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
@@ -121,22 +119,6 @@ export const CustomerCallsReport = () => {
             filterNotification();
         }
     }
-
-    // const generateCustomerCallsPDF = async () => {
-    //     if (filteredData.length === 0) {
-    //         generateNotification();
-
-    //     } else {
-    //         const blob = await ReactPDF.pdf(<CustomerCallPDF data={filteredData} starttime={startTime} endtime={endTime} />).toBlob();
-    //         const url = URL.createObjectURL(blob);
-    //         const a = document.createElement('a');
-    //         a.href = url;
-    //         a.download = 'CustomerCallsReport.pdf';
-    //         document.body.appendChild(a); // Append to the document to trigger the download
-    //         a.click();
-    //         document.body.removeChild(a); // Remove after download
-    //     }
-    // };
 
     const viewNotification = () => {
         toast.error('Please generate the report before viewing the PDF File!', {

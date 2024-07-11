@@ -4,11 +4,10 @@ import { apiEndPoint, colors } from '@/utils/colors';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
 import { CustomerCallTimesPDF } from '../../components/component/customerCallTimesPDF'
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import { X } from 'lucide-react'
+import { X } from 'lucide-react';
 
 interface CustomerCallTimesProps {
     Call_ID: number,

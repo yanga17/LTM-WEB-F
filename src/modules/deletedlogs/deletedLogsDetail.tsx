@@ -2,20 +2,13 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button"
-
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-
 import {useState, useEffect} from 'react';
-import { TicketDeletion } from "@/components/component/ticket-deleted";
-
 import { toast } from 'react-hot-toast';
-import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
-
+import { Undo2, Minimize2, Check  } from "lucide-react";
 import { useContext } from 'react'; 
-import { DeletedProps } from './deletedLogsModule';
 import { DeletedResponseType } from './deletedLogsModule';
-
 import { DeletedLogsContext } from './deletedLogsModule';
 
 interface EachTicketsProps {
@@ -137,8 +130,12 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button onClick={undoTicket} className="mr-2 bg-green">Undo</Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange">Close</Button>
+                        <Button onClick={undoTicket} className="mr-2 bg-green">Undo
+                            <Undo2 size={18} strokeWidth={2} color="white" className="ml-2" />
+                        </Button>
+                        <Button onClick={onClose} className="mr-2 bg-orange">Close
+                            <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
+                        </Button>
                     </div>
                 </div>
             </div>

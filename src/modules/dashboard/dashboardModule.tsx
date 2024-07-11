@@ -1,18 +1,14 @@
 'use client'
 
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState, useEffect, createContext } from "react";
-
+import { useState, useEffect } from "react";
 import { BarChartComponent } from "../../components/component/EmployeeBarChart";
 import { CustomerErrorComponent } from "../../components/component/customerErrorBarChart";
 import { CustomerCallsComponent } from "../../components/component/customerCallsBarChart";
 import { EmployeeTaskComponent } from "../../components/component/employeeTaskChart";
-
 import { ErrorChartComponent } from "../../components/component/error-chart-component";
-
 import { Filter, UserRound, TicketX, AlignCenterVertical, ClipboardCheck  } from "lucide-react";
 import axios from 'axios';
-import { Button } from "@/components/ui/button";
 
 //EmployeeChart
 interface EmployeeProps {
@@ -38,7 +34,7 @@ interface ClientGridProps {
     TotalClientsCount: number,
     ClientEliteCount: number,
     ClientBasicCount: number,
-    ClientNoSupportPackCount: number
+    ClientNoSupportPackCount: number,
 }
 type ClientGridResponse = ClientGridProps[]
 
@@ -64,7 +60,8 @@ interface TicketSummaryProps {
     CurrentLoggedTickets: number,
     TasksCompleted: number,
     ErrorsCompleted: number,
-    OvrTicketsCompleted: number
+    OvrTicketsCompleted: number,
+    CompletedFollowUps: number
 }
 type TicketSummaryResponse = TicketSummaryProps[]
 
@@ -93,7 +90,6 @@ export const DashboardModule = () => {
     const [customerErrorState, setCustomerErrorState] = useState(false);
     const [employeeTaskErrorState, setEmployeeTaskErrorState] = useState(false);
     const [customerCallsErrorState, setCustomerCallsErrorState] = useState(false);
-    
 
     //CustomersBarChart
     const [customerStartTime, setCustomerStartTime] = useState('2024-06-01 08:00:17');
@@ -113,16 +109,15 @@ export const DashboardModule = () => {
 
     //EMPLOYEEData - Chart
     const filterEmployeeBarChart = async () => {
-        //http://localhost:4200/dashboard/getempsummary/2024-05-30 14:29:33/2024-06-11 09:25:26
         try {
-            setEmployeeSumErrorState(false); // Reset the error state before fetching data
+            setEmployeeSumErrorState(false);
             const url = `dashboard/getempsummary/${starttime}/${endtime}`;
             const response = await axios.get<EmployeeResponse>(`${apiEndPoint}/${url}`);
             setEmployeeData(response?.data);
 
         } catch (error) {
             console.error('An error occurred while fetching reports:', error);
-            setEmployeeSumErrorState(true); // Update the error state;
+            setEmployeeSumErrorState(true);
         }
     }
 
@@ -168,7 +163,6 @@ export const DashboardModule = () => {
     //---- ---- FUNCTION TO GRAB DATA FOR GRIDS ---- ----
     const getClientGridData = async () => {
         try {
-            //http://localhost:4200/dashboard/getclientdata
             const url = `dashboard/getclientsummary`;
             const response = await axios.get<ClientGridResponse>(`${apiEndPoint}/${url}`);
             setClientGridData(response?.data);
@@ -180,7 +174,6 @@ export const DashboardModule = () => {
 
     const getErrorsGridData = async () => {
         try {
-            //http://localhost:4200/dashboard/getcommonerrors
             const errorsurl = `dashboard/getcommonerrors`
             const response = await axios.get<ErrorsGridResponse>(`${apiEndPoint}/${errorsurl}`);
             setErrorsGridData(response?.data)
@@ -191,7 +184,6 @@ export const DashboardModule = () => {
 
     const getTasksGridData = async () => {
         try {
-            //http://localhost:4200/dashboard/getcommontasks
             const tasksurl = `dashboard/getcommontasks`
             const response = await axios.get<TasksGridResponse>(`${apiEndPoint}/${tasksurl}`);
             setTasksGridData(response?.data)
@@ -229,26 +221,34 @@ export const DashboardModule = () => {
             <div className="grid grid-cols-4 gap-5 mt-3">
                 <div className="text-gray-800 flex flex-col justify-around p-2 rounded bg-white shadow">
                     <div className="flex items-center justify-between">
-                        <h3>Clients</h3>
-                        <UserRound size={40} color='green' strokeWidth={1.2} />
+                        <h3>Daily Ticket Summary</h3>
+                        <AlignCenterVertical size={40} color='purple' strokeWidth={1.2} />
                     </div>
-                    {clientGridData.map((client, index) => (
+                    {ticketSummaryGridData.map((summary, index) => (
                     <div key={index} className="uppercase">
-                        <div className="flex justify-between">
-                            <p>Total Clients:</p>
-                            <p>{client.TotalClientsCount}</p>
+                        <div className="flex justify-between mt-2">
+                            <p>Active Tickets</p>
+                            <p>{summary.CurrentActiveTickets || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients On Elite Package:</p>
-                            <p>{client.ClientEliteCount}</p>
+                            <p>Logged Tickets</p>
+                            <p>{summary.CurrentLoggedTickets || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients on Basic Package:</p>
-                            <p>{client.ClientBasicCount}</p>
+                            <p>Completed Tasks</p>
+                            <p>{summary.TasksCompleted || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients with no Support:</p>
-                            <p>{client.ClientNoSupportPackCount}</p>
+                            <p>Completed Client Errors</p>
+                            <p>{summary.ErrorsCompleted || '--'}</p>
+                        </div>
+                        <div className="mt-4 flex justify-between">
+                            <p>Completed Follow-Up Tickets</p>
+                            <p>{summary.CompletedFollowUps}</p>
+                        </div>
+                        <div className="mt-4 flex justify-between">
+                            <p>Total Completed Tickets</p>
+                            <p>{summary.OvrTicketsCompleted || '--'}</p>
                         </div>
                     </div>
                     ))}
@@ -279,30 +279,26 @@ export const DashboardModule = () => {
                 </div>
                 <div className="text-gray-800 flex flex-col justify-around p-2 rounded bg-white shadow">
                     <div className="flex items-center justify-between">
-                        <h3>Ticket Summary</h3>
-                        <AlignCenterVertical size={40} color='purple' strokeWidth={1.2} />
+                        <h3>Clients</h3>
+                        <UserRound size={40} color='green' strokeWidth={1.2} />
                     </div>
-                    {ticketSummaryGridData.map((summary, index) => (
+                    {clientGridData.map((client, index) => (
                     <div key={index} className="uppercase">
                         <div className="flex justify-between">
-                            <p>Active Tickets</p>
-                            <p>{summary.CurrentActiveTickets}</p>
+                            <p>Total Clients:</p>
+                            <p>{client.TotalClientsCount}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Logged Tickets</p>
-                            <p>{summary.CurrentLoggedTickets}</p>
+                            <p>Clients On Elite Package:</p>
+                            <p>{client.ClientEliteCount}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Completed Tasks</p>
-                            <p>{summary.TasksCompleted}</p>
+                            <p>Clients on Basic Package:</p>
+                            <p>{client.ClientBasicCount}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Completed Client Errors</p>
-                            <p>{summary.ErrorsCompleted}</p>
-                        </div>
-                        <div className="mt-4 flex justify-between">
-                            <p>Total Completed Tickets</p>
-                            <p>{summary.OvrTicketsCompleted}</p>
+                            <p>Clients with no Support:</p>
+                            <p>{client.ClientNoSupportPackCount}</p>
                         </div>
                     </div>
                     ))}
@@ -365,7 +361,7 @@ export const DashboardModule = () => {
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[450px] bg-white flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Common Tasks Completed <span className="text-xs text-gray-500">(s)</span></p>
+                        <p className="text-gray-500 font-medium uppercase text-md">No. Common Tasks Completed<span className="text-xs text-gray-500">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeTaskStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />

@@ -4,14 +4,13 @@ import React from 'react';
 import { Button } from "@/components/ui/button"
 import { DetailResponseType } from './activeTicketsModule'; 
 import { ActiveResponseType } from './activeTicketsModule';  
-
 import { useState } from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { Minimize2, PhoneOff, Move3d, Send } from "lucide-react";
+import { Minimize2, PhoneOff, Move3d } from "lucide-react";
 
 interface EachTicketProps {
     ticketData: DetailResponseType;
@@ -177,13 +176,13 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                 </div>
                             </div>
                             <div className="flex justify-end mt-5 gap-4">
-                                <Button onClick={() => { endTicket(Employee, callid) }} className="mr-2 bg-green">End Call
+                                <Button onClick={() => { endTicket(Employee, callid) }} className="mr-2 bg-red sm:bg-red">End Call
                                     <PhoneOff size={18} strokeWidth={2} className="ml-2" />
                                 </Button>
-                                <Button onClick={() => { toggleTransfer(callid) }} className="mr-2 bg-purple">Transfer Call
+                                <Button onClick={() => { toggleTransfer(callid) }} className="mr-2 bg-purple sm:bg-purple">Transfer
                                     <Move3d size={18} strokeWidth={2} className="ml-2" />
                                 </Button>
-                                <Button onClick={onClose} className="mr-2 bg-orange">Close
+                                <Button onClick={onClose} className="mr-2 bg-orange sm:bg-orange">Close
                                     <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                                 </Button>
                             </div>

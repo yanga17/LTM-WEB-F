@@ -2,16 +2,13 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button"
-
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-
 import {useState, useEffect} from 'react';
 import { TicketDeletion } from "@/components/component/ticket-deleted";
-
+import { EditCall } from "@/components/component/edit-call";
 import { toast } from 'react-hot-toast';
-import { Minimize2, Check, Trash2, PhoneOutgoing } from "lucide-react";
-
+import { Minimize2, Check, Trash2, PhoneOutgoing, PencilRuler } from "lucide-react";
 import { useContext } from 'react';
 import { TicketsContext } from './ticketsModule';
 import { useSession } from '@/context';
@@ -21,10 +18,10 @@ interface EachTicketsProps {
 }
 
 export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
+    const [editCallPopUp, setEditCallPopUp] = useState(false);
     const [deletePopUp, setDeletePopUp] = useState(false);
     const [deletionId, setDeletionId] = useState(0);
     const ticket = useContext(TicketsContext);
-
     const { user } = useSession();
 
     if (!ticket) {
@@ -154,6 +151,11 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         }
     }
 
+    const toggleEditCall = () => {
+        setEditCallPopUp(!editCallPopUp);
+        console.log("open my edit call model")
+    }
+
     const { customerData, supportNo } = filterCustomer();
 
     console.log("my logger, wtf is it?:", ticket.logger)
@@ -161,6 +163,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     return (
     <>
+    {editCallPopUp && <EditCall closeEdit={toggleEditCall} data={ticket} />}
     {deletePopUp && <TicketDeletion callId={deletionId} onClose={toggleDeletePage} />}
         <div className="p-4 bg-white">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
@@ -222,13 +225,16 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button onClick={() => takeLoggedTicket(ticket)} className="mr-2 bg-green">Take Call
+                        <Button onClick={() => takeLoggedTicket(ticket)} className="mr-2 bg-green sm:bg-green">Take Call
                             <PhoneOutgoing size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red">Delete
+                        <Button onClick={ toggleEditCall } className="mr-2 bg-slate-400 sm:bg-slate-400 w-35">Edit
+                            <PencilRuler size={18} strokeWidth={2} className="ml-2" />
+                        </Button>
+                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red sm:bg-red">Delete
                             <Trash2 size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange">Close
+                        <Button onClick={onClose} className="mr-2 bg-orange sm:bg-orange">Close
                             <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                         </Button>
                     </div>

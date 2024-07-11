@@ -5,15 +5,9 @@ import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
-
 import { Button } from "@/components/ui/button";
-import { CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
-import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Undo2, CircleSlash2, CircleSlash, Check, PhoneOutgoing, PhoneOff, Loader } from "lucide-react";
-import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
-
+import { View, CircleSlash, PhoneOutgoing, Loader } from "lucide-react";
 import { createContext } from "react";
 import { FollowUpsDetail } from "./followUpsDetail";
 
@@ -230,7 +224,7 @@ export const FollowUpsModule = () => {
         <FollowUpContext.Provider value={viewFollowUp} >
             {filteredData?.map(({ idx, id, employee, customer, activity, phoneNumber, starTime, endTime, duration, type, solution, supportnumber, comments, followUp, completed, name, clientsAnydesk, numberofdays, issuetype }, index) => (
                 <>
-                    <tr className="border-b font-medium">
+                    <tr className="border-b font-medium text-black sm:text-black">
                         <td key={id}className="p-2">{id}</td>
                         <td className="p-2 w-[80px]">{employee  || '--:--'}</td>
                         <td className="p-2 whitespace-nowrap truncate">{customer  || '--:--'}</td>
@@ -240,11 +234,11 @@ export const FollowUpsModule = () => {
                         <td className="text-center">{completed === 1 ? '❌' : completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
-                                    <EyeIcon className="h-4 w-4" />
+                                <Button size="sm" className="bg-purple sm:bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
+                                    <View size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-green py-4 px-2 w-8/12" onClick={() => { startFollowUp(id)}}>
-                                    <PhoneOutgoing className="h-4 w-4" />
+                                <Button size="sm" className="bg-green sm:bg-green py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
+                                    <PhoneOutgoing size={18} strokeWidth={2} />
                                 </Button>
                             </div>
                         </td>  
