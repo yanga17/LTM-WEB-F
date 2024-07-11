@@ -1,3 +1,5 @@
+'use client'
+
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -35,7 +37,7 @@ export function UnresolvedFollowUps() {
   return (
     <Dialog defaultOpen>
       {followUpsTotal.map((summary, index) => (
-      <DialogTrigger asChild>
+      <DialogTrigger asChild key={index}>
         <Button variant="outline" className="bg-white text-black">
           <BellIcon className="w-5 h-5 mr-2" />Unresolved Follow-Up's
           <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
@@ -48,7 +50,7 @@ export function UnresolvedFollowUps() {
         <DialogHeader>
           <DialogTitle>Unresolved Customer Tickets</DialogTitle>
           {followUpsTotal.map((summary, index) => (
-            <DialogDescription>You have {summary.FollowUpsTotal} unresolved customer tickets that need to be followed up.</DialogDescription>
+            <DialogDescription key={index}>You have {summary.FollowUpsTotal} unresolved customer tickets that need to be followed up.</DialogDescription>
           ))}
         </DialogHeader>
         <div className="flex justify-end">
