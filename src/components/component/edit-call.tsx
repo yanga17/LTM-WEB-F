@@ -73,9 +73,23 @@ export function EditCall({ closeEdit, data }: Props) {
     const [tickets, setTickets] = useState("");
     const [checkStatus, setCheckStatus] = useState(false); //checkbox
 
-    if (!data){
-        return <div>THERE AINT NO DATA MY NIGGAS</div>
-    }
+    useEffect(() => {
+        generateCustomers();
+        generateProblems();
+        generateEmployees();
+        generateTypes();
+        generateEdtitedData();
+        filterCustomer(allCustomers);
+    }, []);
+
+    useEffect(() => {
+        if (checkStatus === true) {
+            setIssueType("Task");
+        } else {
+            setIssueType("Problem");
+        }
+            console.log("MY CHECKSTATUS TEXT:", checkStatus)
+    }, [checkStatus])
 
     const generateCustomers = async () => {
     try {
@@ -204,23 +218,23 @@ export function EditCall({ closeEdit, data }: Props) {
         }
     };
 
-    useEffect(() => {
-        generateCustomers();
-        generateProblems();
-        generateEmployees();
-        generateTypes();
-        generateEdtitedData();
-        filterCustomer(allCustomers);
-    }, []);
+    // useEffect(() => {
+    //     generateCustomers();
+    //     generateProblems();
+    //     generateEmployees();
+    //     generateTypes();
+    //     generateEdtitedData();
+    //     filterCustomer(allCustomers);
+    // }, []);
 
-    useEffect(() => {
-        if (checkStatus === true) {
-            setIssueType("Task");
-        } else {
-            setIssueType("Problem");
-        }
-            console.log("MY CHECKSTATUS TEXT:", checkStatus)
-    }, [checkStatus])
+    // useEffect(() => {
+    //     if (checkStatus === true) {
+    //         setIssueType("Task");
+    //     } else {
+    //         setIssueType("Problem");
+    //     }
+    //         console.log("MY CHECKSTATUS TEXT:", checkStatus)
+    // }, [checkStatus])
 
     const saveEdit = async () => {
         const editData = {
