@@ -3,19 +3,12 @@
 import * as React from "react"
 import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-
-import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
-
 import { Button } from "@/components/ui/button";
-import { EyeIcon, CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
-
+import { EyeIcon } from "@/components/component/tickets-table";
 import { createContext } from "react";
 import { ClientsDetail } from "./clientsDetail";
-import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { CircleSlash2, CircleSlash, Loader } from "lucide-react";
+import { CircleSlash, Loader, View } from "lucide-react";
 import Image from 'next/image';
 
 interface ClientProps {
@@ -49,9 +42,6 @@ export const ClientsModule = () => {
     const [viewClient, setViewClient] = useState<ClientProps | null>(null);
 
     const [input, setInput] = useState('');
-
-    //const [myFilteredClients, setMyFilteredClients] = useState<ClientResponseType>([]);
-
     const [state, setState] = useState({
             isOpen: true,
             expandView: null
@@ -91,7 +81,6 @@ export const ClientsModule = () => {
     const searchCustomers = (clientname: any) => {
         setInput(clientname);
         console.log("MY CLIENTNAME:+++++", clientname);
-      //fetchSearchedCustomer(clientname);
     }
 
 
@@ -112,16 +101,6 @@ export const ClientsModule = () => {
                                 </div>
                             </div>
                         </header>
-                        {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                            <Button size="lg" className="bg-purple" disabled>
-                                <PhoneIcon className="h-4 w-4 mr-2" />
-                                <span>Start Call</span>
-                            </Button>
-                            <Button size="lg" className="bg-purple" disabled>
-                                <CoffeeIcon className="h-4 w-4 mr-2" />
-                                <span>Start Break</span>
-                            </Button>
-                        </div> */}
                         <div className="grid gap-6">
                             <div className="h-screen overflow-auto">
                                 <div>
@@ -149,7 +128,7 @@ export const ClientsModule = () => {
                                                     <td colSpan={9} className="h-[150px]">
                                                         <div className="flex flex-col items-center justify-center h-full w-full">
                                                             <Loader className="h-12 w-12" />
-                                                            <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient.</p>
+                                                            <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading Data, Please be patient.</p>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -185,16 +164,6 @@ export const ClientsModule = () => {
                         </div>
                     </div>
                 </header>
-                {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    <Button size="lg" className="bg-purple">
-                        <PhoneIcon className="h-4 w-4 mr-2" />
-                        <span>Start Call</span>
-                    </Button>
-                    <Button size="lg" className="bg-purple">
-                        <CoffeeIcon className="h-4 w-4 mr-2" />
-                        <span>Start Break</span>
-                    </Button>
-                </div> */}
                 <div className="grid gap-6">
                   <div className="h-screen overflow-auto">
                     <div>
@@ -222,7 +191,7 @@ export const ClientsModule = () => {
                                 <td colSpan={9} className="h-[150px]">
                                     <div className="flex flex-col items-center justify-center h-full w-full">
                                         <CircleSlash className="h-12 w-12" />
-                                        <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data, Please Refresh!</p>
+                                        <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data, Please Refresh!</p>
                                     </div>
                                 </td>
                             </tr>
@@ -255,32 +224,7 @@ export const ClientsModule = () => {
                           />
                       </div>
                   </div>
-                  {/* <div className="flex items-center">
-                      <Button size="lg" variant="ghost">
-                          <img
-                              alt="Avatar"
-                              height="32"
-                              src="C:\\Users\\Pc\\Pictures\\Camera Roll\\toji.jpg"
-                              style={{
-                                  aspectRatio: "32/32",
-                                  objectFit: "cover",
-                              }}
-                              width="32"
-                          />
-                          <span className="sr-only">User Profile</span>
-                      </Button>
-                  </div> */}
               </header>
-              {/* <div className="bg-white flex justify-start px-5 py-2 items-center space-x-6 mt-2">
-                  <Button size="lg" className="bg-purple">
-                      <PhoneIcon className="h-4 w-4 mr-2" />
-                      <span>Start Call</span>
-                  </Button>
-                  <Button size="lg" className="bg-purple">
-                      <CoffeeIcon className="h-4 w-4 mr-2" />
-                      <span>Start Break</span>
-                  </Button>
-              </div> */}
               <div className="grid gap-6">
                 <div className="h-screen overflow-auto">
                   <div>
@@ -360,16 +304,6 @@ export const ClientsModule = () => {
                         </div>
                     </div>
                 </header>
-                {/* <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    <Button size="lg" className="bg-purple">
-                        <PhoneIcon className="h-4 w-4 mr-2" />
-                        <span>Start Call</span>
-                    </Button>
-                    <Button size="lg" className="bg-purple">
-                        <ActivityIcon className="h-4 w-4 mr-2" />
-                        <span>Start Activity</span>
-                    </Button>
-                </div> */}
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
                         <div>
@@ -380,7 +314,7 @@ export const ClientsModule = () => {
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-auto">
                                         <thead className="bg-greyDarker">
-                                            <tr className="bg-grey text-left h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
+                                            <tr className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300 text-left h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
                                                 <th className="p-2">UID</th>
                                                 <th className="">Customer</th>
                                                 <th className="">Support No.</th>
@@ -407,7 +341,7 @@ export const ClientsModule = () => {
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
                                                             <Button size="sm" className="bg-purple py-4 w-20" onClick={() => { openModal(uid)}}>
-                                                                <EyeIcon className="h-4 w-4" />
+                                                                <View size={18} strokeWidth={2} />
                                                             </Button>
                                                         </div>
                                                     </td>

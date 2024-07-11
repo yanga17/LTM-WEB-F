@@ -5,17 +5,11 @@ import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
-
 import { createContext } from "react"
 import { Button } from "@/components/ui/button";
-import { EyeIcon, CoffeeIcon, PhoneIcon, ActivityIcon } from "@/components/component/tickets-table";
-import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Undo2, Loader, Check, CircleSlash  } from "lucide-react";
+import { Undo2, Loader, Check, CircleSlash, View  } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
-
-import Image from 'next/image';
 
 export interface DeletedProps {
     idx: number,
@@ -355,10 +349,10 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Reason || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                        <Button size="sm" className="bg-purple w-20" onClick={() => { openModal(idx)}}>
-                                                            <EyeIcon className="h-4 w-4" />
+                                                        <Button size="sm" className="bg-purple sm:bg-purple w-24 md:w-24" onClick={() => { openModal(idx)}}>
+                                                            <View size={18} strokeWidth={2} />
                                                         </Button>
-                                                            <Button size="sm" className="bg-purple py-4 w-20 mr-2 md:w-20 md:mr-2"
+                                                            <Button size="sm" className="bg-red sm:bg-red py-4 w-24 mr-2 md:w-24 md:mr-2"
                                                             onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
@@ -368,7 +362,7 @@ export const DeletedLogsModule = () => {
                                                                     console.error('Selected ticket not found');
                                                                 }
                                                             }}>
-                                                                <Undo2 className="h-4 w-4" />
+                                                                <Undo2 size={18} strokeWidth={2} color="white" />
                                                             </Button>
                                                         </div>
                                                     </td>

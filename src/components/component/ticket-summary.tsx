@@ -4,7 +4,6 @@ import * as React from "react"
 import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
 
 interface TaskProps {
   NumberOfTasks: number
@@ -22,16 +21,22 @@ interface ActiveProps {
   ActiveTickets: number
 }
 
+interface QueuedProps {
+  QueuedTickets: number
+}
+
 type TaskResponse = TaskProps[]
 type ErrorResponse = ErrorProps[]
 type OverallTotalResponse = OverallTotalProps[]
 type ActiveResponse = ActiveProps[]
+type QueuedResponse = QueuedProps[]
 
 export function TicketSummary() {
   const [totalTasks, setTotalTasks] = useState<TaskResponse>([]);
   const [totalErrors, setTotalErrors] = useState<ErrorResponse>([]);
   const [overallTotal, setOverallTotal] = useState<OverallTotalResponse>([]);
   const [activeTotal, setActiveTotal] = useState<ActiveResponse>([]);
+  const [queuedTotal, setQueuedTotal] = useState<QueuedResponse>([]);
 
   //getTaskSummary
   const taskSummary = async () => {
@@ -96,6 +101,21 @@ export function TicketSummary() {
       console.error("Error fetching active summary:", error);
     }
   }
+
+  const queuedSummary = async () => {
+    try {
+      const queuedUrl = `tickets/getloggedsummary`;
+      const queuedSummary = await axios.get<QueuedResponse>(`${apiEndPoint}/${queuedUrl}`);
+
+      if (queuedSummary?.data && queuedSummary.data.length > 0) {
+        setQueuedTotal(queuedSummary?.data);
+      }
+      console.log("my number of queued tickets returned:", queuedSummary.data);
+
+    } catch (error) {
+      console.error("Error fetching queued summary:", error);
+    }
+  }
   
 
   useEffect(() => {
@@ -103,39 +123,49 @@ export function TicketSummary() {
     errorSummary();
     totalSummary();
     activeSummary();
+    queuedSummary();
   }, [])
+
 
   return (
     <>
     {totalTasks.map(({ NumberOfTasks }, index) => (
-      <div key={index} className="w-[400px] bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <header className="bg-gray-100 px-3 py-2 rounded-t-lg dark:bg-gray-700">
-        <h2 className="text-gray-800 font-medium text-lg dark:text-gray-200">Today`s Summary:</h2>
+      <div key={index} className="w-[400px] bg-white rounded-lg shadow-md">
+      <header className="bg-gray-100 sm:bg-gray-100 px-3 py-2 rounded-t-lg">
+        <h2 className="text-gray-800 font-medium text-lg">Daily Summary:</h2>
       </header>
       <div className="grid grid-cols-3 gap-3 p-3">
-        <div className="bg-gray-100 rounded-lg p-3 dark:bg-gray-700">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
+        <div className="bg-gray-100 sm:bg-gray-100 rounded-lg p-3">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-800">
             {NumberOfTasks}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Task(s) Completed</p>
+          <p className="text-sm text-gray-500 sm:text-gray-500 dark:text-gray-400">Task(s) Completed</p>
         </div>
-        <div className="bg-gray-100 rounded-lg p-3 dark:bg-gray-700">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
+        <div className="bg-gray-100 sm:bg-gray-100 rounded-lg p-3">
+          <h3 className="text-xl font-bold text-gray-800 sm:text-gray-800">
           {totalErrors[index]?.NumberOfProblems || '0'}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">Customer Errors Solved</p>
         </div>
-        <div className="bg-gray-100 rounded-lg p-3 dark:bg-gray-700">
+        <div className="bg-gray-100 sm:bg-gray-100 rounded-lg p-3">
           <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
           {overallTotal[index]?.TicketsCompleted || '0'}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Ticket(s) Completed</p>
+          <p className="text-sm text-gray-500 sm:text-gray-500">Ticket(s) Completed</p>
         </div>
-        <div className="bg-gray-100 rounded-lg p-3 col-span-3 dark:bg-gray-700">
+        <div className="bg-gray-100 sm:bg-gray-100 rounded-lg p-3 col-span-3">
           <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">No. Active Tickets</p>
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
+            <p className="text-sm text-gray-500 sm:text-gray-500">No. Active Tickets</p>
+            <h3 className="text-xl font-bold text-gray-800 sm:text-gray-800">
             {activeTotal[index]?.ActiveTickets || '0'}
+            </h3>
+          </div>
+        </div>
+        <div className="bg-gray-100 sm:bg-gray-100 rounded-lg p-3 col-span-3">
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-gray-500 sm:text-gray-500">No. Queued Tickets</p>
+            <h3 className="text-xl font-bold text-gray-800 sm:text-gray-800">
+            {queuedTotal[index]?.QueuedTickets || '0'}
             </h3>
           </div>
         </div>

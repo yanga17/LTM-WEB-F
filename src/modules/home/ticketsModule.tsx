@@ -5,18 +5,15 @@ import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { isEmpty } from 'lodash';
 import { useQuery } from "@/hooks/useQuery";
-
 import { Button } from "@/components/ui/button"
-import {EyeIcon, PlusIcon, MinusIcon} from "@/components/component/tickets-table"
 import { EachTicketsModule } from "./ticketsDetail";
 import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, View } from "lucide-react";
 import { useSession } from '@/context';
 import { createContext } from "react";
 
 //interface for all tickets - tblcalls
-interface CheckProps {
+export interface CheckProps {
   Call_ID: number,
   Customer: string,
   Problem: string,
@@ -46,8 +43,8 @@ export const TicketsModule = () => {
     //const [tickets, setTickets] = useState<ResponseType>([]);
 
     const [state, setState] = useState({
-    isOpen: true,
-    expandView: null
+      isOpen: true,
+      expandView: null
     });
 
     //gviewAll loggedTickets
@@ -107,6 +104,7 @@ export const TicketsModule = () => {
       }
     }
 
+
     const openModal = (id: any) => {
       if (currentOpen === id) {
           setCurrentOpen('');
@@ -145,7 +143,7 @@ export const TicketsModule = () => {
               <td colSpan={7} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <Loader className="h-12 w-12" />
-                      <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
+                      <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading Data, Please be patient</p>
                   </div>
               </td>
           </tr>
@@ -159,7 +157,7 @@ export const TicketsModule = () => {
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     <CircleSlash className="h-12 w-12" />
-                    <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching Data!</p>
+                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data!</p>
                 </div>
             </td>
         </tr>
@@ -183,7 +181,6 @@ export const TicketsModule = () => {
     }
 
 
-
   return (
     <>
     <TicketsContext.Provider value={viewticket}>
@@ -200,11 +197,10 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
+                <Button size="sm" className="bg-purple sm:bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
                   <View size={18} strokeWidth={2} />
                 </Button>
-                <Button size="sm"
-                  className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
+                <Button size="sm" className="bg-green sm:bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = data.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

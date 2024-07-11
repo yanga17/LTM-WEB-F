@@ -4,7 +4,6 @@ import { apiEndPoint, colors } from '@/utils/colors';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
 import { EmployeeSummaryPDF } from '../../components/component/employeeSummaryPDF'
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
@@ -42,9 +41,7 @@ export const EmployeeSummaryReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeSumResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['Call ID', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 
-        'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total Tickets Per Employee']
-
+    const headers = ['Call ID', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total Tickets Per Employee']
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 

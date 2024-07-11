@@ -4,7 +4,6 @@ import { apiEndPoint, colors } from '@/utils/colors';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
 import { EmployeeAvgTimePDF } from '../../components/component/employeeAvgPDF'
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';

@@ -1,7 +1,6 @@
 'use client'
 
-import { DeletedLogsModule } from "@/modules/deletedlogs/deletedLogsModule"; // for named export
-// or import DeletedLogsModule from "@/modules/deletedLogs/deletedLogsModule"; -- for default export
+import { DeletedLogsModule } from "@/modules/deletedlogs/deletedLogsModule";
 
 export default function Page() {
     return <DeletedLogsModule />

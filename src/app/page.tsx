@@ -1,16 +1,12 @@
 'use client'
 
+import * as React from "react"
+import { useState } from 'react'
 import { TicketsModule } from "@/modules";
 import { ActiveTicketsModule } from "@/modules";
-
 import {  CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-
 import { ActivityIcon, PhoneIcon } from "@/components/component/tickets-table"
-
-import * as React from "react"
-import {useState} from 'react'
-
 import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
@@ -23,9 +19,9 @@ export default function Home() {
 
   const router = useRouter();
 
-    const handleSearchClick = () => {
+  const handleSearchClick = () => {
         router.push('/customers');
-    };
+  };
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
@@ -82,7 +78,7 @@ export default function Home() {
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
                 <table className="w-full table-fixed">
-                  <thead className="bg-gray-300">
+                  <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>
@@ -109,7 +105,7 @@ export default function Home() {
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
                 <table className="w-full table-fixed p-4">
-                <thead className="bg-gray-300">
+                <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>

@@ -6,7 +6,6 @@ import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
-
 import { Button } from "@/components/ui/button"
 import { EachActiveTicketsModule } from "./activeTicketsDetail";
 import { TicketSolution } from "@/components/component/ticket-solution";
@@ -129,6 +128,7 @@ export const ActiveTicketsModule = () => {
     }
 
     const generateUserTickets = async () => {
+        //http://localhost:4200/tickets/getactiveusertickets/Yanga
         setLoadingUserTickets(true)
         try {
             const userUrl = `tickets/getactiveusertickets/${user?.emp_name}`
@@ -182,7 +182,8 @@ export const ActiveTicketsModule = () => {
         return () => clearInterval(interval); // Clear interval on component unmount
     }, []);
 
-
+    const loggedInUser = Admin.includes(user?.emp_name ?? '');
+    
     //AllTicketsLoadingData State
     if (loading) {
         return (
@@ -226,7 +227,7 @@ export const ActiveTicketsModule = () => {
     }
 
     //userError State
-    if (errorUserTickets) {
+    if (!loggedInUser && errorUserTickets) {
         return (
             <tr>
                 <td colSpan={7} className="h-[150px]">
@@ -256,7 +257,8 @@ export const ActiveTicketsModule = () => {
     }
 
     //userNoData State
-    const loggedInUser = Admin.includes(user?.emp_name ?? '');
+    
+    
     if (!loggedInUser && userTickets?.length === 0) {
         return (
         <>
@@ -337,10 +339,10 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple  w-20 md:w-20" onClick={() => { openModal(callid)}}>
+                                <Button size="sm" className="bg-purple sm:bg-purple  w-20 md:w-20" onClick={() => { openModal(callid)}}>
                                     <View size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
+                                <Button size="sm" className="bg-red sm:bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
                                     <PhoneOff size={18} strokeWidth={2} />
                                 </Button>
                             </div>

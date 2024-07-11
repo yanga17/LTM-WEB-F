@@ -1,11 +1,9 @@
 'use client'
 
 import { apiEndPoint, colors } from '@/utils/colors';
-import { useState, useEffect, createContext } from "react";
-import { Filter, UserRound, TicketX, AlignCenterVertical, ClipboardCheck  } from "lucide-react";
+import { useState } from "react";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
 import { CustomerErrorsPDF } from '../../components/component/customerErrorsPDF'
 import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
