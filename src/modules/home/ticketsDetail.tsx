@@ -50,6 +50,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 supportNo: supportNo,
                 comments: ticket.Comments,
                 name: ticket.Name,
+                email_address: ticket.Email_Address,
                 timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 issueType: ticket.IssueType,
                 priority: ticket.urgent,
@@ -115,7 +116,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
             phonenumber: ticket.Phone_Number,
             startime: ticket.Time,
             supportnumber: ticket.Support_No,
-            priority: ticket.urgent,
+            priority: ticket.Priority,
             issueType: ticket.IssueType,
             comments: ticket.Comments,
             insertiontime: new Date().toISOString().slice(0, 19).replace('T', ' ')
@@ -158,8 +159,6 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     const { customerData, supportNo } = filterCustomer();
 
-    console.log("my logger, wtf is it?:", ticket.logger)
-
 
     return (
     <>
@@ -177,13 +176,17 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                             <p className="font-medium text-gray-500 text-md">Employee</p>
                             <p className="font-semibold text-md">{ticket.Empl || '--:--'}</p>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 mt-6">
+                            <p className="font-medium text-gray-500 text-md">Client Email</p>
+                            <p className="font-semibold text-md">{ticket.Email_Address || '--:--'}</p>
+                        </div>
+                        <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
                             <p>{supportNo || ticket.Support_No || '--:--'}</p>
                         </div>
-                        <div>
-                            <p className="font-medium text-gray-500 text-md">IssueType</p>
-                            <p className="font-semibold text-md">{ticket.IssueType || '--:--'}</p>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 text-md">Comments</p>
+                            <p className="font-semibold text-md">{ticket.Comments || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
@@ -199,7 +202,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                             <p className="font-medium text-gray-500 text-md">Start Time</p>
                             <p>{new Date(ticket.Time).toLocaleString()}</p>
                         </div>
-                        <div>
+                        <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Logger</p>
                             <p>{ticket.logger || '--:--'}</p>
                         </div>
@@ -214,13 +217,13 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                             <p className="font-semibold text-md">{ticket.Phone_Number || '--:--'}</p>
                         </div>
                         <div className="mb-4">
-                            <p className="font-medium text-gray-500 text-md">Comments</p>
-                            <p className="font-semibold text-md">{ticket.Comments || '--:--'}</p>
+                            <p className="font-medium text-gray-500 text-md">IssueType</p>
+                            <p className="font-semibold text-md">{ticket.IssueType || '--:--'}</p>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Priority</p>
-                            <p className={`font-semibold text-md ${ticket.urgent === 1 ? 'text-red' : ticket.urgent === 2 ? 'text-orange' : ticket.urgent === 0 ? 'text-grey' : ''}`}>
-                                {ticket.urgent === 1 ? "Urgent" : ticket.urgent === 2 ? "Moderate" : "Low"}
+                            <p className={`font-semibold text-md ${ticket.Priority === 'P1' ? 'text-red' : ticket.Priority === 'P2' ? 'text-orange' : (ticket.Priority === 'P3' || ticket.Priority === 'P4') ? 'text-grey' : ''}`}>
+                                {ticket.Priority || '--:--'}
                             </p>
                         </div>
                     </div>

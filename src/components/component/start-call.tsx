@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DoorClosedIcon } from "@/components/component/ticket-solution"
 import { useSession } from '@/context';
+import { XIcon } from "lucide-react"
 
 interface Props {
   onClose: () => void;
@@ -63,7 +64,7 @@ interface TakeCallProps {
   Comments: string,
   Solution: string,
   Name: string,
-  urgent: number,
+  Priority: string,
   IssueType: string,
   Type: string,
 }
@@ -91,6 +92,7 @@ export function StartCall({ onClose}: Props) {
   //const [urgent, setUrgent] = useState(0);
   const [comments, setComments] = useState("");
   const [issueType, setIssueType] = useState("Problem");
+  const [emailAdd, setEmailAdd] = useState("");
 
   const [tickets, setTickets] = useState("");
   const [checkStatus, setCheckStatus] = useState(false); //checkbox
@@ -202,6 +204,32 @@ export function StartCall({ onClose}: Props) {
   }
 
     try {
+      const fields = [
+        { value: customer, message: 'Please select a client.' },
+        { value: problem, message: 'Please select a problem.' },
+        { value: phonenumber, message: 'Please enter the phone number.' },
+        { value: clientName, message: 'Please enter the client name.' },
+        { value: emailAdd, message: 'Please enter the clients email address.' },
+        { value: anydesk, message: 'Please enter the client`s Anydesk.' },
+        { value: type, message: 'Please select a call type.' },
+        { value: employee, message: 'Please select an employee.' },
+        { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+      ];
+
+      for (const field of fields) {
+        if (!field.value) {
+            toast.error(field.message, {
+                icon: '🚨',
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+            return;
+          }
+      }
+
       const payLoad = {
         employee: employee,
         customer: customerData,
@@ -213,12 +241,14 @@ export function StartCall({ onClose}: Props) {
         supportNo: supportNo,
         comments: comments,
         name: clientName,
+        email_address: emailAdd,
         timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
         issueType: issueType,
       };
 
       const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
       console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
+      onClose();
   
     } catch (error) {
       console.error('Error taking ticket:', error);
@@ -273,14 +303,14 @@ export function StartCall({ onClose}: Props) {
       supportNo = customerArray[1].trim();
     }
 
-    let priorityValue = 0;
-    if (priority === "Urgent") {
-        priorityValue = 1;
-    } else if (priority === "Moderate") {
-        priorityValue = 2;
-    } else if (priority === "Low") {
-        priorityValue = 0;
-    }
+    // let priorityValue = 0;
+    // if (priority === "Urgent") {
+    //     priorityValue = 1;
+    // } else if (priority === "Moderate") {
+    //     priorityValue = 2;
+    // } else if (priority === "Low") {
+    //     priorityValue = 0;
+    // }
 
     //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
@@ -290,11 +320,12 @@ export function StartCall({ onClose}: Props) {
       phoneNumber: phonenumber,
       clientsAnydesk: anydesk,
       name: clientName,
+      email_address: emailAdd,
       support_No: supportNo, 
       empl: employee,
       logger: user ? `${user.emp_name}` : null,
       comments: comments,
-      urgent: priorityValue, 
+      priority: priority, 
       issueType: issueType, 
       type: type,
     };
@@ -306,6 +337,7 @@ export function StartCall({ onClose}: Props) {
         { value: problem, message: 'Please select a problem.' },
         { value: phonenumber, message: 'Please enter the phone number.' },
         { value: clientName, message: 'Please enter the client name.' },
+        { value: emailAdd, message: 'Please enter the clients email address.' },
         { value: anydesk, message: 'Please enter the client`s Anydesk.' },
         { value: type, message: 'Please select a call type.' },
         { value: employee, message: 'Please select an employee.' },
@@ -336,6 +368,7 @@ export function StartCall({ onClose}: Props) {
       setProblem("");
       setPhoneNumber("");
       setClientName("");
+      setEmailAdd("");
       setAnydesk("");
       setType("");
       setEmployee("");
@@ -354,7 +387,7 @@ export function StartCall({ onClose}: Props) {
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
         <div className="text-black flex items-center gap-2 justify-end">
-          <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
+          <XIcon size={26} strokeWidth={2} color="red" onClick={onClose} />
         </div>
       <h1 className="text-black text-2xl font-bold mb-6">Start Call</h1>
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -389,12 +422,16 @@ export function StartCall({ onClose}: Props) {
             </div>
           </div>
           <div className="space-y-2">
+            <label htmlFor="name" className="text-black">Client Name</label>
+            <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+          </div>
+          <div className="space-y-2">
             <label htmlFor="phone" className="text-black">Phone Number</label>
             <input id="phone" placeholder="Enter phone number" type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <div className="space-y-2">
-            <label htmlFor="name" className="text-black">Name</label>
-            <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+            <label htmlFor="email" className="text-black">Email Address</label>
+            <input id="email" placeholder="Enter the email address" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setEmailAdd(e.target.value)}/>
           </div>
         <div className="space-y-2">
           <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
@@ -439,9 +476,10 @@ export function StartCall({ onClose}: Props) {
                   onChange={(e) => setPriority(e.target.value)}
                 >
                   <option value="">Determine Priority</option>
-                  <option value="Low">Low</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Urgent">Urgent</option>
+                  <option value="P1">P1</option>
+                  <option value="P2">P2</option>
+                  <option value="P3">P3</option>
+                  <option value="P4">P4</option>
                 </select>
               </div>
             </div>

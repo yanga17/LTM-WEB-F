@@ -110,7 +110,7 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
         <>
             {solutionPopup && <TicketSolution callId={solutuionid} onClose={toggleSolution} />}
             {transferPopUp && transferTicketData && <TicketTransfer callId={callid} onClose={onClose} />}
-            {ticketData?.map(({ ID, Employee, Customer, Activity, Clients_Anydesk, Phone_Number, StartTime, EndTime, Duration, Type, Solution, Support_No, Comments, FollowUp, Completed, Name, number_of_days, Time_Taken, IssueType, Priority }) => {
+            {ticketData?.map(({ ID, Employee, Customer, Activity, Clients_Anydesk, Phone_Number, StartTime, EndTime, Duration, Type, Solution, Support_No, Comments, FollowUp, Completed, Name, Email_Address, number_of_days, Time_Taken, IssueType, Priority }) => {
                 const { customerData, supportNo } = filterCustomer(Customer);
                 console.log("my urgent value lets this this mf:", Priority)
                 console.log("my client name value", Name)
@@ -128,13 +128,17 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                     <p className="font-medium text-gray-500 text-md">Employee</p>
                                     <p className="font-semibold text-md">{Employee || '--:--'}</p>
                                 </div>
+                                <div className="mb-4 mt-4">
+                                    <p className="font-medium text-gray-500 text-md">Client Email</p>
+                                    <p className="font-semibold text-md">{Email_Address || '--:--'}</p>
+                                </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Support No</p>
                                     <p>{supportNo || Support_No || '--:--'}</p>
                                 </div>
-                                <div>
-                                    <p className="font-medium text-gray-500 text-md">IssueType</p>
-                                    <p className="font-semibold text-md">{IssueType || '--:--'}</p>
+                                <div className="mb-4">
+                                    <p className="font-medium text-gray-500 text-md">Comments</p>
+                                    <p className="font-semibold text-md">{Comments || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
@@ -165,8 +169,8 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                     <p className="font-semibold text-md">{Phone_Number || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
-                                    <p className="font-medium text-gray-500 text-md">Comments</p>
-                                    <p className="font-semibold text-md">{Comments || '--:--'}</p>
+                                    <p className="font-medium text-gray-500 text-md">IssueType</p>
+                                    <p className="font-semibold text-md">{IssueType || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Priority</p>

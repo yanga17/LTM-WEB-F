@@ -46,7 +46,6 @@ interface TypesProps {
     ID: number;
     Type: string;
 }
-
 type TypeErrors = TypesProps[]
 
 export function EditCall({ closeEdit, data }: Props) {
@@ -59,16 +58,17 @@ export function EditCall({ closeEdit, data }: Props) {
     const [alltypes, setAllType] = useState<TypeErrors>([]);
 
     //inserting data into tables
-    const [customer, setCustomer] = useState(data.Customer || "");
-    const [problem, setProblem] = useState(data.Problem ||"");
-    const [phonenumber, setPhoneNumber] = useState(data.Phone_Number || 0);
-    const [clientName, setClientName] = useState(data.Name || "");
-    const [anydesk, setAnydesk] = useState(data.Clients_Anydesk || 0);
-    const [type, setType] = useState(data.Type ||"");
-    const [employee, setEmployee] = useState(data.Empl || "");
-    const [priority, setPriority] = useState(data.urgent || "");
-    const [comments, setComments] = useState(data.Comments || "");
-    const [issueType, setIssueType] = useState(data.IssueType || "");
+    const [customer, setCustomer] = useState("");
+    const [problem, setProblem] = useState("");
+    const [phonenumber, setPhoneNumber] = useState(0);
+    const [clientName, setClientName] = useState("");
+    const [anydesk, setAnydesk] = useState("");
+    const [type, setType] = useState("");
+    const [employee, setEmployee] = useState("");
+    const [priority, setPriority] = useState("");
+    const [comments, setComments] = useState("");
+    const [issueType, setIssueType] = useState("");
+    const [emailAdd, setEmailAdd] = useState("");
 
     const [tickets, setTickets] = useState("");
     const [checkStatus, setCheckStatus] = useState(false); //checkbox
@@ -191,20 +191,21 @@ export function EditCall({ closeEdit, data }: Props) {
         setCheckStatus((prevStatus) => !prevStatus);
     }
 
-    // Function to save comments
     const saveComments = (comments: string) => {
         setComments(comments);
     };
 
     const generateEdtitedData = () => {
+        setCustomer(data.Customer)
         setProblem(data.Problem)
-        setPhoneNumber
+        setPhoneNumber(data.Phone_Number)
         setClientName(data.Name)
+        setEmailAdd(data.Email_Address)
         setAnydesk(data.Clients_Anydesk)
         setType(data.Type)
         setEmployee(data.Empl)
         setComments(data.Comments)
-        console.log('SETTING EDIT DATA WAS SUCCESSFUL')
+        console.log('SETTING EDIT DATA WAS SUCCESSFUL', customer)
     }
 
     const filterCustomer = (customers: CustomerType) => {
@@ -218,30 +219,13 @@ export function EditCall({ closeEdit, data }: Props) {
         }
     };
 
-    // useEffect(() => {
-    //     generateCustomers();
-    //     generateProblems();
-    //     generateEmployees();
-    //     generateTypes();
-    //     generateEdtitedData();
-    //     filterCustomer(allCustomers);
-    // }, []);
-
-    // useEffect(() => {
-    //     if (checkStatus === true) {
-    //         setIssueType("Task");
-    //     } else {
-    //         setIssueType("Problem");
-    //     }
-    //         console.log("MY CHECKSTATUS TEXT:", checkStatus)
-    // }, [checkStatus])
-
     const saveEdit = async () => {
         const editData = {
             customer: customer, 
             problem: problem, 
             number: phonenumber,
             name: clientName,
+            email: emailAdd,
             anydesk: anydesk,
             type: type,
             employee: employee,
@@ -250,7 +234,33 @@ export function EditCall({ closeEdit, data }: Props) {
         }
 
         try {
-            //http://localhost:4200/tickets/editloggedticket/16238
+            const fields = [
+                { value: customer, message: 'Please select a client.' },
+                { value: problem, message: 'Please select a problem.' },
+                { value: phonenumber, message: 'Please enter the phone number.' },
+                { value: clientName, message: 'Please enter the client name.' },
+                { value: emailAdd, message: 'Please enter the clients email address.' },
+                { value: anydesk, message: 'Please enter the client`s Anydesk.' },
+                { value: type, message: 'Please select a call type.' },
+                { value: employee, message: 'Please select an employee.' },
+                { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+            ];
+        
+            for (const field of fields) {
+                if (!field.value) {
+                    toast.error(field.message, {
+                        icon: '🚨',
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    });
+                    return;
+                }
+            }
+
+
             const url = `tickets/editloggedticket/${data.Call_ID}`
             const response = await axios.patch<CheckProps>(`${apiEndPoint}/${url}`, editData);
             console.log("Success - Editing Ticket Values with new information was successful.")
@@ -291,15 +301,15 @@ export function EditCall({ closeEdit, data }: Props) {
             supportNo = customerArray[1].trim();
         }
 
-        let priorityValue = 0;
+        // let priorityValue = 0;
 
-        if (priority === "Urgent") {
-            priorityValue = 1;
-        } else if (priority === "Moderate") {
-            priorityValue = 2;
-        } else if (priority === "Low") {
-            priorityValue = 0;
-        }
+        // if (priority === "Urgent") {
+        //     priorityValue = 1;
+        // } else if (priority === "Moderate") {
+        //     priorityValue = 2;
+        // } else if (priority === "Low") {
+        //     priorityValue = 0;
+        // }
 
         //property names should be exactly like the ones declared in the backend routes
         const ticketData = {
@@ -314,7 +324,7 @@ export function EditCall({ closeEdit, data }: Props) {
             empl: employee,
             logger: user ? `${user.emp_name}` : null,
             comments: comments,
-            urgent: priorityValue, 
+            urgent: priority, 
             issueType: issueType, 
             type: type,
         };
@@ -328,7 +338,7 @@ export function EditCall({ closeEdit, data }: Props) {
             setProblem("");
             setPhoneNumber(0);
             setClientName("");
-            setAnydesk(0);
+            setAnydesk("");
             setType("");
             setEmployee("");
             setPriority("");
@@ -347,7 +357,7 @@ export function EditCall({ closeEdit, data }: Props) {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
         <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
             <div className="text-black flex items-center gap-2 justify-end">
-                <DoorClosedIcon className="h-5 w-5" onClick={ closeEdit } />
+                <XIcon size={26} strokeWidth={2} color="red" onClick={ closeEdit } />
             </div>
             <h1 className="text-black text-2xl font-bold mb-6">Edit Logged Ticket</h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -356,7 +366,7 @@ export function EditCall({ closeEdit, data }: Props) {
                     <div className="relative">
                         <select
                             className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
-                            value={ customer }
+                            value={data.Customer}
                             onChange={(e) => setCustomer(e.target.value)}
                             >
                                 <option value="" className="border rounded-md">Select Customer</option>
@@ -382,16 +392,20 @@ export function EditCall({ closeEdit, data }: Props) {
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <label htmlFor="phone" className="text-black">Phone Number</label>
-                    <input id="phone" placeholder="Enter phone number" value={ phonenumber } type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="name" className="text-black">Name</label>
+                    <label htmlFor="name" className="text-black">Client Name</label>
                     <input id="name" placeholder="Enter name" value={ clientName } className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
+                    <label htmlFor="phone" className="text-black">Phone Number</label>
+                    <input id="phone" placeholder="Enter phone number" value={ phonenumber } type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(parseInt(e.target.value))}/>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="email" className="text-black">Email Address</label>
+                    <input id="email" placeholder="Enter the email address" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setEmailAdd(e.target.value)}/>
+                </div>
+                <div className="space-y-2">
                     <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
-                    <input id="anydesk" placeholder="Enter Anydesk ID" value={ anydesk } className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" />
+                    <input id="anydesk" placeholder="Enter Anydesk ID" value={ anydesk } className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setAnydesk(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="type" className="text-black">Type</label>
@@ -432,9 +446,10 @@ export function EditCall({ closeEdit, data }: Props) {
                             onChange={(e) => setPriority(e.target.value)}
                         >
                             <option value="">Determine Priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Moderate">Moderate</option>
-                            <option value="Urgent">Urgent</option>
+                            <option value="P1">P1</option>
+                            <option value="P2">P2</option>
+                            <option value="P3">P3</option>
+                        <option value="P4">P4</option>
                         </select>
                     </div>
                 </div>

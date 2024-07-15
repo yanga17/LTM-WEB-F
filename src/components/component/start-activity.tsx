@@ -95,6 +95,7 @@ export function StartActivity({ onClose }: Props) {
     const [urgent, setUrgent] = useState(0);
     const [comments, setComments] = useState("");
     const [issueType, setIssueType] = useState("Problem");
+    const [emailAdd, setEmailAdd] = useState("");
 
     const [tickets, setTickets] = useState("");
     const [checkStatus, setCheckStatus] = useState(false); //checkbos
@@ -217,6 +218,7 @@ export function StartActivity({ onClose }: Props) {
                 supportNo: supportNo,
                 comments: comments,
                 name: clientName,
+                email_address: emailAdd,
                 timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 issueType: issueType,
         };
@@ -227,6 +229,7 @@ export function StartActivity({ onClose }: Props) {
             { value: problem, message: 'Please select a problem.' },
             { value: phonenumber, message: 'Please enter the phone number.' },
             { value: clientName, message: 'Please enter the client name.' },
+            { value: emailAdd, message: 'Please enter the clients email address.' },
             { value: anydesk, message: 'Please enter the client`s Anydesk.' },
             { value: type, message: 'Please select a call type.' },
             { value: employee, message: 'Please select an employee.' },
@@ -340,7 +343,7 @@ export function StartActivity({ onClose }: Props) {
             empl: employee,
             logger: null, 
             comments: comments,
-            urgent: urgent, 
+            priority: priority, 
             issueType: issueType, 
             type: type,
         };
@@ -376,7 +379,7 @@ export function StartActivity({ onClose }: Props) {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
                 <div className="text-black flex items-center gap-2 justify-end">
-                    <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
+                    <XIcon size={26} strokeWidth={2} color="red" onClick={onClose} />
                 </div>
                 <h1 className="text-black text-2xl font-bold mb-6">Start Activity</h1>
                 <div className="grid grid-cols-2 gap-4 mb-6">
@@ -411,12 +414,16 @@ export function StartActivity({ onClose }: Props) {
                         </div>
                     </div>
                     <div className="space-y-2">
+                        <label htmlFor="name" className="text-black">Client Name</label>
+                        <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+                    </div>
+                    <div className="space-y-2">
                         <label htmlFor="phone" className="text-black">Phone Number</label>
                         <input id="phone" placeholder="Enter phone number" type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
-                        <label htmlFor="name" className="text-black">Name</label>
-                        <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+                        <label htmlFor="email" className="text-black">Email Address</label>
+                        <input id="email" placeholder="Enter the email address" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setEmailAdd(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
@@ -461,9 +468,10 @@ export function StartActivity({ onClose }: Props) {
                                     onChange={(e) => savePriority(e.target.value)}
                                 >
                                     <option value="">Determine Priority</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Moderate">Moderate</option>
-                                    <option value="Urgent">Urgent</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                    <option value="P3">P3</option>
+                                    <option value="P4">P4</option>
                                 </select>
                             </div>
                     </div>
@@ -482,7 +490,7 @@ export function StartActivity({ onClose }: Props) {
                 <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
                 <div className="flex justify-between gap-2 mt-6">
                     <Button className="flex-1 bg-red hover:bg-black text-white hover:text-white" variant="outline" onClick={ onClose }>Cancel</Button>
-                    <Button className="flex-1 bg-green hover:bg-black text-white hover:text-white" variant="outline" onClick={ submitTicket }>Save</Button>
+                    <Button className="flex-1 bg-green hover:bg-black text-white hover:text-white" variant="outline" onClick={ takeCall }>Save</Button>
                 </div>
             </div>
         </div>
