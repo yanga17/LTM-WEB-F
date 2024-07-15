@@ -30,6 +30,7 @@ export interface ActiveProps {
     FollowUp: string,
     Completed: number,
     Name: string,
+    Email_Address: string,
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
@@ -55,6 +56,7 @@ interface DetailTicketProps {
     FollowUp: string,
     Completed: number,
     Name: string,
+    Email_Address: string,
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
@@ -191,7 +193,7 @@ export const ActiveTicketsModule = () => {
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
                         <Loader className="h-12 w-12" />
-                        <p className="text-gray-500 text-lg mt-2 text-center">Loading data, Please be patient</p>
+                        <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading data, Please be patient</p>
                     </div>
                 </td>
             </tr>
@@ -205,7 +207,7 @@ export const ActiveTicketsModule = () => {
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
                         <Loader className="h-12 w-12" />
-                        <p className="text-gray-500 text-lg mt-2 text-center">Loading data, Please be patient</p>
+                        <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading data, Please be patient</p>
                     </div>
                 </td>
             </tr>

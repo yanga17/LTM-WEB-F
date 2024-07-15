@@ -12,7 +12,6 @@ import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 import { useRouter } from 'next/navigation';
 
-
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
   const [startActivityPopup, setStartActivityPopup] = useState(false);
@@ -53,8 +52,8 @@ export default function Home() {
                 onClick={toggleStartCall}
                 className="bg-purple mr-2"
             >
-                <PhoneIcon className="h-4 w-4 mr-2" />
                 <span>Start Call</span>
+                <PhoneIcon className="h-4 w-4 mr-2 ml-2" />
             </Button>
             {startCallPopup && <StartCall onClose={toggleStartCall} />}
             <Button
@@ -62,8 +61,8 @@ export default function Home() {
                 onClick={toggleStartActivity}
                 className="bg-purple"
             >
-                <ActivityIcon className="h-4 w-4 mr-2" />
                 <span>Start Activity</span>
+                <ActivityIcon className="h-4 w-4 mr-2 ml-2" />
             </Button>\
             {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>

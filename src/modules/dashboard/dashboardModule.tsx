@@ -213,12 +213,12 @@ export const DashboardModule = () => {
         getErrorsGridData();
         getTasksGridData();
         getTicketSummGridData();
-    }, [])
+    }, []);
 
 
     return (
         <section className="bg-grey w-full h-screen overflow-y-scroll p-2 flex flex-col justify-start space-y-2">
-            <div className="grid grid-cols-4 gap-5 mt-3">
+            <div className="grid grid-cols-4 gap-5">
                 <div className="text-gray-800 flex flex-col justify-around p-2 rounded bg-white shadow">
                     <div className="flex items-center justify-between">
                         <h3>Daily Ticket Summary</h3>
@@ -231,7 +231,7 @@ export const DashboardModule = () => {
                             <p>{summary.CurrentActiveTickets || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Logged Tickets</p>
+                            <p>Queued Tickets</p>
                             <p>{summary.CurrentLoggedTickets || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
@@ -239,7 +239,7 @@ export const DashboardModule = () => {
                             <p>{summary.TasksCompleted || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Completed Client Errors</p>
+                            <p>Completed Errors</p>
                             <p>{summary.ErrorsCompleted || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
@@ -247,7 +247,7 @@ export const DashboardModule = () => {
                             <p>{summary.CompletedFollowUps}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Total Completed Tickets</p>
+                            <p>Overal Completed Tickets</p>
                             <p>{summary.OvrTicketsCompleted || '--'}</p>
                         </div>
                     </div>
@@ -277,28 +277,28 @@ export const DashboardModule = () => {
                     </div>
                     ))}
                 </div>
-                <div className="text-gray-800 flex flex-col justify-around p-2 rounded bg-white shadow">
+                <div className="text-gray-800 flex flex-col p-2 rounded bg-white shadow">
                     <div className="flex items-center justify-between">
                         <h3>Clients</h3>
-                        <UserRound size={40} color='green' strokeWidth={1.2} />
+                        <AlignCenterVertical size={40} color='purple' strokeWidth={1.2} />
                     </div>
                     {clientGridData.map((client, index) => (
-                    <div key={index} className="uppercase">
-                        <div className="flex justify-between">
-                            <p>Total Clients:</p>
-                            <p>{client.TotalClientsCount}</p>
+                    <div key={index} className="uppercase mt-4">
+                        <div className="flex justify-between mt-2">
+                            <p>Total Clients</p>
+                            <p>{client.TotalClientsCount || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients On Elite Package:</p>
-                            <p>{client.ClientEliteCount}</p>
+                            <p>Elite Package:</p>
+                            <p>{client.ClientEliteCount || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients on Basic Package:</p>
-                            <p>{client.ClientBasicCount}</p>
+                            <p>Basic Package:</p>
+                            <p>{client.ClientBasicCount || '--'}</p>
                         </div>
                         <div className="mt-4 flex justify-between">
-                            <p>Clients with no Support:</p>
-                            <p>{client.ClientNoSupportPackCount}</p>
+                            <p>No Support:</p>
+                            <p>{client.ClientNoSupportPackCount || '--'}</p>
                         </div>
                     </div>
                     ))}

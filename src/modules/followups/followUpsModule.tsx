@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
-import { View, CircleSlash, PhoneOutgoing, Loader } from "lucide-react";
+import { View, CircleSlash, PhoneOutgoing, Loader, Check, XIcon } from "lucide-react";
 import { createContext } from "react";
 import { FollowUpsDetail } from "./followUpsDetail";
 
@@ -108,6 +108,7 @@ export const FollowUpsModule = () => {
 
                     await axios.patch(`${apiEndPoint}/followups/updatefollowup/${id}`);
                     console.log("TICKET HAS BEEN UPDATED WITH A FOLLOWUP VALUE IN tbltime")
+                    //undoNotification();
 
                 } else {
                     toast.error('An error occurred while starting the follow-up.');
@@ -148,13 +149,20 @@ export const FollowUpsModule = () => {
         console.log("MY CLIENTNAME:+++++", clientname);
     }
 
+    const undoNotification = () => {
+        toast.success('Follow-Up was started successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
+
     if (loading) {
         return (
             <tr>
               <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <Loader className="h-12 w-12" />
-                      <p className="text-gray-500 text-lg mt-2 text-center">Loading Data, Please be patient</p>
+                      <p className="text-gray-500 text-lg mt-2 text-center upperacse">Loading Data, Please be patient</p>
                   </div>
               </td>
           </tr>

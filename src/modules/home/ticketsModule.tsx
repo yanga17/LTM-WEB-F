@@ -11,6 +11,8 @@ import { EachTicketsModule } from "./ticketsDetail";
 import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, View } from "lucide-react";
 import { useSession } from '@/context';
 import { createContext } from "react";
+import { cn } from "@/lib/utils"
+
 
 //interface for all tickets - tblcalls
 export interface CheckProps {
@@ -21,11 +23,12 @@ export interface CheckProps {
   Name: string,
   Time: string,
   Empl: string,
+  Email_Address: string
   Support_No: string,
-  Clients_Anydesk: number,
+  Clients_Anydesk: string,
   logger: string,
   Comments: string,
-  urgent: number,
+  Priority: string,
   IssueType: string,
   Type: string
 }
@@ -73,9 +76,10 @@ export const TicketsModule = () => {
               supportNo: supportNo,
               comments: ticket.Comments,
               name: ticket.Name,
+              email_address: ticket.Email_Address,
               timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
               issueType: ticket.IssueType,
-              priority: ticket.urgent,
+              priority: ticket.Priority,
           };
 
           const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
@@ -103,7 +107,6 @@ export const TicketsModule = () => {
           console.error('Error updating ticket:', error);
       }
     }
-
 
     const openModal = (id: any) => {
       if (currentOpen === id) {
@@ -184,7 +187,7 @@ export const TicketsModule = () => {
   return (
     <>
     <TicketsContext.Provider value={viewticket}>
-      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl, urgent }) => (
+      {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl, Priority }) => (
         <>
           <tr key={Call_ID || '--:--'}>
             <td className="px-2">{Call_ID}</td>

@@ -5,7 +5,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button"
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
+//interface for the customer list
 interface UnresolvedFollowUpProps {
     ID: number,
     Customer: string,
@@ -14,8 +16,35 @@ interface UnresolvedFollowUpProps {
     Phone_Number: number,
     EndTime: string
 }
-
 type UnresolvedResponse = UnresolvedFollowUpProps[]
+
+
+//interface for starting a followUp
+interface FollowUpsProps {
+  idx: number,
+  ID: number,
+  Employee: string,
+  Customer: string,
+  Activity: string,
+  Phone_Number: number,
+  StartTime: string,
+  EndTime: string,
+  Duration: number,
+  Type: string,
+  Solution: string,
+  Support_No: number,
+  Comments: string,
+  FollowUp: number,
+  Completed: number,
+  name: string,
+  Clients_Anydesk: number,
+  NumberOfDays: number,
+  IssueType: string,
+  Priority: number
+}
+
+type FollowUpsType = FollowUpsProps[]
+
 
 export function UnresolvedCustomerList() {
   const [customers, setCustomers] = useState([
@@ -78,6 +107,38 @@ export function UnresolvedCustomerList() {
     }
   }
 
+  const getCurrentDateTimeString = (): string => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+
+const startFollowUp = async (id: any) => {
+  const selectedTicket = unresolvedCustomers?.find(ticket => ticket.ID === id);
+  console.log("Selected Ticket:", selectedTicket);
+
+      try {
+          const response = await axios.post(`${apiEndPoint}/followups/startunresolvedfollowup/${id}`);
+          if (response.status === 200) {
+              toast.success('Follow-Up has been started successfully.');
+
+          } else {
+              toast.error('An error occurred while starting the follow-up.');
+          }
+      } catch (error) {
+          toast.error('An error occurred while starting the follow-up.');
+          console.log("An error occurred while starting the follow-up:", error)
+      }
+  }
+    
+
   useEffect(() => {
       getUnresolvedFollowUps();
   }, [])
@@ -109,9 +170,9 @@ export function UnresolvedCustomerList() {
               <CardContent>
                 <div className="flex items-center justify-between">
                 <p className="text-muted-foreground">Last contacted: <span className="text-red">{endtime}</span></p>
-                  {/* <Button variant="secondary" size="sm" onClick={() => handleFollowUp(id)}>
+                  <Button className="bg-purple text-white hover:bg-black hover:text-white hover:cursor-pointer" size="sm" onClick={() => startFollowUp(id)}>
                     Start Follow-Up
-                  </Button> */}
+                  </Button>
                 </div>
               </CardContent>
             </Card>

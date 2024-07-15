@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button"
-import { CircleSlash2, CircleSlash, View, PhoneOff, Loader } from "lucide-react";
+import { CircleSlash2, CircleSlash, View, PhoneOff, Loader, Check } from "lucide-react";
 import { createContext } from "react";
 import { CompFollowUpsDetail } from "./compFollowUpsDetail"
 
@@ -105,13 +105,20 @@ export const CompFollowUpsModule = () => {
 
     }, [data]);
 
+    const endNotification = () => {
+      toast.success('Follow-Up was end successfully', {
+        icon: <Check color={colors.green} size={24} />,
+        duration: 3000,
+      });
+  }
+
     if (loading) {
       return (
           <tr>
             <td colSpan={8} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     <Loader className="h-12 w-12" />
-                    <p className="text-gray-500 text-lg mt-2 text-center">Loading data, Please be patient</p>
+                    <p className="text-gray-500 text-lg mt-2 text-center upperacse">Loading data, Please be patient</p>
                 </div>
             </td>
         </tr>
@@ -124,7 +131,7 @@ export const CompFollowUpsModule = () => {
               <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <CircleSlash className="h-12 w-12" />
-                      <p className="text-red text-lg mt-2 text-center">An Error was encountered when fetching data, Please Refresh!</p>
+                      <p className="text-red text-lg mt-2 text-center upperacse">An Error was encountered when fetching data, Please Refresh!</p>
                   </div>
               </td>
           </tr>
@@ -138,7 +145,7 @@ export const CompFollowUpsModule = () => {
                 <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <CircleSlash2 className="h-12 w-12" />
-                      <p className="text-green text-lg mt-2 text-center">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING FOLLOWED-UP!</p>
+                      <p className="text-green text-lg mt-2 text-center upperacse">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING FOLLOWED-UP!</p>
                   </div>
               </td>
           </tr>
@@ -166,7 +173,7 @@ export const CompFollowUpsModule = () => {
                                   <View size={18} strokeWidth={2} />
                                 </Button>
                                 <Button size="sm" className="bg-red sm:bg-red py-4 px-2 w-8/12 mr-2" onClick={() => { endFollowUp(idx)}}>
-                                  <PhoneOff size={18} strokeWidth={2} />
+                                  <PhoneOff size={18} strokeWidth={2} className="ml-2" />
                                 </Button>
                             </div>
                         </td>  
