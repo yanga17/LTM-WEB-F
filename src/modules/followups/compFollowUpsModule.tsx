@@ -29,13 +29,14 @@ interface CompletedFLProps {
   FollowUp: null,
   Completed: null,
   Name: string,
+  Email_Address: string,
   Clients_Anydesk: null,
   NumberOfDays: number,
   TimeTaken: null,
   FLStartTime: string,
   FLEndTime: string
   IssueType: string,
-  Priority: number
+  Priority: string
 }
 
 type FolowUpsType = CompletedFLProps[]
@@ -105,20 +106,13 @@ export const CompFollowUpsModule = () => {
 
     }, [data]);
 
-    const endNotification = () => {
-      toast.success('Follow-Up was end successfully', {
-        icon: <Check color={colors.green} size={24} />,
-        duration: 3000,
-      });
-  }
-
     if (loading) {
       return (
           <tr>
             <td colSpan={8} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     <Loader className="h-12 w-12" />
-                    <p className="text-gray-500 text-lg mt-2 text-center upperacse">Loading data, Please be patient</p>
+                    <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading data, Please be patient</p>
                 </div>
             </td>
         </tr>
@@ -131,7 +125,7 @@ export const CompFollowUpsModule = () => {
               <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <CircleSlash className="h-12 w-12" />
-                      <p className="text-red text-lg mt-2 text-center upperacse">An Error was encountered when fetching data, Please Refresh!</p>
+                      <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching data, Please Refresh!</p>
                   </div>
               </td>
           </tr>
@@ -145,7 +139,7 @@ export const CompFollowUpsModule = () => {
                 <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <CircleSlash2 className="h-12 w-12" />
-                      <p className="text-green text-lg mt-2 text-center upperacse">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING FOLLOWED-UP!</p>
+                      <p className="text-green text-lg mt-2 text-center uppercase">THERE ARE CURRENTLY NO ACTIVE TICKETS BEING FOLLOWED-UP!</p>
                   </div>
               </td>
           </tr>
@@ -173,7 +167,7 @@ export const CompFollowUpsModule = () => {
                                   <View size={18} strokeWidth={2} />
                                 </Button>
                                 <Button size="sm" className="bg-red sm:bg-red py-4 px-2 w-8/12 mr-2" onClick={() => { endFollowUp(idx)}}>
-                                  <PhoneOff size={18} strokeWidth={2} className="ml-2" />
+                                  <PhoneOff size={18} strokeWidth={2} className="ml-2  mr-2" />
                                 </Button>
                             </div>
                         </td>  

@@ -12,6 +12,17 @@ import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 import { useRouter } from 'next/navigation';
 
+import { Component } from '@/components/component/radialChart';
+import { StyledCard } from '@/components/component/styledCards';
+import { LoggedCard } from '@/components/component/loggedCard';
+import { ActiveCard } from '@/components/component/activeCard';
+import { TaskCard } from "@/components/component/taskCard";
+import { ErrorCard } from "@/components/component/errorCard";
+import { TicketsCompletedCard } from "@/components/component/ticketsCard";
+
+import { HoverCard } from "@/components/component/hoverCard";
+import { SummaryCard } from "@/components/component/summaryCard";
+
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
   const [startActivityPopup, setStartActivityPopup] = useState(false);
@@ -34,19 +45,20 @@ export default function Home() {
     <div className="bg-white">
     <div className="h-screen w-full overflow-auto">
     <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
-      <TicketSummary />
+      {/* <TicketSummary />  */}
+       {/* <div className="flex gap-4">
+        <TaskCard />
+        <ErrorCard />
+        <ActiveCard />
+        <LoggedCard />  
+        <TicketsCompletedCard /> 
+      </div>  */}
+      <div className="flex flex-wrap sm:flex-wrap md:flex-wrap gap-2">
+        <HoverCard />
+        <SummaryCard />
+      </div>
     <div className="relative flex ml-auto mt-4">
-        <div className="flex">
-            <div className="text-right">
-                <input
-                    className="border-black text-black p-2 border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
-                    placeholder="Search Ticket"
-                    style={{ width: "440px" }} // Adjust width here
-                    onClick={handleSearchClick}
-                />
-            </div>
-        </div>
-        <div className="absolute mt-14 right-0 flex items-end">
+        <div className="absolute right-0 flex items-end">
             <Button
                 size="lg"
                 onClick={toggleStartCall}
@@ -73,11 +85,11 @@ export default function Home() {
           <div>
             <h6 className="ml-6 text-3xl py-4 font-bold">Active Tickets</h6>
           </div>
-          <Card className="ml-4 mr-4">
+          <Card className="ml-4 mr-4 shadow-md">
             <CardContent className="p-0">
               <div className="max-h-[400px] overflow-auto">
                 <table className="w-full table-fixed">
-                  <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
+                  <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300 font-small">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>

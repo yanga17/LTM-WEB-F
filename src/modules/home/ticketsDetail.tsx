@@ -182,7 +182,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p>{supportNo || ticket.Support_No || '--:--'}</p>
+                            <p className="font-semibold text-md">{supportNo || ticket.Support_No || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Comments</p>
@@ -199,11 +199,11 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                             <p className="font-semibold text-md">{ticket.Problem || '--:--'}</p>
                         </div>
                         <div className="mb-4">
-                            <p className="font-medium text-gray-500 text-md">Start Time</p>
+                            <p className="font-semibold text-gray-500 text-md">Start Time</p>
                             <p>{new Date(ticket.Time).toLocaleString()}</p>
                         </div>
                         <div className="mb-4 mt-8">
-                            <p className="font-medium text-gray-500 text-md">Logger</p>
+                            <p className="font-semibold text-gray-500 text-md">Logger</p>
                             <p>{ticket.logger || '--:--'}</p>
                         </div>
                     </div>
@@ -222,7 +222,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Priority</p>
-                            <p className={`font-semibold text-md ${ticket.Priority === 'P1' ? 'text-red' : ticket.Priority === 'P2' ? 'text-orange' : (ticket.Priority === 'P3' || ticket.Priority === 'P4') ? 'text-grey' : ''}`}>
+                            <p className={`font-semibold text-md ${ticket.Priority === 'P1' ? 'text-red' : ticket.Priority === 'P2' ? 'text-orange' : (ticket.Priority === 'P3' || ticket.Priority === 'P4') ? 'text-gray-500' : ''}`}>
                                 {ticket.Priority || '--:--'}
                             </p>
                         </div>

@@ -28,7 +28,7 @@ export default function Page() {
                     <table className="w-full table-fixed">
                         <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
                             <tr className="text-left text-black sm:text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
-                            <th className="p-2 w-[60px]">Nr</th>
+                            <th className="p-2 w-[60px]">Call ID</th>
                             <th className="p-2 w-[80px]">Employee</th>
                             <th className="p-2 w-[230px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>
@@ -59,7 +59,7 @@ export default function Page() {
                     <table className="w-full table-fixed">
                     <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
                         <tr className="text-left text-black sm:text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
-                            <th className="p-2 w-[60px]">Nr</th>
+                            <th className="p-2 w-[60px]">Call ID</th>
                             <th className="p-2 w-[80px]">Employee</th>
                             <th className="p-2 w-[230px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>

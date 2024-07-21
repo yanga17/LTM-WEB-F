@@ -391,5 +391,3 @@ export const DeletedLogsModule = () => {
         </>
     );
 }
-
-

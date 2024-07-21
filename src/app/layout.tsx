@@ -19,7 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <SessionProvider>
         <AuditProvider>
-          <body className={`${inter.className} p-0 m-0 overflow-hidden bg-grey`}>
+          <body className={`${inter.className} p-0 m-0 overflow-hidden bg-gray-100`}>
             <AppWrapper>
               {children}
               <Toaster

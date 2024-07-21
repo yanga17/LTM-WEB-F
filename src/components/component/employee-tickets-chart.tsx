@@ -1,10 +1,11 @@
 'use client'
 
-import { BarChart, Bar, ResponsiveContainer, Label, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
-import { EmployeeResponse } from '../../modules/dashboard/dashboardModule';
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
+import { EmployeeWeeklyResponse } from '../../modules/dashboard/dashboardModule';
+
 
 interface props {
-    employeeData: EmployeeResponse;
+  weeklyData: EmployeeWeeklyResponse;
 }
 
 export const formatNumericalValue = (number: number): string => {
@@ -15,8 +16,7 @@ export const formatNumericalValue = (number: number): string => {
     return `${formattedNumber}${suffixes[suffixIndex]}`;
 };
 
-
-export const BarChartComponent = ({ employeeData }: props) => {
+export const EmployeeWeeklyChart = ({ weeklyData }: props) => {
     const ItalizeLabels = (props: any) => {
         const { x, y, payload } = props;
         return (
@@ -39,8 +39,8 @@ export const BarChartComponent = ({ employeeData }: props) => {
 
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <BarChart width={300} height={300} data={employeeData} margin={{ right: 40, top: 20, bottom: 20}}>
-                <XAxis dataKey="name" interval={0} tick={<ItalizeLabels />} 
+            <BarChart width={300} height={300} data={weeklyData} margin={{ right: 40, top: 20, bottom: 10}}>
+                <XAxis dataKey="Employee" interval={0} tick={<ItalizeLabels />} 
                 padding={{
                     left: 30,
                     right: 1,
@@ -48,31 +48,65 @@ export const BarChartComponent = ({ employeeData }: props) => {
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
                 <Tooltip />
-                <Legend />
+                <Legend wrapperStyle={{ paddingTop: 60 }} />
                 <Bar 
                     type="monotone"
-                    dataKey="Tasks"
+                    dataKey="Monday"
                     stroke="#2563eb"
                     fill="#3b82f6"
-                    label={barValue}
                 />
 
                 <Bar 
                     type="monotone"
-                    dataKey="Errors"
-                    stroke="#7c3aed"
-                    fill="#8b5cf6"
-                    label={barValue}
-                />
-
-                <Bar
-                    type="monotone"
-                    dataKey="Overall"
+                    dataKey="Tuesday"
                     stroke="#00d384"
                     fill="#00d384"
+                />
+
+                <Bar 
+                    type="monotone"
+                    dataKey="Wednesday"
+                    stroke="#ff2257"
+                    fill="#ff2257"
+                />
+
+                <Bar 
+                    type="monotone"
+                    dataKey="Thursday"
+                    stroke="#FFC400"
+                    fill="#FFC400"
+                />
+
+                <Bar 
+                    type="monotone"
+                    dataKey="Friday"
+                    stroke="#bdb9b9"
+                    fill="#bdb9b9"
+                />
+
+                <Bar 
+                    type="monotone"
+                    dataKey="Saturday"
+                    stroke="#855cec"
+                    fill="#855cec"
+                />
+
+                <Bar 
+                    type="monotone"
+                    dataKey="Sunday"
+                    stroke="#ff6600"
+                    fill="#ff6600"
+                />
+
+
+                <Bar 
+                    type="monotone"
+                    dataKey="OverallTotal"
+                    stroke="#0038FF"
+                    fill="#0038FF"
                     label={barValue}
                 />
             </BarChart>
         </ResponsiveContainer>
     );
-};
+}

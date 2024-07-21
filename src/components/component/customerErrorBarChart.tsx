@@ -56,6 +56,7 @@ export const CustomerErrorComponent = ({ customerData }: props) => {
                     dataKey="ErrorCount"
                     stroke="#7c3aed"
                     fill="#8b5cf6"
+                    label={barValue}
                 />
             </BarChart>
         </ResponsiveContainer>

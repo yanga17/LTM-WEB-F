@@ -15,8 +15,6 @@ import { Button } from "@/components/ui/button"
 import { Expand } from "lucide-react";
 import { PDFViewer } from '@react-pdf/renderer';
 import { X } from "lucide-react";
-//import { ComboboxDemo } from "@/components/ui/comboBox";
-import { ComboboxDemo } from "@/components/component/combobox-demo";
 
 
 interface CallHistoryProps {
@@ -66,6 +64,9 @@ export const ReportsModule = () => {
         isOpen: true,
         expandView: null
     });
+
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState("")
 
     const splitCustomerName = (customerName: string) => {
         return customerName.split(',')[0].trim().toLocaleLowerCase();
@@ -176,7 +177,6 @@ export const ReportsModule = () => {
         generateCustomers();
     }, [])
 
-
     
     return (
         <>
@@ -194,7 +194,7 @@ export const ReportsModule = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto">
+        <div className="h-full overflow-auto">
             <div className="w-full p-2 hidden lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
                 <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
                 <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>
@@ -227,9 +227,9 @@ export const ReportsModule = () => {
                     )}
                 </select>
                 </div>
-                {/* <div>
-                    <ComboboxDemo />
-                </div> */}
+                <div>
+                {/* <div></div> */}
+                </div>
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">

@@ -53,6 +53,7 @@ export const EmployeeTaskComponent = ({ employeeTasksData }: props) => {
                     dataKey="TasksCount"
                     stroke="#D4D4D4"
                     fill="#00d384"
+                    label={barValue}
                 />
             </BarChart>
         </ResponsiveContainer>
