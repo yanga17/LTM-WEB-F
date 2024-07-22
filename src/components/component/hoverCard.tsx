@@ -84,7 +84,7 @@ export function HoverCard() {
             </div>
             ))}
             {queuedTotal.map(({ QueuedTickets }, index) => (
-        <div className="group w-full rounded-lg bg-[rgb(41,49,79)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#a17efa]">
+        <div key={index} className="group w-full rounded-lg bg-[rgb(41,49,79)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#a17efa]">
             <p className="text-white text-2xl">{QueuedTickets}</p>
             <p className="text-white text-sm">Queued Tickets</p>
         <svg
