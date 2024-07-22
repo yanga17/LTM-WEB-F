@@ -11,15 +11,7 @@ import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
 import { TicketSummary } from "@/components/component/ticket-summary"
 import { useRouter } from 'next/navigation';
-
 import { Component } from '@/components/component/radialChart';
-import { StyledCard } from '@/components/component/styledCards';
-import { LoggedCard } from '@/components/component/loggedCard';
-import { ActiveCard } from '@/components/component/activeCard';
-import { TaskCard } from "@/components/component/taskCard";
-import { ErrorCard } from "@/components/component/errorCard";
-import { TicketsCompletedCard } from "@/components/component/ticketsCard";
-
 import { HoverCard } from "@/components/component/hoverCard";
 import { SummaryCard } from "@/components/component/summaryCard";
 
