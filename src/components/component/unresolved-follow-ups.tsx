@@ -6,8 +6,6 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-import { PencilRuler } from "lucide-react";
-import { UnresolvedCustomerList } from "@/components/component/unresolved-customer-list"
 
 interface FollowUpsTotal {
   FollowUpsTotal: number;
@@ -35,12 +33,12 @@ export function UnresolvedFollowUps() {
 
 
   return (
-    <Dialog defaultOpen>
+    <Dialog>
       {followUpsTotal.map((summary, index) => (
       <DialogTrigger asChild key={index}>
         <Button variant="outline" className="bg-white text-black">
-        <BellIcon className="w-5 h-5 mr-2" />Unresolved Follow-Up&apos;s
-          <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
+        <BellIcon size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Unresolved Follow-Up&apos;s
+          <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
             {summary.FollowUpsTotal}
           </span>
         </Button>

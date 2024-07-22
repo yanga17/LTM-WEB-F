@@ -86,7 +86,6 @@ export function TicketSummary() {
     }
   }
 
-
   const activeSummary = async () => {
     try {
       const activeUrl = `tickets/getactivesummary`;

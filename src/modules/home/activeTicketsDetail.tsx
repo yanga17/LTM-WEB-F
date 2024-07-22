@@ -67,7 +67,6 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
         }
     }
 
-
     const toggleTransfer = (callid: number) => {
         const ticket = ticketData.find(ticket => ticket.ID === callid);
         
@@ -134,7 +133,7 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Support No</p>
-                                    <p>{supportNo || Support_No || '--:--'}</p>
+                                    <p className="font-semibold text-md">{supportNo || Support_No || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Comments</p>
@@ -152,11 +151,11 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                    <p>{new Date(StartTime).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md">{new Date(StartTime).toLocaleString() || '--:--'}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
-                                    <p>{new Date(Time_Taken).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md">{new Date(Time_Taken).toLocaleString() || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
@@ -174,8 +173,8 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Priority</p>
-                                    <p className={`font-semibold text-md ${Priority === 1 ? 'text-red' : Priority === 2 ? 'text-orange' : Priority === 0 ? 'text-grey' : ''}`}>
-                                        {Priority === 1 ? "Urgent" : Priority === 2 ? "Moderate" : "Low"}
+                                    <p className={`font-semibold text-md ${Priority === 'P1' ? 'text-red' : Priority === 'P2' ? 'text-orange' : (Priority === 'P3' || Priority === 'P4') ? 'text-gray-500' : ''}`}>
+                                        {Priority || '--:--'}
                                     </p>
                                 </div>
                             </div>

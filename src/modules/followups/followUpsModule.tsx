@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
-import { View, CircleSlash, PhoneOutgoing, Loader, Check, XIcon } from "lucide-react";
+import { View, CircleSlash, PhoneOutgoing, Loader, Check } from "lucide-react";
 import { createContext } from "react";
 import { FollowUpsDetail } from "./followUpsDetail";
 
@@ -28,10 +28,11 @@ interface FollowUpsProps {
     FollowUp: number,
     Completed: number,
     name: string,
+    Email_Address: string,
     Clients_Anydesk: number,
     NumberOfDays: number,
     IssueType: string,
-    Priority: number
+    Priority: string
 }
 
 type FollowUpsType = FollowUpsProps[]
@@ -162,7 +163,7 @@ export const FollowUpsModule = () => {
               <td colSpan={8} className="h-[150px]">
                   <div className="flex flex-col items-center justify-center h-full w-full">
                       <Loader className="h-12 w-12" />
-                      <p className="text-gray-500 text-lg mt-2 text-center upperacse">Loading Data, Please be patient</p>
+                      <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading Data, Please be patient</p>
                   </div>
               </td>
           </tr>
@@ -234,7 +235,7 @@ export const FollowUpsModule = () => {
                 <>
                     <tr className="border-b font-medium text-black sm:text-black">
                         <td key={id}className="p-2">{id}</td>
-                        <td className="p-2 w-[80px]">{employee  || '--:--'}</td>
+                        <td className="p-2 w-[80px] uppercase">{employee  || '--:--'}</td>
                         <td className="p-2 whitespace-nowrap truncate">{customer  || '--:--'}</td>
                         <td className="p-2">{activity  || '--:--'}</td>
                         <td className="p-2">{name  || '--:--'}</td>

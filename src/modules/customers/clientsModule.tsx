@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { EyeIcon } from "@/components/component/tickets-table";
 import { createContext } from "react";
 import { ClientsDetail } from "./clientsDetail";
-import { CircleSlash, Loader, View } from "lucide-react";
+import { CircleSlash, Loader, View, User } from "lucide-react";
 import Image from 'next/image';
+import { ClientsDialog } from "@/components/component/clientsDialog";
 
 interface ClientProps {
     uid: number,
@@ -291,7 +292,8 @@ export const ClientsModule = () => {
         <ClientsContext.Provider value={viewClient}>
         <div className="bg-white">
             <div className="h-screen w-full overflow-auto">
-                <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+                <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+                    <ClientsDialog />
                     <div className="flex items-center">
                         <div className="text-right">
                             <input

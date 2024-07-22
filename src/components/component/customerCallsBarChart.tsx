@@ -53,6 +53,7 @@ export const CustomerCallsComponent = ({ customerCallsData }: props) => {
                     dataKey="CallCount"
                     stroke="#2563eb"
                     fill="#3b82f6"
+                    label={barValue}
                 />
             </BarChart>
         </ResponsiveContainer>

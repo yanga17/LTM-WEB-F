@@ -24,8 +24,8 @@ export type EmployeeAvgResponse = EmployeeAvgProps[]
 interface EmployeeProps {
     ID: number;
     Technician: string;
-  }
-  type EmployeeType = EmployeeProps[]
+}
+type EmployeeType = EmployeeProps[]
 
 
 export const EmployeeAvgReport = () => {

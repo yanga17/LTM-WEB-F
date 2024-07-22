@@ -34,7 +34,7 @@ export interface ActiveProps {
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
-    Priority: number
+    Priority: string
 }
 
 export type ActiveResponseType = ActiveProps[]
@@ -60,7 +60,7 @@ interface DetailTicketProps {
     number_of_days: number,
     Time_Taken: number,
     IssueType: string,
-    Priority: number
+    Priority: string
 }
 
 export type DetailResponseType = DetailTicketProps[]
