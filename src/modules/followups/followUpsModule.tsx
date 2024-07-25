@@ -145,17 +145,17 @@ export const FollowUpsModule = () => {
         setCurrentOpen('');
     };
 
-    const searchCustomerFollowUp = (clientname: any) => {
-        setInput(clientname);
-        console.log("MY CLIENTNAME:+++++", clientname);
-    }
+    // const searchCustomerFollowUp = (clientname: any) => {
+    //     setInput(clientname);
+    //     console.log("MY CLIENTNAME:+++++", clientname);
+    // }
 
-    const undoNotification = () => {
-        toast.success('Follow-Up was started successfully', {
-          icon: <Check color={colors.green} size={24} />,
-          duration: 3000,
-        });
-    }
+    // const undoNotification = () => {
+    //     toast.success('Follow-Up was started successfully', {
+    //       icon: <Check color={colors.green} size={24} />,
+    //       duration: 3000,
+    //     });
+    // }
 
     if (loading) {
         return (
@@ -233,20 +233,20 @@ export const FollowUpsModule = () => {
         <FollowUpContext.Provider value={viewFollowUp} >
             {filteredData?.map(({ idx, id, employee, customer, activity, phoneNumber, starTime, endTime, duration, type, solution, supportnumber, comments, followUp, completed, name, clientsAnydesk, numberofdays, issuetype }, index) => (
                 <>
-                    <tr className="border-b font-medium text-black sm:text-black">
+                    <tr className="pg-background border-b font-medium table-text">
                         <td key={id}className="p-2">{id}</td>
-                        <td className="p-2 w-[80px] uppercase">{employee  || '--:--'}</td>
                         <td className="p-2 whitespace-nowrap truncate">{customer  || '--:--'}</td>
                         <td className="p-2">{activity  || '--:--'}</td>
                         <td className="p-2">{name  || '--:--'}</td>
                         <td className="p-3">{duration  || '--:--'}</td>
+                        <td className="p-2 uppercase">{employee  || '--:--'}</td>
                         <td className="text-center">{completed === 1 ? '❌' : completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple sm:bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
+                                <Button size="sm" className="bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
                                     <View size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-green sm:bg-green py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
+                                <Button size="sm" className="bg-green py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
                                     <PhoneOutgoing size={18} strokeWidth={2} />
                                 </Button>
                             </div>

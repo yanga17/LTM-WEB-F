@@ -303,15 +303,6 @@ export function StartCall({ onClose}: Props) {
       supportNo = customerArray[1].trim();
     }
 
-    // let priorityValue = 0;
-    // if (priority === "Urgent") {
-    //     priorityValue = 1;
-    // } else if (priority === "Moderate") {
-    //     priorityValue = 2;
-    // } else if (priority === "Low") {
-    //     priorityValue = 0;
-    // }
-
     //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
       customer: customerData,
@@ -332,6 +323,7 @@ export function StartCall({ onClose}: Props) {
 
     try {
 
+      //values notEntered
       const fields = [
         { value: customer, message: 'Please select a client.' },
         { value: problem, message: 'Please select a problem.' },
@@ -360,8 +352,15 @@ export function StartCall({ onClose}: Props) {
 
       const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
       console.log('Ticket submitted successfully:', response.data);
+      
 
-      console.log('my logger wtf is it!?:', ticketData.logger)
+      // try {
+      //   await axios.post(`${apiEndPoint}/send-sms`, { clientName, phonenumber });
+      //   toast.success('SMS has been sent to the client')
+
+      // } catch (smsError) {
+      //   console.error('Error sending SMS:', smsError);
+      // }
       
       //Reset form fields
       setCustomer("");
@@ -385,17 +384,17 @@ export function StartCall({ onClose}: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-    <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
-        <div className="text-black flex items-center gap-2 justify-end">
+    <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 dialog-background overlay">
+        <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
           <XIcon size={26} strokeWidth={2} color="red" onClick={onClose} />
         </div>
-      <h1 className="text-black text-2xl font-bold mb-6">Start Call</h1>
+      <h1 className="calls-text text-2xl font-bold mb-6">Start Call</h1>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="space-y-2">
           <label htmlFor="customer" className="text-black">Customer</label>
           <div className="relative">
             <select
-              className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
               value={customer}
               onChange={(e) => setCustomer(e.target.value)}
             >
@@ -410,7 +409,7 @@ export function StartCall({ onClose}: Props) {
           <label className="text-black">Problem</label>
             <div className="relative">
               <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
             >
@@ -423,25 +422,25 @@ export function StartCall({ onClose}: Props) {
           </div>
           <div className="space-y-2">
             <label htmlFor="name" className="text-black">Client Name</label>
-            <input id="name" placeholder="Enter name" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setClientName(e.target.value)}/>
+            <input id="name" placeholder="Enter name" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setClientName(e.target.value)}/>
           </div>
           <div className="space-y-2">
             <label htmlFor="phone" className="text-black">Phone Number</label>
-            <input id="phone" placeholder="Enter phone number" type="tel" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setPhoneNumber(e.target.value)}/>
+            <input id="phone" placeholder="Enter phone number" type="tel" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <div className="space-y-2">
             <label htmlFor="email" className="text-black">Email Address</label>
-            <input id="email" placeholder="Enter the email address" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setEmailAdd(e.target.value)}/>
+            <input id="email" placeholder="Enter the email address" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setEmailAdd(e.target.value)}/>
           </div>
         <div className="space-y-2">
           <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
-          <input id="anydesk" placeholder="Enter Anydesk ID" className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black" onChange={(e) => setAnydesk(e.target.value)}/>
+          <input id="anydesk" placeholder="Enter Anydesk ID" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setAnydesk(e.target.value)}/>
         </div>
         <div className="space-y-2">
           <label htmlFor="type" className="text-black">Type</label>
             <div className="relative">
               <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
@@ -456,7 +455,7 @@ export function StartCall({ onClose}: Props) {
             <Label htmlFor="employee" className="text-black">Employee</Label>
             <div className="relative">
               <select
-                className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 value={employee}
                 onChange={(e) => setEmployee(e.target.value)}
               >
@@ -471,7 +470,7 @@ export function StartCall({ onClose}: Props) {
             <label htmlFor="urgent" className="text-black">Priority</label>
               <div className="relative">
                 <select
-                  className="text-black block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
                 >
@@ -489,17 +488,26 @@ export function StartCall({ onClose}: Props) {
           <label htmlFor="comments" className="text-black">Comments</label>
         </div>
         <div className="flex items-center space-x-2 mt-6 mb-2">
-          <Checkbox id="task" checked={checkStatus} onClick={handleCheckStatus}/>
+          <Checkbox 
+            id="task" 
+            checked={checkStatus} 
+            onClick={handleCheckStatus}
+            />
             <label className="ml-2 text-sm text-black" htmlFor="task">
               Task
             </label>
         </div>
       </div>
-      <textarea id="comments" placeholder="Enter comments" className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm text-black h-20 text-top" onChange={(e) => saveComments(e.target.value)}/>
+      <textarea 
+        id="comments" 
+        placeholder="Enter comments" 
+        className="ticket-input w-full py-2 px-3 rounded-md shadow-sm h-20 text-top" 
+        onChange={(e) => saveComments(e.target.value)}
+      />
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple hover:bg-black hover:text-white" variant="outline" onClick={takeCall}>Take Call</Button>
-        <Button className="flex-1 bg-red hover:bg-black hover:text-white" variant="outline" onClick={onClose}>Cancel</Button>
-        <Button className="flex-1 bg-green hover:bg-black hover:text-white" variant="outline" onClick={submitTicket}>Save</Button>
+        <Button className="flex-1 bg-purple hover:bg-black hover:text-white" variant="outline" onClick={ takeCall }>Take Call</Button>
+        <Button className="flex-1 bg-red hover:bg-black hover:text-white" variant="outline" onClick={ onClose }>Cancel</Button>
+        <Button className="flex-1 bg-green hover:bg-black hover:text-white" variant="outline" onClick={ submitTicket }>Save</Button>
       </div>
       </div>
     </div>

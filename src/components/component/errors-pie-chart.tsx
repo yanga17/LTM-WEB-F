@@ -193,7 +193,7 @@ return (
           Common Client Errors <CircleXIcon size={18} strokeWidth={2} />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing the 5 most common customer errors
+          Showing the 5 common customer errors
         </div>
       </CardFooter>
   </Card>

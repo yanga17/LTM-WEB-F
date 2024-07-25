@@ -83,7 +83,6 @@ export const ActiveTicketsModule = () => {
 
     const [loadingUserTickets, setLoadingUserTickets] = useState(false);
     const [errorUserTickets, setErrorUserTickets] = useState(false);
-    
 
     const [state, setState] = useState({
         isOpen: true,
@@ -92,6 +91,8 @@ export const ActiveTicketsModule = () => {
 
     const url = `tickets/getactivetickets`
     const { data, loading, error } = useQuery<ActiveResponseType>(url);
+
+    //'/send-email'
 
     const generateEachTicket = async (currentCallId: number) => {
         try {
@@ -119,8 +120,11 @@ export const ActiveTicketsModule = () => {
             setSolutionId(callid)
             setSolutionPopup(true)
             toast.success('Ticket has been ended successfully.');
-
             console.log('Ticket ended successfully:', response.data);
+
+            // await axios.post("http://localhost:4200/send-email", { callid });
+            // console.log('EMAIL HAS BEEN SENT SUCCESSFULLY!!!!!!!!!!!!!!!');
+            // toast.success('Email sent successfully.');
 
         } catch (error) {
 
@@ -221,7 +225,7 @@ export const ActiveTicketsModule = () => {
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
                         <CircleSlash className="h-12 w-12" />
-                        <p className="text-red text-lg mt-2 text-center uppercase">An error was encountered when fetching tickets data, please refresh the page!</p>
+                        <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data. Please refresh the page!</p>
                     </div>
                 </td>
             </tr>
@@ -259,8 +263,6 @@ export const ActiveTicketsModule = () => {
     }
 
     //userNoData State
-    
-    
     if (!loggedInUser && userTickets?.length === 0) {
         return (
         <>
@@ -322,7 +324,6 @@ export const ActiveTicketsModule = () => {
         priority: property.Priority
     }))
 
-    
     const roleData = loggedInUser ? activecheckInLog : userActiveTicketsLog;
 
     return (
@@ -341,10 +342,10 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple sm:bg-purple  w-20 md:w-20" onClick={() => { openModal(callid)}}>
+                                <Button size="sm" className="bg-purple w-20 md:w-20" onClick={() => { openModal(callid)}}>
                                     <View size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-red sm:bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
+                                <Button size="sm" className="bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
                                     <PhoneOff size={18} strokeWidth={2} />
                                 </Button>
                             </div>

@@ -115,7 +115,7 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
                 console.log("my client name value", Name)
                 
                 return (
-                    <div key={ID} className="p-4 bg-white">
+                    <div key={ID} className="p-4 pg-background">
                         <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                         <div className="flex flex-wrap">
                             <div className="w-1/3">

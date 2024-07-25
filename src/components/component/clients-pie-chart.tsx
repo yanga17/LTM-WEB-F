@@ -191,7 +191,7 @@ export function ClientsPieChart() {
           Clients Summary <User size={18} strokeWidth={2} />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing summary of the clients in the company
+          Summary of the clients in the company
         </div>
       </CardFooter>
     </Card>

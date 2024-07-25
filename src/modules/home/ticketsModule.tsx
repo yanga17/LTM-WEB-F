@@ -11,8 +11,6 @@ import { EachTicketsModule } from "./ticketsDetail";
 import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, View } from "lucide-react";
 import { useSession } from '@/context';
 import { createContext } from "react";
-import { cn } from "@/lib/utils"
-
 
 //interface for all tickets - tblcalls
 export interface CheckProps {
@@ -42,8 +40,6 @@ export const TicketsModule = () => {
   const { user } = useSession();
     const [currentOpen, setCurrentOpen] = useState('');
     const [viewticket, setViewTicket] = useState<CheckProps | null>(null); 
-
-    //const [tickets, setTickets] = useState<ResponseType>([]);
 
     const [state, setState] = useState({
       isOpen: true,
@@ -139,7 +135,6 @@ export const TicketsModule = () => {
       });
     }
 
-
     if (loading) {
       return (
           <tr>
@@ -160,7 +155,7 @@ export const TicketsModule = () => {
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     <CircleSlash className="h-12 w-12" />
-                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data!</p>
+                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data. Please refresh the page!</p>
                 </div>
             </td>
         </tr>
@@ -200,10 +195,10 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple sm:bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
+                <Button size="sm" className="bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
                   <View size={18} strokeWidth={2} />
                 </Button>
-                <Button size="sm" className="bg-green sm:bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
+                <Button size="sm" className="bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = data.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

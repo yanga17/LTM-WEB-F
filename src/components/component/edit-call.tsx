@@ -355,8 +355,8 @@ export function EditCall({ closeEdit, data }: Props) {
 
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-        <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 bg-white overlay">
-            <div className="text-black flex items-center gap-2 justify-end">
+        <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 dialog-background overlay">
+            <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
                 <XIcon size={26} strokeWidth={2} color="red" onClick={ closeEdit } />
             </div>
             <h1 className="text-black text-2xl font-bold mb-6">Edit Logged Ticket</h1>

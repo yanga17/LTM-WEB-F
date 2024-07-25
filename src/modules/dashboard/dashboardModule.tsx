@@ -302,7 +302,7 @@ export const DashboardModule = () => {
 
 
     return (
-        <section className="bg-grey w-full h-full overflow-y-scroll p-2 flex flex-col justify-start space-y-2">
+        <section className="pg-background w-full h-full overflow-y-scroll p-2 flex flex-col justify-start space-y-2">
             <div className="grid grid-cols-4 gap-5">
                 <div>
                     <SummaryPieChart />

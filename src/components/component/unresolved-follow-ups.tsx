@@ -36,7 +36,7 @@ export function UnresolvedFollowUps() {
     <Dialog>
       {followUpsTotal.map((summary, index) => (
       <DialogTrigger asChild key={index}>
-        <Button variant="outline" className="bg-white text-black">
+        <Button variant="outline" className="dialog-background text-black">
         <BellIcon size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Unresolved Follow-Up&apos;s
           <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
             {summary.FollowUpsTotal}
@@ -46,9 +46,11 @@ export function UnresolvedFollowUps() {
       ))}
       <DialogContent className="bg-white sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Unresolved Customer Tickets</DialogTitle>
+          <DialogTitle className="dialog-text">Unresolved Customer Tickets</DialogTitle>
           {followUpsTotal.map((summary, index) => (
-            <DialogDescription key={index}>You have {summary.FollowUpsTotal} unresolved customer tickets that need to be followed up.</DialogDescription>
+            <DialogDescription key={index} className="dialog-text">
+              You have <span className="text-red">{summary.FollowUpsTotal}</span> unresolved customer tickets that need to be followed up.
+            </DialogDescription>
           ))}
         </DialogHeader>
         <div className="flex justify-end">

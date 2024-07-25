@@ -164,7 +164,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     <>
     {editCallPopUp && <EditCall closeEdit={toggleEditCall} data={ticket} />}
     {deletePopUp && <TicketDeletion callId={deletionId} onClose={toggleDeletePage} />}
-        <div className="p-4 bg-white">
+        <div className="p-4 pg-background">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                 <div className="flex flex-wrap">
                     <div className="w-1/3">
@@ -231,13 +231,13 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         <Button onClick={() => takeLoggedTicket(ticket)} className="mr-2 bg-green sm:bg-green">Take Call
                             <PhoneOutgoing size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={ toggleEditCall } className="mr-2 bg-slate-400 sm:bg-slate-400 w-35">Edit
+                        <Button onClick={ toggleEditCall } className="mr-2 bg-slate-400 w-35">Edit
                             <PencilRuler size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red sm:bg-red">Delete
+                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red">Delete
                             <Trash2 size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange sm:bg-orange">Close
+                        <Button onClick={onClose} className="mr-2 bg-orange">Close
                             <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                         </Button>
                     </div>

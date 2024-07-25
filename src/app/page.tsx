@@ -9,21 +9,16 @@ import { Button } from "@/components/ui/button"
 import { ActivityIcon, PhoneIcon } from "@/components/component/tickets-table"
 import { StartCall } from "@/components/component/start-call"
 import { StartActivity } from "@/components/component/start-activity"
-import { TicketSummary } from "@/components/component/ticket-summary"
 import { useRouter } from 'next/navigation';
-import { Component } from '@/components/component/radialChart';
 import { HoverCard } from "@/components/component/hoverCard";
 import { SummaryCard } from "@/components/component/summaryCard";
+import { Toggler } from "@/components/component/toggler"
 
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
   const [startActivityPopup, setStartActivityPopup] = useState(false);
 
   const router = useRouter();
-
-  const handleSearchClick = () => {
-        router.push('/customers');
-  };
 
   const toggleStartCall = () => {
     setStartCallPopup(!startCallPopup);
@@ -34,18 +29,10 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="pg-background">
     <div className="h-screen w-full overflow-auto">
     <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
-      {/* <TicketSummary />  */}
-       {/* <div className="flex gap-4">
-        <TaskCard />
-        <ErrorCard />
-        <ActiveCard />
-        <LoggedCard />  
-        <TicketsCompletedCard /> 
-      </div>  */}
-      <div className="flex flex-wrap sm:flex-wrap md:flex-wrap gap-2">
+      <div className="flex flex-wrap sm:flex-wrap md:flex-wrap lg:flex-wrap gap-2">
         <HoverCard />
         <SummaryCard />
       </div>
@@ -63,11 +50,11 @@ export default function Home() {
             <Button
                 size="lg"
                 onClick={toggleStartActivity}
-                className="bg-purple"
+                className="bg-purple mr-2"
             >
                 <span>Start Activity</span>
                 <ActivityIcon className="h-4 w-4 mr-2 ml-2" />
-            </Button>\
+            </Button>
             {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>
     </div>
@@ -75,13 +62,13 @@ export default function Home() {
       <div className="grid gap-6 w-full">
         <div className="max-h-[600px] overflow-auto">
           <div>
-            <h6 className="ml-6 text-3xl py-4 font-bold">Active Tickets</h6>
+            <h6 className="ml-6 text-3xl py-4 font-bold text-hsl(var(--foreground))">Active Tickets</h6>
           </div>
-          <Card className="ml-4 mr-4 shadow-md">
+          <Card className="bg-white ml-4 mr-4 shadow-md">
             <CardContent className="p-0">
-              <div className="max-h-[400px] overflow-auto">
+              <div className="max-h-[400px] overflow-auto table-container">
                 <table className="w-full table-fixed">
-                  <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300 font-small">
+                  <thead className="table-header">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>
@@ -102,13 +89,13 @@ export default function Home() {
         </div>
         <div className="max-h-[600px] overflow-auto">
         <div>
-            <h6 className="ml-6 text-3xl py-4 font-bold">Logged Tickets</h6>
+            <h6 className="ml-6 text-3xl py-4 font-bold text-hsl(var(--foreground))">Logged Tickets</h6>
           </div>
           <Card className="ml-4 mr-4">
             <CardContent className="p-0">
-              <div className="max-h-[400px] overflow-auto">
+              <div className="max-h-[400px] overflow-auto table-container">
                 <table className="w-full table-fixed p-4">
-                <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
+                  <thead className="table-header">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>

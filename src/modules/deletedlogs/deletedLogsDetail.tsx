@@ -80,7 +80,7 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     return (
     <>
-        <div className="p-4 bg-white">
+        <div className="p-4 pg-background">
                 <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                 <div className="flex flex-wrap">
                     <div className="w-1/3">

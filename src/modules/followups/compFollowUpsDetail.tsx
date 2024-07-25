@@ -21,7 +21,7 @@ export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpPro
 
     return (
     <>
-        <div className="p-4 bg-white sm:bg-white">
+        <div className="p-4 pg-background">
                 <h2 className="mb-2 text-xl font-semibold">Follow-Up Information</h2>
                 <div className="flex flex-wrap">
                     <div className="w-1/3">

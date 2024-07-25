@@ -2,17 +2,14 @@
 
 import { FollowUpsModule } from "@/modules/followups/followUpsModule";
 import { CompFollowUpsModule } from "@/modules/followups/compFollowUpsModule";
-import { CardContent, Card } from "@/components/ui/card"
-import * as React from "react"
-import {useState, useEffect} from 'react'
-import { apiEndPoint, colors } from '@/utils/colors';
-import axios from 'axios';
-import { UnresolvedFollowUps } from "@/components/component/unresolved-follow-ups"
+import { CardContent, Card } from "@/components/ui/card";
+import * as React from "react";
+import { UnresolvedFollowUps } from "@/components/component/unresolved-follow-ups";
 
 export default function Page() {
 
     return (
-        <div className="bg-white">
+        <div className="pg-background">
         <div className="h-screen w-full overflow-auto">
         <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
             <UnresolvedFollowUps />
@@ -26,14 +23,14 @@ export default function Page() {
                 <CardContent className="p-0">
                 <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
-                        <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
-                            <tr className="text-left text-black sm:text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
+                        <thead className="table-header">
+                            <tr className="text-left text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
                             <th className="p-2 w-[60px]">Call ID</th>
-                            <th className="p-2 w-[80px]">Employee</th>
-                            <th className="p-2 w-[230px]">Customer</th>
+                            <th className="p-2 w-[200px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>
                             <th className="p-2 w-[80px]">Client Name</th>
                             <th className="p-3 w-[60px]">Duration</th>
+                            <th className="p-2 w-[50px]">Employee</th>
                             <th className="p-2 w-[40px]">Status</th>
                             <th className="w-[70px]">Action</th>
                         </tr>
@@ -57,14 +54,14 @@ export default function Page() {
                 <CardContent className="p-0">
                     <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
-                    <thead className="bg-gray-300 sm:bg-gray-300 md:bg-gray-300 lg:bg-gray-300 xl:bg-gray-300">
+                    <thead className="table-header">
                         <tr className="text-left text-black sm:text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
                             <th className="p-2 w-[60px]">Call ID</th>
-                            <th className="p-2 w-[80px]">Employee</th>
-                            <th className="p-2 w-[230px]">Customer</th>
+                            <th className="p-2 w-[200px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>
                             <th className="p-2 w-[80px]">Client Name</th>
                             <th className="p-3 w-[60px]">Duration</th>
+                            <th className="p-2 w-[50px]">Employee</th>
                             <th className="p-2 w-[40px]">Status</th>
                             <th className="w-[70px]">Action</th>
                         </tr>

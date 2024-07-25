@@ -216,7 +216,7 @@ return (
           Common Employee Tasks <LayoutList size={18} strokeWidth={2} />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing the 5 most common employee tasks
+          Showing the 5 common employee tasks
         </div>
       </CardFooter>
   </Card>

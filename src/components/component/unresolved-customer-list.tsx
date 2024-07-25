@@ -153,12 +153,12 @@ const startFollowUp = async (id: any) => {
 }))
 
   return (
-    <div className="bg-white w-full h-screen overflow-auto">
+    <div className="pg-background w-full h-screen overflow-auto">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <h1 className="text-3xl font-bold mb-8">Unresolved Customers</h1>
         <div className="grid gap-6">
           {activecheckInLog?.map(({ id, customer, name, email, phone, endtime }, index) => (
-            <Card key={id}>
+            <Card key={id} className="dialog-background">
               <CardHeader>
                 <CardTitle>{customer || '--:--'}</CardTitle>
                 <CardDescription>

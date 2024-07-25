@@ -10,6 +10,7 @@ import { createContext } from "react"
 import { Button } from "@/components/ui/button";
 import { Undo2, Loader, Check, CircleSlash, View  } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
+import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog'
 
 export interface DeletedProps {
     idx: number,
@@ -139,10 +140,11 @@ export const DeletedLogsModule = () => {
         return formattedDate;
     }
 
+
     if (loading) {
         return (
             <>
-            <div className="bg-white">
+            <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
                     <div className="flex items-center">
@@ -157,9 +159,6 @@ export const DeletedLogsModule = () => {
                         </div>
                     </div>
                 </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    
-                </div>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
                         <div>
@@ -169,15 +168,15 @@ export const DeletedLogsModule = () => {
                             <div className="p-0">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-fixed">
-                                        <thead className="bg-greyDarker">
-                                            <tr className="bg-grey text-left h-10 p-2 text-medium">
+                                        <thead className="table-header">
+                                            <tr className="text-left h-10 p-2 text-medium">
                                                 <th className="p-2">Call ID</th>
                                                 <th className="">Employee</th>
                                                 <th className="">Customer</th>
                                                 <th className="">Problem</th>
                                                 <th className="">Client Name</th>
                                                 <th className="">IssueType</th>
-                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
+                                                <th className="p-2 w-[250px] lg:w-[260px] xl:lg:w-[280px]">Insertion Time</th>
                                                 <th className="w-[70px]">Reason</th>
                                                 <th className="w-[140px]">Action</th>
                                             </tr>
@@ -208,7 +207,7 @@ export const DeletedLogsModule = () => {
     if (error) {
         return (
             <>
-            <div className="bg-white">
+            <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
                     <div className="flex items-center">
@@ -223,9 +222,6 @@ export const DeletedLogsModule = () => {
                         </div>
                     </div>
                 </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    
-                </div>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
                         <div>
@@ -295,9 +291,10 @@ export const DeletedLogsModule = () => {
     return (
         <>
         <DeletedLogsContext.Provider value={viewticket}>
-        <div className="bg-white">
+        <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
-            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+                <DeletedLogsDialog />
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
@@ -309,10 +306,7 @@ export const DeletedLogsModule = () => {
                             />
                         </div>
                     </div>
-                </header>
-                <div className="bg-white flex justify-end px-5 py-2 items-center space-x-6 mt-2">
-                    
-                </div>
+            </header>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
                         <div>
@@ -322,17 +316,17 @@ export const DeletedLogsModule = () => {
                             <div className="p-0">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-fixed">
-                                        <thead className="bg-greyDarker">
-                                            <tr className="bg-grey text-left h-10 p-2 text-medium">
-                                                <th className="p-2">Call ID</th>
-                                                <th className="">Employee</th>
-                                                <th className="">Customer</th>
-                                                <th className="">Problem</th>
-                                                <th className="">Client Name</th>
-                                                <th className="">IssueType</th>
-                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
-                                                <th className="w-[70px]">Reason</th>
-                                                <th className="w-[140px]">Action</th>
+                                        <thead className="table-header">
+                                            <tr className="text-left h-10 p-2 text-medium">
+                                                <th className="p-2 lg:w-[50px]">Call ID</th>
+                                                <th className="p-2 lg:w-[180px]">Customer</th>
+                                                <th className="p-2 lg:w-[120px]">Problem</th>
+                                                <th className="p-2 lg:w-[70px]">Client Name</th>
+                                                <th className="p-2 lg:w-[120px]">Insertion Time</th>
+                                                <th className="p-2 lg:w-[70px]">IssueType</th>
+                                                <th className="p-2 lg:w-[70px]">Reason</th>
+                                                <th className="p-2 lg:w-[70px]">Employee</th>
+                                                <th className="p-2 lg:w-[70px]">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -340,20 +334,20 @@ export const DeletedLogsModule = () => {
                                                 <>
                                                     <tr key={Call_ID} className="border-b font-medium">
                                                     <td className="p-2">{Call_ID || '--:--'}</td>
-                                                    <td className="">{Employee || '--:--'}</td>
                                                     <td className="">{Customer || '--:--'}</td>
                                                     <td className="">{Problem || '--:--'}</td>
                                                     <td className="">{Client_Name || '--:--'}</td>
-                                                    <td className="">{IssueType || '--:--'}</td>
                                                     <td className="p-2">{formatDate(insertion_time)}</td>
+                                                    <td className="">{IssueType || '--:--'}</td>
                                                     <td className="">{Reason || '--:--'}</td>
+                                                    <td className="">{Employee || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                        <Button size="sm" className="bg-purple sm:bg-purple w-24 md:w-24" onClick={() => { openModal(idx)}}>
-                                                            <View size={18} strokeWidth={2} />
-                                                        </Button>
-                                                            <Button size="sm" className="bg-red sm:bg-red py-4 w-24 mr-2 md:w-24 md:mr-2"
-                                                            onClick={() => {
+                                                            <Button size="sm" className="bg-purple w-24 md:w-24" onClick={() => { openModal(idx)}}>
+                                                                <View size={18} strokeWidth={2} />
+                                                            </Button>
+                                                            <Button size="sm" className="bg-red py-4 w-24 mr-2 md:w-24 md:mr-2"
+                                                                onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
                                                                     undoTicket(selectedTicket);

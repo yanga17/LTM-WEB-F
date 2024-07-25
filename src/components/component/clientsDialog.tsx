@@ -35,7 +35,7 @@ export function ClientsDialog() {
         <Dialog>
             {clientsTotal.map((summary, index) => (
                 <DialogTrigger asChild key={index}>
-                    <Button variant="outline" className="bg-white text-black">
+                    <Button variant="outline" className="dialog-background text-black">
                         <User size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Clients Summary&apos;s
                             <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
                                 {summary.TotalClients}
@@ -45,9 +45,11 @@ export function ClientsDialog() {
             ))}
             <DialogContent className="bg-white sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Clients Summary</DialogTitle>
+                    <DialogTitle className="dialog-text">Clients Summary</DialogTitle>
                         {clientsTotal.map((summary, index) => (
-                            <DialogDescription key={index}>You have {summary.TotalClients} total clients within the company.</DialogDescription>
+                            <DialogDescription key={index} className="dialog-text">
+                                You have {summary.TotalClients} total clients within the company.
+                            </DialogDescription>
                         ))}
                 </DialogHeader>
                 <DialogClose asChild>

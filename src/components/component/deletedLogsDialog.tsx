@@ -36,7 +36,7 @@ export function DeletedLogsDialog() {
         <Dialog>
             {deletedTotal.map((summary, index) => (
                 <DialogTrigger asChild key={index}>
-                    <Button variant="outline" className="bg-white text-black">
+                    <Button variant="outline" className="dialog-background text-black">
                         <Trash2 size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Deleted Logs Summary&apos;s
                             <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
                                 {summary.DeletedLogsTotal}
@@ -46,9 +46,11 @@ export function DeletedLogsDialog() {
             ))}
             <DialogContent className="bg-white sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Deleted Logs Summary</DialogTitle>
+                    <DialogTitle className="dialog-text">Deleted Logs Summary</DialogTitle>
                         {deletedTotal.map((summary, index) => (
-                            <DialogDescription key={index}>You have {summary.DeletedLogsTotal} customer tickets that have been deleted.</DialogDescription>
+                            <DialogDescription key={index} className="dialog-text">
+                                You have <span className="text-red">{summary.DeletedLogsTotal}</span> customer tickets that have been deleted.
+                            </DialogDescription>
                         ))}
                 </DialogHeader>
                 <DialogClose asChild>
