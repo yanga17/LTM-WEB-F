@@ -2,13 +2,619 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --grey: #e5e5e5;
-    --purple: #a17efa;
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 224 71.4% 4.1%;
+        --card: 0 0% 100%;
+        --card-foreground: 224 71.4% 4.1%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 224 71.4% 4.1%;
+        --primary: 262.1 83.3% 57.8%;
+        --primary-foreground: 210 20% 98%;
+        --secondary: 220 14.3% 95.9%;
+        --secondary-foreground: 220.9 39.3% 11%;
+        --muted: 220 14.3% 95.9%;
+        --muted-foreground: 220 8.9% 46.1%;
+        --accent: 220 14.3% 95.9%;
+        --accent-foreground: 220.9 39.3% 11%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 20% 98%;
+        --background-header: #cacbcd;
+        --border: 220 13% 91%;
+        --input: 220 13% 91%;
+        --ring: 262.1 83.3% 57.8%;
+        --radius: 0.3rem;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+
+        --nav-text-light: #000000;
+        --img-text-light: #000000;
+        --header-text-light: #000000;
+        --table-header-light: #000000;
+        --text-detail-light: #000000;
+        --button-color-light: #a17efa;
+        --button-hover-color-light: #bea5f0;
+
+        --dialog-background-light: white;
+        --dialog-icon-light: #ff2257;
+        --call-text-light: #000000;
+        --input-background-light: #ffffff;
+        --input-text-light: #cacbcd;
+        --input-border-light: #cacbcd;
+        --dropdown-text-light: #000000;
+
+        --input-padding: 1rem;
+        --input-border: var(--border);
+        --input-background: var(--input);
+        --input-foreground: var(--foreground);
+        --input-radius: var(--radius);
+
+        --button-background-edit-dark: #94a3b8;
+        --button-background-edit-hover-dark: #b3bfd0;
+        --charts-background-light: #ffffff;
+
+        --dashboard-text-light: #6B7280;
+        --dash-dateBackground-light: #000000;
+        --chart-xaxis-text-light: #000000;
+        --report-header-light: #ffffff;
+        --report-text-light: #6B7280;
+        --reportheader-textdetail-dark: #ffffff;
+        /* border-gray-200 */
+        --card-border-light: #E5E7EB;
+        --button-text-light: #ffffff;
+        /* --charts-background-border-light: #E5E7EB; */
+    }
+
+    .dark {
+        --background: 224 71.4% 4.1%;
+        --foreground: 210 20% 98%;
+        --card: 224 71.4% 4.1%;
+        --card-foreground: 210 20% 98%;
+        --popover: 224 71.4% 4.1%;
+        --popover-foreground: 210 20% 98%;
+        --primary: 263.4 70% 50.4%;
+        --primary-foreground: 210 20% 98%;
+        --secondary: 215 27.9% 16.9%;
+        --secondary-foreground: 210 20% 98%;
+        --muted: 215 27.9% 16.9%;
+        --muted-foreground: 217.9 10.6% 64.9%;
+        --accent: 215 27.9% 16.9%;
+        --accent-foreground: 210 20% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 20% 98%;
+        --header: 210 20% 98%;
+        --border: 215 27.9% 16.9%;
+        --input-dark: 215 27.9% 16.9%;
+        --ring: 263.4 70% 50.4%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+
+        --background-header-dark: #a17efa;
+        --text-dark: #ffffff;
+        --color: #ffffff;
+        --nav-text-dark: #ffffff;
+        --img-text-dark: #ffffff;
+        --table-header-dark: #000000;
+        --button-color-dark: #a17efa;
+        --button-hover-color-dark: #bea5f0;
+
+        --dialog-background-dark: #cacbcd;
+        --dialog-icon-dark: #ff2257;
+        --dialog-text-dark: #000000;
+        --call-text-dark: #ffffff;
+        --input-background-dark: #ffffff;
+        --input-text-dark: #000000;
+        --input-border-dark: #cacbcd;
+        --dropdown-text-dark: #000000;
+
+        --button-background-view-dark: #a17efa;
+        --button-background-view-hover-dark: #b59af9;
+
+        --button-background-cancel-dark: #ff2257;
+        --button-background-cancel-hover-dark: #f5466f;
+
+        --button-background-save-dark: #00d384;
+        --button-background-save-hover-dark: #1be89d;
+
+        --button-background-close-dark: #ff6600;
+        --button-background-close-hover-dark: #fb8130;
+
+        --button-background-edit-dark: #94a3b8;
+        --button-background-edit-hover-dark: #b3bfd0;
+        --charts-background-dark: #2b2b2b;
+        /* --charts-background-dark: #626262; */
+        --dashboard-text-dark: #ffffff;
+        --dash-dateBackground-dark: #ffffff;
+        --chart-xaxis-text-dark: #ffffff;
+        --reports-background-dark: #030712;
+        --report-header-dark: #cacbcd;
+        /*--report-text-dark: #6B7280;*/
+        --report-text-dark: #ffffff;
+        --reportheader-textdetail-dark: #ffffff;
+
+        --card-border-dark: #ffffff;
+        --button-text-dark: #ffffff;
+    }
+}
+/* grey: '#f4f4f4',
+    greyMid: '#D4D4D4',
+    greyLight: '#e5e5e5',
+    greyDarker: '#bdb9b9',
+*/
+
+.select-input {
+    width: 100%;
+    padding: var(--input-padding);
+    border: 1px solid hsl(var(--input-border));
+    background-color: #ffffff;
+    color: hsl(var(--input-foreground));
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    /* transition: background-color 0.2s, border-color 0.2s; */
 }
 
+.select-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.select-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
+}
+
+.option-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: hsl(var(--input-background));
+    border-radius: var(--input-radius);
+}
+
+.option-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.option-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+.dark .select-input {
+    background-color: #2b2b2b;
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+}
+
+.dark .option-item {
+    background-color: hsl(var(--input-dark));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+}
+
+.dark .option-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.dark .option-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+/*
+.dark .select-input:focus {
+    border-color: hsl(var(--ring));  Added ring color for focus in dark mode 
+}
+
+.dark .select-input::-webkit-calendar-picker-indicator {
+    color: hsl(var(--foreground));  Set color to match text in dark mode 
+}
+
+*/
+
+
+
+
+/* NEW STYLING FOR THE DARK THEME */
+.table-container {
+    background-color: hsl(var(--card)); /* Table background */
+}
+
+.header-text {
+    color: hsl(var(--foreground)); /* Text color */
+}
+
+/* body {
+    background-color: var(--background);
+    color: var(--foreground);
+} */
+
+.pg-background {
+    background-color: hsl(var(--background)); /* Body background color */
+}
+
+.dash-text {
+    color: var(--dashboard-text-light);
+}
+
+.dark .dash-text {
+    color: var(--dashboard-text-dark);
+}
+/* ----------------------------------------- */
+.dash-date {
+    background: var(--input);
+}
+
+.dark .dash-date {
+    background: var(--input-dark);
+}
+
+.card-border {
+    border: var(--card-border-light);
+}
+
+.dark .card-border {
+    border: var(--card-border-dark);
+}
+
+
+/* TABLE - HEADER - TEXT */
+.table-header {
+    background: var(--background-header);
+    color: var(--nav-text-light);
+}
+
+.dark .table-header {
+    background: var(--background-header-dark);
+    color: var(--table-header-dark);
+}
+
+.table {
+    background-color: hsl(var(--background-header)); /* Body background color */
+}
+
+.table-text {
+    color: var(--foreground);
+}
+
+.dark .table-text {
+    color: var(--foreground);
+}
+
+
+/* ---- --- DIALOGS  ---- --- */
+.dialog-background {
+    background: var(--dialog-background-light);
+}
+
+.dark .dialog-background {
+    background: var(--dialog-background-dark);
+}
+
+.dialog-text {
+    color: var(--dialog-background-light);
+}
+
+.dark .dialog-text {
+    color: var(--dialog-text-dark);
+}
+/* icon */
+.dialog-icon {
+    color: var(--dialog-icon-dark);
+}
+
+.dark .dialog-icon {
+    color: var(--dialog-icon-dark);
+}
+
+/* ---- --- START/EDIT CALL x ACTIVITY ---- */
+.calls-text {
+    color: var(--call-text-light);
+}
+
+.dark .calls-text {
+    color: var(--call-text-dark);
+}
+
+
+/* ---- --- INPUTS x DROPDOWNS --- ---- */
+.ticket-input {
+    background: var(--input-background-light);
+    color: var(--input-text-light);
+}
+
+.dark .ticket-input {
+    background: var(--input-background-dark);
+    color: var(--input-text-dark);
+}
+
+.ticket-dropdown {
+    background: var(--input-background-light);
+    color: var(--dropdown-text-dark);
+}
+
+.dark .ticket-dropdown {
+    background: var(--input-background-dark);
+    color: var(--dropdown-text-dark);
+}
+
+/* ================================ 8? */
+.call-input {
+    width: 100%;
+    /* padding: var(--input-padding); */
+    border: 1px solid hsl(var(--input-border));
+    background-color: var(--input-background);
+    color: #777879;
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 40px; /* Set a fixed height */
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.call-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.call-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
+}
+
+.call-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: hsl(var(--input-background));
+    border-radius: var(--input-radius);
+}
+
+.call-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.call-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+.dark .call-input {
+    background-color: #2b2b2b;
+    color: rgb(255, 249, 249);
+    border-color: #cacbcd;
+}
+
+.dark .call-item {
+    background-color: #2b2b2b;
+    color: #777879;
+    border-color: hsl(var(--border));
+}
+
+.dark .call-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.dark .call-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+/*
+.dark .select-input:focus {
+    border-color: hsl(var(--ring));  Added ring color for focus in dark mode 
+}
+
+.dark .select-input::-webkit-calendar-picker-indicator {
+    color: hsl(var(--foreground));  Set color to match text in dark mode 
+}
+
+*/
+
+.textarea-input {
+    width: 100%;
+    /* padding: var(--input-padding); */
+    border: 1px solid hsl(var(--input-border));
+    background-color: var(--input-background);
+    color: #777879;
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 80px; /* Set a fixed height */
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.textarea-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.textarea-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
+}
+
+.dark .textarea-input {
+    background-color: #2b2b2b;
+    color: white;
+    border-color: #cacbcd;
+}
+
+/* ===== ==== 2nd HEADER TEXT ===== ==== */
+.table-headerup {
+    background: var(--background-header);
+    color: var(--nav-text-light);
+}
+
+.dark .table-headerup {
+    background: #626262;
+    color: #ffffff;
+}
+
+
+/* ===== ==== REPORTS ===== ==== */
+.report-background {
+    background: var(--background-header);
+}
+
+.dark .report-background {
+    background: var(--reports-background-dark);
+}
+
+.report-header {
+    background: var(--report-header-light);
+    /* color: var(--report-text-light); */
+}
+
+.dark .report-header {
+    background: var(--charts-background-dark);
+    /* color: var(--text-dark); */
+}
+
+.report-text {
+    color: var(--report-text-light);
+}
+
+.dark .report-text {
+    color: var(--text-dark);
+}
+
+.reportdetail-headertext {
+    color: var(--report-text-light);
+}
+
+.dark .reportdetail-headertext {
+    color: var(--report-text-light);
+}
+
+
+/* ==== ==== CHARTS === ==== */
+.chart-background {
+    background: var(--charts-background-light);
+}
+
+.dark .chart-background {
+    background: var(--charts-background-dark);
+}
+
+.chart-text {
+    color: var(--nav-text-light);
+}
+
+.dark .chart-text {
+    color: var(--text-dark);
+}
+
+.chart-border {
+    border: var(--card-border-light);
+}
+
+.dark .chart-border {
+    border: var(--charts-background-dark);
+}
+
+/* DROPDOWN */
+.dropdowns {
+    background: #ffffff;
+    color: #6B7280;
+    border: #6B7280;
+    border-radius: 0ch;
+}
+
+.dark .dropdowns {
+    background: #000000;
+    color: #ffffff;
+    border: #ffffff;
+    border-radius: 0ch;
+}
+
+
+/* NAVIGATION NAVIGATION */
+.nav-text {
+    color: var(--nav-text-light);
+}
+
+.dark .nav-text {
+    color: var(--nav-text-dark);
+}
+
+.img-text {
+    color: var(--img-text-light);
+}
+
+.dark .img-text {
+    color: var(--img-text-dark);
+}
+
+.header-text {
+    color: var(--nav-text-light);
+}
+
+.dark .header-text {
+    color: var(--nav-text-dark);
+}
+
+
+/* END NAVIGATION - END NAVIGATION */
+
+thead.bg-gray-300 {
+    background-color: var(--background-header) !important;
+}
+
+thead.bg-background-header {
+    background-color: var(--background-header) !important;
+}
+
+
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: hsl(var(--card)); /* Table background */
+    color: hsl(var(--foreground)); /* Text color */
+}
+
+/* Table Header Styling */
+thead {
+    background-color: hsl(var(--background-header)); /* Header background color */
+    color: hsl(var(--primary-foreground)); /* Header text color */
+}
+
+/* Table Header Row */
+thead th {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 2px solid hsl(var(--border)); /* Border color */
+    font-weight: bold;
+}
+
+/* Table Body Row */
+/* tbody tr {
+    border-bottom: 1px solid hsl(var(--border));  Row border color 
+} */
+
+/* Table Cells */
+td, th {
+    padding: 0.50rem;
+    text-align: left;
+}
+
+/* Table Text */
+.text-md {
+    font-size: 1rem; /* Adjust as needed */
+}
+
+
+
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
 }
 
 ::-webkit-scrollbar-track {
@@ -53,6 +659,10 @@ h4 {
     font-size: 1.2rem;
     margin: 0;
 }
+
+/* h6 {
+    color: black;
+} */
 
 p,
 li {
@@ -122,71 +732,7 @@ li {
     justify-content: flex-end;
 }
 
-/* ----- styled cards ----- */
-.ag-courses_item {
-    margin: auto;
-    overflow: hidden;
-    border-radius: 28px;
-    height: 100px;
-    width: 250px;
-}
-.ag-courses-item_link {
-    display: block;
-    padding: 30px 20px;
-    background-color: #121212;
-    overflow: hidden;
-    position: relative;
-    text-decoration: none;
-}
 
-.ag-courses-item_link:hover,
-
-.ag-courses-item_link:hover .ag-courses-item_date {
-    color: #121212;
-}
-
-.ag-courses-item_link:hover .ag-courses-item_bg {
-    -webkit-transform: scale(10);
-    -ms-transform: scale(10);
-    transform: scale(10);
-}
-.ag-courses-item_title {
-    min-height: 57px;
-    margin: 0 0 30px;
-    overflow: hidden;
-    font-weight: bold;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    z-index: 2;
-    position: relative;
-}
-.ag-courses-item_date-box {
-    font-size: 18px;
-    color: #fff;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 100px;
-}
-.ag-courses-item_date {
-    font-weight: bold;
-    color: #f9e534;
-    -webkit-transition: color 0.5s ease;
-    -o-transition: color 0.5s ease;
-    transition: color 0.5s ease;
-}
-.ag-courses-item_bg {
-    height: 130px;
-    width: 100px;
-    background-color: #f9b234;
-    z-index: 1;
-    position: absolute;
-    top: -75px;
-    right: -75px;
-    border-radius: 50%;
-    -webkit-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
 /* -- CARDS -- */
 .card {
     width: 190px;
@@ -252,6 +798,66 @@ li {
     background: white;
 }
 
+/* STYLING FOR TOGGLE between Light x Dark */
+/* The switch - the box around the slider */
+.switch {
+    display: block;
+    --width-of-switch: 3.5em;
+    --height-of-switch: 2em;
+    /* size of sliding icon -- sun and moon */
+    --size-of-icon: 1.4em;
+    /* it is like a inline-padding of switch */
+    --slider-offset: 0.3em;
+    position: relative;
+    width: var(--width-of-switch);
+    height: var(--height-of-switch);
+}
+
+  /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+  /* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f4f4f5;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: var(--size-of-icon,1.4em);
+    width: var(--size-of-icon,1.4em);
+    border-radius: 20px;
+    left: var(--slider-offset,0.3em);
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(40deg,#ff0080,#ff8c00 70%);
+    ;
+transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #303136;
+}
+
+input:checked + .slider:before {
+    left: calc(100% - (var(--size-of-icon,1.4em) + var(--slider-offset,0.3em)));
+    background: #303136;
+    /* change the value of second inset in box-shadow to change the angle and direction of the moon  */
+    box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+}
+
 /* .card {
     display: flex;
     flex-direction: column;
@@ -263,28 +869,6 @@ li {
     border-color: #a17efa;
 }
 */
-
-/* .card:first-child {
-    background-color: #2962ff;
-} */
-
-/* blue - #2962ff */
-/* white - #ffff */
-
-/* .card:nth-child(2) {
-    background-color: #ff6d00;
-} */
-/* orange - #ff6d00 */
-
-/* .card:nth-child(3) {
-    background-color: #2e7d32;
-} */
-/* green - #2e7d32*/
-
-/* .card:nth-child(4) {
-    background-color: #d50000;
-} */
-/* red - #d50000*/
 
 .card-inner {
     display: flex;

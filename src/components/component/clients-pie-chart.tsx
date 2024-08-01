@@ -77,12 +77,12 @@ export function ClientsPieChart() {
   const allFields = React.useMemo(() => newdesktopData.map((item) => item.field), [newdesktopData])
 
   return (
-    <Card data-chart={id} className="flex flex-col">
+    <Card data-chart={id} className="chart-background flex flex-col">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
-        <div className="grid gap-1">
+        <div className="grid gap-1 chart-text">
           <CardTitle>Clients</CardTitle>
-          <CardDescription>Summary of Client Data</CardDescription>
+          <CardDescription className="chart-text">Summary of Client Data</CardDescription>
         </div>
         <Select value={activeField} onValueChange={setActiveField}>
           <SelectTrigger
@@ -129,7 +129,7 @@ export function ClientsPieChart() {
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel className="bg-white gap-4" />}
+              content={<ChartTooltipContent hideLabel className="chart-background chart-text gap-4" />}
             />
             <Pie
               data={newdesktopData}
@@ -166,14 +166,14 @@ export function ClientsPieChart() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-3xl font-bold chart-text"
                         >
                           {newdesktopData[activeIndex]?.desktop.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-foreground text-medium font-bold"
+                          className="fill-foreground text-medium font-bold chart-text"
                         >
                           {selectedConfig?.label}
                         </tspan>
@@ -186,12 +186,12 @@ export function ClientsPieChart() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
+      <CardFooter className="flex-col gap-2 text-sm chart-text">
         <div className="flex items-center gap-2 font-medium leading-none">
           Clients Summary <User size={18} strokeWidth={2} />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing summary of the clients in the company
+          Showing of clients in the company
         </div>
       </CardFooter>
     </Card>

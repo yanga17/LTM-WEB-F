@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from "react"
-import {useState, useEffect} from 'react'
+import {useState, useEffect, createContext } from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { EachActiveTicketsModule } from "./activeTicketsDetail";
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-import { Loader, CircleSlash, Check, PhoneOff, View, CircleSlash2 } from "lucide-react";
+import { Loader, CircleSlash, PhoneOff, PanelTopOpen, Ellipsis } from "lucide-react";
 import { useSession } from "@/context";
 
 export interface ActiveProps {
@@ -44,7 +44,7 @@ interface DetailTicketProps {
     Employee: string,
     Customer: string,
     Activity: string,
-    Clients_Anydesk: number,
+    Clients_Anydesk: string,
     Phone_Number: number,
     StartTime: string,
     EndTime: string,
@@ -65,13 +65,16 @@ interface DetailTicketProps {
 
 export type DetailResponseType = DetailTicketProps[]
 
+export const ActiveTicketsContext = createContext<ActiveProps | null>(null);
+
 const Admin = ['Markus', 'Kats', 'Manny', 'Morne', 'Stefan', 'Brandon Nhlanhla', 'Admin', 'Yanga']
 
 export const ActiveTicketsModule = () => {
     const { user } = useSession();
 
     const [currentOpen, setCurrentOpen] = useState('');
-    const [viewticket, setViewTicket] = useState<DetailResponseType>([]); //view ticket holds my returned data
+    //const [viewticket, setViewTicket] = useState<DetailResponseType>([]); //view ticket holds my returned data
+    const [viewticket, setViewTicket] = useState<ActiveProps | null>(null);
     const [callId, setCallID] = useState(0);
 
     const [solutionPopup, setSolutionPopup] = useState(false);
@@ -83,7 +86,6 @@ export const ActiveTicketsModule = () => {
 
     const [loadingUserTickets, setLoadingUserTickets] = useState(false);
     const [errorUserTickets, setErrorUserTickets] = useState(false);
-    
 
     const [state, setState] = useState({
         isOpen: true,
@@ -93,34 +95,39 @@ export const ActiveTicketsModule = () => {
     const url = `tickets/getactivetickets`
     const { data, loading, error } = useQuery<ActiveResponseType>(url);
 
-    const generateEachTicket = async (currentCallId: number) => {
-        try {
+    //'/send-email'
 
-            const ticketsurl = `tickets/getactivetickets/${currentCallId}`
-            const eachActiveTicket = await axios.get<ActiveResponseType>(`${apiEndPoint}/${ticketsurl}`);
+    // const generateEachTicket = async (currentCallId: number) => {
+    //     try {
 
-            setViewTicket(eachActiveTicket.data)
-            console.log('show me the data fam', viewticket);
+    //         const ticketsurl = `tickets/getactivetickets/${currentCallId}`
+    //         const eachActiveTicket = await axios.get<ActiveResponseType>(`${apiEndPoint}/${ticketsurl}`);
+
+    //         setViewTicket(eachActiveTicket.data)
+    //         console.log('show me the data fam', viewticket);
             
 
-        } catch (error) {
-            console.log('error loading EAch ACTIVE TICKET')
-        }
+    //     } catch (error) {
+    //         console.log('error loading EAch ACTIVE TICKET')
+    //     }
 
-    }
+    // }
     
     const endTicket = async (currentemployee: string, callid: number) => {
         try {
 
-            const endurl = `tickets/endticket/${currentemployee}/${callid}`
+            const endurl = `tickets/endticket/${currentemployee}/${callid}`;
             const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
-            setViewTicket(response.data)
+            //setViewTicket(response.data);
 
-            setSolutionId(callid)
-            setSolutionPopup(true)
+            setSolutionId(callid);
+            setSolutionPopup(true);
             toast.success('Ticket has been ended successfully.');
-
             console.log('Ticket ended successfully:', response.data);
+
+            // await axios.post("http://localhost:4200/send-email", { callid });
+            // console.log('EMAIL HAS BEEN SENT SUCCESSFULLY!!!!!!!!!!!!!!!');
+            // toast.success('Email sent successfully.');
 
         } catch (error) {
 
@@ -144,25 +151,29 @@ export const ActiveTicketsModule = () => {
         setLoadingUserTickets(false);
     }
 
-    const openModal = (parameter: any) => {
-        if (currentOpen === parameter) {
-            return; // Do nothing if the ticket is already open
-        }
+    const openModal = (id: any) => {
+        if (currentOpen === id) {
+            setCurrentOpen('');
+            setState({ ...state, isOpen: false, expandView: null });
 
-        setCurrentOpen(parameter);
-        setState({ ...state, isOpen: true, expandView: parameter });
-        setCallID(parameter);
-    
-        setViewTicket([]); // Reset viewticket when opening a new ticket to ensure previous ticket data is not displayed
-        generateEachTicket(parameter); // Call generateEachTicket here to load the new ticket data
-        console.log('lets see this my callid', parameter);
+        } else {
+            setCurrentOpen(id);
+            setState({ ...state, isOpen: true, expandView: id});
+
+            const selectedTicket = data?.find(client => client.ID === id || null);
+
+            if (selectedTicket) {
+                setViewTicket(selectedTicket);
+            }
+
+            console.log('lets see my seletected ticket from view', selectedTicket);
+        }
     }
 
     const closeModal = () => {
-        setState({ ...state, isOpen: false, expandView: null });
+        setState({...state, isOpen: false, expandView: null });
         setCurrentOpen('');
-        //setViewTicket([]); // Optionally reset the view ticket data
-    };
+    }
 
     const toggleSolution = () => {
         setSolutionPopup(!solutionPopup);
@@ -172,16 +183,16 @@ export const ActiveTicketsModule = () => {
         setTransferPopUp(!transferPopUp);
     }
 
-    useEffect(() => {
-        generateUserTickets();
-    }, []);
+    // useEffect(() => {
+    //     generateUserTickets();
+    // }, []);
 
     useEffect(() => {
-        generateUserTickets();
         const interval = setInterval(() => {
             generateUserTickets();
-        }, 30000); // Polling interval set to 30 seconds
-        return () => clearInterval(interval); // Clear interval on component unmount
+        }, 1200000); //2min
+
+        return () => clearInterval(interval); 
     }, []);
 
     const loggedInUser = Admin.includes(user?.emp_name ?? '');
@@ -221,7 +232,7 @@ export const ActiveTicketsModule = () => {
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
                         <CircleSlash className="h-12 w-12" />
-                        <p className="text-red text-lg mt-2 text-center uppercase">An error was encountered when fetching tickets data, please refresh the page!</p>
+                        <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data. Please refresh the page!</p>
                     </div>
                 </td>
             </tr>
@@ -249,7 +260,7 @@ export const ActiveTicketsModule = () => {
             <tr>
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
-                        <Check className="h-12 w-12" />
+                        <PanelTopOpen className="h-12 w-12" />
                         <p className="text-green text-lg mt-2 text-center uppercase">There are currently no user Active Tickets being worked on</p>
                     </div>
                 </td>
@@ -259,15 +270,13 @@ export const ActiveTicketsModule = () => {
     }
 
     //userNoData State
-    
-    
     if (!loggedInUser && userTickets?.length === 0) {
         return (
         <>
             <tr>
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
-                        <CircleSlash2 className="h-12 w-12" />
+                        <PanelTopOpen className="h-12 w-12" />
                         <p className="text-green text-lg mt-2 text-center uppercase">there are currently no user active tickets being worked on</p>
                     </div>
                 </td>
@@ -322,17 +331,17 @@ export const ActiveTicketsModule = () => {
         priority: property.Priority
     }))
 
-    
     const roleData = loggedInUser ? activecheckInLog : userActiveTicketsLog;
 
     return (
         <>
+        <ActiveTicketsContext.Provider value={viewticket}>
             {transferPopUp && <TicketTransfer callId={transferid} onClose={toggleTransfer} />}
             {solutionPopup && <TicketSolution callId={solutionid} onClose={toggleSolution} />}
         
             {roleData?.map(({ callid, customer, problem, name, time, employee, type, issuetype, phoneNumber }, index) => (
                 <>
-                    <tr key={callid}>
+                    <tr key={callid} className="border-b">
                         <td className="px-2">{callid || '--:--'}</td> 
                         <td className="p-2 whitespace-nowrap truncate">{customer || '--:--'}</td>
                         <td className="p-2 whitespace-nowrap truncate">{problem || '--:--'}</td>
@@ -341,10 +350,10 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple sm:bg-purple  w-20 md:w-20" onClick={() => { openModal(callid)}}>
-                                    <View size={18} strokeWidth={2} />
+                                <Button size="sm" className="bg-purple hover:bg-violet-300 w-20 md:w-20" onClick={() => { openModal(callid)}}>
+                                    <Ellipsis size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-red sm:bg-red w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
+                                <Button size="sm" className="bg-red hover:bg-rose-300 w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
                                     <PhoneOff size={18} strokeWidth={2} />
                                 </Button>
                             </div>
@@ -354,13 +363,14 @@ export const ActiveTicketsModule = () => {
                         <tr>
                             <td colSpan={6} className="p-0">
                                 <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                                    <EachActiveTicketsModule ticketData={viewticket} callid={callid} onClose={closeModal}/>
+                                    <EachActiveTicketsModule onClose={closeModal}/>
                                 </div>
                             </td>
                         </tr>
                     )}
                 </>
             ))}
+            </ActiveTicketsContext.Provider>
         </>
     );
 }

@@ -10,6 +10,7 @@ export const colors = {
         greyDarker: '#bdb9b9',
         maroon: '#9f9f9f',
         purple: '#a17efa',
+        purpleBright: '#b59af9',
         purpleDarker: '#855cec',
         purpleFaint: '#dccfff',
         green: '#00d384',
@@ -21,7 +22,7 @@ export const colors = {
         darkblue: '#0038FF',
     }
 
-export const  apiEndPoint = process.env.REST_ENDPOINT || `https://ltm-b.vercel.app`
+export const  apiEndPoint = process.env.REST_ENDPOINT || `http://localhost:4200`
 
 
 //export const  apiEndPoint = process.env.REST_ENDPOINT || `http://localhost:4200`

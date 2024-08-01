@@ -8,14 +8,13 @@ import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DoorClosedIcon } from "@/components/component/ticket-solution";
 import { useSession } from '@/context';
-import { CheckProps } from '@/modules/home/ticketsModule';
+import { ActiveProps } from '@/modules/home/activeTicketsModule';
 import { XIcon, Check } from 'lucide-react';
 
 interface Props {
     closeEdit: () => void;
-    data: CheckProps;
+    data: ActiveProps;
 }
 
 //interface for gettingAllcustomers
@@ -48,7 +47,7 @@ interface TypesProps {
 }
 type TypeErrors = TypesProps[]
 
-export function EditCall({ closeEdit, data }: Props) {
+export function EditActiveCall({ closeEdit, data }: Props) {
     const { user } = useSession();
 
     //storing data for input fields
@@ -197,13 +196,13 @@ export function EditCall({ closeEdit, data }: Props) {
 
     const generateEdtitedData = () => {
         setCustomer(data.Customer)
-        setProblem(data.Problem)
+        setProblem(data.Activity)
         setPhoneNumber(data.Phone_Number)
         setClientName(data.Name)
         setEmailAdd(data.Email_Address)
-        setAnydesk(data.Clients_Anydesk)
+        //setAnydesk(data.Clients_Anydesk)
         setType(data.Type)
-        setEmployee(data.Empl)
+        setEmployee(data.Employee)
         setComments(data.Comments)
         console.log('SETTING EDIT DATA WAS SUCCESSFUL', customer)
     }
@@ -260,9 +259,8 @@ export function EditCall({ closeEdit, data }: Props) {
                 }
             }
 
-
-            const url = `tickets/editloggedticket/${data.Call_ID}`
-            const response = await axios.patch<CheckProps>(`${apiEndPoint}/${url}`, editData);
+            const url = `tickets/editactiveticket/${data.ID}`
+            const response = await axios.patch<ActiveProps>(`${apiEndPoint}/${url}`, editData);
             console.log("Success - Editing Ticket Values with new information was successful.")
             editSuccessNotification();
             closeEdit();
@@ -287,8 +285,68 @@ export function EditCall({ closeEdit, data }: Props) {
         });
     }
 
-    console.log("my CUSTOMER to be edited:", data.Customer);
-    console.log("my CUSTOMER to be edited:", data.Customer);
+    const submitTicket = async (callId: number) => {
+        const currentDate = new Date().toISOString().slice(0, 10); 
+        const currentTime = new Date().toISOString().slice(11, 19); 
+        const dateTime = currentDate + ' ' + currentTime; 
+
+        let customerData = customer
+        let supportNo = null;
+
+        if (customer.includes(",")) {
+            const customerArray = customer.split(",");
+            customerData = customerArray[0].trim();
+            supportNo = customerArray[1].trim();
+        }
+
+        // let priorityValue = 0;
+
+        // if (priority === "Urgent") {
+        //     priorityValue = 1;
+        // } else if (priority === "Moderate") {
+        //     priorityValue = 2;
+        // } else if (priority === "Low") {
+        //     priorityValue = 0;
+        // }
+
+        //property names should be exactly like the ones declared in the backend routes
+        const ticketData = {
+            callid: callId,
+            customer: customerData,
+            problem: problem,
+            time: dateTime,
+            phoneNumber: phonenumber,
+            clientsAnydesk: anydesk,
+            name: clientName,
+            support_No: supportNo, 
+            empl: employee,
+            logger: user ? `${user.emp_name}` : null,
+            comments: comments,
+            urgent: priority, 
+            issueType: issueType, 
+            type: type,
+        };
+
+        try {
+            const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
+            console.log('Ticket submitted successfully:', response.data);
+
+            //Reset form fields
+            setCustomer("");
+            setProblem("");
+            setPhoneNumber(0);
+            setClientName("");
+            setAnydesk("");
+            setType("");
+            setEmployee("");
+            setPriority("");
+            setComments("");
+
+            closeEdit();
+            } catch (error) {
+                console.error('Error updating the logged ticket:', error);
+            }
+    };
 
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
@@ -296,13 +354,13 @@ export function EditCall({ closeEdit, data }: Props) {
             <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
                 <XIcon size={26} strokeWidth={2} color="red" onClick={ closeEdit } />
             </div>
-            <h1 className="dash-text text-2xl font-bold mb-6">Edit Logged Ticket</h1>
+            <h1 className="dash-text text-2xl font-bold mb-6">Edit Active Ticket</h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="space-y-2">
                     <label htmlFor="customer" className="dash-text">Customer</label>
                     <div className="relative">
                         <select
-                            className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+                            className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                             value={data.Customer}
                             onChange={(e) => setCustomer(e.target.value)}
                             >

@@ -1,18 +1,16 @@
 'use client'
 
 import * as React from "react"
-import {useState, useEffect} from 'react'
+import {useState, useEffect, createContext } from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button"
 import { EachTicketsModule } from "./ticketsDetail";
-import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, View } from "lucide-react";
+import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, Ellipsis } from "lucide-react";
 import { useSession } from '@/context';
-import { createContext } from "react";
-import { cn } from "@/lib/utils"
-
+//import { createContext } from "react";
 
 //interface for all tickets - tblcalls
 export interface CheckProps {
@@ -42,8 +40,6 @@ export const TicketsModule = () => {
   const { user } = useSession();
     const [currentOpen, setCurrentOpen] = useState('');
     const [viewticket, setViewTicket] = useState<CheckProps | null>(null); 
-
-    //const [tickets, setTickets] = useState<ResponseType>([]);
 
     const [state, setState] = useState({
       isOpen: true,
@@ -139,7 +135,6 @@ export const TicketsModule = () => {
       });
     }
 
-
     if (loading) {
       return (
           <tr>
@@ -160,7 +155,7 @@ export const TicketsModule = () => {
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     <CircleSlash className="h-12 w-12" />
-                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data!</p>
+                    <p className="text-red text-lg mt-2 text-center uppercase">An Error was encountered when fetching Data. Please refresh the page!</p>
                 </div>
             </td>
         </tr>
@@ -189,7 +184,7 @@ export const TicketsModule = () => {
     <TicketsContext.Provider value={viewticket}>
       {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl, Priority }) => (
         <>
-          <tr key={Call_ID || '--:--'}>
+          <tr key={Call_ID} className="border-b">
             <td className="px-2">{Call_ID}</td>
             <td className="p-2 whitespace-nowrap truncate">{Customer.includes(':') ? Customer.split(':')[0].trim() : Customer || '--:--'}</td>
             <td className="p-2 whitespace-nowrap truncate">{Problem || '--:--'}</td>
@@ -200,10 +195,10 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple sm:bg-purple w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
-                  <View size={18} strokeWidth={2} />
+                <Button size="sm" className="bg-purple hover:bg-violet-300 w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
+                  <Ellipsis size={18} strokeWidth={2} />
                 </Button>
-                <Button size="sm" className="bg-green sm:bg-green w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
+                <Button size="sm" className="bg-green hover:bg-emerald-300 w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
                   onClick={() => {
                     const selectedTicket = data.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {

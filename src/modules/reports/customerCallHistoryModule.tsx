@@ -14,7 +14,7 @@ import { CallHistoryPDF } from '../../components/component/customerCallHistoryPD
 import { Button } from "@/components/ui/button"
 import { Expand } from "lucide-react";
 import { PDFViewer } from '@react-pdf/renderer';
-import { X } from "lucide-react";
+import { X, Minimize2 } from "lucide-react";
 
 
 interface CallHistoryProps {
@@ -194,134 +194,133 @@ export const ReportsModule = () => {
                 </div>
             </div>
         )}
-        <div className="h-full overflow-auto">
+        <div className="h-full overflow-auto report-background">
             <div className="w-full p-2 hidden lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap">
-                <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
-                <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>
-                <button onClick={() => setCurrentReport('CustomerCalls')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CustomerCalls'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Customer Calls</button>
-                <button onClick={() => setCurrentReport('CustomerErrors')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CustomerErrors'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Customer Errors</button>
-                <button onClick={() => setCurrentReport('EmployeeTasks')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeTasks'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Tasks</button>
-                <button onClick={() => setCurrentReport('EmployeeAvg')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeAvg'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Average Time</button>
-                <button onClick={() => setCurrentReport('EmployeeSummary')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeSummary'? 'bg-purple' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Summary</button>
+                <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
+                <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>
+                <button onClick={() => setCurrentReport('CustomerCalls')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CustomerCalls'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Customer Calls</button>
+                <button onClick={() => setCurrentReport('CustomerErrors')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CustomerErrors'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Customer Errors</button>
+                <button onClick={() => setCurrentReport('EmployeeTasks')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeTasks'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Tasks</button>
+                <button onClick={() => setCurrentReport('EmployeeAvg')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeAvg'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Average Time</button>
+                <button onClick={() => setCurrentReport('EmployeeSummary')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'EmployeeSummary'? 'bg-purple text-white' : 'bg-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Employee Summary</button>
             </div>
             {currentReport === 'CallHistory' && (
                 <>
             <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
-                <div className="flex flex-col p-2 text-black">
-                    <label>Start Date:</label>
-                    <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="dash-text">Start Date:</label>
+                    <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="select-input"></input>
                 </div>
-                <div className="flex flex-col p-2 text-black">
-                    <label>End Date:</label>
-                    <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="dash-text">End Date:</label>
+                    <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="mt-6 w-56 sm:w-52 md:w-60 lg:w-64 flex flex-col text-gray-500 rounded">
                 <select 
-                    className='p-3 border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
+                    className="select-input"
                     value={customer}
                     onChange={(e) => setCustomer(e.target.value)}
                     >
-                    <option value="" className="text-black">All</option>
+                    <option value="" className="option-item">All</option>
                         {allCustomers?.map(({ uid, Customer }) =>
                         <option key={uid} value={Customer}>{Customer}</option>
                     )}
                 </select>
                 </div>
-                <div>
-                {/* <div></div> */}
-                </div>
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterCallHistoryReport } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterCallHistoryReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
                             View PDF
                         </button>
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
-                {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
+            <div className="flex items-center justify-between divide-x divide-gray-500 report-header p-3 mt-4 mx-2 rounded">
+                {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             {filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
                 <div key={ID}>
-                    <div className={`bg-white text-black p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
+                    <div className={`report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
                         <p className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center uppercase">{ID}</p>
-                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
-                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center break-words truncate uppercase">{Activity}</p>
-                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                        <p className="text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
-                        <p className={`text-sm text-gray-500 font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center break-words truncate uppercase">{Activity}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
+                        <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType}</p>
                         <Expand onClick={() => { openReport(ID)}} className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center hover:cursor-pointer z-10" />
                     </div>
                     <div>
-                        <div className={`w-full p-4 mr-2 mt-2 mx-2 rounded bg-white text-black ${state.isOpen && state.expandView === ID? 'block' : 'hidden'}`}>
+                        <div className={`w-full p-4 mr-2 mt-2 mx-2 rounded report-header text-black ${state.isOpen && state.expandView === ID? 'block' : 'hidden'}`}>
                             <div className="flex flex-wrap">
                                 <div className="w-1/3">
                                     <div>
-                                        <p className="font-medium text-gray-500 text-md">Call ID</p>
-                                        <p className="font-semibold text-md">{ID || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Call ID</p>
+                                        <p className="font-semibold text-md text-purple">{ID || '--:--'}</p>
                                     </div>
                                     <div className="mb-4 mt-4">
-                                        <p className="font-medium text-gray-500 text-md">Employee</p>
-                                        <p className="font-semibold text-md uppercase">{Employee || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Employee</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Employee || '--:--'}</p>
                                     </div>
                                     <div className="mb-2">
-                                        <p className="font-medium text-gray-500 text-md">Support No</p>
-                                        <p>{Support_No || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Support No</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Support_No || '--:--'}</p>
                                     </div>
                                     <div className='mt-4'>
-                                        <p className="font-medium text-gray-500 text-md">IssueType</p>
-                                        <p className={`font-medium text-gray-500 text-md ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">IssueType</p>
+                                        <p className={`font-semibold text-md ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
                                     </div>
                                     <div className="mt-4">
-                                        <p className="font-medium text-gray-500 text-md">Solution</p>
-                                        <p className="font-semibold text-md">{Solution || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Solution</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Solution || '--:--'}</p>
                                     </div>
                                 </div>
                                 <div className="w-1/3">
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Customer</p>
-                                        <p className="font-semibold text-md">{Customer || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Customer</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Customer || '--:--'}</p>
                                     </div>
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Problem</p>
-                                        <p className="font-semibold text-md">{Activity || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Problem</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Activity || '--:--'}</p>
                                     </div>
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                        <p>{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Start Time</p>
+                                        <p className="font-semibold text-md uppercase report-text">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-500 text-md">End Time</p>
-                                        <p>{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">End Time</p>
+                                        <p className="font-semibold text-md uppercase report-text">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
                                     </div>
                                 </div>
                                 <div className="w-1/3">
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Client Name</p>
-                                        <p className="font-semibold text-md">{name  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Client Name</p>
+                                        <p className="font-semibold text-md uppercase report-text">{name  || '--:--'}</p>
                                     </div>
                                     <div className="mb-4 mt-4">
-                                        <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                                        <p className="font-semibold text-md">{Phone_Number  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Phone Number</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Phone_Number  || '--:--'}</p>
                                     </div>
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Comments</p>
-                                        <p className="font-semibold text-md">{Comments  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Duration</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Duration  || '--:--'}</p>
                                     </div>
                                     <div className="mb-4">
-                                        <p className="font-medium text-gray-500 text-md">Duration</p>
-                                        <p className="font-semibold text-md">{Duration  || '--:--'}</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Comments</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Comments  || '--:--'}</p>
                                     </div>
                                 </div>
                                 <div className="flex justify-end mt-5 gap-4">
-                                    <Button onClick={ closeReport } className="mr-2 bg-red">Close</Button>
+                                    <Button onClick={ closeReport } className="bg-red hover:bg-rose-300 mr-2">Close
+                                        <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
+                                    </Button>
                                 </div>
                             </div>
                         </div>

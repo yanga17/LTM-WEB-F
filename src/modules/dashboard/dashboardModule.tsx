@@ -302,37 +302,36 @@ export const DashboardModule = () => {
 
 
     return (
-        <section className="bg-grey w-full h-full overflow-y-scroll p-2 flex flex-col justify-start space-y-2">
+        <section className="report-background w-full h-full overflow-y-scroll p-2 flex flex-col justify-start space-y-2">
             <div className="grid grid-cols-4 gap-5">
-                <div>
+                <div className="rounded-lg shadow-sm">
                     <SummaryPieChart />
                 </div>
-                <div>
+                <div className="rounded-lg shadow-sm">
                     <ErrorsPieChart />
                 </div>
-                <div>
+                <div className="rounded-lg shadow-sm">
                     <TasksPieChart />
                 </div>
-                <div>
+                <div className="rounded-lg shadow-sm">
                     <ClientsPieChart />
                 </div>
             </div>
             <div className="flex flex-col justify-start space-y-2">
-                <div className="w-full rounded p-2 shadow h-[600px] bg-white flex items-start justify-between flex-col">
+                <div className="w-full rounded p-2 shadow h-[600px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs text-gray-500">(s)</span></p>
+                        <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
+                            <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="p-3 border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
                             <label className="mr-2">End Date</label>
                             <input type="datetime-local" name="empendtime" onChange={(e) => setEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterEmployeeBarChart } className="flex justify-start bg-purple text-white hover:bg-black hover:text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
-                                {/* <span >Filter</span> */}
+                            <button onClick={ filterEmployeeBarChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
                     </div>
-                    <div className="w-full bg-white flex items-center justify-center h-[95%]">
+                    <div className="w-full chart-background flex items-center justify-center h-[95%]">
                     {employeeData.length === 0 ? (
                             <EmptyChartComponent />
                         ) : (
@@ -340,26 +339,25 @@ export const DashboardModule = () => {
                     )}
                     </div>
                     <div className="w-full items-center justify-center">
-                        <p className='text-center text-gray-500 font-medium uppercase text-sm'>Legend Chart</p>
+                        <p className='text-center text-gray-500 font-medium uppercase text-sm pr-10'>Legend Chart</p>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col justify-start space-y-2">
-                <div className="w-full rounded p-2 shadow h-[450px] bg-white flex items-start justify-between flex-col">
+                <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Errors Per Customer <span className="text-xs text-gray-500">(s)</span></p>
+                        <p className="dash-text font-medium uppercase text-md">No. Errors Per Customer <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setCustomerStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
                             <label className="mr-2">End Date</label>
                             <input type="datetime-local" name="endtime" onChange={(e) => setCustomerEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterCustomerErrorsChart } className="flex justify-start bg-purple text-white hover:bg-black hover:text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
-                                {/* <span >Filter</span> */}
+                            <button onClick={ filterCustomerErrorsChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
                     </div>
-                    <div className="w-full bg-white flex items-center justify-center h-[95%]">
+                    <div className="w-full chart-background flex items-center justify-center h-[95%]">
                     {customerData.length === 0 ? (
                             <EmptyChartComponent />
                         ) : (
@@ -367,26 +365,25 @@ export const DashboardModule = () => {
                     )}
                     </div>
                     <div className="w-full items-center justify-center">
-                        <p className='text-center text-gray-500 font-medium uppercase text-sm'>Legend Chart</p>
+                        <p className='text-center text-gray-500 font-medium uppercase text-sm pr-10'>Legend Chart</p>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col justify-start space-y-2">
-                <div className="w-full rounded p-2 shadow h-[450px] bg-white flex items-start justify-between flex-col">
+                <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Common Tasks Completed<span className="text-xs text-gray-500">(s)</span></p>
+                        <p className="dash-text font-medium uppercase text-md">No. Common Tasks Completed<span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeTaskStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
                             <label className="mr-2">End Date</label>
                             <input type="datetime-local" name="endtime" onChange={(e) => setEmployeeTaskEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterEmployeeTasksChart } className="flex justify-start bg-purple text-white hover:bg-black hover:text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
-                                {/* <span >Filter</span> */}
+                            <button onClick={ filterEmployeeTasksChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
                     </div>
-                    <div className="w-full bg-white flex items-center justify-center h-[95%]">
+                    <div className="w-full chart-background flex items-center justify-center h-[95%]">
                     {employeeTasksData.length === 0 ? (
                             <EmptyChartComponent />
                         ) : (
@@ -394,26 +391,25 @@ export const DashboardModule = () => {
                     )}
                     </div>
                     <div className="w-full items-center justify-center">
-                        <p className='text-center text-gray-500 font-medium uppercase text-sm'>Legend Chart</p>
+                        <p className='text-center text-gray-500 font-medium uppercase text-sm pr-10'>Legend Chart</p>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col justify-start space-y-2">
-                <div className="w-full rounded p-2 shadow h-[450px] bg-white flex items-start justify-between flex-col">
+                <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Customer Calls <span className="text-xs text-gray-500">(s)</span></p>
+                        <p className="dash-text font-medium uppercase text-md">No. Customer Calls <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setCustomerCallStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
                             <label className="mr-2">End Date</label>
                             <input type="datetime-local" name="endtime" onChange={(e) => setCustomerCallEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterCustomerCallChart } className="flex justify-start bg-purple text-white hover:bg-black hover:text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
-                                {/* <span >Filter</span> */}
+                            <button onClick={ filterCustomerCallChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
                     </div>
-                    <div className="w-full bg-white flex items-center justify-center h-[95%]">
+                    <div className="w-full chart-background flex items-center justify-center h-[95%]">
                     {customerCallsData.length === 0 ? (
                             <EmptyChartComponent />
                         ) : (
@@ -421,15 +417,15 @@ export const DashboardModule = () => {
                     )}
                     </div>
                     <div className="w-full items-center justify-center">
-                        <p className='text-center text-gray-500 font-medium uppercase text-sm'>Legend Chart</p>
+                        <p className='text-center text-gray-500 font-medium uppercase text-sm pr-10'>Legend Chart</p>
                     </div>
                 </div>
             </div>
             {/* new chart */}
             <div className="flex flex-col justify-start space-y-2">
-                <div className="w-full rounded p-2 shadow h-[450px] bg-white flex items-start justify-between flex-col">
+                <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="text-gray-500 font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs text-gray-500">(weekly)</span></p>
+                        <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(weekly)</span></p>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeWeeklyStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
@@ -447,13 +443,12 @@ export const DashboardModule = () => {
                                         )}
                                 </select>
                             </div>
-                            <button onClick={ getEmployeeWeeklyData } className="flex justify-start bg-purple text-white hover:bg-black hover:text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
-                                {/* <span >Filter</span> */}
+                            <button onClick={ getEmployeeWeeklyData } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
                     </div>
-                    <div className="w-full bg-white flex items-center justify-center h-[95%]">
+                    <div className="w-full chart-background flex items-center justify-center h-[95%]">
                     {employeeWeeklyData.length === 0 ? (
                             <EmptyChartComponent />
                         ) : (
@@ -461,7 +456,7 @@ export const DashboardModule = () => {
                     )}
                     </div>
                     <div className="w-full items-center justify-center">
-                        <p className='text-center text-gray-500 font-medium uppercase text-sm'>Legend Chart</p>
+                        <p className='text-center text-gray-500 font-medium uppercase text-sm pr-10'>Legend Chart</p>
                     </div>
                 </div>
             </div>

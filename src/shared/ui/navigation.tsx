@@ -1,19 +1,21 @@
 'use client'
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "@/context";
 import { colors } from "@/utils/colors";
 import { usePathname } from 'next/navigation';
-import { CalendarClock, LayoutDashboard, X, LayoutList, Trash2, Speech, FilePieChart, UserPlus, UserRoundPlus } from "lucide-react";
-import logo from '/public/images/LTM logo@3x.png';
+import { CalendarClock, LayoutDashboard, X, LayoutList, Trash2, Speech, FilePieChart } from "lucide-react";
 import Image from 'next/image';
+import { Toggler } from "@/components/component/toggler";
+import { ThemeToggle } from "@/components/component/theme-toggler";
 
 export const Navigation = () => {
   const { user } = useSession();
   const pathname = usePathname();
 
   const { logout } = useSession();
+  const [theme, setTheme] = useState("");
 
   const MobileNavigation = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -73,37 +75,47 @@ export const Navigation = () => {
     const { role } = user
 
     return (
-      <div className="lg:flex flex-col justify-between gap-1 h-full bg-white rounded py-4 lg:w-[100%]">
+      <div className="lg:flex flex-col justify-between gap-1 h-full pg-background rounded py-4 lg:w-[100%]">
         <ul className="flex flex-col justify-between gap-2 w-full">
-          <Image src="/covers/legendSystems.png" alt="Legend Systems" width={400} height={400} className="m-0 p-5 h-20px" />
+          <Image src="/covers/legendSystems.png" alt="Legend Systems" width={400} height={400} className="m-0 p-5 h-20px img-text dark:img-text" />
+
             <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
               <LayoutDashboard size={25} strokeWidth={1} color={pathname === '/' ? colors?.purple : colors?.black} />
-              <Link href='/' className="text-md font-medium text-black-dark group-hover:text-purple" >Home</Link>
+              <Link href='/' className="nav-text text-md font-medium text-black-dark group-hover:text-purple" >Home</Link>
             </li>
+
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <CalendarClock size={25} strokeWidth={1} color={pathname === '/customers' ? colors?.purple : colors?.black} />
-            <Link href='/customers' className="text-md font-medium text-black-dark group-hover:text-purple">Customers</Link>
+            <Link href='/customers' className="nav-text dark:dark-nav-text text-md font-medium text-black-dark group-hover:text-purple">Customers</Link>
           </li>
+
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <LayoutList size={25} strokeWidth={1} color={pathname === '/dashboard' ? colors?.purple : colors?.black} />
-            <Link href='/dashboard' className="text-md font-medium text-black-dark group-hover:text-purple">Dashboard</Link>
+            <Link href='/dashboard' className="nav-text text-md font-medium text-black-dark group-hover:text-purple">Dashboard</Link>
           </li>
+
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <FilePieChart size={25} strokeWidth={1} color={pathname === '/reports' ? colors?.purple : colors?.black} />
-            <Link href='/reports' className="text-md font-medium text-black-dark group-hover:text-purple">Reports</Link>
+            <Link href='/reports' className="nav-text text-md font-medium text-black-dark group-hover:text-purple">Reports</Link>
           </li>
+
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
-            <Trash2 size={25} strokeWidth={1} color={pathname === '/deletedlogs' ? colors?.purple : colors?.black} />
-            <Link href='/deletedlogs' className="text-md font-medium text-black-dark group-hover:text-purple">Deleted Logs</Link>
+            <Trash2 size={25} strokeWidth={1} color={pathname === '/deletedlogs' ? colors?.purple : colors?.black} className="nav-text" />
+            <Link href='/deletedlogs' className="nav-text text-md font-medium text-black-dark group-hover:text-purple">Deleted Logs</Link>
           </li>
+
           <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
             <Speech size={25} strokeWidth={1} color={pathname === '/follow-ups' ? colors?.purple : colors?.black} />
-            <Link href='/follow-ups' className="text-md font-medium text-black-dark group-hover:text-purple">Follow-Ups</Link>
+            <Link href='/follow-ups' className="nav-text text-md font-medium text-black-dark group-hover:text-purple">Follow-Ups</Link>
           </li>
+
         </ul>
-        <button className="gap-2 flex items-center justify-center w-10/12 mx-auto rounded p-2 bg-red text-white" onClick={logout}>
-          <span className="text-white font-medium uppercase text-xs">Logout</span>
-        </button>
+        <div className="flex flex-col items-center justify-center w-10/12 gap-6">
+            <Toggler /> 
+          <button className="gap-2 flex items-center justify-center w-10/12 mx-auto rounded p-2 bg-red text-white" onClick={logout}>
+            <span className="text-white font-medium uppercase text-xs">Logout</span>
+          </button>
+        </div>
       </div>
     )
   }

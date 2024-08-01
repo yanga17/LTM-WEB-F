@@ -36,7 +36,7 @@ export function DeletedLogsDialog() {
         <Dialog>
             {deletedTotal.map((summary, index) => (
                 <DialogTrigger asChild key={index}>
-                    <Button variant="outline" className="bg-white text-black">
+                    <Button variant="outline" className="chart-background dash-text">
                         <Trash2 size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Deleted Logs Summary&apos;s
                             <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
                                 {summary.DeletedLogsTotal}
@@ -44,16 +44,18 @@ export function DeletedLogsDialog() {
                     </Button>
                 </DialogTrigger>
             ))}
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="chart-background sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Deleted Logs Summary</DialogTitle>
+                    <DialogTitle className="dash-text">Deleted Logs Summary</DialogTitle>
                         {deletedTotal.map((summary, index) => (
-                            <DialogDescription key={index}>You have {summary.DeletedLogsTotal} customer tickets that have been deleted.</DialogDescription>
+                            <DialogDescription key={index} className="dash-text">
+                                You have <span className="text-red">{summary.DeletedLogsTotal}</span> customer tickets that have been deleted.
+                            </DialogDescription>
                         ))}
                 </DialogHeader>
                 <DialogClose asChild>
                     <div className="flex justify-end">
-                        <button className="inline-flex h-10 items-center justify-center rounded-md bg-purple text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer hover:bg-black hover:text-white">
+                        <button className="inline-flex h-10 items-center justify-center rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer">
                             Close
                         </button>
                     </div>

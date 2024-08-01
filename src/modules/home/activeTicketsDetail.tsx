@@ -1,20 +1,26 @@
 'use client'
 
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button"
-import { DetailResponseType } from './activeTicketsModule'; 
-import { ActiveResponseType } from './activeTicketsModule';  
-import { useState } from 'react'
+import { DetailResponseType } from "./activeTicketsModule"; 
+import { ActiveResponseType } from "./activeTicketsModule";  
+import { useState, useContext } from "react";
 import { apiEndPoint, colors } from '@/utils/colors';
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { Minimize2, PhoneOff, Move3d } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { Minimize2, PhoneOff, Move3d, PencilRuler } from "lucide-react";
+import { EditActiveCall } from "@/components/component/edit-active-call";
+import { ActiveTicketsContext } from "@/modules/home/activeTicketsModule"
 
-interface EachTicketProps {
-    ticketData: DetailResponseType;
-    callid: number;
+// interface EachTicketProps {
+//     ticketData: DetailResponseType;
+//     callid: number;
+//     onClose: () => void;
+// }
+
+interface EachActiveTicketProps {
     onClose: () => void;
 }
 
@@ -37,15 +43,20 @@ interface TransferProps {
 type TransferType = TransferProps[]
 
 
-export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTicketProps) => {
+export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
     const [transferPopUp, setTransferPopUp] = useState(false);
+    const [editActivePopUp, setEditActivePopUp] = useState(false);
+    const [solutionPopup, setSolutionPopup] = useState(false);
     const [transferid, setTransferId] = useState(0);
     const [solutuionid, setSolutionId] = useState(0);
+    const activeTickets = useContext(ActiveTicketsContext);
 
     const [viewedticket, setViewedTicket] = useState<ActiveResponseType>([]); //view ticket holds my returned data
     const [transferTicketData, setTransferTicketData] = useState<TransferType>([]);
 
-    const [solutionPopup, setSolutionPopup] = useState(false);
+    if (!activeTickets) {
+        return <div>No data available</div>;
+    }
 
     const endTicket = async (currentemployee: string, callid: number) => {
         try {
@@ -67,28 +78,12 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
         }
     }
 
+    const toggleEditActiveCall = () => {
+        setEditActivePopUp(!editActivePopUp);
+    }
+
     const toggleTransfer = (callid: number) => {
-        const ticket = ticketData.find(ticket => ticket.ID === callid);
-        
-        if (ticket) {
-            const selectedData = {
-                customer: ticket.Customer,
-                problem: ticket.Activity,
-                clientsAnydesk: ticket.Clients_Anydesk,
-                phoneNumber: ticket.Phone_Number,
-                time: new Date(ticket.StartTime).toISOString().slice(0, 19).replace('T', ' '),
-                supportNumber: ticket.Support_No,
-                empl: ticket.Employee,
-                comments: ticket.Comments,
-                solution: ticket.Solution,
-                name: ticket.Name,
-                urgent: ticket.Priority,
-                issueType: ticket.IssueType,
-                type: ticket.Type,
-            };
-            // setTransferTicketData(selectedData);
-            setTransferPopUp(true);
-        }
+        setTransferPopUp(true);
     }
 
     const toggleSolution = () => {
@@ -107,92 +102,88 @@ export const EachActiveTicketsModule = ({ ticketData, callid, onClose}: EachTick
 
     return (
         <>
+            {editActivePopUp && <EditActiveCall closeEdit={toggleEditActiveCall} data={activeTickets} />}
             {solutionPopup && <TicketSolution callId={solutuionid} onClose={toggleSolution} />}
-            {transferPopUp && transferTicketData && <TicketTransfer callId={callid} onClose={onClose} />}
-            {ticketData?.map(({ ID, Employee, Customer, Activity, Clients_Anydesk, Phone_Number, StartTime, EndTime, Duration, Type, Solution, Support_No, Comments, FollowUp, Completed, Name, Email_Address, number_of_days, Time_Taken, IssueType, Priority }) => {
-                const { customerData, supportNo } = filterCustomer(Customer);
-                console.log("my urgent value lets this this mf:", Priority)
-                console.log("my client name value", Name)
-                
-                return (
-                    <div key={ID} className="p-4 bg-white">
+            {transferPopUp && <TicketTransfer callId={activeTickets.ID} onClose={onClose} />}
+                    <div key={activeTickets.ID} className="p-4 pg-background">
                         <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
                         <div className="flex flex-wrap">
                             <div className="w-1/3">
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Call ID</p>
-                                    <p className="font-semibold text-md">{ID}</p>
+                                    <p className="font-semibold text-md">{activeTickets.ID}</p>
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Employee</p>
-                                    <p className="font-semibold text-md">{Employee || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Employee || '--:--'}</p>
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Client Email</p>
-                                    <p className="font-semibold text-md">{Email_Address || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Email_Address || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Support No</p>
-                                    <p className="font-semibold text-md">{supportNo || Support_No || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Support_No || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Comments</p>
-                                    <p className="font-semibold text-md">{Comments || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Comments || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Customer</p>
-                                    <p className="font-semibold text-md">{customerData || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Customer || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Problem</p>
-                                    <p className="font-semibold text-md">{Activity || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Activity || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                    <p className="font-semibold text-md">{new Date(StartTime).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md">{new Date(activeTickets.StartTime).toLocaleString() || '--:--'}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
-                                    <p className="font-semibold text-md">{new Date(Time_Taken).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md">{new Date(activeTickets.Time_Taken).toLocaleString() || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Client Name</p>
-                                    <p className="font-semibold text-md">{Name || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Name || '--:--'}</p>
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                                    <p className="font-semibold text-md">{Phone_Number || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.Phone_Number || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">IssueType</p>
-                                    <p className="font-semibold text-md">{IssueType || '--:--'}</p>
+                                    <p className="font-semibold text-md">{activeTickets.IssueType || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Priority</p>
-                                    <p className={`font-semibold text-md ${Priority === 'P1' ? 'text-red' : Priority === 'P2' ? 'text-orange' : (Priority === 'P3' || Priority === 'P4') ? 'text-gray-500' : ''}`}>
-                                        {Priority || '--:--'}
+                                    <p className={`font-semibold text-md ${activeTickets.Priority === 'P1' ? 'text-red' : activeTickets.Priority === 'P2' ? 'text-orange' : (activeTickets.Priority === 'P3' || activeTickets.Priority === 'P4') ? 'text-gray-500' : ''}`}>
+                                        {activeTickets.Priority || '--:--'}
                                     </p>
                                 </div>
                             </div>
                             <div className="flex justify-end mt-5 gap-4">
-                                <Button onClick={() => { endTicket(Employee, callid) }} className="mr-2 bg-red sm:bg-red">End Call
+                                <Button onClick={() => { endTicket(activeTickets.Employee, activeTickets.ID) }} className="mr-2 bg-red hover:bg-rose-300">End
                                     <PhoneOff size={18} strokeWidth={2} className="ml-2" />
                                 </Button>
-                                <Button onClick={() => { toggleTransfer(callid) }} className="mr-2 bg-purple sm:bg-purple">Transfer
+                                <Button onClick={ toggleEditActiveCall } className="mr-2 w-35 bg-gray-400 hover:bg-gray-300">Edit
+                                    <PencilRuler size={18} strokeWidth={2} className="ml-2" />
+                                </Button>
+                                <Button onClick={() => toggleTransfer(activeTickets.ID)} className="mr-2 bg-purple hover:bg-violet-300">Transfer
                                     <Move3d size={18} strokeWidth={2} className="ml-2" />
                                 </Button>
-                                <Button onClick={onClose} className="mr-2 bg-orange sm:bg-orange">Close
+                                <Button onClick={onClose} className="mr-2 bg-orange hover:bg-amber-400">Close
                                     <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                                 </Button>
                             </div>
                         </div>
                     </div>
-                );
-            })}
         </>
     );
 }
