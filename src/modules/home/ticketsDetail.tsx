@@ -237,7 +237,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red hover:bg-rose-300">Delete
                             <Trash2 size={18} strokeWidth={2} className="ml-2" />
                         </Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange hover:bg-amber-400">Close
+                        <Button onClick={ onClose } className="mr-2 bg-orange hover:bg-amber-400">Close
                             <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                         </Button>
                     </div>
