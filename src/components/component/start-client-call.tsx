@@ -9,12 +9,14 @@ import axios from 'axios';
 import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from '@/context';
-import { ActiveProps } from '@/modules/home/activeTicketsModule';
+import { CheckProps } from '@/modules/home/ticketsModule';
 import { XIcon, Check } from 'lucide-react';
+import { ClientResponseType } from '@/modules/customers/clientsModule';
+import { ClientProps } from '@/modules/customers/clientsModule';
 
 interface Props {
-    closeEdit: () => void;
-    data: ActiveProps;
+    onClose: () => void;
+    data: ClientResponseType;
 }
 
 //interface for gettingAllcustomers
@@ -47,7 +49,7 @@ interface TypesProps {
 }
 type TypeErrors = TypesProps[]
 
-export function EditActiveCall({ closeEdit, data }: Props) {
+export function StartClientCall({ onClose, data }: Props) {
     const { user } = useSession();
 
     //storing data for input fields
@@ -72,13 +74,16 @@ export function EditActiveCall({ closeEdit, data }: Props) {
     const [tickets, setTickets] = useState("");
     const [checkStatus, setCheckStatus] = useState(false); //checkbox
 
+    const [callid, setCallID] = useState(0);
+
+
     useEffect(() => {
         generateCustomers();
         generateProblems();
         generateEmployees();
         generateTypes();
-        generateEdtitedData();
-        filterCustomer(allCustomers);
+        // generateEdtitedData();
+        // filterCustomer(allCustomers);
     }, []);
 
     useEffect(() => {
@@ -89,6 +94,12 @@ export function EditActiveCall({ closeEdit, data }: Props) {
         }
             console.log("MY CHECKSTATUS TEXT:", checkStatus)
     }, [checkStatus])
+
+    useEffect(() => {
+        if (user?.emp_name) {
+          setEmployee(user.emp_name);
+        }
+    }, [user]);
 
     const generateCustomers = async () => {
     try {
@@ -186,36 +197,19 @@ export function EditActiveCall({ closeEdit, data }: Props) {
     }
     }
 
+    // const generateEdtitedData = () => {
+    //     setCustomer(data.client_name)
+    //     setPhoneNumber(data.phone_number || data.cellphone)
+    //     console.log('SETTING CLIENT CALL CUSTOMER EDIT DATA WAS SUCCESSFUL', customer)
+    //     console.log('SETTING CLIENT CALL CUSTOMER EDIT DATA WAS SUCCESSFUL', phonenumber)
+    // }
+
     const handleCheckStatus = () => {
         setCheckStatus((prevStatus) => !prevStatus);
     }
 
     const saveComments = (comments: string) => {
         setComments(comments);
-    };
-
-    const generateEdtitedData = () => {
-        setCustomer(data.Customer)
-        setProblem(data.Activity)
-        setPhoneNumber(data.Phone_Number)
-        setClientName(data.Name)
-        setEmailAdd(data.Email_Address)
-        //setAnydesk(data.Clients_Anydesk)
-        setType(data.Type)
-        setEmployee(data.Employee)
-        setComments(data.Comments)
-        console.log('SETTING EDIT DATA WAS SUCCESSFUL', customer)
-    }
-
-    const filterCustomer = (customers: CustomerType) => {
-        const editCustomer = data.Customer.toLowerCase();
-        const newCustomer = customers.find((item) =>
-            item.Customer.toLowerCase() === editCustomer
-        );
-
-        if (newCustomer) {
-            setCustomer(newCustomer.Customer);
-        }
     };
 
     const saveEdit = async () => {
@@ -259,11 +253,12 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 }
             }
 
-            const url = `tickets/editactiveticket/${data.ID}`
-            const response = await axios.patch<ActiveProps>(`${apiEndPoint}/${url}`, editData);
+
+            const url = `tickets/editloggedticket/${callid}`
+            const response = await axios.patch<CheckProps>(`${apiEndPoint}/${url}`, editData);
             console.log("Success - Editing Ticket Values with new information was successful.")
             editSuccessNotification();
-            closeEdit();
+            onClose();
         } catch (error) {
             console.error('An error occurred while editing ticket:', error);
             editErrorNotification();
@@ -285,86 +280,23 @@ export function EditActiveCall({ closeEdit, data }: Props) {
         });
     }
 
-    const submitTicket = async (callId: number) => {
-        const currentDate = new Date().toISOString().slice(0, 10); 
-        const currentTime = new Date().toISOString().slice(11, 19); 
-        const dateTime = currentDate + ' ' + currentTime; 
-
-        let customerData = customer
-        let supportNo = null;
-
-        if (customer.includes(",")) {
-            const customerArray = customer.split(",");
-            customerData = customerArray[0].trim();
-            supportNo = customerArray[1].trim();
-        }
-
-        // let priorityValue = 0;
-
-        // if (priority === "Urgent") {
-        //     priorityValue = 1;
-        // } else if (priority === "Moderate") {
-        //     priorityValue = 2;
-        // } else if (priority === "Low") {
-        //     priorityValue = 0;
-        // }
-
-        //property names should be exactly like the ones declared in the backend routes
-        const ticketData = {
-            callid: callId,
-            customer: customerData,
-            problem: problem,
-            time: dateTime,
-            phoneNumber: phonenumber,
-            clientsAnydesk: anydesk,
-            name: clientName,
-            support_No: supportNo, 
-            empl: employee,
-            logger: user ? `${user.emp_name}` : null,
-            comments: comments,
-            urgent: priority, 
-            issueType: issueType, 
-            type: type,
-        };
-
-        try {
-            const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
-            console.log('Ticket submitted successfully:', response.data);
-
-            //Reset form fields
-            setCustomer("");
-            setProblem("");
-            setPhoneNumber(0);
-            setClientName("");
-            setAnydesk("");
-            setType("");
-            setEmployee("");
-            setPriority("");
-            setComments("");
-
-            closeEdit();
-            } catch (error) {
-                console.error('Error updating the logged ticket:', error);
-            }
-    };
-
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
         <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 chart-background overlay">
             <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
-                <XIcon size={26} strokeWidth={2} color="red" onClick={ closeEdit } />
+                <XIcon size={26} strokeWidth={2} color="red" onClick={ onClose } />
             </div>
-            <h1 className="dash-text text-2xl font-bold mb-6">Edit Active Ticket</h1>
+            <h1 className="dash-text text-2xl font-bold mb-6">Start Client Call</h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="space-y-2">
                     <label htmlFor="customer" className="dash-text">Customer</label>
                     <div className="relative">
                         <select
                             className="call-input p-2"
-                            value={data.Customer}
+                            value={customer}
                             onChange={(e) => setCustomer(e.target.value)}
                             >
-                                <option value="" className="border rounded-md">Select Customer</option>
+                                <option value="" className="call-item">Select Customer</option>
                                     {allCustomers?.map(({ uid, Customer }) =>
                                         <option key={uid} value={Customer} className="call-item">{Customer}</option>
                                     )}
@@ -465,7 +397,7 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 onChange={(e) => saveComments(e.target.value)}
             />
             <div className="flex justify-between gap-2 mt-6">
-                <Button className="flex-1 bg-red hover:bg-rose-300 text-white hover:text-black" onClick={ closeEdit }>Cancel</Button>
+                <Button className="flex-1 bg-red hover:bg-rose-300 text-white hover:text-black" onClick={ onClose }>Cancel</Button>
                 <Button className="flex-1 bg-green hover:bg-emerald-300 text-white hover:text-black" onClick={() => saveEdit()}>Save</Button>
             </div>
         </div>

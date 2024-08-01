@@ -14,8 +14,7 @@ import { CallHistoryPDF } from '../../components/component/customerCallHistoryPD
 import { Button } from "@/components/ui/button"
 import { Expand } from "lucide-react";
 import { PDFViewer } from '@react-pdf/renderer';
-import { X, Minimize2 } from "lucide-react";
-
+import { X, Minimize2, Check } from "lucide-react";
 
 interface CallHistoryProps {
     ID: number,
@@ -42,6 +41,13 @@ interface CustomerProps {
 }
 type CustomerType = CustomerProps[]
 
+//getAllEmployees
+interface EmployeeProps {
+    ID: number;
+    Technician: string;
+}
+type EmployeeType = EmployeeProps[]
+
 export const ReportsContext = createContext<CallHistoryProps | null>(null)
 
 export const ReportsModule = () => {
@@ -51,8 +57,10 @@ export const ReportsModule = () => {
 
     const [data, setData] = useState<CallHistoryResponse>([]);
     const [allCustomers, setAllCustomers] = useState<CustomerType>([]);
+    const [allEmployees, setAllEmployees] = useState<EmployeeType>([]);
 
     const [customer, setCustomer] = useState('')
+    const [employee, setEmployee] = useState('');
     const [filteredData, setFilteredData] = useState<CallHistoryResponse>([]);
 
     const headers = ['Call ID', 'Customer', 'Activity', 'Start Time', 'End Time', 'Duration', 'Issue Type', 'Action']
@@ -103,6 +111,38 @@ export const ReportsModule = () => {
         }
     }
 
+    const filterCallHistoryReportEmp = async () => {
+        try {
+            const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
+            const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
+            const fetchedData = response.data;
+
+            if (fetchedData.length === 0) {
+                toast.error('There is no available data between the selected date periods!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+                return;
+            }
+
+            const filtered = employee 
+                ? fetchedData.filter(item => (item.Employee) ===(employee)) 
+                : fetchedData;
+                
+                if (filtered.length === 0) {
+                    toast.error('No data was found for the selected employee between the date periods!', {
+                        duration: 3000,
+                    });
+                }
+        
+                setFilteredData(filtered);
+                filterEmployeeNotification();
+        } catch (error) {
+            console.error('An error occurred while fetching the Client History Reports:', error);
+            filterNotification();
+        }
+    }
+
     const generateCustomers = async () => {
         try {
           const url = `tickets/getcustomers`
@@ -127,6 +167,30 @@ export const ReportsModule = () => {
         }
     }
 
+    const generateEmployees = async () => {
+        try {
+          const url = `tickets/getemployees`
+          const response = await axios.get<EmployeeType>(`${apiEndPoint}/${url}`);
+      
+          setAllEmployees(response.data)
+      
+          if (response.data.length === 0) {
+            toast.error(`No data available for problem types.`, {
+              icon: '❌',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
+      
+        }} catch (error) {
+      
+          console.error('An error occurred while problem types:', error);
+          
+        }
+    }
+
     const viewNotification = () => {
         toast.error('Please generate the report before viewing the PDF File!', {
             icon: <X color={colors.red} size={24} />,
@@ -139,6 +203,26 @@ export const ReportsModule = () => {
             icon: <X color={colors.red} size={24} />,
             duration: 3000,
         })
+    }
+
+    const filterEmployeeNotification = () => {
+        if (filteredData.length === 0) {
+            // Do not throw any notification if filteredData is empty
+            return;
+        }
+        
+        if (employee === "") {
+            toast.success('The report has been filtered!', {
+                icon: <Check color={colors.green} size={24} />,
+                duration: 3000,
+            })
+            return;
+        } else {
+            toast.success(`The report has been filtered based on ${employee}!`, {
+                icon: <Check color={colors.green} size={24} />,
+                duration: 3000,
+            })
+        }
     }
 
     const viewPDF = () => {
@@ -175,6 +259,7 @@ export const ReportsModule = () => {
 
     useEffect(() => {
         generateCustomers();
+        generateEmployees();
     }, [])
 
     
@@ -216,7 +301,7 @@ export const ReportsModule = () => {
                     <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="mt-6 w-56 sm:w-52 md:w-60 lg:w-64 flex flex-col text-gray-500 rounded">
-                <select 
+                {/* <select 
                     className="select-input"
                     value={customer}
                     onChange={(e) => setCustomer(e.target.value)}
@@ -225,12 +310,22 @@ export const ReportsModule = () => {
                         {allCustomers?.map(({ uid, Customer }) =>
                         <option key={uid} value={Customer}>{Customer}</option>
                     )}
+                </select> */}
+                <select 
+                    className="select-input"
+                    value={employee}
+                    onChange={(e) => setEmployee(e.target.value)}
+                    >
+                    <option value="" className="option-item">All</option>
+                        {allEmployees?.map(({ ID, Technician }) =>
+                        <option key={ID} value={Technician}>{Technician}</option>
+                    )}
                 </select>
                 </div>
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterCallHistoryReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterCallHistoryReportEmp } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
                             Filter
                         </button>
                     </div>
@@ -249,7 +344,7 @@ export const ReportsModule = () => {
                     <div className={`report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
                         <p className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center uppercase">{ID}</p>
                         <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center break-words truncate uppercase">{Activity}</p>
+                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Activity}</p>
                         <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
                         <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
                         <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>

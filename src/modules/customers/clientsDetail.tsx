@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button"
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ClientsContext } from './clientsModule';
-import { Minimize2 } from 'lucide-react';
+import { Minimize2, PhoneCall } from 'lucide-react';
+import { StartClientDetailCall } from "@/components/component/start-clientDetail-call";
 
 interface ClientDetailProps {
     onClose: () => void;
@@ -12,14 +13,20 @@ interface ClientDetailProps {
 
 export const ClientsDetail = ({ onClose }: ClientDetailProps) => {
     const client = useContext(ClientsContext);
+    const [startClientPopUp, setStartClientPopUp] = useState(false);
 
     if (!client) {
         return <div>No data available</div>;
     }
 
+    const toggleStartClientCall = () => {
+        setStartClientPopUp(!startClientPopUp);
+    }
+
 
     return (
     <>
+    {startClientPopUp && <StartClientDetailCall onClose={ toggleStartClientCall } client={ client } />}
         <div className="p-4 pg-background">
                 <h2 className="mb-2 text-xl font-semibold">Client Information</h2>
                 <div className="flex flex-wrap">
@@ -82,8 +89,11 @@ export const ClientsDetail = ({ onClose }: ClientDetailProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button className="mr-2 bg-orange hover:bg-amber-400" onClick={onClose}>Close
+                        <Button className="mr-2 bg-orange hover:bg-amber-400" onClick={ onClose }>Close
                             <Minimize2 size={18} strokeWidth={2} className="ml-2"/>
+                        </Button>
+                        <Button className="mr-2 bg-green hover:bg-emerald-300" onClick={ toggleStartClientCall }>Log Call
+                            <PhoneCall size={18} strokeWidth={2} className="ml-2"/>
                         </Button>
                     </div>
                 </div>

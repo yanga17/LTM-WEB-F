@@ -22,8 +22,8 @@ export default function Page() {
                 <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                 <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
-                        <thead className="table-header">
-                            <tr className="text-left text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
+                        <thead className="table-headerup">
+                            <tr className="text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                             <th className="p-2 w-[60px]">Call ID</th>
                             <th className="p-2 w-[200px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>
@@ -51,8 +51,8 @@ export default function Page() {
                 <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                     <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
-                    <thead className="table-header">
-                        <tr className="text-left text-black sm:text-black h-10 p-2 text-md font-medium border-rounded rounded-full">
+                    <thead className="table-headerup">
+                        <tr className="text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                             <th className="p-2 w-[60px]">Call ID</th>
                             <th className="p-2 w-[200px]">Customer</th>
                             <th className="p-2 w-[140px]">Problem</th>

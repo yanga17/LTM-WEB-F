@@ -62,7 +62,7 @@ export function SummaryCard() {
             {totalTasks.map(({ NumberOfTasks }, index) => (
             <div key={index} className="group w-full rounded-lg bg-[#a17efa] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2ea1ff]">
                 <p className="text-white text-2xl">{NumberOfTasks}</p>
-                <p className="text-white text-sm">Completed Tasks</p>
+                <p className="text-white text-sm">Completed Task(s)</p>
                 <svg
                     className="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300 "
                     xmlns="http://www.w3.org/2000/svg" 
@@ -87,7 +87,7 @@ export function SummaryCard() {
         {totalErrors.map(({ NumberOfProblems }, index) => (
         <div key={index} className="group w-full rounded-lg bg-[rgb(41,49,79)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#a17efa]">
             <p className="text-white text-2xl">{NumberOfProblems}</p>
-            <p className="text-white text-sm">Completed Errors</p>
+            <p className="text-white text-sm">Completed Error(s)</p>
         <svg
             className="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300"
             xmlSpace="preserve"

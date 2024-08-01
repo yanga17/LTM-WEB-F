@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { createContext } from "react"
 import { Button } from "@/components/ui/button";
+import { CardContent, Card } from "@/components/ui/card";
 import { Undo2, Loader, Check, CircleSlash, Ellipsis } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
 import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog'
@@ -312,12 +313,11 @@ export const DeletedLogsModule = () => {
                         <div className="mt-6">
                             <h6 className="ml-6 text-3xl py-4 font-bold header-text">Deleted Logs</h6>
                         </div>
-                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-                            <div className="p-0">
+                        <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-fixed">
-                                        <thead className="table-header">
-                                            <tr className="text-left h-10 p-2 text-medium">
+                                        <thead className="table-headerup">
+                                            <tr className="text-left h-10 p-2 text-md font-medium rounded-full">
                                                 <th className="p-2 lg:w-[50px]">Call ID</th>
                                                 <th className="p-2 lg:w-[180px]">Customer</th>
                                                 <th className="p-2 lg:w-[120px]">Problem</th>
@@ -375,8 +375,8 @@ export const DeletedLogsModule = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
+                            
+                            </CardContent>
                     </div>
                 </div>
             </div>

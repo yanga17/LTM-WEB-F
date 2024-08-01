@@ -7,11 +7,12 @@ import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
 import { createContext } from "react";
 import { ClientsDetail } from "./clientsDetail";
-import { CircleSlash, Loader, Expand, Ellipsis } from "lucide-react";
+import { CircleSlash, Loader, Ellipsis, PhoneCall } from "lucide-react";
 import Image from 'next/image';
 import { ClientsDialog } from "@/components/component/clientsDialog";
+import { StartClientCall } from "@/components/component/start-client-call";
 
-interface ClientProps {
+export interface ClientProps {
     uid: number,
     client_name: string,
     LEG_num: string,
@@ -29,7 +30,7 @@ interface ClientProps {
     support_package: number
 }
 
-type ClientResponseType = ClientProps[]
+export type ClientResponseType = ClientProps[]
 
 
 //clientsContext
@@ -46,6 +47,8 @@ export const ClientsModule = () => {
             isOpen: true,
             expandView: null
     });
+
+    const [startClientPopUp, setStartClientPopUp] = useState(false);
 
     //fetch Customer Data:
     const clientsUrl = `customers/getcustomers`;
@@ -81,6 +84,10 @@ export const ClientsModule = () => {
     const searchCustomers = (clientname: any) => {
         setInput(clientname);
         console.log("MY CLIENTNAME:+++++", clientname);
+    }
+
+    const toggleStartClientCall = () => {
+        setStartClientPopUp(!startClientPopUp);
     }
 
 
@@ -290,6 +297,7 @@ export const ClientsModule = () => {
 
     return (
         <>
+        {startClientPopUp && <StartClientCall onClose={toggleStartClientCall} data={data || []} />}
         <ClientsContext.Provider value={viewClient}>
         <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
@@ -316,7 +324,7 @@ export const ClientsModule = () => {
                             <div className="p-0">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto  table-container">
                                     <table className="w-full table-auto">
-                                        <thead className="table-header">
+                                        <thead className="table-headerup">
                                             <tr className="text-left h-10 p-2 text-sm font-medium border-rounded rounded-topleft rounded-topright">
                                                 <th className="p-2">UID</th>
                                                 <th className="">Customer</th>
@@ -343,8 +351,11 @@ export const ClientsModule = () => {
                                                     <td className="">{total_balance}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 w-20" onClick={() => { openModal(uid)}}>
+                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 w-15" onClick={() => { openModal(uid)} }>
                                                                 <Ellipsis size={18} strokeWidth={2} />
+                                                            </Button>
+                                                            <Button size="sm" className="bg-green hover:bg-emerald-300 py-4 w-15" onClick={ toggleStartClientCall }>
+                                                                <PhoneCall size={18} strokeWidth={2} />
                                                             </Button>
                                                         </div>
                                                     </td>
@@ -353,7 +364,7 @@ export const ClientsModule = () => {
                                                     <tr>
                                                         <td colSpan={9} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                                                                <ClientsDetail onClose={closeModal} />
+                                                                <ClientsDetail onClose={ closeModal } />
                                                             </div>
                                                         </td>
                                                     </tr>

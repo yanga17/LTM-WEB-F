@@ -203,8 +203,8 @@ export const CustomerCallsReport = () => {
             </div>
             
             {filteredData?.map(({ ID, Customer, Activity, CallCount }, index) => (
-                <div key={index} className={` report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercasetext-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
+                <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center p-2">{Customer}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center p-2">{Activity}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{CallCount}</p>
