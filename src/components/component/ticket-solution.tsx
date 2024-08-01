@@ -1,14 +1,13 @@
 'use client'
 
-import * as React from "react"
-import {useState, useEffect, useRef} from 'react'
-
+import * as React from "react";
+import {useState, useEffect, useRef} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 interface TicketSolutionProps {
   callId: number;
@@ -145,8 +144,8 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
     <div className="bg-white p-4 w-160 rounded-md shadow overlay">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg font-bold">Solution</h1>
-        <div className="flex items-center">
-          <DoorClosedIcon className="h-5 w-5" onClick={onClose} />
+        <div className="flex items-center hover:cursor-pointer">
+          <X size={24} strokeWidth={2} color="red" onClick={onClose} />
         </div>
       </div>
       <div className="mb-4">

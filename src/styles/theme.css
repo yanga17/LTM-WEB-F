@@ -38,27 +38,35 @@
         --text-detail-light: #000000;
         --button-color-light: #a17efa;
         --button-hover-color-light: #bea5f0;
+
         --dialog-background-light: white;
+        --dialog-icon-light: #ff2257;
         --call-text-light: #000000;
         --input-background-light: #ffffff;
         --input-text-light: #cacbcd;
         --input-border-light: #cacbcd;
         --dropdown-text-light: #000000;
 
-        --button-background-view-light: #a17efa;
-        --button-background-view-hover-light: #b59af9;
-
-        --button-background-cancel-light: #ff2257;
-        --button-background-cancel-hover-light: #f5466f;
-
-        --button-background-save-dark: #00d384;
-        --button-background-save-hover-dark: #1be89d;
-
-        --button-background-close-dark: #ff6600;
-        --button-background-close-hover-dark: #fb8130;
+        --input-padding: 1rem;
+        --input-border: var(--border);
+        --input-background: var(--input);
+        --input-foreground: var(--foreground);
+        --input-radius: var(--radius);
 
         --button-background-edit-dark: #94a3b8;
         --button-background-edit-hover-dark: #b3bfd0;
+        --charts-background-light: #ffffff;
+
+        --dashboard-text-light: #6B7280;
+        --dash-dateBackground-light: #000000;
+        --chart-xaxis-text-light: #000000;
+        --report-header-light: #ffffff;
+        --report-text-light: #6B7280;
+        --reportheader-textdetail-dark: #ffffff;
+        /* border-gray-200 */
+        --card-border-light: #E5E7EB;
+        --button-text-light: #ffffff;
+        /* --charts-background-border-light: #E5E7EB; */
     }
 
     .dark {
@@ -80,7 +88,7 @@
         --destructive-foreground: 210 20% 98%;
         --header: 210 20% 98%;
         --border: 215 27.9% 16.9%;
-        --input: 215 27.9% 16.9%;
+        --input-dark: 215 27.9% 16.9%;
         --ring: 263.4 70% 50.4%;
         --chart-1: 220 70% 50%;
         --chart-2: 160 60% 45%;
@@ -96,9 +104,11 @@
         --table-header-dark: #000000;
         --button-color-dark: #a17efa;
         --button-hover-color-dark: #bea5f0;
+
         --dialog-background-dark: #cacbcd;
+        --dialog-icon-dark: #ff2257;
         --dialog-text-dark: #000000;
-        --call-text-dark: #000000;
+        --call-text-dark: #ffffff;
         --input-background-dark: #ffffff;
         --input-text-dark: #000000;
         --input-border-dark: #cacbcd;
@@ -118,8 +128,98 @@
 
         --button-background-edit-dark: #94a3b8;
         --button-background-edit-hover-dark: #b3bfd0;
+        --charts-background-dark: #2b2b2b;
+        /* --charts-background-dark: #626262; */
+        --dashboard-text-dark: #ffffff;
+        --dash-dateBackground-dark: #ffffff;
+        --chart-xaxis-text-dark: #ffffff;
+        --reports-background-dark: #030712;
+        --report-header-dark: #cacbcd;
+        /*--report-text-dark: #6B7280;*/
+        --report-text-dark: #ffffff;
+        --reportheader-textdetail-dark: #ffffff;
+
+        --card-border-dark: #ffffff;
+        --button-text-dark: #ffffff;
     }
 }
+/* grey: '#f4f4f4',
+    greyMid: '#D4D4D4',
+    greyLight: '#e5e5e5',
+    greyDarker: '#bdb9b9',
+*/
+
+.select-input {
+    width: 100%;
+    padding: var(--input-padding);
+    border: 1px solid hsl(var(--input-border));
+    background-color: #ffffff;
+    color: hsl(var(--input-foreground));
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.select-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.select-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
+}
+
+.option-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: hsl(var(--input-background));
+    border-radius: var(--input-radius);
+}
+
+.option-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.option-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+.dark .select-input {
+    background-color: #2b2b2b;
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+}
+
+.dark .option-item {
+    background-color: hsl(var(--input-dark));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+}
+
+.dark .option-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.dark .option-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+/*
+.dark .select-input:focus {
+    border-color: hsl(var(--ring));  Added ring color for focus in dark mode 
+}
+
+.dark .select-input::-webkit-calendar-picker-indicator {
+    color: hsl(var(--foreground));  Set color to match text in dark mode 
+}
+
+*/
+
+
+
 
 /* NEW STYLING FOR THE DARK THEME */
 .table-container {
@@ -137,6 +237,30 @@
 
 .pg-background {
     background-color: hsl(var(--background)); /* Body background color */
+}
+
+.dash-text {
+    color: var(--dashboard-text-light);
+}
+
+.dark .dash-text {
+    color: var(--dashboard-text-dark);
+}
+/* ----------------------------------------- */
+.dash-date {
+    background: var(--input);
+}
+
+.dark .dash-date {
+    background: var(--input-dark);
+}
+
+.card-border {
+    border: var(--card-border-light);
+}
+
+.dark .card-border {
+    border: var(--card-border-dark);
 }
 
 
@@ -180,7 +304,14 @@
 .dark .dialog-text {
     color: var(--dialog-text-dark);
 }
+/* icon */
+.dialog-icon {
+    color: var(--dialog-icon-dark);
+}
 
+.dark .dialog-icon {
+    color: var(--dialog-icon-dark);
+}
 
 /* ---- --- START/EDIT CALL x ACTIVITY ---- */
 .calls-text {
@@ -213,88 +344,194 @@
     color: var(--dropdown-text-dark);
 }
 
-
-/* ==== ==== BUTTONS === ==== */
-.view-button {
-    background: var(--foreground);
+/* ================================ 8? */
+.call-input {
+    width: 100%;
+    /* padding: var(--input-padding); */
+    border: 1px solid hsl(var(--input-border));
+    background-color: var(--input-background);
+    color: #777879;
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 40px; /* Set a fixed height */
+    /* transition: background-color 0.2s, border-color 0.2s; */
 }
 
-.dark .view-button {
-    color: var(--foreground);
+.call-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
 }
 
-.view-button:hover {
-    background: var(--accent);
+.call-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
 }
 
-.dark .view-button:hover {
-    background: var(--accent);
-}
-/* ----- #353333 - cancel ---- */
-.cancel-button {
-    background: var(--foreground);
-}
-
-.dark .cancel-button {
-    color: var(--foreground);
+.call-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: hsl(var(--input-background));
+    border-radius: var(--input-radius);
 }
 
-.cancel-button:hover {
-    background: var(--accent);
+.call-item:hover {
+    background-color: hsl(var(--muted));
 }
 
-.dark .cancel-button:hover {
-    background: var(--accent);
-}
-/* ---- save ---- */
-.save-button {
-    background: var(--foreground);
+.call-item:focus {
+    background-color: hsl(var(--muted-foreground));
 }
 
-.dark .save-button {
-    color: var(--foreground);
+.dark .call-input {
+    background-color: #2b2b2b;
+    color: rgb(255, 249, 249);
+    border-color: #cacbcd;
 }
 
-.save-button:hover {
-    background: var(--accent);
+.dark .call-item {
+    background-color: #2b2b2b;
+    color: #777879;
+    border-color: hsl(var(--border));
 }
 
-.dark .save-button:hover {
-    background: var(--accent);
+.dark .call-item:hover {
+    background-color: hsl(var(--muted));
 }
 
-/* ---- close ---- */
-.close-button {
-    background: var(--foreground);
+.dark .call-item:focus {
+    background-color: hsl(var(--muted-foreground));
 }
 
-.dark .close-button {
-    color: var(--foreground);
+/*
+.dark .select-input:focus {
+    border-color: hsl(var(--ring));  Added ring color for focus in dark mode 
 }
 
-.close-button:hover {
-    background: var(--accent);
+.dark .select-input::-webkit-calendar-picker-indicator {
+    color: hsl(var(--foreground));  Set color to match text in dark mode 
 }
 
-.dark .close-button:hover {
-    background: var(--accent);
+*/
+
+.textarea-input {
+    width: 100%;
+    /* padding: var(--input-padding); */
+    border: 1px solid hsl(var(--input-border));
+    background-color: var(--input-background);
+    color: #777879;
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 80px; /* Set a fixed height */
+    /* transition: background-color 0.2s, border-color 0.2s; */
 }
 
-/* ---- edit ---- */
-.edit-button {
-    background: var(--foreground);
+.textarea-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
 }
 
-.dark .edit-button {
-    color: var(--foreground);
+.textarea-input::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts color for light mode */
 }
 
-.edit-button:hover {
-    background: var(--accent);
+.dark .textarea-input {
+    background-color: #2b2b2b;
+    color: white;
+    border-color: #cacbcd;
 }
 
-.dark .edit-button:hover {
-    background: var(--accent);
+/* ===== ==== 2nd HEADER TEXT ===== ==== */
+.table-headerup {
+    background: var(--background-header);
+    color: var(--nav-text-light);
+}
+
+.dark .table-headerup {
+    background: #626262;
+    color: #ffffff;
+}
+
+
+/* ===== ==== REPORTS ===== ==== */
+.report-background {
+    background: var(--background-header);
+}
+
+.dark .report-background {
+    background: var(--reports-background-dark);
+}
+
+.report-header {
+    background: var(--report-header-light);
+    /* color: var(--report-text-light); */
+}
+
+.dark .report-header {
+    background: var(--charts-background-dark);
+    /* color: var(--text-dark); */
+}
+
+.report-text {
+    color: var(--report-text-light);
+}
+
+.dark .report-text {
+    color: var(--text-dark);
+}
+
+.reportdetail-headertext {
+    color: var(--report-text-light);
+}
+
+.dark .reportdetail-headertext {
+    color: var(--report-text-light);
+}
+
+
+/* ==== ==== CHARTS === ==== */
+.chart-background {
+    background: var(--charts-background-light);
+}
+
+.dark .chart-background {
+    background: var(--charts-background-dark);
+}
+
+.chart-text {
+    color: var(--nav-text-light);
+}
+
+.dark .chart-text {
+    color: var(--text-dark);
+}
+
+.chart-border {
+    border: var(--card-border-light);
+}
+
+.dark .chart-border {
+    border: var(--charts-background-dark);
+}
+
+/* DROPDOWN */
+.dropdowns {
+    background: #ffffff;
+    color: #6B7280;
+    border: #6B7280;
+    border-radius: 0ch;
+}
+
+.dark .dropdowns {
+    background: #000000;
+    color: #ffffff;
+    border: #ffffff;
+    border-radius: 0ch;
 }
 
 

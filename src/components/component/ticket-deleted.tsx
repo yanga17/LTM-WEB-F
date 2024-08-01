@@ -2,16 +2,12 @@
 
 import * as React from "react"
 import {useState, useEffect, useRef} from 'react'
-
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-
 import { toast } from 'react-hot-toast';
-import { Undo2, CircleSlash2, CircleSlash, Check  } from "lucide-react";
+import { X, Check  } from "lucide-react";
 
 
 interface TicketDeletedProps {
@@ -68,9 +64,9 @@ export function TicketDeletion({ callId, onClose }: TicketDeletedProps ){
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="bg-white p-4 w-160 rounded-md shadow overlay">
                 <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-lg font-bold">Reasoning</h1>
-                    <div className="flex items-center">
-                        <DoorClosedIcon className="h-6 w-6" onClick={onClose} />
+                    <h1 className="text-lg font-bold dash-text">Reasoning</h1>
+                    <div className="flex items-center hover:cursor-pointer">
+                        <X size={24} strokeWidth={2} color="red" onClick={onClose} />
                     </div>
                 </div>
                 <div className="mb-4">

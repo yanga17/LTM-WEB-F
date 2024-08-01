@@ -166,16 +166,16 @@ export const EmployeeSummaryReport = () => {
         <div className="h-screen overflow-auto mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2 text-black">
-                    <label>Start Date:</label>
-                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                    <label className="dash-text">Start Date:</label>
+                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
                 </div>
                 <div className="flex flex-col p-2 text-black">
-                    <label>End Date:</label>
-                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                    <label className="dash-text">End Date:</label>
+                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
                 </div>
                 <div className="mt-6 w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
                     <select 
-                    className='p-3 border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
+                    className='ticket-dropdown p-3 border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
                     value={employee}
                     onChange={(e) => setEmployee(e.target.value)}
                     >
@@ -188,12 +188,12 @@ export const EmployeeSummaryReport = () => {
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterEmployeeAvgReport } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterEmployeeAvgReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-black hover:text-white border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
                             View PDF
                         </button>
                     </div>
@@ -204,22 +204,22 @@ export const EmployeeSummaryReport = () => {
                     </div> */}
                 </div>
             </div>
-            <div className="flex items-center justify-between divide-x divide-gray-500 bg-white text-black p-3 mt-4 mx-2 rounded">
-                {headers?.map((header, index) => <p key={index} className={`text-xs uppercase text-gray-500 font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
+            <div className="flex items-center justify-between divide-x divide-gray-500 report-header p-3 mt-4 mx-2 rounded">
+                {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
             {filteredData?.map(({ ID, Employee, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, OverallTotal }, index) => (
-                <div key={ID} className={` bg-white text-black p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                <div key={ID} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{ID}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Monday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Tuesday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Wednesday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Thursday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Friday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Saturday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{Sunday}</p>
-                    <p className="text-sm uppercase text-gray-500 font-medium w-1/4 lg:w-1/4 text-center">{OverallTotal}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Monday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Tuesday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Wednesday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Thursday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Friday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Saturday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Sunday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{OverallTotal}</p>
                 </div>
             ))}
         </div>

@@ -35,7 +35,7 @@ export function ClientsDialog() {
         <Dialog>
             {clientsTotal.map((summary, index) => (
                 <DialogTrigger asChild key={index}>
-                    <Button variant="outline" className="dialog-background text-black">
+                    <Button variant="outline" className="chart-background dash-text">
                         <User size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Clients Summary&apos;s
                             <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
                                 {summary.TotalClients}
@@ -43,18 +43,18 @@ export function ClientsDialog() {
                     </Button>
                 </DialogTrigger>
             ))}
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="chart-background sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle className="dialog-text">Clients Summary</DialogTitle>
+                    <DialogTitle className="dash-text">Clients Summary</DialogTitle>
                         {clientsTotal.map((summary, index) => (
-                            <DialogDescription key={index} className="dialog-text">
+                            <DialogDescription key={index} className="dash-text">
                                 You have {summary.TotalClients} total clients within the company.
                             </DialogDescription>
                         ))}
                 </DialogHeader>
                 <DialogClose asChild>
                     <div className="flex justify-end">
-                        <button className="inline-flex h-10 items-center justify-center rounded-md bg-purple text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer hover:bg-black hover:text-white">
+                        <button className="inline-flex h-10 items-center justify-center rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium shadow hover:cursor-pointer">
                             Close
                         </button>
                     </div>

@@ -102,12 +102,12 @@ export function TasksPieChart() {
   const allFields = React.useMemo(() => newdesktopData.map((item) => item.field), [newdesktopData])
 
 return (
-  <Card data-chart={id} className="flex flex-col">
+  <Card data-chart={id} className="flex flex-col chart-background">
     <ChartStyle id={id} config={chartConfig} />
     <CardHeader className="flex-row items-start space-y-0 pb-0">
-      <div className="grid gap-1">
+      <div className="grid gap-1 chart-text">
         <CardTitle>Tasks</CardTitle>
-        <CardDescription>Top 5 Common Tasks</CardDescription>
+        <CardDescription className="chart-text">Top 5 Common Tasks</CardDescription>
       </div>
       <Select value={activeField} onValueChange={setActiveField}>
         <SelectTrigger
@@ -154,7 +154,7 @@ return (
         <PieChart>
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel className="bg-white gap-4" />}
+            content={<ChartTooltipContent hideLabel className="chart-background chart-text gap-4" />}
           />
           <Pie
             data={newdesktopData}
@@ -191,14 +191,14 @@ return (
                       <tspan
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        className="fill-foreground text-3xl font-bold"
+                        className="fill-foreground text-3xl font-bold chart-text"
                       >
                         {newdesktopData[activeIndex || 0]?.desktop.toLocaleString()}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) + 24}
-                        className="fill-foreground text-medium font-bold"
+                        className="fill-foreground text-medium font-bold chart-text"
                       >
                         {selectedConfig?.label}
                       </tspan>
@@ -211,12 +211,12 @@ return (
         </PieChart>
       </ChartContainer>
     </CardContent>
-    <CardFooter className="flex-col gap-2 text-sm">
+    <CardFooter className="flex-col gap-2 text-sm chart-text">
         <div className="flex items-center gap-2 font-medium leading-none">
           Common Employee Tasks <LayoutList size={18} strokeWidth={2} />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing the 5 common employee tasks
+          Showing common employee tasks
         </div>
       </CardFooter>
   </Card>

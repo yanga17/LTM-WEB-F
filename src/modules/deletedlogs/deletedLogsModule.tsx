@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { createContext } from "react"
 import { Button } from "@/components/ui/button";
-import { Undo2, Loader, Check, CircleSlash, View  } from "lucide-react";
+import { Undo2, Loader, Check, CircleSlash, Ellipsis } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
 import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog'
 
@@ -298,7 +298,7 @@ export const DeletedLogsModule = () => {
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
-                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                className="chart-background dash-text p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                                 placeholder="Search Ticket"
                                 value={input}
                                 style={{ width: "440px" }}
@@ -309,8 +309,8 @@ export const DeletedLogsModule = () => {
             </header>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
-                        <div>
-                            <h6 className="ml-6 text-3xl py-4 font-bold">Deleted Logs</h6>
+                        <div className="mt-6">
+                            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Deleted Logs</h6>
                         </div>
                         <div className="ml-4 mr-4 border rounded-lg shadow-sm">
                             <div className="p-0">
@@ -343,10 +343,10 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Employee || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple w-24 md:w-24" onClick={() => { openModal(idx)}}>
-                                                                <View size={18} strokeWidth={2} />
+                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 w-24 md:w-24" onClick={() => { openModal(idx)}}>
+                                                                <Ellipsis size={18} strokeWidth={2} />
                                                             </Button>
-                                                            <Button size="sm" className="bg-red py-4 w-24 mr-2 md:w-24 md:mr-2"
+                                                            <Button size="sm" className="bg-red hover:bg-rose-300 py-4 w-24 mr-2 md:w-24 md:mr-2"
                                                                 onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {

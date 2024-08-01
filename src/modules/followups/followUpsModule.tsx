@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
-import { View, CircleSlash, PhoneOutgoing, Loader, Check } from "lucide-react";
+import { View, CircleSlash, PhoneOutgoing, Loader, Ellipsis } from "lucide-react";
 import { createContext } from "react";
 import { FollowUpsDetail } from "./followUpsDetail";
 
@@ -243,10 +243,10 @@ export const FollowUpsModule = () => {
                         <td className="text-center">{completed === 1 ? '❌' : completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
-                                    <View size={18} strokeWidth={2} />
+                                <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
+                                    <Ellipsis size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-green py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
+                                <Button size="sm" className="bg-green hover:bg-emerald-300 py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
                                     <PhoneOutgoing size={18} strokeWidth={2} />
                                 </Button>
                             </div>

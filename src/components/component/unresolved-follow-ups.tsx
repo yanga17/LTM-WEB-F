@@ -36,7 +36,7 @@ export function UnresolvedFollowUps() {
     <Dialog>
       {followUpsTotal.map((summary, index) => (
       <DialogTrigger asChild key={index}>
-        <Button variant="outline" className="dialog-background text-black">
+        <Button variant="outline" className="chart-background dash-text">
         <BellIcon size={22} strokeWidth={2} color="#a17efa" className="mr-2" />Unresolved Follow-Up&apos;s
           <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-medium font-medium text-secondary-foreground">
             {summary.FollowUpsTotal}
@@ -44,11 +44,11 @@ export function UnresolvedFollowUps() {
         </Button>
       </DialogTrigger>
       ))}
-      <DialogContent className="bg-white sm:max-w-[425px]">
+      <DialogContent className="chart-background sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="dialog-text">Unresolved Customer Tickets</DialogTitle>
+          <DialogTitle className="dash-text">Unresolved Customer Tickets</DialogTitle>
           {followUpsTotal.map((summary, index) => (
-            <DialogDescription key={index} className="dialog-text">
+            <DialogDescription key={index} className="dash-text">
               You have <span className="text-red">{summary.FollowUpsTotal}</span> unresolved customer tickets that need to be followed up.
             </DialogDescription>
           ))}
@@ -56,7 +56,7 @@ export function UnresolvedFollowUps() {
         <div className="flex justify-end">
           <Link
             href="follow-ups/unresolved" 
-            className="inline-flex h-10 items-center justify-center rounded-md bg-purple text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer hover:bg-black hover:text-white"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium shadow hover:cursor-pointer"
             onClick={() => setFollowUpCustomerList(true)}
           >
             View Tickets

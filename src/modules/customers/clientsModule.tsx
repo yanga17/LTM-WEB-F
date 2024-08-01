@@ -7,7 +7,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button";
 import { createContext } from "react";
 import { ClientsDetail } from "./clientsDetail";
-import { CircleSlash, Loader, View } from "lucide-react";
+import { CircleSlash, Loader, Expand, Ellipsis } from "lucide-react";
 import Image from 'next/image';
 import { ClientsDialog } from "@/components/component/clientsDialog";
 
@@ -298,7 +298,7 @@ export const ClientsModule = () => {
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
-                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                className="chart-background dash-text p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                                 placeholder="Search Ticket"
                                 value={input}
                                 style={{ width: "440px" }}
@@ -309,7 +309,7 @@ export const ClientsModule = () => {
                 </header>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
-                        <div>
+                        <div className="mt-6">
                             <h6 className="ml-6 text-3xl py-4 font-bold header-text dark:header-text">Legend Customers</h6>
                         </div>
                         <div className="ml-4 mr-4 border rounded-lg shadow-sm">
@@ -343,8 +343,8 @@ export const ClientsModule = () => {
                                                     <td className="">{total_balance}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple py-4 w-20" onClick={() => { openModal(uid)}}>
-                                                                <View size={18} strokeWidth={2} />
+                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 w-20" onClick={() => { openModal(uid)}}>
+                                                                <Ellipsis size={18} strokeWidth={2} />
                                                             </Button>
                                                         </div>
                                                     </td>

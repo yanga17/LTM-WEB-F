@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { PhoneOutgoing } from "lucide-react";
 
 //interface for the customer list
 interface UnresolvedFollowUpProps {
@@ -155,23 +156,29 @@ const startFollowUp = async (id: any) => {
   return (
     <div className="pg-background w-full h-screen overflow-auto">
       <div className="container mx-auto px-4 md:px-6 py-12">
-        <h1 className="text-3xl font-bold mb-8">Unresolved Customers</h1>
+        <h1 className="text-3xl font-bold mb-8 header-text">Unresolved Customers</h1>
         <div className="grid gap-6">
           {activecheckInLog?.map(({ id, customer, name, email, phone, endtime }, index) => (
-            <Card key={id} className="dialog-background">
+            <Card key={id} className="chart-background">
               <CardHeader>
-                <CardTitle>{customer || '--:--'}</CardTitle>
+                <CardTitle className="dash-text">{customer || '--:--'}</CardTitle>
                 <CardDescription>
-                  <div className="font-medium">{name || '--:--'}</div>
-                  {email || 'no available email address'}
-                  <div className="text-muted-foreground">{phone || '--:--'}</div>
+                  <div className="font-medium">
+                    {name || '--:--'}
+                  </div>
+                  <div className="font-sm">
+                    {email || 'no available email address'}
+                  </div>
+                  <div className="font-sm">
+                    {phone || '--:--'}
+                  </div>
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
-                <p className="text-muted-foreground">Last contacted: <span className="text-red">{endtime}</span></p>
-                  <Button className="bg-purple text-white hover:bg-black hover:text-white hover:cursor-pointer" size="sm" onClick={() => startFollowUp(id)}>
-                    Start Follow-Up
+                <p className="dash-text">Last contacted: <span className="text-red">{endtime}</span></p>
+                  <Button className="bg-purple hover:bg-violet-300 hover:cursor-pointer" size="sm" onClick={() => startFollowUp(id)}>Follow-Up
+                    <PhoneOutgoing size={16} strokeWidth={2} className="ml-2"/>
                   </Button>
                 </div>
               </CardContent>

@@ -11,16 +11,15 @@ export default function Page() {
     return (
         <div className="pg-background">
         <div className="h-screen w-full overflow-auto">
-        <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
+        <header className="px-5 py-0 mt-4 flex justify-between">
             <UnresolvedFollowUps />
         </header>
             <div className="grid gap-6 w-full">
             <div className="max-h-[600px] overflow-auto">
-                <div>
-                <h6 className="ml-6 text-3xl py-4 font-bold">Active Follow-Up Tickets</h6>
+                <div className="mt-6">
+                <h6 className="ml-6 text-3xl py-4 font-bold header-text">Active Follow-Up Tickets</h6>
                 </div>
-                <Card className="ml-4 mr-4">
-                <CardContent className="p-0">
+                <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                 <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
                         <thead className="table-header">
@@ -39,19 +38,17 @@ export default function Page() {
                         <CompFollowUpsModule />
                     </tbody>
                         </table>
-                        <div className="webkit-scrollbar">
+                        {/* <div className="webkit-scrollbar">
                             <div className="webkit-scrollbar-thumb" onClick={() => console.log("Scrollbar clicked!")}></div>
-                        </div>
+                        </div> */}
                     </div>
                 </CardContent>
-                </Card>
             </div>
             <div className="max-h-[600px] overflow-auto">
             <div>
-                <h6 className="ml-6 text-3xl py-4 font-bold">Follow-Up Tickets</h6>
+                <h6 className="ml-6 text-3xl py-4 font-bold header-text">Follow-Up Tickets</h6>
                 </div>
-                <Card className="ml-4 mr-4">
-                <CardContent className="p-0">
+                <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                     <div className="max-h-[400px] overflow-auto">
                     <table className="w-full table-fixed">
                     <thead className="table-header">
@@ -72,7 +69,6 @@ export default function Page() {
                     </table>
                 </div>
                 </CardContent>
-            </Card>
             </div>
         </div>
         </div>

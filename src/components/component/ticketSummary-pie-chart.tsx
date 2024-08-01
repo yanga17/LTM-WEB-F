@@ -84,12 +84,12 @@ export function SummaryPieChart() {
   const allFields = React.useMemo(() => newdesktopData.map((item) => item.field), [newdesktopData])
 
 return (
-  <Card data-chart={id} className="flex flex-col">
+  <Card data-chart={id} className="flex flex-col chart-background darker:chart-border">
     <ChartStyle id={id} config={chartConfig} />
     <CardHeader className="flex-row items-start space-y-0 pb-0">
-      <div className="grid gap-1">
+      <div className="grid gap-1 chart-text">
         <CardTitle>Tickets</CardTitle>
-        <CardDescription>No. Tickets Completed</CardDescription>
+        <CardDescription className="var(--dashboard-text-light)">No. Tickets Completed</CardDescription>
       </div>
       <Select value={activeField} onValueChange={setActiveField}>
         <SelectTrigger
@@ -136,7 +136,7 @@ return (
         <PieChart>
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel className="bg-white gap-4" />}
+            content={<ChartTooltipContent hideLabel className="pg-background gap-4" />}
           />
           <Pie
             data={newdesktopData}
@@ -169,18 +169,20 @@ return (
                       y={viewBox.cy}
                       textAnchor="middle"
                       dominantBaseline="middle"
+                      className="text-xs dash-text"
+                      style={{ fill: 'var(--dashboard-text-light)' }}
                     >
                       <tspan
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        className="fill-foreground text-3xl font-bold"
+                        className="fill-current text-3xl font-bold"
                       >
                         {newdesktopData[activeIndex]?.desktop.toLocaleString()}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) + 24}
-                        className="fill-foreground text-medium font-bold"
+                        className="fill-current text-medium font-bold"
                       >
                         {selectedConfig?.label}
                       </tspan>
@@ -193,7 +195,7 @@ return (
         </PieChart>
       </ChartContainer>
     </CardContent>
-    <CardFooter className="flex-col gap-2 text-sm">
+    <CardFooter className="flex-col gap-2 text-sm chart-text">
         <div className="flex items-center gap-2 font-medium leading-none">
           Daily Ticket Summary <Activity size={18} strokeWidth={2} />
         </div>

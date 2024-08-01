@@ -32,16 +32,20 @@ export default function Home() {
     <div className="pg-background">
     <div className="h-screen w-full overflow-auto">
     <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
-      <div className="flex flex-wrap sm:flex-wrap md:flex-wrap lg:flex-wrap gap-2">
-        <HoverCard />
-        <SummaryCard />
+      <div className="flex flex-col gap-4 lg:flex lg:flex-col lg:gap-6">
+          <div className="gap-6">
+            <HoverCard />
+            <div className="pt-2">
+              <SummaryCard /> 
+            </div>
+          </div>
       </div>
     <div className="relative flex ml-auto mt-4">
         <div className="absolute right-0 flex items-end">
             <Button
                 size="lg"
                 onClick={toggleStartCall}
-                className="bg-purple mr-2"
+                className="bg-purple hover:bg-violet-300 mr-2"
             >
                 <span>Start Call</span>
                 <PhoneIcon className="h-4 w-4 mr-2 ml-2" />
@@ -50,10 +54,10 @@ export default function Home() {
             <Button
                 size="lg"
                 onClick={toggleStartActivity}
-                className="bg-purple mr-2"
+                className="bg-purple hover:bg-violet-300"
             >
                 <span>Start Activity</span>
-                <ActivityIcon className="h-4 w-4 mr-2 ml-2" />
+                <ActivityIcon className="h-4 w-4 ml-2" />
             </Button>
             {startActivityPopup && <StartActivity onClose={toggleStartActivity} />}
         </div>
@@ -62,13 +66,12 @@ export default function Home() {
       <div className="grid gap-6 w-full">
         <div className="max-h-[600px] overflow-auto">
           <div>
-            <h6 className="ml-6 text-3xl py-4 font-bold text-hsl(var(--foreground))">Active Tickets</h6>
+            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Active Tickets</h6>
           </div>
-          <Card className="bg-white ml-4 mr-4 shadow-md">
-            <CardContent className="p-0">
+            <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
               <div className="max-h-[400px] overflow-auto table-container">
                 <table className="w-full table-fixed">
-                  <thead className="table-header">
+                  <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>
@@ -85,17 +88,15 @@ export default function Home() {
                 </table>
               </div>
             </CardContent>
-          </Card>
         </div>
         <div className="max-h-[600px] overflow-auto">
         <div>
-            <h6 className="ml-6 text-3xl py-4 font-bold text-hsl(var(--foreground))">Logged Tickets</h6>
+            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Logged Tickets</h6>
           </div>
-          <Card className="ml-4 mr-4">
-            <CardContent className="p-0">
+            <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
               <div className="max-h-[400px] overflow-auto table-container">
                 <table className="w-full table-fixed p-4">
-                  <thead className="table-header">
+                  <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
                       <th className="p-2 lg:w-[50px]">Call ID</th>
                       <th className="p-2 lg:w-[180px]">Customer</th>
@@ -112,7 +113,6 @@ export default function Home() {
                 </table>
               </div>
             </CardContent>
-          </Card>
         </div>
       </div>
     </div>

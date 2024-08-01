@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button"
-import { CircleSlash2, CircleSlash, View, PhoneOff, Loader, Check } from "lucide-react";
+import { CircleSlash2, CircleSlash, PhoneOff, Loader, Ellipsis } from "lucide-react";
 import { createContext } from "react";
 import { CompFollowUpsDetail } from "./compFollowUpsDetail"
 
@@ -163,10 +163,10 @@ export const CompFollowUpsModule = () => {
                         <td className="text-center">{Completed === 1 ? '⏳' : Completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple sm:bg-purple py-4 px-2 w-8/12" onClick={() => { openModal(ID)}}>
-                                  <View size={18} strokeWidth={2} />
+                                <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 px-2 w-8/12" onClick={() => { openModal(ID)}}>
+                                  <Ellipsis size={18} strokeWidth={2} />
                                 </Button>
-                                <Button size="sm" className="bg-red sm:bg-red py-4 px-2 w-8/12 mr-2" onClick={() => { endFollowUp(idx)}}>
+                                <Button size="sm" className="bg-red hover:bg-rose-300 py-4 px-2 w-8/12 mr-2" onClick={() => { endFollowUp(idx)}}>
                                   <PhoneOff size={18} strokeWidth={2} className="ml-2  mr-2" />
                                 </Button>
                             </div>

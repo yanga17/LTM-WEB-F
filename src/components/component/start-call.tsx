@@ -1,16 +1,15 @@
 'use client'
 
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import * as React from "react"
-import {useState, useEffect} from 'react'
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
-import { toast } from "react-hot-toast"
-import { Checkbox } from "@/components/ui/checkbox"
-import { DoorClosedIcon } from "@/components/component/ticket-solution"
+import { toast } from "react-hot-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from '@/context';
-import { XIcon } from "lucide-react"
+import { XIcon } from "lucide-react";
 
 interface Props {
   onClose: () => void;
@@ -384,36 +383,36 @@ export function StartCall({ onClose}: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-    <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 dialog-background overlay">
-        <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
+    <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 chart-background overlay">
+        <div className="dash-text flex items-center gap-2 justify-end hover:cursor-pointer">
           <XIcon size={26} strokeWidth={2} color="red" onClick={onClose} />
         </div>
-      <h1 className="calls-text text-2xl font-bold mb-6">Start Call</h1>
+      <h1 className="dash-text text-2xl font-bold mb-6">Start Call</h1>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="space-y-2">
-          <label htmlFor="customer" className="text-black">Customer</label>
+          <label htmlFor="customer" className="dash-text">Customer</label>
           <div className="relative">
             <select
-              className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="call-input p-2"
               value={customer}
               onChange={(e) => setCustomer(e.target.value)}
             >
-              <option value="" className="border rounded-md">Select Customer</option>
+              <option value="" className="call-item">Select Customer</option>
                 {allCustomers?.map(({ uid, Customer }) =>
-                  <option key={uid} value={Customer} className="border border-gray-300 px-2 py-1 text-gray-700 hover:bg-gray-100 focus:bg-gray-200">{Customer}</option>
+                  <option key={uid} value={Customer} className="call-item">{Customer}</option>
                 )}
             </select>
           </div>
         </div>
         <div className="space-y-2">
-          <label className="text-black">Problem</label>
+          <label className="dash-text">Problem</label>
             <div className="relative">
               <select
-                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="call-input p-2"
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
             >
-              <option value="">Select Problem</option>
+              <option value="" className="dash-text">Select Problem</option>
                 {allProblems?.map(({ idx, Errors }) =>
                   <option key={idx} value={Errors}>{Errors}</option>
                 )}
@@ -421,30 +420,30 @@ export function StartCall({ onClose}: Props) {
             </div>
           </div>
           <div className="space-y-2">
-            <label htmlFor="name" className="text-black">Client Name</label>
-            <input id="name" placeholder="Enter name" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setClientName(e.target.value)}/>
+            <label htmlFor="name" className="dash-text">Client Name</label>
+            <input id="name" placeholder="Enter name" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setClientName(e.target.value)}/>
           </div>
           <div className="space-y-2">
-            <label htmlFor="phone" className="text-black">Phone Number</label>
-            <input id="phone" placeholder="Enter phone number" type="tel" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setPhoneNumber(e.target.value)}/>
+            <label htmlFor="phone" className="dash-text">Phone Number</label>
+            <input id="phone" placeholder="Enter phone number" type="tel" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-black">Email Address</label>
-            <input id="email" placeholder="Enter the email address" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setEmailAdd(e.target.value)}/>
+            <label htmlFor="email" className="dash-text">Email Address</label>
+            <input id="email" placeholder="Enter the email address" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setEmailAdd(e.target.value)}/>
           </div>
         <div className="space-y-2">
-          <label htmlFor="anydesk" className="text-black">Clients Anydesk</label>
-          <input id="anydesk" placeholder="Enter Anydesk ID" className="ticket-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm" onChange={(e) => setAnydesk(e.target.value)}/>
+          <label htmlFor="anydesk" className="dash-text">Clients Anydesk</label>
+          <input id="anydesk" placeholder="Enter Anydesk ID" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setAnydesk(e.target.value)}/>
         </div>
         <div className="space-y-2">
-          <label htmlFor="type" className="text-black">Type</label>
+          <label htmlFor="type" className="dash-text">Type</label>
             <div className="relative">
               <select
-                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="call-input p-2"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
-                <option value="" className="text-black">Select Type</option>
+                <option value="" className="dash-text">Select Type</option>
                   {alltypes?.map(({ ID, Type }) =>
                   <option key={ID} value={Type}>{Type}</option>
                 )}
@@ -452,14 +451,14 @@ export function StartCall({ onClose}: Props) {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="employee" className="text-black">Employee</Label>
+            <Label htmlFor="employee" className="dash-text">Employee</Label>
             <div className="relative">
               <select
-                className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="call-input p-2"
                 value={employee}
                 onChange={(e) => setEmployee(e.target.value)}
               >
-                <option value="" className="text-black">Select Employee</option>
+                <option value="" className="dash-text">Select Employee</option>
                   {allEmployees?.map(({ ID, Technician }) =>
                   <option key={ID} value={Technician}>{Technician}</option>
                 )}
@@ -467,14 +466,14 @@ export function StartCall({ onClose}: Props) {
             </div>
           </div>
           <div className="space-y-2">
-            <label htmlFor="urgent" className="text-black">Priority</label>
-              <div className="relative">
+            <label htmlFor="urgent" className="dash-text">Priority</label>
+              <div className="">
                 <select
-                  className="ticket-dropdown block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="call-input p-2"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
                 >
-                  <option value="">Determine Priority</option>
+                  <option value=""className="option-item">Determine Priority</option>
                   <option value="P1">P1</option>
                   <option value="P2">P2</option>
                   <option value="P3">P3</option>
@@ -485,15 +484,15 @@ export function StartCall({ onClose}: Props) {
       </div>
       <div className="flex items-center justify-between space-y-2 mt-6">
         <div className="flex items-center">
-          <label htmlFor="comments" className="text-black">Comments</label>
+          <label htmlFor="comments" className="dash-text">Comments</label>
         </div>
-        <div className="flex items-center space-x-2 mt-6 mb-2">
+        <div className="flex items-center space-x-2 mt-6 mb-2 dash-text">
           <Checkbox 
             id="task" 
             checked={checkStatus} 
             onClick={handleCheckStatus}
             />
-            <label className="ml-2 text-sm text-black" htmlFor="task">
+            <label className="ml-2 text-sm dash-text" htmlFor="task">
               Task
             </label>
         </div>
@@ -501,13 +500,13 @@ export function StartCall({ onClose}: Props) {
       <textarea 
         id="comments" 
         placeholder="Enter comments" 
-        className="ticket-input w-full py-2 px-3 rounded-md shadow-sm h-20 text-top" 
+        className="textarea-input rounded-md shadow-sm p-2" 
         onChange={(e) => saveComments(e.target.value)}
       />
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple hover:bg-black hover:text-white" variant="outline" onClick={ takeCall }>Take Call</Button>
-        <Button className="flex-1 bg-red hover:bg-black hover:text-white" variant="outline" onClick={ onClose }>Cancel</Button>
-        <Button className="flex-1 bg-green hover:bg-black hover:text-white" variant="outline" onClick={ submitTicket }>Save</Button>
+        <Button className="flex-1 bg-purple hover:bg-violet-300 text-white hover:text-black" onClick={ takeCall }>Take Call</Button>
+        <Button className="flex-1 bg-red hover:bg-rose-300 text-white hover:text-black" onClick={ onClose }>Cancel</Button>
+        <Button className="flex-1 bg-green hover:bg-emerald-300 text-white hover:text-black" onClick={ submitTicket }>Save</Button>
       </div>
       </div>
     </div>
