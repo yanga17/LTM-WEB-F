@@ -16,7 +16,7 @@ import { ClientProps } from '@/modules/customers/clientsModule';
 
 interface Props {
     onClose: () => void;
-    data: ClientResponseType;
+    data: ClientProps | null; // Update the type to allow null
 }
 
 //interface for gettingAllcustomers
@@ -82,9 +82,13 @@ export function StartClientCall({ onClose, data }: Props) {
         generateProblems();
         generateEmployees();
         generateTypes();
-        // generateEdtitedData();
-        // filterCustomer(allCustomers);
     }, []);
+
+    useEffect(() => {
+        if (allCustomers.length > 0) {
+            generateEditedData();
+        }
+    }, [allCustomers]);
 
     useEffect(() => {
         if (checkStatus === true) {
@@ -197,12 +201,35 @@ export function StartClientCall({ onClose, data }: Props) {
     }
     }
 
-    // const generateEdtitedData = () => {
-    //     setCustomer(data.client_name)
-    //     setPhoneNumber(data.phone_number || data.cellphone)
-    //     console.log('SETTING CLIENT CALL CUSTOMER EDIT DATA WAS SUCCESSFUL', customer)
-    //     console.log('SETTING CLIENT CALL CUSTOMER EDIT DATA WAS SUCCESSFUL', phonenumber)
-    // }
+    const generateEditedData = () => {
+        if (!data) return;
+
+        const { client_name, LEG_num, phone_number, cellphone } = data;
+
+        // Convert client_name to lowercase for case-insensitive matching
+        const lowerClientName = client_name.toLowerCase();
+
+        // Extract Customer names
+        const customerNames = allCustomers.map(customerObj => customerObj.Customer);
+        console.log("NEW CUSTOMER NAMES NEW CUSTOMER NAMES", customerNames);
+
+        // Find matching customer from allCustomers
+        const matchedCustomer = customerNames.find(customer => {
+            const [name, leg] = customer.split(',');
+            return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+        });
+
+        if (matchedCustomer) {
+            setCustomer(matchedCustomer);
+            //toast.success("A MATCH WAS FOUND!!!");
+        } else {
+            setCustomer(client_name); // Set to client_name if no match found
+            toast.error("NO MATCH WAS FOUND");
+            //console.log("NO MATCHED CUSTOMER: ", client_name);
+        }
+
+        setPhoneNumber(phone_number || cellphone);
+    }
 
     const handleCheckStatus = () => {
         setCheckStatus((prevStatus) => !prevStatus);
@@ -212,73 +239,114 @@ export function StartClientCall({ onClose, data }: Props) {
         setComments(comments);
     };
 
-    const saveEdit = async () => {
-        const editData = {
-            customer: customer, 
-            problem: problem, 
-            number: phonenumber,
-            name: clientName,
-            email: emailAdd,
-            anydesk: anydesk,
-            type: type,
-            employee: employee,
-            issueType: issueType,
-            comments: comments
+    const submitTicket = async () => {
+        const currentDate = new Date().toISOString().slice(0, 10); 
+        const currentTime = new Date().toISOString().slice(11, 19); 
+        const dateTime = currentDate + ' ' + currentTime; 
+    
+        let customerData = customer
+        let supportNo = null;
+    
+        if (customer.includes(",")) {
+          const customerArray = customer.split(",");
+          customerData = customerArray[0].trim();
+          supportNo = customerArray[1].trim();
         }
-
+    
+        //property names should be exactly like the ones declared in the backend routes
+        const ticketData = {
+          customer: customer,
+          problem: problem,
+          time: dateTime,
+          phoneNumber: phonenumber,
+          clientsAnydesk: anydesk,
+          name: clientName,
+          email_address: emailAdd,
+          support_No: supportNo, 
+          empl: employee,
+          logger: user ? `${user.emp_name}` : null,
+          comments: comments,
+          priority: priority, 
+          issueType: issueType, 
+          type: type,
+        };
+    
         try {
-            const fields = [
-                { value: customer, message: 'Please select a client.' },
-                { value: problem, message: 'Please select a problem.' },
-                { value: phonenumber, message: 'Please enter the phone number.' },
-                { value: clientName, message: 'Please enter the client name.' },
-                { value: emailAdd, message: 'Please enter the clients email address.' },
-                { value: anydesk, message: 'Please enter the client`s Anydesk.' },
-                { value: type, message: 'Please select a call type.' },
-                { value: employee, message: 'Please select an employee.' },
-                { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
-            ];
-        
-            for (const field of fields) {
-                if (!field.value) {
-                    toast.error(field.message, {
-                        icon: '🚨',
-                        style: {
-                            borderRadius: '10px',
-                            background: '#333',
-                            color: '#fff',
-                        },
-                    });
-                    return;
-                }
-            }
+    
+          //values notEntered
+          const fields = [
+            { value: customer, message: 'Please select a client.' },
+            { value: problem, message: 'Please select a problem.' },
+            { value: phonenumber, message: 'Please enter the phone number.' },
+            { value: clientName, message: 'Please enter the client name.' },
+            { value: emailAdd, message: 'Please enter the clients email address.' },
+            { value: anydesk, message: 'Please enter the client`s Anydesk.' },
+            { value: type, message: 'Please select a call type.' },
+            { value: employee, message: 'Please select an employee.' },
+            { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+          ];
+    
+          for (const field of fields) {
+            if (!field.value) {
+                toast.error(field.message, {
+                    icon: '🚨',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+                return;
+              }
+          }
+    
+          const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
+          console.log('Ticket submitted successfully:', response.data);
+          logSuccessNotification();
 
-
-            const url = `tickets/editloggedticket/${callid}`
-            const response = await axios.patch<CheckProps>(`${apiEndPoint}/${url}`, editData);
-            console.log("Success - Editing Ticket Values with new information was successful.")
-            editSuccessNotification();
-            onClose();
+          //Reset form fields
+          setCustomer("");
+          setProblem("");
+          setPhoneNumber(0);
+          setClientName("");
+          setEmailAdd("");
+          setAnydesk("");
+          setType("");
+          setEmployee("");
+          setPriority("");
+          setComments("");
+    
+          onClose();
         } catch (error) {
-            console.error('An error occurred while editing ticket:', error);
-            editErrorNotification();
+          
+          console.error('Error submitting ticket:', error);
+          logErrorNotification();
         }
+    };
 
-    }
-
-    const editSuccessNotification = () => {
-        toast.success('Ticket has been edited successfully', {
+    const logSuccessNotification = () => {
+        toast.success('Ticket has been logged successfully', {
           icon: <Check color={colors.green} size={24} />,
           duration: 3000,
         });
     }
 
-    const editErrorNotification = () => {
-        toast.error('Ticket has been edited successfully', {
+    const logErrorNotification = () => {
+        toast.error('An error was encountered when logging the ticket', {
             icon: <XIcon color={colors.red} size={24} />,
             duration: 3000,
         });
     }
+
+
+    // const filterClients = customer
+    //     ? data?.filter(ticket => 
+    //         ticket.uid?.toString().toLowerCase().includes(input.toLowerCase()) ||
+    //         ticket.client_name.toLowerCase().includes(input.toLowerCase()),
+    //     )
+    //     : data;
+
+    console.log("passed data passed data passed data passed data: " + data)
 
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
@@ -286,14 +354,14 @@ export function StartClientCall({ onClose, data }: Props) {
             <div className="text-black flex items-center gap-2 justify-end hover:cursor-pointer">
                 <XIcon size={26} strokeWidth={2} color="red" onClick={ onClose } />
             </div>
-            <h1 className="dash-text text-2xl font-bold mb-6">Start Client Call</h1>
+            <h1 className="dash-text text-2xl font-bold mb-6">Start Call</h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="space-y-2">
                     <label htmlFor="customer" className="dash-text">Customer</label>
                     <div className="relative">
                         <select
                             className="call-input p-2"
-                            value={customer}
+                            value={ customer }
                             onChange={(e) => setCustomer(e.target.value)}
                             >
                                 <option value="" className="call-item">Select Customer</option>
@@ -398,7 +466,7 @@ export function StartClientCall({ onClose, data }: Props) {
             />
             <div className="flex justify-between gap-2 mt-6">
                 <Button className="flex-1 bg-red hover:bg-rose-300 text-white hover:text-black" onClick={ onClose }>Cancel</Button>
-                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white hover:text-black" onClick={() => saveEdit()}>Save</Button>
+                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white hover:text-black" onClick={() => submitTicket()}>Save</Button>
             </div>
         </div>
     </div>

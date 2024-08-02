@@ -37,6 +37,23 @@ export const EmployeeTaskComponent = ({ employeeTasksData }: props) => {
         );
     };
 
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="chartoption-item">
+                    <p className="label">{`${label}`}</p>
+                    {payload.map((entry: any, index: any) => (
+                        <p key={`item-${index}`} className="intro" style={{ color: entry.color }}>
+                            {`${entry.name} : ${entry.value}`}
+                        </p>
+                    ))}
+                </div>
+            );
+        }
+    
+        return null;
+    };
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart width={300} height={300} data={employeeTasksData} margin={{ right: 40, top: 20, bottom: 20}}>
@@ -47,7 +64,7 @@ export const EmployeeTaskComponent = ({ employeeTasksData }: props) => {
                 }}/>
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
-                <Tooltip />
+                <Tooltip content={ CustomTooltip }/>
                 <Legend wrapperStyle={{ paddingTop: 30 }} />
                 <Bar 
                     type="monotone"

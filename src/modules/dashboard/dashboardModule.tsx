@@ -322,10 +322,10 @@ export const DashboardModule = () => {
                     <div className="flex items-center justify-between w-full h-[15%]">
                         <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
-                            <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="p-3 border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
-                            <label className="mr-2">End Date</label>
-                            <input type="datetime-local" name="empendtime" onChange={(e) => setEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
+                            <label className="dash-text mr-2">Start Date</label>
+                            <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="dash-input pr-6" />
+                            <label className="dash-text mr-2">End Date</label>
+                            <input type="datetime-local" name="empendtime" onChange={(e) => setEndTime(e.target.value)} className="dash-input" />
                             <button onClick={ filterEmployeeBarChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
@@ -348,11 +348,11 @@ export const DashboardModule = () => {
                     <div className="flex items-center justify-between w-full h-[15%]">
                         <p className="dash-text font-medium uppercase text-md">No. Errors Per Customer <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
-                            <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="starttime" onChange={(e) => setCustomerStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
-                            <label className="mr-2">End Date</label>
-                            <input type="datetime-local" name="endtime" onChange={(e) => setCustomerEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterCustomerErrorsChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
+                            <label className="dash-text mr-2">Start Date</label>
+                            <input type="datetime-local" name="starttime" onChange={(e) => setCustomerStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
+                            <label className="dash-text mr-2">End Date</label>
+                            <input type="datetime-local" name="endtime" onChange={(e) => setCustomerEndTime(e.target.value)} className="dash-input mt-2" />
+                            <button onClick={ filterCustomerErrorsChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 mt-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
@@ -374,11 +374,11 @@ export const DashboardModule = () => {
                     <div className="flex items-center justify-between w-full h-[15%]">
                         <p className="dash-text font-medium uppercase text-md">No. Common Tasks Completed<span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
-                            <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeTaskStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
-                            <label className="mr-2">End Date</label>
-                            <input type="datetime-local" name="endtime" onChange={(e) => setEmployeeTaskEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterEmployeeTasksChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
+                            <label className="dash-text mr-2">Start Date</label>
+                            <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeTaskStartTime(e.target.value)} className="dash-input dark:border-white pr-6 mt-2" />
+                            <label className="dash-text mr-2">End Date</label>
+                            <input type="datetime-local" name="endtime" onChange={(e) => setEmployeeTaskEndTime(e.target.value)} className="dash-input dark:border-white mt-2" />
+                            <button onClick={ filterEmployeeTasksChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 mt-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
@@ -400,11 +400,11 @@ export const DashboardModule = () => {
                     <div className="flex items-center justify-between w-full h-[15%]">
                         <p className="dash-text font-medium uppercase text-md">No. Customer Calls <span className="text-xs dash-text">(s)</span></p>
                         <div className="flex items-center gap-2 mr-2">
-                            <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="starttime" onChange={(e) => setCustomerCallStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
-                            <label className="mr-2">End Date</label>
-                            <input type="datetime-local" name="endtime" onChange={(e) => setCustomerCallEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <button onClick={ filterCustomerCallChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 cursor-pointer rounded">
+                            <label className="dash-text mr-2">Start Date</label>
+                            <input type="datetime-local" name="starttime" onChange={(e) => setCustomerCallStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
+                            <label className="dash-text mr-2">End Date</label>
+                            <input type="datetime-local" name="endtime" onChange={(e) => setCustomerCallEndTime(e.target.value)} className="dash-input mt-2" />
+                            <button onClick={ filterCustomerCallChart } className="flex justify-start bg-purple hover:bg-violet-300 text-white py-4 px-2 w-24 h-12 mr-8 lg:h-12 lg:px-4 lg:py-4 lg:mr-8 gap-2 ml-2 mt-2 cursor-pointer rounded">
                                 <Filter size={22} strokeWidth={2} className="ml-5" />
                             </button>
                         </div>
@@ -427,17 +427,17 @@ export const DashboardModule = () => {
                     <div className="flex items-center justify-between w-full h-[15%]">
                         <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(weekly)</span></p>
                         <div className="flex items-center gap-2 mr-2">
-                            <label className="mr-2">Start Date</label>
-                            <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeWeeklyStartTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left mr-4" />
-                            <label className="mr-2">End Date</label>
-                            <input type="datetime-local" name="endtime" onChange={(e) => setEmployeeWeeklyEndTime(e.target.value)} className="p-3 border rounded text-black outline-none md:cursor-pointer placeholder:text-sm placeholder-italic text-left" />
-                            <div className="w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
+                            <label className="dash-text mr-2">Start Date</label>
+                            <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeWeeklyStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
+                            <label className="dash-text mr-2">End Date</label>
+                            <input type="datetime-local" name="endtime" onChange={(e) => setEmployeeWeeklyEndTime(e.target.value)} className="dash-input mt-2 mr-2" />
+                            <div className="w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 mr-2 flex flex-col text-gray-500 rounded">
                                 <select 
-                                    className='p-3 ml-2 border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
+                                    className="dash-input mt-2 mr-2"
                                     value={employee}
                                     onChange={(e) => setEmployee(e.target.value)}
                                 >
-                                    <option value="" className="text-gray-500">All</option>
+                                    <option value="" className="dashoption-item">All</option>
                                         {allEmployees?.map(({ ID, Technician }) =>
                                             <option key={ID} value={Technician}>{Technician}</option>
                                         )}

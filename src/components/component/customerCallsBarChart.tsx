@@ -9,11 +9,6 @@ interface props {
 }
 
 export const formatNumericalValue = (value: any) => {
-    // const absNumber = Math.abs(number);
-    // const suffixes = ["", "k", "m", "b", "t"];
-    // const suffixIndex = Math.floor((absNumber.toFixed(0).length - 1) / 3);
-    // const formattedNumber = (number / Math.pow(1000, suffixIndex)).toFixed(1);
-    // return `${formattedNumber}${suffixes[suffixIndex]}`;
     return Math.floor(value);
 };
 
@@ -37,6 +32,25 @@ export const CustomerCallsComponent = ({ customerCallsData }: props) => {
             </text>
         );
     };
+
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="chartoption-item">
+                    <p className="label">{`${label}`}</p>
+                    {payload.map((entry: any, index: any) => (
+                        <p key={`item-${index}`} className="intro" style={{ color: entry.color }}>
+                            {`${entry.name} : ${entry.value}`}
+                        </p>
+                    ))}
+                </div>
+            );
+        }
+    
+        return null;
+    }
+
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart width={300} height={300} data={customerCallsData} margin={{ right: 50, top: 20, bottom: 10, left: 10}}>
@@ -47,7 +61,7 @@ export const CustomerCallsComponent = ({ customerCallsData }: props) => {
                 }}/>
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
-                <Tooltip />
+                <Tooltip content={ CustomTooltip }/>
                 <Legend wrapperStyle={{ paddingTop: 60 }} />
                 <Bar 
                     type="monotone"

@@ -200,16 +200,16 @@ export const CustomerErrorsReport = () => {
         )}
         <div className="h-screen overflow-auto mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
-                <div className="flex flex-col p-2 text-black">
-                    <label>Start Date:</label>
-                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="header-text">Start Date:</label>
+                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="select-input"></input>
                 </div>
-                <div className="flex flex-col p-2 text-black">
-                    <label>End Date:</label>
-                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded text-gray-500 outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="header-text">End Date:</label>
+                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="mt-6 w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
-                    <select value={dropdownValue} onChange={(e) => setDropDownvalue(e.target.value)} className='ticket-dropdown p-3 border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'>
+                    <select value={dropdownValue} onChange={(e) => setDropDownvalue(e.target.value)} className="select-input">
                         <option value="">All</option>
                         <option value="TopTen">Top 10</option>
                         <option value="TopTwenty">Top 20</option>

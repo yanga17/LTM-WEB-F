@@ -9,7 +9,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { createContext } from "react"
 import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
-import { Undo2, Loader, Check, CircleSlash, Ellipsis } from "lucide-react";
+import { Undo2, Loader, Check, CircleSlash, Ellipsis, PanelTopOpen } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
 import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog'
 
@@ -147,11 +147,12 @@ export const DeletedLogsModule = () => {
             <>
             <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
-            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+                <DeletedLogsDialog />
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
-                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                className="chart-background dash-text p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                                 placeholder="Search Ticket"
                                 value={input}
                                 style={{ width: "440px" }}
@@ -159,27 +160,26 @@ export const DeletedLogsModule = () => {
                             />
                         </div>
                     </div>
-                </header>
+            </header>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
-                        <div>
-                            <h6 className="ml-6 text-3xl py-4 font-bold">Deleted Logs</h6>
+                        <div className="mt-6">
+                            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Deleted Logs</h6>
                         </div>
-                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-                            <div className="p-0">
+                        <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-fixed">
-                                        <thead className="table-header">
-                                            <tr className="text-left h-10 p-2 text-medium">
-                                                <th className="p-2">Call ID</th>
-                                                <th className="">Employee</th>
-                                                <th className="">Customer</th>
-                                                <th className="">Problem</th>
-                                                <th className="">Client Name</th>
-                                                <th className="">IssueType</th>
-                                                <th className="p-2 w-[250px] lg:w-[260px] xl:lg:w-[280px]">Insertion Time</th>
-                                                <th className="w-[70px]">Reason</th>
-                                                <th className="w-[140px]">Action</th>
+                                        <thead className="table-headerup">
+                                            <tr className="text-left h-10 p-2 text-md font-medium rounded-full">
+                                                <th className="p-2 lg:w-[50px]">Call ID</th>
+                                                <th className="p-2 lg:w-[180px]">Customer</th>
+                                                <th className="p-2 lg:w-[120px]">Problem</th>
+                                                <th className="p-2 lg:w-[70px]">Client Name</th>
+                                                <th className="p-2 lg:w-[120px]">Insertion Time</th>
+                                                <th className="p-2 lg:w-[70px]">IssueType</th>
+                                                <th className="p-2 lg:w-[70px]">Reason</th>
+                                                <th className="p-2 lg:w-[70px]">Employee</th>
+                                                <th className="p-2 lg:w-[70px]">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,13 +194,11 @@ export const DeletedLogsModule = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
+                            </CardContent>
                     </div>
                 </div>
             </div>
         </div>
-            
             </>
         )
     }
@@ -210,11 +208,12 @@ export const DeletedLogsModule = () => {
             <>
             <div className="pg-background">
             <div className="h-screen w-full overflow-auto">
-            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-end">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+                <DeletedLogsDialog />
                     <div className="flex items-center">
                         <div className="text-right">
                             <input
-                                className="border-black text-black p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                className="chart-background dash-text p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
                                 placeholder="Search Ticket"
                                 value={input}
                                 style={{ width: "440px" }}
@@ -222,27 +221,26 @@ export const DeletedLogsModule = () => {
                             />
                         </div>
                     </div>
-                </header>
+            </header>
                 <div className="grid gap-6">
                     <div className="h-screen overflow-auto">
-                        <div>
-                            <h6 className="ml-6 text-3xl py-4 font-bold">Deleted Logs</h6>
+                        <div className="mt-6">
+                            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Deleted Logs</h6>
                         </div>
-                        <div className="ml-4 mr-4 border rounded-lg shadow-sm">
-                            <div className="p-0">
+                        <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
                                     <table className="w-full table-fixed">
-                                        <thead className="bg-greyDarker">
-                                            <tr className="bg-grey text-left h-10 p-2 text-medium">
-                                                <th className="p-2">Call ID</th>
-                                                <th className="">Employee</th>
-                                                <th className="">Customer</th>
-                                                <th className="">Problem</th>
-                                                <th className="">Client Name</th>
-                                                <th className="">IssueType</th>
-                                                <th className="p-2 w-[250px] lg:w-[250px] xl:lg:w-[250px]">Insertion Time</th>
-                                                <th className="w-[70px]">Reason</th>
-                                                <th className="w-[140px]">Action</th>
+                                        <thead className="table-headerup">
+                                            <tr className="text-left h-10 p-2 text-md font-medium rounded-full">
+                                                <th className="p-2 lg:w-[50px]">Call ID</th>
+                                                <th className="p-2 lg:w-[180px]">Customer</th>
+                                                <th className="p-2 lg:w-[120px]">Problem</th>
+                                                <th className="p-2 lg:w-[70px]">Client Name</th>
+                                                <th className="p-2 lg:w-[120px]">Insertion Time</th>
+                                                <th className="p-2 lg:w-[70px]">IssueType</th>
+                                                <th className="p-2 lg:w-[70px]">Reason</th>
+                                                <th className="p-2 lg:w-[70px]">Employee</th>
+                                                <th className="p-2 lg:w-[70px]">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -257,8 +255,7 @@ export const DeletedLogsModule = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
+                            </CardContent>
                     </div>
                 </div>
             </div>
@@ -269,14 +266,61 @@ export const DeletedLogsModule = () => {
 
     if (data?.length === 0) {
         return (
-            <tr>
-                <td colSpan={9} className="h-[150px]">
-                    <div className="flex flex-col items-center justify-center h-full w-full">
-                        <CircleSlash className="h-12 w-12" />
-                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no tickets that have been deleted.</p>
+            <div className="pg-background">
+            <div className="h-screen w-full overflow-auto">
+            <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
+                <DeletedLogsDialog />
+                    <div className="flex items-center">
+                        <div className="text-right">
+                            <input
+                                className="chart-background dash-text p-2 w-full border rounded-full outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"
+                                placeholder="Search Ticket"
+                                value={input}
+                                style={{ width: "440px" }}
+                                onChange={(e) => searchDeletedLogs(e.target.value)}
+                            />
+                        </div>
                     </div>
-                </td>
-            </tr>
+            </header>
+                <div className="grid gap-6">
+                    <div className="h-screen overflow-auto">
+                        <div className="mt-6">
+                            <h6 className="ml-6 text-3xl py-4 font-bold header-text">Deleted Logs</h6>
+                        </div>
+                        <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
+                                <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
+                                    <table className="w-full table-fixed">
+                                        <thead className="table-headerup">
+                                            <tr className="text-left h-10 p-2 text-md font-medium rounded-full">
+                                                <th className="p-2 lg:w-[50px]">Call ID</th>
+                                                <th className="p-2 lg:w-[180px]">Customer</th>
+                                                <th className="p-2 lg:w-[120px]">Problem</th>
+                                                <th className="p-2 lg:w-[70px]">Client Name</th>
+                                                <th className="p-2 lg:w-[120px]">Insertion Time</th>
+                                                <th className="p-2 lg:w-[70px]">IssueType</th>
+                                                <th className="p-2 lg:w-[70px]">Reason</th>
+                                                <th className="p-2 lg:w-[70px]">Employee</th>
+                                                <th className="p-2 lg:w-[70px]">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan={9} className="h-[150px]">
+                                                    <div className="flex flex-col items-center justify-center h-full w-full">
+                                                        <PanelTopOpen className="h-12 w-12" />
+                                                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no tickets that have been deleted.</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                            </CardContent>
+                    </div>
+                </div>
+            </div>
+        </div>
         );
     }
 
@@ -343,10 +387,10 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Employee || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 w-24 md:w-24" onClick={() => { openModal(idx)}}>
+                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 w-8/12" onClick={() => { openModal(idx)}}>
                                                                 <Ellipsis size={18} strokeWidth={2} />
                                                             </Button>
-                                                            <Button size="sm" className="bg-red hover:bg-rose-300 py-4 w-24 mr-2 md:w-24 md:mr-2"
+                                                            <Button size="sm" className="bg-red hover:bg-rose-300 py-4 w-8/12 mr-2 md:mr-2"
                                                                 onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
