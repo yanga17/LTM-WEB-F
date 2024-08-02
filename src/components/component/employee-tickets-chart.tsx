@@ -27,11 +27,30 @@ export const EmployeeWeeklyChart = ({ weeklyData }: props) => {
     const barValue = (props: any) => {
         const { x, y, width, value } = props;
         return (
-            <text x={x + width / 2} y={y} fill="#6B7280" textAnchor="middle" dy={-6} className='text-xs dash-text' style={{ fill: 'var(--dashboard-text-light)' }}>
+            <text x={x + width / 2} y={y} fill="#6B7280" textAnchor="middle" dy={-6} className='text-xs font-medium dash-text uppercase' style={{ fill: 'var(--dashboard-text-light)' }}>
                 {`${formatNumericalValue(value)}`}
             </text>
         );
     };
+
+    
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="chartoption-item">
+                    <p className="label">{`${label}`}</p>
+                    {payload.map((entry: any, index: any) => (
+                        <p key={`item-${index}`} className="intro" style={{ color: entry.color }}>
+                            {`${entry.name} : ${entry.value}`}
+                        </p>
+                    ))}
+                </div>
+            );
+        }
+    
+        return null;
+    }
+
 
     return (
         <ResponsiveContainer width="100%" height="100%">
@@ -43,7 +62,7 @@ export const EmployeeWeeklyChart = ({ weeklyData }: props) => {
                 }}/>
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
-                <Tooltip />
+                <Tooltip content={ CustomTooltip }/>
                 <Legend wrapperStyle={{ paddingTop: 20 }} />
                 <Bar 
                     type="monotone"
@@ -98,8 +117,8 @@ export const EmployeeWeeklyChart = ({ weeklyData }: props) => {
                 <Bar 
                     type="monotone"
                     dataKey="OverallTotal"
-                    stroke="#0038FF"
-                    fill="#0038FF"
+                    stroke="#cc7b2a"
+                    fill="#cc7b2a"
                     label={barValue}
                 />
             </BarChart>

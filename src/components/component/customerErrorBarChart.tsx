@@ -32,13 +32,30 @@ export const CustomerErrorComponent = ({ customerData }: props) => {
         );
     };
 
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="chartoption-item">
+                    <p className="label">{`${label}`}</p>
+                    {payload.map((entry: any, index: any) => (
+                        <p key={`item-${index}`} className="intro" style={{ color: entry.color }}>
+                            {`${entry.name} : ${entry.value}`}
+                        </p>
+                    ))}
+                </div>
+            );
+        }
+    
+        return null;
+    };
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart width={300} height={300} data={customerData} barSize={window.screen.width > 1200 ? 25 : 10} margin={{ right: 40, top: 25, bottom: 20}}>
                 <XAxis dataKey="Customer" interval={0} tick={<ItalizeLabels />} />
                 <YAxis />
                 <CartesianGrid strokeDasharray="5 5"/>
-                <Tooltip />
+                <Tooltip content={ CustomTooltip }/>
                 <Legend wrapperStyle={{ paddingTop: 65}} />
                 <Bar 
                     type="monotone"

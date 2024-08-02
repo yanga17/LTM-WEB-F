@@ -77,21 +77,21 @@ export function ClientsPieChart() {
   const allFields = React.useMemo(() => newdesktopData.map((item) => item.field), [newdesktopData])
 
   return (
-    <Card data-chart={id} className="chart-background flex flex-col">
+    <Card data-chart={id} className="flex flex-col chart-background darker:chart-border">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1 chart-text">
           <CardTitle>Clients</CardTitle>
-          <CardDescription className="chart-text">Summary of Client Data</CardDescription>
+          <CardDescription className="var(--dashboard-text-light)">Summary of Client Data</CardDescription>
         </div>
         <Select value={activeField} onValueChange={setActiveField}>
           <SelectTrigger
-            className="ml-auto h-10 w-[150px] rounded-lg pl-2.5"
+            className="ml-auto chart-input rounded-lg pl-2.5"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Select field" />
           </SelectTrigger>
-          <SelectContent align="end" className="rounded-xl">
+          <SelectContent align="end" className="rounded-xl chartoption-item">
             {allFields.map((key) => {
               const config = chartConfig[key as keyof typeof chartConfig]
 
@@ -103,11 +103,11 @@ export function ClientsPieChart() {
                 <SelectItem
                   key={key}
                   value={key}
-                  className="rounded-lg [&_span]:flex"
+                  className="rounded-lg chartoption-item:flex"
                 >
                   <div className="flex items-center gap-2 text-xs">
                     <span
-                      className="flex h-3 w-3 shrink-0 rounded-sm"
+                      className="flex h-3 w-3 shrink-0 rounded-sm text-black dark:text-white"
                       style={{
                         backgroundColor: config.color,
                       }}
@@ -162,18 +162,20 @@ export function ClientsPieChart() {
                         y={viewBox.cy}
                         textAnchor="middle"
                         dominantBaseline="middle"
+                        className="text-xs header-text"
+                        style={{ fill: 'var(--dashboard-text-light)' }}
                       >
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold chart-text"
+                          className="fill-current text-3xl font-bold"
                         >
                           {newdesktopData[activeIndex]?.desktop.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-foreground text-medium font-bold chart-text"
+                          className="fill-current text-medium font-bold"
                         >
                           {selectedConfig?.label}
                         </tspan>

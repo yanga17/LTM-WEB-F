@@ -142,21 +142,21 @@ export const CustomerCallTimesReport = () => {
         )}
         <div className="h-screen overflow-auto">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
-                <div className="flex flex-col p-2 text-black">
-                    <label className="dash-text">Start Date:</label>
-                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="header-text">Start Date:</label>
+                    <input type="datetime-local" name="starttime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="select-input"></input>
                 </div>
-                <div className="flex flex-col p-2 text-black">
-                    <label className="dash-text">End Date:</label>
-                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="ticket-dropdown p-3 w-full border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder:italic"></input>
+                <div className="flex flex-col p-2">
+                    <label className="header-text">End Date:</label>
+                    <input type="datetime-local" name="endtime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="mt-6 w-56 sm:w-52 md:w-60 lg:w-64 flex flex-col text-gray-500 rounded">
                 <select 
-                    className='ticket-dropdown p-3 border rounded outline-none md:cursor-pointer placeholder:text-sm placeholder:italic'
+                    className="select-input"
                     value={customer}
                     onChange={(e) => setCustomer(e.target.value)}
                     >
-                    <option value="" className="text-black">All</option>
+                    <option value="" className="dash-text">All</option>
                         {allCustomers?.map(({ uid, Customer }) =>
                         <option key={uid} value={Customer}>{Customer}</option>
                     )}

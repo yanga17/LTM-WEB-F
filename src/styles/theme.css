@@ -168,7 +168,7 @@
 }
 
 .select-input::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Inverts color for light mode */
+    filter: invert(0); /* Inverts color for light mode */
 }
 
 .option-item {
@@ -218,6 +218,124 @@
 
 */
 
+/* ========= DASHBOARED DROPDOWN ==========*/
+.dash-input {
+    width: 200px;
+    padding: var(--input-padding);
+    border: 1px solid hsl(var(--input-border));
+    background-color: #ffffff;
+    color: hsl(var(--input-foreground));
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.dash-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.dash-input::-webkit-calendar-picker-indicator {
+    filter: invert(0); /* Inverts color for light mode */
+}
+
+.dark .dash-input {
+    background-color: #2b2b2b;
+    color: hsl(var(--foreground));
+    border-color: #6B7280;
+}
+
+.dashoption-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: hsl(var(--input-background));
+    border-radius: var(--input-radius);
+}
+
+.dashoption-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.dashoption-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+.dark .dashoption-item {
+    background-color: hsl(var(--input-dark));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+}
+
+.dark .dashoption-item:hover {
+    background-color: hsl(var(--muted));
+}
+
+.dark .dashoption-item:focus {
+    background-color: hsl(var(--muted-foreground));
+}
+
+/* ========= CHARTS - DROPDOWN ==========*/
+.chart-input {
+    width: 150px;
+    padding: var(--input-padding);
+    border: 1px solid hsl(var(--input-border));
+    background-color: #ffffff;
+    color: hsl(var(--input-foreground));
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    height: 10px;
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.chart-input:focus {
+    /* border-color: hsl(var(--ring)); */
+    background-color: #ffffff;
+}
+
+.chart-input::-webkit-calendar-picker-indicator {
+    filter: invert(0); /* Inverts color for light mode */
+}
+
+.dark .chart-input {
+    background-color: #2b2b2b;
+    color: hsl(var(--foreground));
+    border-color: #6B7280;
+}
+
+.chartoption-item {
+    border: 1px solid hsl(var(--input-border));
+    padding: 0.5rem;
+    color: hsl(var(--input-foreground));
+    background-color: #ffffff;
+    border-radius: var(--input-radius);
+}
+
+/* .chartoption-item:hover {
+    background-color: hsl(var(--input-background));
+}
+
+.chartoption-item:focus {
+    background-color: hsl(var(--muted-foreground));
+} */
+
+.dark .chartoption-item {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border-color: #6B7280;
+}
+
+/* .dark .chartoption-item:hover {
+    background-color: #2b2b2b;
+}
+
+.dark .chartoption-item:focus {
+    background-color: hsl(var(--muted));
+} */
 
 
 
@@ -492,7 +610,16 @@
 .dark .reportdetail-headertext {
     color: var(--report-text-light);
 }
+/*dark:bg-[#2b2b2b]*/
+.report-button {
+    background: var(--report-header-light);
+    color: var(--report-text-light);
+}
 
+.dark .report-button {
+    background: var(--charts-background-dark);
+    color: var(--text-dark);
+}
 
 /* ==== ==== CHARTS === ==== */
 .chart-background {

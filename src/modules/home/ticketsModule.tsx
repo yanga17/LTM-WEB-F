@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
 import { Button } from "@/components/ui/button"
 import { EachTicketsModule } from "./ticketsDetail";
-import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, Ellipsis } from "lucide-react";
+import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, Ellipsis, PanelTopOpen } from "lucide-react";
 import { useSession } from '@/context';
 //import { createContext } from "react";
 
@@ -169,7 +169,7 @@ export const TicketsModule = () => {
         <tr>
             <td colSpan={7} className="h-[150px]">
                 <div className="flex flex-col items-center justify-center h-full w-full">
-                    <CircleSlash2 className="h-12 w-12" />
+                    <PanelTopOpen className="h-12 w-12" />
                     <p className="text-green text-lg mt-2 text-center uppercase">There are currently no logged tickets!</p>
                 </div>
             </td>

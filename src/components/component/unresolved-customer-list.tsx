@@ -154,7 +154,7 @@ const startFollowUp = async (id: any) => {
 }))
 
   return (
-    <div className="pg-background w-full h-screen overflow-auto">
+    <div className="report-background w-full h-screen overflow-auto">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <h1 className="text-3xl font-bold mb-8 header-text">Unresolved Customers</h1>
         <div className="grid gap-6">
