@@ -188,11 +188,10 @@ export const ActiveTicketsModule = () => {
     // }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            generateUserTickets();
-        }, 1200000); //2min
+        generateUserTickets();
+        const interval = setInterval(generateUserTickets, 60000); // 60000ms = 1 minute
 
-        return () => clearInterval(interval); 
+        return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
 
     const loggedInUser = Admin.includes(user?.emp_name ?? '');
