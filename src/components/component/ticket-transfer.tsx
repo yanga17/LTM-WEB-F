@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from "react"
+import * as React from "react";
 import {useState, useEffect, useRef } from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
@@ -97,28 +97,28 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="chart-background p-4 w-160 rounded-md shadow overlay">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg font-bold dash-text">Transfer Call</h1>
+        <h1 className="text-lg font-bold header-text">Transfer Call</h1>
         <div className="flex items-center space-x-2 hover:cursor-pointer">
           <X size={24} strokeWidth={2} color="red" onClick={onClose} />
         </div>
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1 dash-text" htmlFor="solution">
+        <label className="block text-sm font-medium mb-1 header-text" htmlFor="solution">
           Please select the Employee you wish to Transfer to:
         </label>
         <select
-            className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm hover:cursor-pointer"
+            className="call-input"
             value={technician}
             onChange={(e) => setTechnician(e.target.value)}
             >
-              <option value="" className="pg-background dash-text border border-gray-500 dark:border-white rounded-sm">Select customer</option>
+              <option value="" className="header-text">Select customer</option>
                 {allTechnicians?.map(({ ID, Technician }) =>
-                  <option key={ID} value={Technician} className="">{Technician}</option>
+                  <option key={ID} value={Technician}>{Technician}</option>
                 )}
             </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <Button onClick={transferTicket} className="w-full bg-green">Save</Button>
+        <Button onClick={transferTicket} className="w-full bg-green hover:bg-emerald-300 text-white">Save</Button>
       </div>
     </div>
   </div>

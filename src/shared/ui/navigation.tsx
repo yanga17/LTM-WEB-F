@@ -17,56 +17,65 @@ export const Navigation = () => {
   const { logout } = useSession();
   const [theme, setTheme] = useState("");
 
-  const MobileNavigation = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const toggleVisibility = () => setIsOpen(!isOpen);
-
-    if (!user) {
-      return;
+  useEffect(() => {
+    // Get the theme from localStorage
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
     }
-    const { role } = user
+  }, [theme]);
 
-    return (
-      <div className={`lg:hidden flex relative p-4 ${pathname === '/' ? 'bg-white text-black' : 'bg-black text-white'}`}>
-        <div className="w-full items-center justify-between flex">
-          <p className="uppercase font-medium text-sm">Legend Time Management</p>
-          <LayoutDashboard size={25} strokeWidth={1.5} color={pathname === '/' ? colors?.black : colors?.white} className="cursor-pointer" onClick={toggleVisibility} />
-        </div>
-        {isOpen &&
-          <div className="absolute top-0 left-0 bottom-0 right-0 w-full bg-black-light mx-auto h-screen flex items-center justify-center">
-            <div className="text-white bg-black-dark rounded w-11/12 h-1/2 relative">
-              <X size={40} strokeWidth={1.5} color={colors?.red} className="cursor-pointer absolute top-2 right-2" onClick={toggleVisibility} />
-              <ul className="w-full h-full flex flex-col items-center justify-center gap-4">
-                  <li>
-                    <Link href='/'>Home</Link>
-                  </li>
-                <li>
-                  <Link href='/customers'>Customers</Link>
-                </li>
-                <li>
-                  <Link href='/dashboard'>Dashboard</Link>
-                </li>
-                <li>
-                  <Link href='/reports'>Reports</Link>
-                </li>
-                <li>
-                  <Link href='/deletedlogs'>Deleted Logs</Link>
-                </li>
-                <li>
-                  <Link href='/follow-ups'>Follow-Ups</Link>
-                </li>
-                <li>
-                  <button className="text-sm font-medium uppercase rounded bg-red text-white w-full py-2 px-10" onClick={logout}>Logout</button>
-                </li>
-              </ul>
-              <p className="absolute uppercase text-xs w-full text-center bottom-2">Powered by <Link target='__blank' href='https://www.legendsystems.co.za/' className="text-purple">Legend Systems</Link></p>
-            </div>
-          </div>
-        }
-      </div>
-    )
-  }
+
+  // const MobileNavigation = () => {
+  //   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  //   const toggleVisibility = () => setIsOpen(!isOpen);
+
+  //   if (!user) {
+  //     return;
+  //   }
+  //   const { role } = user
+
+  //   return (
+  //     <div className={`lg:hidden flex relative p-4 ${pathname === '/' ? 'bg-white text-black' : 'bg-black text-white'}`}>
+  //       <div className="w-full items-center justify-between flex">
+  //         <p className="uppercase font-medium text-sm">Legend Time Management</p>
+  //         <LayoutDashboard size={25} strokeWidth={1.5} color={pathname === '/' ? colors?.black : colors?.white} className="cursor-pointer" onClick={toggleVisibility} />
+  //       </div>
+  //       {isOpen &&
+  //         <div className="absolute top-0 left-0 bottom-0 right-0 w-full bg-black-light mx-auto h-screen flex items-center justify-center">
+  //           <div className="text-white bg-black-dark rounded w-11/12 h-1/2 relative">
+  //             <X size={40} strokeWidth={1.5} color={colors?.red} className="cursor-pointer absolute top-2 right-2" onClick={toggleVisibility} />
+  //             <ul className="w-full h-full flex flex-col items-center justify-center gap-4">
+  //                 <li>
+  //                   <Link href='/'>Home</Link>
+  //                 </li>
+  //               <li>
+  //                 <Link href='/customers'>Customers</Link>
+  //               </li>
+  //               <li>
+  //                 <Link href='/dashboard'>Dashboard</Link>
+  //               </li>
+  //               <li>
+  //                 <Link href='/reports'>Reports</Link>
+  //               </li>
+  //               <li>
+  //                 <Link href='/deletedlogs'>Deleted Logs</Link>
+  //               </li>
+  //               <li>
+  //                 <Link href='/follow-ups'>Follow-Ups</Link>
+  //               </li>
+  //               <li>
+  //                 <button className="text-sm font-medium uppercase rounded bg-red text-white w-full py-2 px-10" onClick={logout}>Logout</button>
+  //               </li>
+  //             </ul>
+  //             <p className="absolute uppercase text-xs w-full text-center bottom-2">Powered by <Link target='__blank' href='https://www.legendsystems.co.za/' className="text-purple">Legend Systems</Link></p>
+  //           </div>
+  //         </div>
+  //       }
+  //     </div>
+  //   )
+  // }
 
   const DesktopNavigation = () => {
     if (!user) {
@@ -77,8 +86,24 @@ export const Navigation = () => {
     return (
       <div className="lg:flex flex-col justify-between gap-1 h-full pg-background rounded py-4 lg:w-[100%]">
         <ul className="flex flex-col justify-between gap-2 w-full">
-          <Image src="/covers/legendSystems.png" alt="Legend Systems" width={400} height={400} className="m-0 p-5 h-20px img-text dark:img-text" />
-
+        {theme === 'dark' ? (
+            <Image 
+              src="/covers/Banner.png" 
+              alt="Legend Systems" 
+              width={400} 
+              height={400} 
+              className="m-0 p-5 h-20px" 
+            />
+          ) : (
+            <Image 
+              src="/covers/legendSystems.png" 
+              alt="Legend Systems" 
+              width={400} 
+              height={400} 
+              className="m-0 p-5 h-20px" 
+            />
+          )}
+          
             <li className="m-0 p-2 flex items-center justify-start gap-1 uppercase cursor-pointer hover:bg-white ease-in-out duration-500 rounded group w-11/12 mx-auto">
               <LayoutDashboard size={25} strokeWidth={1} color={pathname === '/' ? colors?.purple : colors?.black} />
               <Link href='/' className="nav-text text-md font-medium text-black-dark group-hover:text-purple" >Home</Link>
@@ -122,7 +147,7 @@ export const Navigation = () => {
 
   return (
     <>
-      <MobileNavigation />
+      {/* <MobileNavigation /> */}
       <DesktopNavigation />
     </>
   )

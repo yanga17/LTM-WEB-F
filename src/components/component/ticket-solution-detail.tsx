@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 interface TicketSolutionProps {
   callId: number;
@@ -39,7 +40,7 @@ interface ActiveTableProps {
 
 type ActiveResponseType = ActiveTableProps[]
 
-export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
+export function TicketSolutionDetail({ callId, onClose }: TicketSolutionProps ){
   const [solution, setSolution] = useState('');
     const [numberofdays, setNumberOfDays] = useState(0);
     const [followup, setFollowUp] = useState(0);
@@ -67,6 +68,11 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
         
         await insertfollowup();
         console.log("called the insert followup function")
+
+
+        const endurl = `tickets/endticket/${callId}`
+        const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
+        toast.success('Ticket Has been ended successfully');
         onClose();
 
       } catch (error) {
@@ -144,7 +150,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
     <div className="chart-background p-4 w-160 rounded-md shadow overlay">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg font-bold header-text">Solution</h1>
+        <h1 className="text-lg font-bold header-text">Solution Detail</h1>
         <div className="flex items-center hover:cursor-pointer">
           <X size={24} strokeWidth={2} color="red" onClick={onClose} />
         </div>

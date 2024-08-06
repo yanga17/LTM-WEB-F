@@ -10,14 +10,13 @@ import { Button } from "@/components/ui/button"
 import { EachTicketsModule } from "./ticketsDetail";
 import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, Ellipsis, PanelTopOpen } from "lucide-react";
 import { useSession } from '@/context';
-//import { createContext } from "react";
 
 //interface for all tickets - tblcalls
 export interface CheckProps {
   Call_ID: number,
   Customer: string,
   Problem: string,
-  Phone_Number: number,
+  Phone_Number: string,
   Name: string,
   Time: string,
   Empl: string,
@@ -49,6 +48,7 @@ export const TicketsModule = () => {
     //gviewAll loggedTickets
     const url = `tickets/getickets`
     const { data, loading, error } = useQuery<ResponseType>(url); 
+    console.log("TICKETSMODULE DATA RETURNED", data)
 
     const takeLoggedTicket = async (ticket: CheckProps) => {
       let customerData = ticket.Customer
@@ -60,6 +60,17 @@ export const TicketsModule = () => {
           supportNo = customerArray[1].trim();
       }
 
+      const formatDateToMySQL = (dateString: any) => {
+        const date = new Date(dateString);
+        return date.getFullYear() + '-' + 
+              String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+              String(date.getDate()).padStart(2, '0') + ' ' + 
+              String(date.getHours()).padStart(2, '0') + ':' + 
+              String(date.getMinutes()).padStart(2, '0') + ':' + 
+              String(date.getSeconds()).padStart(2, '0');
+      };
+
+
       try {
           const payLoad = {
               employee: user?.emp_name,
@@ -67,13 +78,12 @@ export const TicketsModule = () => {
               activity: ticket.Problem,
               phoneNumber: ticket.Phone_Number,
               clientAnydesk: ticket.Clients_Anydesk,
-              startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
+              startTime: formatDateToMySQL(ticket.Time),
               type: ticket.Type,
               supportNo: supportNo,
               comments: ticket.Comments,
               name: ticket.Name,
               email_address: ticket.Email_Address,
-              timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
               issueType: ticket.IssueType,
               priority: ticket.Priority,
           };

@@ -534,6 +534,32 @@
 
 */
 
+.days-input {
+    width: 100px;
+    /* padding: var(--input-padding); */
+    border: 1px solid hsl(var(--input-border));
+    background-color: var(--input-background);
+    color: #777879;
+    border-radius: var(--input-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 38px; /* Set a fixed height */
+    /* transition: background-color 0.2s, border-color 0.2s; */
+}
+
+.days-input:focus {
+    border-color: hsl(var(--ring));
+    background-color: #ffffff;
+}
+
+.dark .days-input {
+    background-color: #2b2b2b;
+    color: rgb(255, 249, 249);
+    border-color: #cacbcd;
+}
+
 .textarea-input {
     width: 100%;
     /* padding: var(--input-padding); */
@@ -672,12 +698,12 @@
 }
 
 .img-text {
-    color: var(--img-text-light);
-}
-
-.dark .img-text {
-    color: var(--img-text-dark);
-}
+    color: black; /* default text color */
+  }
+  
+  .dark .img-text {
+    color: white; /* text color in dark mode */
+  }
 
 .header-text {
     color: var(--nav-text-light);

@@ -1,9 +1,9 @@
 'use client'
 
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button"
-import * as React from "react"
-import {useState, useEffect} from 'react'
+import { Button } from "@/components/ui/button";
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from "react-hot-toast";
@@ -60,7 +60,7 @@ export function EditCall({ closeEdit, data }: Props) {
     //inserting data into tables
     const [customer, setCustomer] = useState("");
     const [problem, setProblem] = useState("");
-    const [phonenumber, setPhoneNumber] = useState(0);
+    const [phonenumber, setPhoneNumber] = useState("");
     const [clientName, setClientName] = useState("");
     const [anydesk, setAnydesk] = useState("");
     const [type, setType] = useState("");
@@ -78,9 +78,13 @@ export function EditCall({ closeEdit, data }: Props) {
         generateProblems();
         generateEmployees();
         generateTypes();
-        generateEdtitedData();
-        filterCustomer(allCustomers);
     }, []);
+
+    useEffect(() => {
+        if (allCustomers.length > 0) {
+            generateEditedData();
+        }
+    }, [allCustomers]);
 
     useEffect(() => {
         if (checkStatus === true) {
@@ -195,29 +199,66 @@ export function EditCall({ closeEdit, data }: Props) {
         setComments(comments);
     };
 
-    const generateEdtitedData = () => {
-        setCustomer(data.Customer)
-        setProblem(data.Problem)
-        setPhoneNumber(data.Phone_Number)
-        setClientName(data.Name)
-        setEmailAdd(data.Email_Address)
-        setAnydesk(data.Clients_Anydesk)
-        setType(data.Type)
-        setEmployee(data.Empl)
-        setComments(data.Comments)
-        console.log('SETTING EDIT DATA WAS SUCCESSFUL', customer)
-    }
-
-    const filterCustomer = (customers: CustomerType) => {
-        const editCustomer = data.Customer.toLowerCase();
-        const newCustomer = customers.find((item) =>
-            item.Customer.toLowerCase() === editCustomer
-        );
-
-        if (newCustomer) {
-            setCustomer(newCustomer.Customer);
+    const generateEditedData = () => {
+        if (!data) return;
+    
+        const { Customer, Support_No, Phone_Number, Problem, Name, Time, Empl, Email_Address, Clients_Anydesk, Comments } = data;
+    
+        // Convert client_name and problem to lowercase for case-insensitive matching
+        const lowerClientName = Customer.toLowerCase();
+        const lowerProblem = Problem.toLowerCase();
+    
+        // Extract Customer names
+        const customerNames = allCustomers.map(customerObj => ({
+            original: customerObj.Customer,
+            lower: customerObj.Customer.toLowerCase()
+        }));
+        console.log("NEW CUSTOMER NAMES NEW CUSTOMER NAMES", customerNames);
+    
+        // Find matching customer from allCustomers
+        const matchedCustomer = customerNames.find(customerObj => {
+            //const [name, legNum] = customerObj.original.split(',');
+            const  [name, legNum] = customerObj.original.split(',' || '-');
+            return name.trim().toLowerCase() === lowerClientName && legNum.trim() === Support_No;
+        });
+    
+        if (matchedCustomer) {
+            setCustomer(matchedCustomer.original);
+            toast.success("A MATCH WAS FOUND!!!");
+            console.log("A MATCHED CUSTOMER WAS FOUND: ", matchedCustomer.original);
+        } else {
+            setCustomer(Customer); // Set to client_name if no match found
+            toast.error("NO MATCH WAS FOUND");
         }
+    
+        // Extract Problem names
+        const problemNames = allProblems.map(problemObj => ({
+            original: problemObj.Errors,
+            lower: problemObj.Errors.toLowerCase()
+        }));
+        console.log("NEW PROBLEM NAMES NEW PROBLEM NAMES", problemNames);
+    
+        // Find matching problem from allProblems
+        const matchedProblem = problemNames.find(problemObj => problemObj.lower === lowerProblem);
+    
+        if (matchedProblem) {
+            setProblem(matchedProblem.original);
+            toast.success("A PROBLEM MATCH WAS FOUND!!!");
+            console.log("A MATCHED PROBLEM WAS FOUND: ", matchedProblem.original);
+        } else {
+            setProblem(Problem); // Set to problem if no match found
+            toast.error("NO PROBLEM MATCH WAS FOUND");
+        }
+    
+        // Set other fields
+        setEmailAdd(Email_Address);
+        setPhoneNumber(Phone_Number);
+        setClientName(Name);
+        setAnydesk(Clients_Anydesk);
+        setComments(Comments);
+        setEmployee(Empl);
     };
+    
 
     const saveEdit = async () => {
         const editData = {
@@ -287,9 +328,6 @@ export function EditCall({ closeEdit, data }: Props) {
         });
     }
 
-    console.log("my CUSTOMER to be edited:", data.Customer);
-    console.log("my CUSTOMER to be edited:", data.Customer);
-
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
         <div className="w-full max-w-xl mx-auto p-6 md:p-8 border border-gray-200 rounded-lg shadow-md dark:border-gray-800 chart-background overlay">
@@ -302,13 +340,13 @@ export function EditCall({ closeEdit, data }: Props) {
                     <label htmlFor="customer" className="dash-text">Customer</label>
                     <div className="relative">
                         <select
-                            className="call-input p-2"
-                            value={data.Customer}
+                            className="call-input p-2 uppercase"
+                            value={ customer }
                             onChange={(e) => setCustomer(e.target.value)}
                             >
                                 <option value="" className="border rounded-md">Select Customer</option>
                                     {allCustomers?.map(({ uid, Customer }) =>
-                                        <option key={uid} value={Customer} className="call-item">{Customer}</option>
+                                        <option key={uid} value={Customer}>{Customer}</option>
                                     )}
                         </select>
                     </div>
@@ -317,24 +355,24 @@ export function EditCall({ closeEdit, data }: Props) {
                     <label className="dash-text">Problem</label>
                     <div className="relative">
                         <select
-                            className="call-input p-2"
+                            className="call-input p-2 uppercase"
                             value={ problem }
                             onChange={(e) => setProblem(e.target.value)}
                         >
                             <option value="" className="dash-text">Select Problem</option>
                                 {allProblems?.map(({ idx, Errors }) =>
-                                    <option key={idx} value={Errors} className="call-item">{Errors}</option>
+                                    <option key={idx} value={Errors}>{Errors}</option>
                                 )}
                         </select>
                     </div>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="name"  className="dash-text">Client Name</label>
-                    <input id="name" placeholder="Enter name" value={ clientName } className="call-input rounded-md shadow-sm p-2" onChange={(e) => setClientName(e.target.value)}/>
+                    <input id="name" placeholder="Enter name" value={ clientName } className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setClientName(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="phone"  className="dash-text">Phone Number</label>
-                    <input id="phone" placeholder="Enter phone number" value={ phonenumber } type="tel" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setPhoneNumber(parseInt(e.target.value))}/>
+                    <input id="phone" placeholder="Enter phone number" value={ phonenumber } type="tel" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setPhoneNumber(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="email" className="dash-text">Email Address</label>
@@ -342,19 +380,19 @@ export function EditCall({ closeEdit, data }: Props) {
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="anydesk" className="dash-text">Clients Anydesk</label>
-                    <input id="anydesk" placeholder="Enter Anydesk ID" value={ anydesk } className="call-input rounded-md shadow-sm p-2" onChange={(e) => setAnydesk(e.target.value)}/>
+                    <input id="anydesk" placeholder="Enter Anydesk ID" value={ anydesk } className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setAnydesk(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="type" className="dash-text">Type</label>
                     <div className="relative">
                         <select
-                            className="call-input p-2"
+                            className="call-input p-2 uppercase"
                             value={ type }
                             onChange={(e) => setType(e.target.value)}
                         >
                             <option value="" className="dash-text">Select Type</option>
                                 {alltypes?.map(({ ID, Type }) =>
-                                    <option key={ID} value={Type} className="call-item">{Type}</option>
+                                    <option key={ID} value={Type}>{Type}</option>
                                 )}
                         </select>
                     </div>
@@ -363,13 +401,13 @@ export function EditCall({ closeEdit, data }: Props) {
                     <Label htmlFor="employee" className="dash-text">Employee</Label>
                     <div className="relative">
                         <select
-                            className="call-input p-2"
+                            className="call-input p-2 uppercase"
                             value={ employee }
                             onChange={(e) => setEmployee(e.target.value)}
                         >
                             <option value="" className="dash-text">Select Employee</option>
                                 {allEmployees?.map(({ ID, Technician }) =>
-                                    <option key={ID} value={Technician} className="call-item">{Technician}</option>
+                                    <option key={ID} value={Technician}>{Technician}</option>
                                 )}
                         </select>
                     </div>
@@ -378,7 +416,7 @@ export function EditCall({ closeEdit, data }: Props) {
                     <label htmlFor="urgent" className="dash-text">Priority</label>
                     <div className="relative">
                         <select
-                            className="call-input p-2"
+                            className="call-input p-2 uppercase"
                             value={ priority }
                             onChange={(e) => setPriority(e.target.value)}
                         >
@@ -403,12 +441,12 @@ export function EditCall({ closeEdit, data }: Props) {
             <textarea id="comments" 
                 placeholder="Enter comments" 
                 value={comments} 
-                className="ticket-input w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm h-20 text-top" 
+                className="textarea-input rounded-md shadow-sm p-2 uppercase"
                 onChange={(e) => saveComments(e.target.value)}
             />
             <div className="flex justify-between gap-2 mt-6">
-                <Button className="flex-1 bg-red hover:bg-rose-300 text-white" variant="outline" onClick={ closeEdit }>Cancel</Button>
-                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" variant="outline" onClick={() => saveEdit()}>Save</Button>
+                <Button className="flex-1 bg-red hover:bg-rose-300 text-white" onClick={ closeEdit }>Cancel</Button>
+                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" onClick={() => saveEdit()}>Save</Button>
             </div>
         </div>
     </div>
