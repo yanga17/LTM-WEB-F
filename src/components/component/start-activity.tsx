@@ -209,13 +209,13 @@ export function StartActivity({ onClose }: Props) {
                 activity: problem,
                 phoneNumber: phonenumber,
                 clientAnydesk: anydesk,
-                startTime: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                // startTime: dateTime,
                 type: type,
                 supportNo: supportNo,
                 comments: comments,
                 name: clientName,
                 email_address: emailAdd,
-                timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                // timeTaken: dateTime,
                 issueType: issueType,
         };
 
@@ -383,13 +383,13 @@ export function StartActivity({ onClose }: Props) {
                         <label htmlFor="customer" className="dash-text">Customer</label>
                         <div className="relative">
                             <select
-                                className="call-input p-2"
+                                className="call-input p-2 uppercase"
                                 value={customer}
                                 onChange={(e) => setCustomer(e.target.value)}
                             >
                                 <option value="" className="border rounded-md dash-text">Select Customer</option>
                                     {allCustomers?.map(({ uid, Customer }) =>
-                                <option key={uid} value={Customer} className="call-item">{Customer}</option>
+                                <option key={uid} value={Customer}>{Customer}</option>
                                 )}
                             </select>
                         </div>
@@ -398,24 +398,24 @@ export function StartActivity({ onClose }: Props) {
                         <label className="dash-text">Problem</label>
                         <div className="relative">
                         <select
-                            className="call-input p-2"
+                            className="call-input p-2 uppercase"
                             value={problem}
                             onChange={(e) => setProblem(e.target.value)}
                         >
                             <option value="" className="dash-text">Select Problem</option>
                             {allProblems?.map(({ idx, Errors }) =>
-                                <option key={idx} value={Errors} className="call-item">{Errors}</option>
+                                <option key={idx} value={Errors}>{Errors}</option>
                             )}
                         </select>
                         </div>
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="name" className="dash-text">Client Name</label>
-                        <input id="name" placeholder="Enter name" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setClientName(e.target.value)}/>
+                        <input id="name" placeholder="Enter name" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setClientName(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="phone" className="dash-text">Phone Number</label>
-                        <input id="phone" placeholder="Enter phone number" type="tel" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setPhoneNumber(e.target.value)}/>
+                        <input id="phone" placeholder="Enter phone number" type="tel" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setPhoneNumber(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="email" className="dash-text">Email Address</label>
@@ -423,19 +423,19 @@ export function StartActivity({ onClose }: Props) {
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="anydesk" className="dash-text">Clients Anydesk</label>
-                        <input id="anydesk" placeholder="Enter Anydesk ID" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setAnydesk(e.target.value)}/>
+                        <input id="anydesk" placeholder="Enter Anydesk ID" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setAnydesk(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="type" className="dash-text">Type</label>
                         <div className="relative">
                             <select
-                                className="call-input p-2"
+                                className="call-input p-2 uppercase"
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
                             >
                                 <option value="" className="dash-text">Select Type</option>
                                 {alltypes?.map(({ ID, Type }) =>
-                                    <option key={ID} value={Type} className="call-item">{Type}</option>
+                                    <option key={ID} value={Type}>{Type}</option>
                                 )}
                             </select>
                         </div>
@@ -444,13 +444,13 @@ export function StartActivity({ onClose }: Props) {
                         <Label htmlFor="employee" className="dash-text">Employee</Label>
                         <div className="relative">
                             <select
-                                className="call-input p-2"
+                                className="call-input p-2 uppercase"
                                 value={employee}
                                 onChange={(e) => setEmployee(e.target.value)}
                             >
                                 <option value="" className="dash-text">Select Employee</option>
                                     {allEmployees?.map(({ ID, Technician }) =>
-                                        <option key={ID} value={Technician} className="call-item">{Technician}</option>
+                                        <option key={ID} value={Technician}>{Technician}</option>
                                     )}
                             </select>
                         </div>
@@ -459,7 +459,7 @@ export function StartActivity({ onClose }: Props) {
                         <label htmlFor="urgent" className="dash-text">Priority</label>
                             <div className="relative">
                                 <select
-                                    className="call-input p-2"
+                                    className="call-input p-2 uppercase"
                                     value={priority}
                                     onChange={(e) => savePriority(e.target.value)}
                                 >
@@ -486,7 +486,7 @@ export function StartActivity({ onClose }: Props) {
                 <textarea 
                     id="comments" 
                     placeholder="Enter comments" 
-                    className="textarea-input rounded-md shadow-sm p-2" 
+                    className="textarea-input rounded-md shadow-sm p-2 uppercase" 
                     onChange={(e) => saveComments(e.target.value)}
                 />
                 <div className="flex justify-between gap-2 mt-6">

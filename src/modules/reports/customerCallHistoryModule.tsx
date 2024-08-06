@@ -342,13 +342,13 @@ export const ReportsModule = () => {
             {filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
                 <div key={ID}>
                     <div className={`report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
-                        <p className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center uppercase">{ID}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Activity}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()}</p>
-                        <p className="text-sm  font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration}</p>
-                        <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase text-purple">{ID || '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{Customer || '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Activity}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration || '--:--'}</p>
+                        <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
                         <Expand onClick={() => { openReport(ID)}} className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center hover:cursor-pointer z-10" />
                     </div>
                     <div>

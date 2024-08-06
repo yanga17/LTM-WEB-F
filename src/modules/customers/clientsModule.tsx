@@ -16,7 +16,7 @@ export interface ClientProps {
     uid: number,
     client_name: string,
     LEG_num: string,
-    phone_number: number,
+    phone_number: string,
     cellphone: number,
     Enabled: string,
     Licenses: number,

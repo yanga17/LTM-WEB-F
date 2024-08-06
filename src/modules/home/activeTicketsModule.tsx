@@ -18,8 +18,8 @@ export interface ActiveProps {
     Employee: string,
     Customer: string,
     Activity: string,
-    Clients_Anydesk: number,
-    Phone_Number: number,
+    Clients_Anydesk: string,
+    Phone_Number: string,
     StartTime: string,
     EndTime: string,
     Duration: number,
@@ -39,31 +39,6 @@ export interface ActiveProps {
 
 export type ActiveResponseType = ActiveProps[]
 
-interface DetailTicketProps {
-    ID: number,
-    Employee: string,
-    Customer: string,
-    Activity: string,
-    Clients_Anydesk: string,
-    Phone_Number: number,
-    StartTime: string,
-    EndTime: string,
-    Duration: number,
-    Type: string,
-    Solution: string,
-    Support_No: number,
-    Comments: string,
-    FollowUp: string,
-    Completed: number,
-    Name: string,
-    Email_Address: string,
-    number_of_days: number,
-    Time_Taken: number,
-    IssueType: string,
-    Priority: string
-}
-
-export type DetailResponseType = DetailTicketProps[]
 
 export const ActiveTicketsContext = createContext<ActiveProps | null>(null);
 
@@ -73,9 +48,8 @@ export const ActiveTicketsModule = () => {
     const { user } = useSession();
 
     const [currentOpen, setCurrentOpen] = useState('');
-    //const [viewticket, setViewTicket] = useState<DetailResponseType>([]); //view ticket holds my returned data
     const [viewticket, setViewTicket] = useState<ActiveProps | null>(null);
-    const [callId, setCallID] = useState(0);
+    //const [callId, setCallID] = useState(0);
 
     const [solutionPopup, setSolutionPopup] = useState(false);
     const [transferPopUp, setTransferPopUp] = useState(false);
@@ -95,23 +69,6 @@ export const ActiveTicketsModule = () => {
     const url = `tickets/getactivetickets`
     const { data, loading, error } = useQuery<ActiveResponseType>(url);
 
-    //'/send-email'
-
-    // const generateEachTicket = async (currentCallId: number) => {
-    //     try {
-
-    //         const ticketsurl = `tickets/getactivetickets/${currentCallId}`
-    //         const eachActiveTicket = await axios.get<ActiveResponseType>(`${apiEndPoint}/${ticketsurl}`);
-
-    //         setViewTicket(eachActiveTicket.data)
-    //         console.log('show me the data fam', viewticket);
-            
-
-    //     } catch (error) {
-    //         console.log('error loading EAch ACTIVE TICKET')
-    //     }
-
-    // }
     
     const endTicket = async (currentemployee: string, callid: number) => {
         try {
@@ -182,10 +139,6 @@ export const ActiveTicketsModule = () => {
     const toggleTransfer = () => {
         setTransferPopUp(!transferPopUp);
     }
-
-    // useEffect(() => {
-    //     generateUserTickets();
-    // }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {

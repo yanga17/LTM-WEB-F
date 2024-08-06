@@ -2,23 +2,17 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button"
-import { DetailResponseType } from "./activeTicketsModule"; 
 import { ActiveResponseType } from "./activeTicketsModule";  
 import { useState, useContext } from "react";
 import { apiEndPoint, colors } from '@/utils/colors';
-import { TicketSolution } from "@/components/component/ticket-solution";
+//import { TicketSolution } from "@/components/component/ticket-solution";
+import { TicketSolutionDetail } from "@/components/component/ticket-solution-detail";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Minimize2, PhoneOff, Move3d, PencilRuler } from "lucide-react";
 import { EditActiveCall } from "@/components/component/edit-active-call";
-import { ActiveTicketsContext } from "@/modules/home/activeTicketsModule"
-
-// interface EachTicketProps {
-//     ticketData: DetailResponseType;
-//     callid: number;
-//     onClose: () => void;
-// }
+import { ActiveTicketsContext } from "@/modules/home/activeTicketsModule";
 
 interface EachActiveTicketProps {
     onClose: () => void;
@@ -47,12 +41,10 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
     const [transferPopUp, setTransferPopUp] = useState(false);
     const [editActivePopUp, setEditActivePopUp] = useState(false);
     const [solutionPopup, setSolutionPopup] = useState(false);
-    const [transferid, setTransferId] = useState(0);
     const [solutuionid, setSolutionId] = useState(0);
     const activeTickets = useContext(ActiveTicketsContext);
 
     const [viewedticket, setViewedTicket] = useState<ActiveResponseType>([]); //view ticket holds my returned data
-    const [transferTicketData, setTransferTicketData] = useState<TransferType>([]);
 
     if (!activeTickets) {
         return <div>No data available</div>;
@@ -61,15 +53,15 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
     const endTicket = async (currentemployee: string, callid: number) => {
         try {
 
-            const endurl = `tickets/endticket/${currentemployee}/${callid}`
-            const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
-            setViewedTicket(response.data)
+            setSolutionId(callid);
+            setSolutionPopup(true);
 
-            setSolutionId(callid)
-            setSolutionPopup(true)
-            toast.success('Ticket has been ended successfully.');
+            // const endurl = `tickets/endticket/${currentemployee}/${callid}`
+            // const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
+            //setViewedTicket(response.data)
 
-            console.log('Ticket ended successfully:', response.data);
+            
+            toast.success('Solutionhas been opened.');
 
         } catch (error) {
 
@@ -90,20 +82,20 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
         setSolutionPopup(!solutionPopup);
     }
 
-    const filterCustomer = (customer: string) => {
-        if (customer.includes(":")) {
-            let customerData = customer.split(":")[0].trim();
-            let supportNo = customer.split(":")[1].trim();
-            return { customerData, supportNo };
-        } else {
-            return { customerData: customer, supportNo: null };
-        }
-    };
+    // const filterCustomer = (customer: string) => {
+    //     if (customer.includes(":")) {
+    //         let customerData = customer.split(":")[0].trim();
+    //         let supportNo = customer.split(":")[1].trim();
+    //         return { customerData, supportNo };
+    //     } else {
+    //         return { customerData: customer, supportNo: null };
+    //     }
+    // };
 
     return (
         <>
             {editActivePopUp && <EditActiveCall closeEdit={toggleEditActiveCall} data={activeTickets} />}
-            {solutionPopup && <TicketSolution callId={solutuionid} onClose={toggleSolution} />}
+            {solutionPopup && <TicketSolutionDetail callId={solutuionid} onClose={toggleSolution} />}
             {transferPopUp && <TicketTransfer callId={activeTickets.ID} onClose={onClose} />}
                     <div key={activeTickets.ID} className="p-4 pg-background">
                         <h2 className="mb-2 text-xl font-semibold">Ticket Information</h2>
@@ -159,7 +151,7 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">IssueType</p>
-                                    <p className="font-semibold text-md">{activeTickets.IssueType || '--:--'}</p>
+                                    <p className={`font-semibold text-md ${activeTickets.IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{activeTickets.IssueType || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Priority</p>

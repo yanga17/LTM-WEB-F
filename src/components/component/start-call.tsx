@@ -196,11 +196,20 @@ export function StartCall({ onClose}: Props) {
     let customerData = customer
     let supportNo = null;
 
-  if (customer.includes(",")) {
-    const customerArray = customer.split(",");
-    customerData = customerArray[0].trim();
-    supportNo = customerArray[1].trim();
-  }
+    if (customer.includes(",")) {
+      const customerArray = customer.split(",");
+      customerData = customerArray[0].trim();
+      supportNo = customerArray[1].trim();
+    }
+
+    // Get the current time in MySQL format
+    const now = new Date();
+    const dateTime = now.getFullYear() + '-' + 
+        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(now.getDate()).padStart(2, '0') + ' ' + 
+        String(now.getHours()).padStart(2, '0') + ':' + 
+        String(now.getMinutes()).padStart(2, '0') + ':' + 
+        String(now.getSeconds()).padStart(2, '0');
 
     try {
       const fields = [
@@ -234,14 +243,12 @@ export function StartCall({ onClose}: Props) {
         customer: customerData,
         activity: problem,
         phoneNumber: phonenumber,
-        clientAnydesk: anydesk,
-        startTime: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        clientsAnydesk: anydesk,
         type: type,
-        supportNo: supportNo,
+        supportNumber: supportNo,
         comments: comments,
         name: clientName,
         email_address: emailAdd,
-        timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
         issueType: issueType,
       };
 
@@ -289,10 +296,6 @@ export function StartCall({ onClose}: Props) {
 
 
   const submitTicket = async () => {
-    const currentDate = new Date().toISOString().slice(0, 10); 
-    const currentTime = new Date().toISOString().slice(11, 19); 
-    const dateTime = currentDate + ' ' + currentTime; 
-
     let customerData = customer
     let supportNo = null;
 
@@ -302,7 +305,17 @@ export function StartCall({ onClose}: Props) {
       supportNo = customerArray[1].trim();
     }
 
+    // Get the current time in MySQL format
+    const now = new Date();
+    const dateTime = now.getFullYear() + '-' + 
+        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+        String(now.getDate()).padStart(2, '0') + ' ' + 
+        String(now.getHours()).padStart(2, '0') + ':' + 
+        String(now.getMinutes()).padStart(2, '0') + ':' + 
+        String(now.getSeconds()).padStart(2, '0');
+
     //property names should be exactly like the ones declared in the backend routes
+    //time
     const ticketData = {
       customer: customerData,
       problem: problem,
@@ -393,13 +406,13 @@ export function StartCall({ onClose}: Props) {
           <label htmlFor="customer" className="dash-text">Customer</label>
           <div className="relative">
             <select
-              className="call-input p-2"
+              className="call-input p-2 uppercase"
               value={customer}
               onChange={(e) => setCustomer(e.target.value)}
             >
-              <option value="" className="call-item">Select Customer</option>
+              <option value="" className="dash-text">Select Customer</option>
                 {allCustomers?.map(({ uid, Customer }) =>
-                  <option key={uid} value={Customer} className="call-item">{Customer}</option>
+                  <option key={uid} value={Customer}>{Customer}</option>
                 )}
             </select>
           </div>
@@ -408,7 +421,7 @@ export function StartCall({ onClose}: Props) {
           <label className="dash-text">Problem</label>
             <div className="relative">
               <select
-                className="call-input p-2"
+                className="call-input p-2 uppercase"
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
             >
@@ -421,11 +434,11 @@ export function StartCall({ onClose}: Props) {
           </div>
           <div className="space-y-2">
             <label htmlFor="name" className="dash-text">Client Name</label>
-            <input id="name" placeholder="Enter name" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setClientName(e.target.value)}/>
+            <input id="name" placeholder="Enter name" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setClientName(e.target.value)}/>
           </div>
           <div className="space-y-2">
             <label htmlFor="phone" className="dash-text">Phone Number</label>
-            <input id="phone" placeholder="Enter phone number" type="tel" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setPhoneNumber(e.target.value)}/>
+            <input id="phone" placeholder="Enter phone number" type="tel" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <div className="space-y-2">
             <label htmlFor="email" className="dash-text">Email Address</label>
@@ -433,13 +446,13 @@ export function StartCall({ onClose}: Props) {
           </div>
         <div className="space-y-2">
           <label htmlFor="anydesk" className="dash-text">Clients Anydesk</label>
-          <input id="anydesk" placeholder="Enter Anydesk ID" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setAnydesk(e.target.value)}/>
+          <input id="anydesk" placeholder="Enter Anydesk ID" className="call-input rounded-md shadow-sm p-2 uppercase" onChange={(e) => setAnydesk(e.target.value)}/>
         </div>
         <div className="space-y-2">
           <label htmlFor="type" className="dash-text">Type</label>
             <div className="relative">
               <select
-                className="call-input p-2"
+                className="call-input p-2 uppercase"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
@@ -454,7 +467,7 @@ export function StartCall({ onClose}: Props) {
             <Label htmlFor="employee" className="dash-text">Employee</Label>
             <div className="relative">
               <select
-                className="call-input p-2"
+                className="call-input p-2 uppercase"
                 value={employee}
                 onChange={(e) => setEmployee(e.target.value)}
               >
@@ -469,11 +482,11 @@ export function StartCall({ onClose}: Props) {
             <label htmlFor="urgent" className="dash-text">Priority</label>
               <div className="">
                 <select
-                  className="call-input p-2"
+                  className="call-input p-2 uppercase"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
                 >
-                  <option value=""className="option-item">Determine Priority</option>
+                  <option value="" className="option-item">Determine Priority</option>
                   <option value="P1">P1</option>
                   <option value="P2">P2</option>
                   <option value="P3">P3</option>
@@ -500,13 +513,13 @@ export function StartCall({ onClose}: Props) {
       <textarea 
         id="comments" 
         placeholder="Enter comments" 
-        className="textarea-input rounded-md shadow-sm p-2" 
+        className="textarea-input rounded-md shadow-sm p-2 uppercase" 
         onChange={(e) => saveComments(e.target.value)}
       />
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple hover:bg-violet-300 text-white hover:text-black" onClick={ takeCall }>Take Call</Button>
-        <Button className="flex-1 bg-red hover:bg-rose-300 text-white hover:text-black" onClick={ onClose }>Cancel</Button>
-        <Button className="flex-1 bg-green hover:bg-emerald-300 text-white hover:text-black" onClick={ submitTicket }>Save</Button>
+        <Button className="flex-1 bg-purple hover:bg-violet-300 text-white" onClick={ takeCall }>Take Call</Button>
+        <Button className="flex-1 bg-red hover:bg-rose-300 text-white" onClick={ onClose }>Cancel</Button>
+        <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" onClick={ submitTicket }>Save</Button>
       </div>
       </div>
     </div>
