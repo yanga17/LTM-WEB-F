@@ -8,22 +8,35 @@ import { usePathname } from 'next/navigation';
 import { CalendarClock, LayoutDashboard, X, LayoutList, Trash2, Speech, FilePieChart } from "lucide-react";
 import Image from 'next/image';
 import { Toggler } from "@/components/component/toggler";
-import { ThemeToggle } from "@/components/component/theme-toggler";
 
 export const Navigation = () => {
   const { user } = useSession();
   const pathname = usePathname();
 
   const { logout } = useSession();
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    // Get the theme from localStorage
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       setTheme(storedTheme);
     }
+
+    const handleStorageChange = (event: any) => {
+      if (event.key === "theme" && event.newValue) {
+        setTheme(event.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === "dark");
+}, [theme]);
 
 
   // const MobileNavigation = () => {
@@ -89,7 +102,7 @@ export const Navigation = () => {
         {theme === 'dark' ? (
             <Image 
               src="/covers/Banner.png" 
-              alt="Legend Systems" 
+              alt="Banner" 
               width={400} 
               height={400} 
               className="m-0 p-5 h-20px" 

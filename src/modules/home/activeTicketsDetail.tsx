@@ -151,7 +151,7 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">IssueType</p>
-                                    <p className={`font-semibold text-md ${activeTickets.IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{activeTickets.IssueType || '--:--'}</p>
+                                    <p className={`font-semibold text-md ${activeTickets.IssueType ? (activeTickets.IssueType === 'Task' ? 'text-green' : 'text-red') : 'header-text'}`}>{activeTickets.IssueType || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Priority</p>
