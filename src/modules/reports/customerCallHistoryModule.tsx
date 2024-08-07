@@ -76,40 +76,40 @@ export const ReportsModule = () => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
 
-    const splitCustomerName = (customerName: string) => {
-        return customerName.split(',')[0].trim().toLocaleLowerCase();
-    };
+    // const splitCustomerName = (customerName: string) => {
+    //     return customerName.split(',')[0].trim().toLocaleLowerCase();
+    // };
 
-    const filterCallHistoryReport = async () => {
-        try {
-            const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
-            const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
-            const fetchedData = response.data;
+    // const filterCallHistoryReport = async () => {
+    //     try {
+    //         const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
+    //         const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
+    //         const fetchedData = response.data;
 
-            if (fetchedData.length === 0) {
-                toast.error('There is no available data between the selected date periods!', {
-                    icon: <X color={colors.red} size={24} />,
-                    duration: 3000,
-                });
-                return;
-            }
+    //         if (fetchedData.length === 0) {
+    //             toast.error('There is no available data between the selected date periods!', {
+    //                 icon: <X color={colors.red} size={24} />,
+    //                 duration: 3000,
+    //             });
+    //             return;
+    //         }
 
-            const filtered = customer 
-                ? fetchedData.filter(item => splitCustomerName(item.Customer) === splitCustomerName(customer)) 
-                : fetchedData;
+    //         const filtered = customer 
+    //             ? fetchedData.filter(item => splitCustomerName(item.Customer) === splitCustomerName(customer)) 
+    //             : fetchedData;
                 
-                if (filtered.length === 0) {
-                    toast.error('No data was found for the selected customer between the date periods!', {
-                        duration: 3000,
-                    });
-                }
+    //             if (filtered.length === 0) {
+    //                 toast.error('No data was found for the selected customer between the date periods!', {
+    //                     duration: 3000,
+    //                 });
+    //             }
         
-                setFilteredData(filtered);
-        } catch (error) {
-            console.error('An error occurred while fetching the Client History Reports:', error);
-            filterNotification();
-        }
-    }
+    //             setFilteredData(filtered);
+    //     } catch (error) {
+    //         console.error('An error occurred while fetching the Client History Reports:', error);
+    //         filterNotification();
+    //     }
+    // }
 
     const filterCallHistoryReportEmp = async () => {
         try {
@@ -257,6 +257,11 @@ export const ReportsModule = () => {
         setCurrentOpen('');
     }
 
+    const handleCustomerSelect = (customerID: string) => {
+        setCustomer(customerID);
+        // Implement any additional logic if needed when a customer is selected
+    };
+
     useEffect(() => {
         generateCustomers();
         generateEmployees();
@@ -297,26 +302,16 @@ export const ReportsModule = () => {
                     <input type="datetime-local" name="starttime" value={clHistoryStartTime} onChange={(e) => setCLHistoryStartTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="flex flex-col p-2">
-                    <label className="dheader-text">End Date:</label>
+                    <label className="header-text">End Date:</label>
                     <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="select-input"></input>
                 </div>
                 <div className="mt-6 w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
-                {/* <select 
-                    className="select-input"
-                    value={customer}
-                    onChange={(e) => setCustomer(e.target.value)}
-                    >
-                    <option value="" className="option-item">All</option>
-                        {allCustomers?.map(({ uid, Customer }) =>
-                        <option key={uid} value={Customer}>{Customer}</option>
-                    )}
-                </select> */}
                 <select 
                     className="select-input"
                     value={employee}
                     onChange={(e) => setEmployee(e.target.value)}
                     >
-                    <option value="" className="option-item">All</option>
+                    <option value="" className="option-item rounded-lg">All</option>
                         {allEmployees?.map(({ ID, Technician }) =>
                         <option key={ID} value={Technician}>{Technician}</option>
                     )}

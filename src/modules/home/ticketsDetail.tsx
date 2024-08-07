@@ -28,15 +28,32 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         return <div>No data available</div>;
     }
 
+    const startCallNotification = () => {
+        toast.success('Ticket has been started successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+    }
+
     const takeLoggedTicket = async (ticket: any) => {
         let customerData = ticket.Customer
-        let supportNo = null;
+        let supportNo;
 
         if (ticket.Customer.includes(",")) {
             const customerArray = ticket.Customer.split(",");
             customerData = customerArray[0].trim();
             supportNo = customerArray[1].trim();
         }
+
+        const formatDateToMySQL = (dateString: any) => {
+            const date = new Date(dateString);
+            return date.getFullYear() + '-' + 
+                  String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                  String(date.getDate()).padStart(2, '0') + ' ' + 
+                  String(date.getHours()).padStart(2, '0') + ':' + 
+                  String(date.getMinutes()).padStart(2, '0') + ':' + 
+                  String(date.getSeconds()).padStart(2, '0');
+          };
 
         try {
             const payLoad = {
@@ -45,7 +62,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 activity: ticket.Problem,
                 phoneNumber: ticket.Phone_Number,
                 clientAnydesk: ticket.Clients_Anydesk,
-                startTime: new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' '),
+                startTime: formatDateToMySQL(ticket.Time),
                 type: ticket.Type,
                 supportNo: supportNo,
                 comments: ticket.Comments,
@@ -58,8 +75,10 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
             const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
             console.log('Ticket taken successfully:', response.data);
+            startCallNotification()
 
             await updateTakenTicket(ticket.Call_ID);
+
 
         } catch (error) {
             console.error('Error taking ticket:', error);

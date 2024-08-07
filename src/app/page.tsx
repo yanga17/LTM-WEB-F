@@ -12,7 +12,7 @@ import { StartActivity } from "@/components/component/start-activity"
 import { useRouter } from 'next/navigation';
 import { HoverCard } from "@/components/component/hoverCard";
 import { SummaryCard } from "@/components/component/summaryCard";
-import { Toggler } from "@/components/component/toggler"
+import { Toggler } from "@/components/component/toggler";
 
 export default function Home() {
   const [startCallPopup, setStartCallPopup] = useState(false);
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div className="pg-background">
-    <div className="h-screen w-full overflow-auto">
+    <div className="h-screen w-full mb-6 overflow-auto">
     <header className="text-gray-50 px-5 py-0 mt-4 flex justify-between">
       <div className="flex flex-col gap-4 lg:flex lg:flex-col lg:gap-6">
           <div className="gap-6">
@@ -69,7 +69,7 @@ export default function Home() {
             <h6 className="ml-6 text-3xl py-4 font-bold header-text">Active Tickets</h6>
           </div>
             <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
-              <div className="max-h-[400px] overflow-auto table-container">
+              <div className="h-[260px] overflow-auto table-container">
                 <table className="w-full table-fixed">
                   <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">
@@ -94,7 +94,7 @@ export default function Home() {
             <h6 className="ml-6 text-3xl py-4 font-bold header-text">Logged Tickets</h6>
           </div>
             <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
-              <div className="max-h-[400px] overflow-auto table-container">
+              <div className="max-h-[260px] overflow-auto table-container">
                 <table className="w-full table-fixed p-4">
                   <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md font-medium border-rounded rounded-full">

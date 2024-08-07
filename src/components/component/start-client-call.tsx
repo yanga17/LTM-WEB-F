@@ -207,7 +207,8 @@ export function StartClientCall({ onClose, data }: Props) {
         const { client_name, LEG_num, phone_number, cellphone } = data;
 
         // Convert client_name to lowercase for case-insensitive matching
-        const lowerClientName = client_name.toLowerCase();
+        //const lowerClientName = client_name.toLowerCase();
+        const lowerClientName = client_name.trim().toLowerCase();
 
         // Extract Customer names
         const customerNames = allCustomers.map(customerObj => customerObj.Customer);
@@ -216,16 +217,20 @@ export function StartClientCall({ onClose, data }: Props) {
         // Find matching customer from allCustomers
         const matchedCustomer = customerNames.find(customer => {
             const [name, leg] = customer.split(',');
-            return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+            //return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+            //return name.trim().toLowerCase() === lowerClientName;
+            return name.trim().toLowerCase() === lowerClientName;
         });
 
         if (matchedCustomer) {
             setCustomer(matchedCustomer);
             //toast.success("A MATCH WAS FOUND!!!");
+            console.log("MATCHED CUSTOMER MATCHED CUSTOMER MATCHED CUSTOMER MATCHED CUSTOMER: ", matchedCustomer);
         } else {
             setCustomer(client_name); // Set to client_name if no match found
             toast.error("NO MATCH WAS FOUND");
-            //console.log("NO MATCHED CUSTOMER: ", client_name);
+            console.log("NO MATCHED CUSTOMER: ", client_name);
+            console.log("LOWER CASE CUSTOMER LOWER CASE CUSTOMER: ", lowerClientName);
         }
 
         setPhoneNumber((phone_number || cellphone).toString());
@@ -241,7 +246,7 @@ export function StartClientCall({ onClose, data }: Props) {
 
     const submitTicket = async () => {
         let customerData = customer
-        let supportNo = null;
+        let supportNo;
     
         if (customer.includes(",")) {
             const customerArray = customer.split(",");
@@ -250,13 +255,16 @@ export function StartClientCall({ onClose, data }: Props) {
         }
     
         //property names should be exactly like the ones declared in the backend routes
+        //customer, problem, phoneNumber, clientsAnydesk, name, email_address, support_no, empl, 
+        //logger, comments, priority, issueType, type
         const ticketData = {
             customer: customer,
+            problem: problem,
             phoneNumber: phonenumber,
             clientsAnydesk: anydesk,
             name: clientName,
             email_address: emailAdd,
-            support_No: supportNo, 
+            support_no: supportNo,
             empl: employee,
             logger: user ? `${user.emp_name}` : null,
             comments: comments,

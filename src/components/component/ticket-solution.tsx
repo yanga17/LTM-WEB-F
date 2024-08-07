@@ -4,6 +4,7 @@ import * as React from "react";
 import {useState, useEffect, useRef} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -64,6 +65,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
       try {
         const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${newNumberOfDays}/${newFollowUp}/${newCompleted}/${callId}`
         const updatedSolution = await axios.patch<TicketSolutionProps>(`${apiEndPoint}/${ticketSolutionurl}`);
+        toast.success('Ticket has been ended successfully.');
         
         await insertfollowup();
         console.log("called the insert followup function")

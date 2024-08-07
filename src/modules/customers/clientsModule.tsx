@@ -353,13 +353,13 @@ export const ClientsModule = () => {
                                                 <>
                                                     <tr key={uid} className="border-b">
                                                     <td className="p-2 font-medium">{uid}</td>
-                                                    <td className="break-all overflow-hidden text-ellipsis max-w-[300px]">{client_name}</td>
-                                                    <td className="">{LEG_num}</td>
+                                                    <td className="break-all overflow-hidden text-ellipsis max-w-[300px]">{client_name || '--:--'}</td>
+                                                    <td className="">{LEG_num || '--:--'}</td>
                                                     <td className="">{phone_number || '--:--'}</td>
                                                     <td className="">{cellphone || '--:--'}</td>
-                                                    <td className="">{Enabled}</td>
-                                                    <td className="p-2">{formatDate(expiry_date)}</td>
-                                                    <td className="">{total_balance}</td>
+                                                    <td className="">{Enabled || '--:--'}</td>
+                                                    <td className="p-2">{formatDate(expiry_date) || '--:--'}</td>
+                                                    <td className="">{total_balance || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
                                                             <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 w-8/12" onClick={() => { openModal(uid)} }>
