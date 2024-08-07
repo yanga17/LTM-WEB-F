@@ -79,7 +79,7 @@ export const DeletedLogsModule = () => {
           emp: ticket.Employee,
           clientname: ticket.Client_Name,
           Supportnumber: supportNo,
-          urgent: ticket.Priority,
+          priority: ticket.Priority,
           issueType: ticket.IssueType,
           type: ticket.Type,
           comments: ticket.Comments

@@ -16,30 +16,27 @@ export const Navigation = () => {
   const { logout } = useSession();
   const [theme, setTheme] = useState("light");
 
-  const checkTheme = () => {
+  useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       setTheme(storedTheme);
     }
-  };
 
-  useEffect(() => {
-    checkTheme(); // Initial check
-
-    // Listen for changes to localStorage
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === "theme") {
-        checkTheme();
+    const handleStorageChange = (event: any) => {
+      if (event.key === "theme" && event.newValue) {
+        setTheme(event.newValue);
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
-
-    // Cleanup listener on unmount
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === "dark");
+}, [theme]);
 
 
   // const MobileNavigation = () => {

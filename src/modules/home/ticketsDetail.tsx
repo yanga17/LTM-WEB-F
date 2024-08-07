@@ -218,7 +218,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">IssueType</p>
-                            <p className={`font-semibold text-md ${ticket.IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{ticket.IssueType || '--:--'}</p>
+                            <p className={`font-semibold text-md ${ticket.IssueType ? (ticket.IssueType === 'Task' ? 'text-green' : 'text-red') : 'header-text'}`}>{ticket.IssueType || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Priority</p>
