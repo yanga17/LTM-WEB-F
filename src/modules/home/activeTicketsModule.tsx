@@ -79,7 +79,7 @@ export const ActiveTicketsModule = () => {
 
             setSolutionId(callid);
             setSolutionPopup(true);
-            toast.success('Ticket has been ended successfully.');
+            //toast.success('Ticket has been ended successfully.');
             console.log('Ticket ended successfully:', response.data);
 
             // await axios.post("http://localhost:4200/send-email", { callid });

@@ -52,13 +52,14 @@ export const TicketsModule = () => {
 
     const takeLoggedTicket = async (ticket: CheckProps) => {
       let customerData = ticket.Customer
-      let supportNo = null;
+      let supportData;
 
       if (ticket.Customer.includes(",")) {
           const customerArray = ticket.Customer.split(",");
           customerData = customerArray[0].trim();
-          supportNo = customerArray[1].trim();
+          supportData = customerArray[1].trim();
       }
+      console.log("SUPPORT DATA SUPPORT DATA SUPPORT DATA SUPPORT DATA", supportData)
 
       const formatDateToMySQL = (dateString: any) => {
         const date = new Date(dateString);
@@ -80,7 +81,7 @@ export const TicketsModule = () => {
               clientAnydesk: ticket.Clients_Anydesk,
               startTime: formatDateToMySQL(ticket.Time),
               type: ticket.Type,
-              supportNo: supportNo,
+              support_no: ticket.Support_No,
               comments: ticket.Comments,
               name: ticket.Name,
               email_address: ticket.Email_Address,

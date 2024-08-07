@@ -297,13 +297,14 @@ export function StartCall({ onClose}: Props) {
 
   const submitTicket = async () => {
     let customerData = customer
-    let supportNo = null;
+    let supportNo;
 
     if (customer.includes(",")) {
       const customerArray = customer.split(",");
       customerData = customerArray[0].trim();
       supportNo = customerArray[1].trim();
     }
+    console.log("SUPPORT SUPPORT SUPPORT: " + supportNo)
 
     // Get the current time in MySQL format
     const now = new Date();
@@ -324,7 +325,7 @@ export function StartCall({ onClose}: Props) {
       clientsAnydesk: anydesk,
       name: clientName,
       email_address: emailAdd,
-      support_No: supportNo, 
+      support_no: supportNo, 
       empl: employee,
       logger: user ? `${user.emp_name}` : null,
       comments: comments,
@@ -476,6 +477,7 @@ export function StartCall({ onClose}: Props) {
                   <option key={ID} value={Technician}>{Technician}</option>
                 )}
               </select>
+              {/* <ComboboxDemo /> */}
             </div>
           </div>
           <div className="space-y-2">

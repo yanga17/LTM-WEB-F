@@ -204,7 +204,8 @@ export function StartClientDetailCall({ onClose, client }: Props) {
         const { client_name, LEG_num, phone_number, cellphone } = client;
     
         // Convert client_name to lowercase for case-insensitive matching
-        const lowerClientName = client_name.toLowerCase();
+        //const lowerClientName = client_name.toLowerCase();
+        const lowerClientName = client_name.trim().toLowerCase();
     
         // Extract Customer names
         const customerNames = allCustomers.map(customerObj => customerObj.Customer);
@@ -213,7 +214,8 @@ export function StartClientDetailCall({ onClose, client }: Props) {
         // Find matching customer from allCustomers
         const matchedCustomer = customerNames.find(customer => {
             const [name, leg] = customer.split(',');
-            return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+            //return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+            return name.trim().toLowerCase() === lowerClientName;
         });
     
         if (matchedCustomer) {
@@ -239,7 +241,7 @@ export function StartClientDetailCall({ onClose, client }: Props) {
 
     const submitTicket = async () => {
         let customerData = customer
-        let supportNo = null;
+        let supportNo;
     
         if (customer.includes(",")) {
           const customerArray = customer.split(",");
@@ -256,7 +258,7 @@ export function StartClientDetailCall({ onClose, client }: Props) {
           clientsAnydesk: anydesk,
           name: clientName,
           email_address: emailAdd,
-          support_No: supportNo, 
+          support_no: supportNo,
           empl: employee,
           logger: user ? `${user.emp_name}` : null,
           comments: comments,
