@@ -36,8 +36,8 @@
         --header-text-light: #000000;
         --table-header-light: #000000;
         --text-detail-light: #000000;
-        --button-color-light: #a17efa;
-        --button-hover-color-light: #bea5f0;
+        /* --button-color-light: #a17efa;
+        --button-hover-color-light: #bea5f0; */
 
         --dialog-background-light: white;
         --dialog-icon-light: #ff2257;
@@ -53,8 +53,26 @@
         --input-foreground: var(--foreground);
         --input-radius: var(--radius);
 
-        --button-background-edit-dark: #94a3b8;
-        --button-background-edit-hover-dark: #b3bfd0;
+        /* --button-background-edit-dark: #94a3b8;
+        --button-background-edit-hover-dark: #b3bfd0; */
+
+        --button-background-view-light: #a17efa;
+        --button-background-view-hover-light: #af9dfa;
+
+        --button-background-cancel-light: #ff2257;
+        --button-background-cancel-hover-light: #f5466f;
+
+        --button-background-save-light: #00d384;
+        --button-background-save-hover-light: #6EE7B7;
+
+        --button-background-close-light: #ff6600;
+        --button-background-close-hover-light: #FBBF24;
+
+        --button-background-edit-light: #9CA3AF;
+        --button-background-edit-hover-light: #D1D5DB;
+
+
+
         --charts-background-light: #ffffff;
 
         --dashboard-text-light: #6B7280;
@@ -115,19 +133,20 @@
         --dropdown-text-dark: #000000;
 
         --button-background-view-dark: #a17efa;
-        --button-background-view-hover-dark: #b59af9;
+        --button-background-view-hover-dark: #af9dfa;
 
         --button-background-cancel-dark: #ff2257;
         --button-background-cancel-hover-dark: #f5466f;
 
         --button-background-save-dark: #00d384;
-        --button-background-save-hover-dark: #1be89d;
+        --button-background-save-hover-dark: #6EE7B7;
 
         --button-background-close-dark: #ff6600;
-        --button-background-close-hover-dark: #fb8130;
+        --button-background-close-hover-dark: #FBBF24;
 
-        --button-background-edit-dark: #94a3b8;
-        --button-background-edit-hover-dark: #b3bfd0;
+        --button-background-edit-dark: #9CA3AF;
+        --button-background-edit-hover-dark: #D1D5DB;
+
         --charts-background-dark: #2b2b2b;
         /* --charts-background-dark: #626262; */
         --dashboard-text-dark: #ffffff;
@@ -143,11 +162,39 @@
         --button-text-dark: #ffffff;
     }
 }
-/* grey: '#f4f4f4',
-    greyMid: '#D4D4D4',
-    greyLight: '#e5e5e5',
-    greyDarker: '#bdb9b9',
-*/
+
+/* ==== === ==== BUTTONS ==== ===== ==== */
+.viewbtn {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 90px; /* w-[90px] */
+}
+        
+.viewbtn:hover {
+    background-color: var(--button-background-view-hover-light);
+    color: var(--button-text-light);
+}
+
+.dark .viewbtn {
+    background-color: var(--button-background-view-dark);
+    color: var(--button-text-dark);
+}
+
+.dark .viewbtn:hover {
+    background-color: var(--button-background-view-hover-dark);
+    color: var(--button-text-dark);
+}
+
+
+
+
 
 .select-input {
     width: 100%;
