@@ -60,7 +60,7 @@
         --button-background-view-hover-light: #af9dfa;
 
         --button-background-cancel-light: #ff2257;
-        --button-background-cancel-hover-light: #f5466f;
+        --button-background-cancel-hover-light: #FCA5A5;
 
         --button-background-save-light: #00d384;
         --button-background-save-hover-light: #6EE7B7;
@@ -136,7 +136,7 @@
         --button-background-view-hover-dark: #af9dfa;
 
         --button-background-cancel-dark: #ff2257;
-        --button-background-cancel-hover-dark: #f5466f;
+        --button-background-cancel-hover-dark: #FCA5A5;
 
         --button-background-save-dark: #00d384;
         --button-background-save-hover-dark: #6EE7B7;
@@ -164,7 +164,228 @@
 }
 
 /* ==== === ==== BUTTONS ==== ===== ==== */
-.viewbtn {
+.view {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 55px; /* w-[90px] */
+    height: 40px;
+}
+
+.view:hover {
+    background-color: var(--button-background-view-hover-light);
+}
+
+.dark .view {
+    background-color: var(--button-background-view-dark);
+}
+
+.dark .view:hover {
+    background-color: var(--button-background-view-hover-dark);
+}
+
+/* ==== === ==== === EXTENDED FOR CUSTOMERS x FOLLOWUPS === ==== === ==== */
+.viewExt {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 70px; /* w-[90px] */
+    height: 40px;
+}
+
+.viewExt:hover {
+    background-color: var(--button-background-view-hover-light);
+}
+
+.dark .viewExt {
+    background-color: var(--button-background-view-dark);
+}
+
+.dark .viewExt:hover {
+    background-color: var(--button-background-view-hover-dark);
+}
+
+/* ==== === ==== === EXTENDED FOR START-CALL x ACTIVITY === ==== === ==== */
+.start-call {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 120px; /* w-[90px] */
+    height: 45px;
+}
+
+.start-call:hover {
+    background-color: var(--button-background-view-hover-light);
+}
+
+.dark .start-call {
+    background-color: var(--button-background-view-dark);
+}
+
+.dark .start-call:hover {
+    background-color: var(--button-background-view-hover-dark);
+}
+
+.start-activity {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 130px; /* w-[90px] */
+    height: 45px;
+}
+
+.start-activity:hover {
+    background-color: var(--button-background-view-hover-light);
+}
+
+.dark .start-activity {
+    background-color: var(--button-background-view-dark);
+}
+
+.dark .start-activity:hover {
+    background-color: var(--button-background-view-hover-dark);
+}
+
+/* SAVE EXTENDED */
+.saveExt {
+    background-color: var(--button-background-save-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 70px; /* w-[90px] */
+    height: 40px;
+}
+
+.saveExt:hover {
+    background-color: var(--button-background-save-hover-light);
+}
+
+.dark .saveExt {
+    background-color: var(--button-background-save-dark);
+}
+
+.dark .saveExt:hover {
+    background-color: var(--button-background-save-hover-dark);
+}
+
+/* SAVE EXTENDED */
+.cancelExt {
+    background-color: var(--button-background-cancel-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 70px; /* w-[90px] */
+    height: 40px;
+}
+
+.cancelExt:hover {
+    background-color: var(--button-background-cancel-hover-light);
+}
+
+.dark .cancelExt {
+    background-color: var(--button-background-cancel-dark);
+}
+
+.dark .cancelExt:hover {
+    background-color: var(--button-background-cancel-hover-dark);
+}
+
+
+
+/* CANCEL BTN */
+.cancel {
+    background-color: var(--button-background-cancel-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 55px; /* w-[90px] */
+    height: 40px;
+}
+
+.cancel:hover {
+    background-color: var(--button-background-cancel-hover-light);
+}
+
+.dark .cancel {
+    background-color: var(--button-background-cancel-dark);
+}
+
+.dark .cancel:hover {
+    background-color: var(--button-background-cancel-hover-dark);
+}
+
+
+/* SAVE BTN */
+.save {
+    background-color: var(--button-background-save-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 55px; /* w-[90px] */
+    height: 40px;
+}
+
+.save:hover {
+    background-color: var(--button-background-save-hover-light);
+    color: var(--button-text-light);
+}
+
+.dark .save {
+    background-color: var(--button-background-save-dark);
+    color: var(--button-text-dark);
+}
+
+.dark .save:hover {
+    background-color: var(--button-background-save-hover-dark);
+    color: var(--button-text-dark);
+}
+
+/* ==== === ==== BUTTON - DETAILS ==== ===== ==== */
+.view-detail {
     background-color: var(--button-background-view-light);
     color: var(--button-text-light);
     display: inline-flex;
@@ -175,25 +396,188 @@
     font-size: 0.875rem; /* text-sm */
     font-weight: 500; /* font-medium */
     width: 90px; /* w-[90px] */
+    height: 40px;
 }
-        
-.viewbtn:hover {
+
+.view-detail:hover {
     background-color: var(--button-background-view-hover-light);
     color: var(--button-text-light);
 }
 
-.dark .viewbtn {
+.dark .view-detail {
     background-color: var(--button-background-view-dark);
     color: var(--button-text-dark);
 }
 
-.dark .viewbtn:hover {
+.dark .view-detail:hover {
     background-color: var(--button-background-view-hover-dark);
     color: var(--button-text-dark);
 }
 
+/* UNRESOLVED-FOLLOW-UP'S EXTENDED */
+.view-detailExt {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 110px; /* w-[90px] */
+    height: 40px;
+}
 
+.view-detailExt:hover {
+    background-color: var(--button-background-view-hover-light);
+    color: var(--button-text-light);
+}
 
+.dark .view-detailExt {
+    background-color: var(--button-background-view-dark);
+    color: var(--button-text-dark);
+}
+
+.dark .view-detailExt:hover {
+    background-color: var(--button-background-view-hover-dark);
+    color: var(--button-text-dark);
+}
+
+/* CANCEL - DETAILS */
+.cancel-detail {
+    background-color: var(--button-background-cancel-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 90px; /* w-[90px] */
+    height: 40px;
+}
+
+.cancel-detail:hover {
+    background-color: var(--button-background-cancel-hover-light);
+}
+
+.dark .cancel-detail {
+    background-color: var(--button-background-cancel-dark);
+}
+
+.dark .cancel-detail:hover {
+    background-color: var(--button-background-cancel-hover-dark);
+}
+
+/*   SAVE - DETAIL */
+.save-detail {
+    background-color: var(--button-background-save-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 90px; /* w-[90px] */
+    height: 40px;
+}
+
+.save-detail:hover {
+    background-color: var(--button-background-save-hover-light);
+}
+
+.dark .save-detail {
+    background-color: var(--button-background-save-dark);
+}
+
+.dark .save-detail:hover {
+    background-color: var(--button-background-save-hover-dark);
+}
+
+/*   CLOSE - DETAIL */
+.close-detail {
+    background-color: var(--button-background-close-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 90px; /* w-[90px] */
+    height: 40px;
+}
+
+.close-detail:hover {
+    background-color: var(--button-background-close-hover-light);
+}
+
+.dark .close-detail {
+    background-color: var(--button-background-close-dark);
+}
+
+.dark .close-detail:hover {
+    background-color: var(--button-background-close-hover-dark);
+}
+
+/* EDIT BTN DETAIL */
+.edit-detail {
+    background-color: var(--button-background-edit-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 90px; /* w-[90px] */
+    height: 40px;
+}
+
+.edit-detail:hover {
+    background-color: var(--button-background-edit-hover-light);
+}
+
+.dark .edit-detail {
+    background-color: var(--button-background-edit-dark);
+}
+
+.dark .edit-detail:hover {
+    background-color: var(--button-background-edit-hover-dark);
+}
+
+/* transfer BTN */
+.transfer-detail {
+    background-color: var(--button-background-view-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    width: 110px; /* w-[90px] */
+    height: 40px;
+}
+
+.transfer-detail:hover {
+    background-color: var(--button-background-view-hover-light);
+}
+
+.dark .transfer-detail {
+    background-color: var(--button-background-view-dark);
+}
+
+.dark .transfer-detail:hover {
+    background-color: var(--button-background-view-hover-dark);
+}
 
 
 .select-input {

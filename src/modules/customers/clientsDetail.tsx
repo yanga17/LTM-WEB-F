@@ -89,12 +89,14 @@ export const ClientsDetail = ({ onClose }: ClientDetailProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button className="mr-2 bg-orange hover:bg-amber-400" onClick={ onClose }>Close
-                            <Minimize2 size={18} strokeWidth={2} className="ml-2"/>
-                        </Button>
-                        <Button className="mr-2 bg-green hover:bg-emerald-300" onClick={ toggleStartClientCall }>Log Call
+                        <button className="save-detail" onClick={ toggleStartClientCall }>
+                            <span>Start</span>
                             <PhoneCall size={18} strokeWidth={2} className="ml-2"/>
-                        </Button>
+                        </button>
+                        <button className="close-detail" onClick={ onClose }>
+                            <span>Close</span>
+                            <Minimize2 size={18} strokeWidth={2} className="ml-2"/>
+                        </button>
                     </div>
                 </div>
                 </div>

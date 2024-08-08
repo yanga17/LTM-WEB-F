@@ -161,18 +161,22 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                             </div>
                             <div className="flex justify-end mt-5 gap-4">
-                                <Button onClick={() => { endTicket(activeTickets.Employee, activeTickets.ID) }} className="mr-2 bg-red hover:bg-rose-300">End
+                                <button onClick={() => { endTicket(activeTickets.Employee, activeTickets.ID) }} className="cancel-detail">
+                                    <span>End</span>
                                     <PhoneOff size={18} strokeWidth={2} className="ml-2" />
-                                </Button>
-                                <Button onClick={ toggleEditActiveCall } className="mr-2 w-35 bg-gray-400 hover:bg-gray-300">Edit
+                                </button>
+                                <button onClick={ toggleEditActiveCall } className="edit-detail">
+                                    <span>Edit</span>
                                     <PencilRuler size={18} strokeWidth={2} className="ml-2" />
-                                </Button>
-                                <Button onClick={() => toggleTransfer(activeTickets.ID)} className="mr-2 bg-purple hover:bg-violet-300">Transfer
+                                </button>
+                                <button onClick={() => toggleTransfer(activeTickets.ID)} className="transfer-detail">
+                                    <span>Transfer</span>
                                     <Move3d size={18} strokeWidth={2} className="ml-2" />
-                                </Button>
-                                <Button onClick={onClose} className="mr-2 bg-orange hover:bg-amber-400">Close
-                                    <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
-                                </Button>
+                                </button>
+                                <button onClick={onClose} className="close-detail">
+                                    <span>Close</span>
+                                    <Minimize2 size={18} strokeWidth={2} className="ml-2" />
+                                </button>
                             </div>
                         </div>
                     </div>

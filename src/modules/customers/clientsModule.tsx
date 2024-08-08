@@ -362,12 +362,12 @@ export const ClientsModule = () => {
                                                     <td className="">{total_balance || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 w-8/12" onClick={() => { openModal(uid)} }>
+                                                            <button className="viewExt" onClick={() => { openModal(uid)} }>
                                                                 <Ellipsis size={18} strokeWidth={2} />
-                                                            </Button>
-                                                            <Button size="sm" className="bg-green hover:bg-emerald-300 py-4 w-8/12" onClick={() => { toggleStartClientCall(uid)} }>
+                                                            </button>
+                                                            <button className="saveExt" onClick={() => { toggleStartClientCall(uid)} }>
                                                                 <PhoneCall size={18} strokeWidth={2} />
-                                                            </Button>
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </tr>

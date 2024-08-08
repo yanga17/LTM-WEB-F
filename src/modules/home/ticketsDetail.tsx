@@ -247,18 +247,21 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button onClick={() => takeLoggedTicket(ticket)} className="mr-2 bg-green hover:bg-emerald-300">Take
+                        <button onClick={() => takeLoggedTicket(ticket)} className="save-detail">
+                            <span>Take</span>
                             <PhoneOutgoing size={18} strokeWidth={2} className="ml-2" />
-                        </Button>
-                        <Button onClick={ toggleEditCall } className="mr-2 w-35 bg-gray-400 hover:bg-gray-300">Edit
+                        </button>
+                        <button onClick={ toggleEditCall } className="edit-detail">
+                            <span>Edit</span>
                             <PencilRuler size={18} strokeWidth={2} className="ml-2" />
-                        </Button>
-                        <Button onClick={() => deleteTicket(ticket.Call_ID)} className="mr-2 bg-red hover:bg-rose-300">Delete
+                        </button>
+                        <button onClick={() => deleteTicket(ticket.Call_ID)} className="cancel-detail">
+                            <span>Delete</span>
                             <Trash2 size={18} strokeWidth={2} className="ml-2" />
-                        </Button>
-                        <button onClick={ onClose } className="viewbtn">
+                        </button>
+                        <button onClick={ onClose } className="close-detail">
                             <span>Close</span>
-                            <Minimize2 size={18} strokeWidth={2} color="white" className="mx-1 mt-1" />
+                            <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                         </button>
                     </div>
                 </div>

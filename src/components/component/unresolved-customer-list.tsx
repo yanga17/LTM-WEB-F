@@ -177,9 +177,10 @@ const startFollowUp = async (id: any) => {
               <CardContent>
                 <div className="flex items-center justify-between">
                 <p className="dash-text">Last contacted: <span className="text-red">{endtime}</span></p>
-                  <Button className="bg-purple hover:bg-violet-300 hover:cursor-pointer" size="sm" onClick={() => startFollowUp(id)}>Follow-Up
+                  <button className="view-detailExt hover:cursor-pointer" onClick={() => startFollowUp(id)}>
+                    <span>Follow-Up</span>
                     <PhoneOutgoing size={16} strokeWidth={2} className="ml-2"/>
-                  </Button>
+                  </button>
                 </div>
               </CardContent>
             </Card>

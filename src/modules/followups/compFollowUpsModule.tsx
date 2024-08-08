@@ -163,12 +163,12 @@ export const CompFollowUpsModule = () => {
                         <td className="text-center">{Completed === 1 ? '⏳' : Completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 px-2 w-8/12" onClick={() => { openModal(ID)}}>
+                                <button className="viewExt" onClick={() => { openModal(ID)}}>
                                   <Ellipsis size={18} strokeWidth={2} />
-                                </Button>
-                                <Button size="sm" className="bg-red hover:bg-rose-300 py-4 px-2 w-8/12 mr-2" onClick={() => { endFollowUp(idx)}}>
-                                  <PhoneOff size={18} strokeWidth={2} className="ml-2  mr-2" />
-                                </Button>
+                                </button>
+                                <button className="cancelExt" onClick={() => { endFollowUp(idx)}}>
+                                  <PhoneOff size={18} strokeWidth={2} className="ml-2 mr-2" />
+                                </button>
                             </div>
                         </td>  
                         </tr>

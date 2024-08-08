@@ -81,7 +81,9 @@ export function TicketDeletion({ callId, onClose }: TicketDeletedProps ){
                     />
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                    <Button className="w-full bg-green hover:bg-emerald-300 text-white" onClick={saveReason}>Save</Button>
+                    <button className="w-full save-detail" onClick={saveReason}>
+                        <span>Save</span>
+                    </button>
                 </div>
             </div>
         </div>

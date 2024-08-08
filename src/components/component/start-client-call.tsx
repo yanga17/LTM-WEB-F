@@ -253,6 +253,15 @@ export function StartClientCall({ onClose, data }: Props) {
             customerData = customerArray[0].trim();
             supportNo = customerArray[1].trim();
         }
+
+        // Get the current time in MySQL format
+        const now = new Date();
+        const dateTime = now.getFullYear() + '-' + 
+            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+            String(now.getDate()).padStart(2, '0') + ' ' + 
+            String(now.getHours()).padStart(2, '0') + ':' + 
+            String(now.getMinutes()).padStart(2, '0') + ':' + 
+            String(now.getSeconds()).padStart(2, '0');
     
         //property names should be exactly like the ones declared in the backend routes
         //customer, problem, phoneNumber, clientsAnydesk, name, email_address, support_no, empl, 
@@ -260,6 +269,7 @@ export function StartClientCall({ onClose, data }: Props) {
         const ticketData = {
             customer: customer,
             problem: problem,
+            time: dateTime,
             phoneNumber: phonenumber,
             clientsAnydesk: anydesk,
             name: clientName,
@@ -458,8 +468,12 @@ export function StartClientCall({ onClose, data }: Props) {
                 onChange={(e) => saveComments(e.target.value)}
             />
             <div className="flex justify-between gap-2 mt-6">
-                <Button className="flex-1 bg-red hover:bg-rose-300 text-white" onClick={ onClose }>Cancel</Button>
-                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" onClick={() => submitTicket()}>Save</Button>
+                <button className="flex-1 cancel-detail" onClick={ onClose }>
+                    <span>Cancel</span>
+                </button>
+                <button className="flex-1 save-detail" onClick={() => submitTicket()}>
+                    <span>Save</span>
+                </button>
             </div>
         </div>
     </div>

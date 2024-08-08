@@ -130,12 +130,14 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button onClick={undoTicket} className="mr-2 bg-red hover:bg-rose-300">Undo
-                            <Undo2 size={18} strokeWidth={2} color="white" className="ml-2" />
-                        </Button>
-                        <Button onClick={onClose} className="mr-2 bg-orange hover:bg-amber-400">Close
-                            <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
-                        </Button>
+                        <button onClick={undoTicket} className="cancel-detail">
+                            <span>Undo</span>
+                            <Undo2 size={18} strokeWidth={2} className="ml-2" />
+                        </button>
+                        <button onClick={onClose} className="close-detail">
+                            <span>Close</span>
+                            <Minimize2 size={18} strokeWidth={2} className="ml-2" />
+                        </button>
                     </div>
                 </div>
             </div>

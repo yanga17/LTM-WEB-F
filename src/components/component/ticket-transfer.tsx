@@ -118,7 +118,9 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
             </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <Button onClick={transferTicket} className="w-full bg-green hover:bg-emerald-300 text-white">Save</Button>
+        <button onClick={transferTicket} className="w-full save-detail">
+          <span>Save</span>
+        </button>
       </div>
     </div>
   </div>

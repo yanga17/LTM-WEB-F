@@ -243,14 +243,14 @@ export const FollowUpsModule = () => {
                         <td className="text-center">{completed === 1 ? '❌' : completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple hover:bg-violet-300 py-4 px-2 w-8/12" onClick={() => { openModal(id)}}>
+                                <button className="viewExt" onClick={() => { openModal(id)}}>
                                     <Ellipsis size={18} strokeWidth={2} />
-                                </Button>
-                                <Button size="sm" className="bg-green hover:bg-emerald-300 py-4 px-2 w-8/12 mr-2" onClick={() => { startFollowUp(id)}}>
+                                </button>
+                                <button className="saveExt" onClick={() => { startFollowUp(id)}}>
                                     <PhoneOutgoing size={18} strokeWidth={2} />
-                                </Button>
+                                </button>
                             </div>
-                        </td>  
+                        </td> 
                         </tr>
                     {state.isOpen && state.expandView === id && (
                         <tr>

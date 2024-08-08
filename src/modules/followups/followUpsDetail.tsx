@@ -83,12 +83,14 @@ export const FollowUpsDetail= ({ onClose, followUpFn }: FollowUpsDetailProps) =>
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <Button className="mr-2 bg-green hover:bg-emerald-300" onClick={() => { followUpFn(followUp.ID)}}>Start
-                            <PhoneOutgoing size={18} strokeWidth={2} color="white" className="ml-2" />
-                        </Button>
-                        <Button className="mr-2 bg-orange hover:bg-amber-400" onClick={onClose}>Close
-                            <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
-                        </Button>
+                        <button className="save-detail" onClick={() => { followUpFn(followUp.ID)}}>
+                            <span>Start</span>
+                            <PhoneOutgoing size={18} strokeWidth={2} className="ml-2" />
+                        </button>
+                        <button className="close-detail" onClick={onClose}>
+                            <span>Close</span>
+                            <Minimize2 size={18} strokeWidth={2} className="ml-2" />
+                        </button>
                     </div>
                 </div>
             </div>

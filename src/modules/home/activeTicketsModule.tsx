@@ -302,12 +302,12 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <Button size="sm" className="bg-purple hover:bg-violet-300 w-20 md:w-20" onClick={() => { openModal(callid)}}>
+                                <button className="view" onClick={() => { openModal(callid)}}>
                                     <Ellipsis size={18} strokeWidth={2} />
-                                </Button>
-                                <Button size="sm" className="bg-red hover:bg-rose-300 w-20 mr-2 md:w-20 md:mr-2" onClick={() => { endTicket( employee, callid)}}>
+                                </button>
+                                <button className="cancel" onClick={() => { endTicket( employee, callid)}}>
                                     <PhoneOff size={18} strokeWidth={2} />
-                                </Button>
+                                </button>
                             </div>
                         </td>
                     </tr>
