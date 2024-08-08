@@ -206,10 +206,10 @@ export const TicketsModule = () => {
             <td className="p-2">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
-                <Button size="sm" className="bg-purple hover:bg-violet-300 w-20 sm:w-20 md:w-20 lg:w-24" onClick={() => { openModal(Call_ID)}}>
+                <button className="view" onClick={() => { openModal(Call_ID)}}>
                   <Ellipsis size={18} strokeWidth={2} />
-                </Button>
-                <Button size="sm" className="bg-green hover:bg-emerald-300 w-20 mr-2 sm:w-20 md:w-20 lg:w-24"
+                </button>
+                <button className="save"
                   onClick={() => {
                     const selectedTicket = data.find(t => t.Call_ID === Call_ID);
                     if (selectedTicket) {
@@ -220,7 +220,7 @@ export const TicketsModule = () => {
                     }
                 }}>
                   <PhoneOutgoing size={18} strokeWidth={2} />
-                </Button>
+                </button>
               </div>
             </td>
           </tr>

@@ -441,8 +441,12 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 onChange={(e) => saveComments(e.target.value)}
             />
             <div className="flex justify-between gap-2 mt-6">
-                <Button className="flex-1 bg-red hover:bg-rose-300 text-white" onClick={ closeEdit }>Cancel</Button>
-                <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" onClick={() => saveEdit()}>Save</Button>
+                <button className="flex-1 cancel-detail" onClick={ closeEdit }>
+                    <span>Cancel</span>
+                </button>
+                <button className="flex-1 save-detail" onClick={() => saveEdit()}>
+                    <span>Save</span>
+                </button>
             </div>
         </div>
     </div>

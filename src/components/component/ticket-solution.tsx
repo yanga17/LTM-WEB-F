@@ -187,7 +187,9 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
             <option value="7">7</option>
           </select>
         </div>
-        <Button className="w-24 bg-green hover:bg-emerald-300 text-white" onClick={saveSolution}>Save</Button>
+        <button className="save-detail" onClick={saveSolution}>
+          <span>Save</span>
+        </button>
       </div>
     </div>
   </div>

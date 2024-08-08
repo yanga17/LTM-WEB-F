@@ -83,12 +83,14 @@ export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpPro
                         </div>
                     </div>
                     <div className="flex justify-end gap-4">
-                        <Button className="mr-2 bg-red hover:bg-rose-300" onClick={() => { endFollowUpFn(ActiveFollowUps.ID)}}>End
+                        <button className="cancel-detail" onClick={() => { endFollowUpFn(ActiveFollowUps.ID)}}>
+                            <span>End</span>
                             <PhoneOff size={18} strokeWidth={2} className="ml-2" />
-                        </Button>
-                        <Button className="mr-2 bg-orange hover:bg-amber-400 pl-2" onClick={onClose}>Close
+                        </button>
+                        <button className="close-detail" onClick={onClose}>
+                            <span>Close</span>
                             <Minimize2 size={18} strokeWidth={2} className="ml-2" />
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>

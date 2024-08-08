@@ -519,9 +519,15 @@ export function StartCall({ onClose}: Props) {
         onChange={(e) => saveComments(e.target.value)}
       />
       <div className="flex justify-between gap-2 mt-6">
-        <Button className="flex-1 bg-purple hover:bg-violet-300 text-white" onClick={ takeCall }>Take Call</Button>
-        <Button className="flex-1 bg-red hover:bg-rose-300 text-white" onClick={ onClose }>Cancel</Button>
-        <Button className="flex-1 bg-green hover:bg-emerald-300 text-white" onClick={ submitTicket }>Save</Button>
+        <button className="flex-1 view-detail" onClick={ takeCall }>
+          <span>Take Call</span>
+        </button>
+        <button className="flex-1 cancel-detail" onClick={ onClose }>
+          <span>Cancel</span>
+        </button>
+        <button className="flex-1 save-detail" onClick={ submitTicket }>
+          <span>Save</span>
+        </button>
       </div>
       </div>
     </div>

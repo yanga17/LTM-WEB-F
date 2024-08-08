@@ -387,10 +387,10 @@ export const DeletedLogsModule = () => {
                                                     <td className="">{Employee || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
-                                                            <Button size="sm" className="bg-purple hover:bg-violet-300 w-8/12" onClick={() => { openModal(idx)}}>
+                                                            <button className="view" onClick={() => { openModal(idx)}}>
                                                                 <Ellipsis size={18} strokeWidth={2} />
-                                                            </Button>
-                                                            <Button size="sm" className="bg-red hover:bg-rose-300 py-4 w-8/12 mr-2 md:mr-2"
+                                                            </button>
+                                                            <button className="cancel"
                                                                 onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
@@ -400,8 +400,8 @@ export const DeletedLogsModule = () => {
                                                                     console.error('Selected ticket not found');
                                                                 }
                                                             }}>
-                                                                <Undo2 size={18} strokeWidth={2} color="white" />
-                                                            </Button>
+                                                                <Undo2 size={18} strokeWidth={2} />
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </tr>

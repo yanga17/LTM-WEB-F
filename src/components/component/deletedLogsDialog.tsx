@@ -55,7 +55,7 @@ export function DeletedLogsDialog() {
                 </DialogHeader>
                 <DialogClose asChild>
                     <div className="flex justify-end">
-                        <button className="inline-flex h-10 items-center justify-center rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer">
+                        <button className="view-detail rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium text-primary-foreground shadow hover:cursor-pointer">
                             Close
                         </button>
                     </div>

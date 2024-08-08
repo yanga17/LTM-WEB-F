@@ -56,10 +56,10 @@ export function UnresolvedFollowUps() {
         <div className="flex justify-end">
           <Link
             href="follow-ups/unresolved" 
-            className="inline-flex h-10 items-center justify-center rounded-md bg-purple hover:bg-violet-300 text-white px-6 text-sm font-medium shadow hover:cursor-pointer"
+            className="view-detail rounded-md px-6 text-sm font-medium shadow hover:cursor-pointer"
             onClick={() => setFollowUpCustomerList(true)}
           >
-            View Tickets
+            View
           </Link>
         </div>
       </DialogContent>
