@@ -86,47 +86,63 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 text-md">Call ID</p>
-                            <p className="font-semibold text-md">{deletedlog.Call_ID}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Call_ID}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Employee</p>
-                            <p className="font-semibold text-md">{deletedlog.Employee || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Employee || '--:--'}</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Client Email</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Email_Address || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p>{deletedlog.SupportNumber || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.SupportNumber || '--:--'}</p>
                         </div>
-                        <div>
-                            <p className="font-medium text-gray-500 text-md">IssueType</p>
-                            <p className="font-semibold text-md">{deletedlog.IssueType || '--:--'}</p>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 text-md">Reason</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Reason || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Customer</p>
-                            <p className="font-semibold text-md">{deletedlog.Customer}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Customer}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Problem</p>
-                            <p className="font-semibold text-md">{deletedlog.Problem || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Problem || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Start Time</p>
-                            <p>{new Date(deletedlog.Start_Time).toLocaleString()}</p>
+                            <p className="font-semibold text-md uppercase">{new Date(deletedlog.Start_Time).toLocaleString()}</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Insertion Time</p>
+                            <p className="font-semibold text-md uppercase">{new Date(deletedlog.insertion_time?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 text-md">Comments</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Comments || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Client Name</p>
-                            <p className="font-semibold text-md">{deletedlog.Client_Name || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Client_Name || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                            <p className="font-semibold text-md">{deletedlog.Phone_Number || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{deletedlog.Phone_Number || '--:--'}</p>
                         </div>
                         <div className="mb-4">
-                            <p className="font-medium text-gray-500 text-md">Comments</p>
-                            <p className="font-semibold text-md">{deletedlog.Comments || '--:--'}</p>
+                            <p className="font-medium text-gray-500 sm:text-gray-500 text-md">IssueType</p>
+                            <p className={`font-semibold text-md ${deletedlog.IssueType ? (deletedlog.IssueType === 'Task' ? 'text-green' : 'text-red') : 'header-text'}`}>{deletedlog.IssueType || '--:--'}</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Priority</p>
+                            <p className={`font-semibold text-md ${deletedlog.Priority === 'P1' ? 'text-red' : deletedlog.Priority === 'P2' ? 'text-orange' : (deletedlog.Priority === 'P3' || deletedlog.Priority === 'P4') ? 'text-grey' : ''}`}>{deletedlog.Priority || '--:--'}</p>
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">

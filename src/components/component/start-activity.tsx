@@ -217,6 +217,7 @@ export function StartActivity({ onClose }: Props) {
                 email_address: emailAdd,
                 // timeTaken: dateTime,
                 issueType: issueType,
+                priority: priority
         };
 
         //check if values have been entered/selected
@@ -230,6 +231,7 @@ export function StartActivity({ onClose }: Props) {
             { value: type, message: 'Please select a call type.' },
             { value: employee, message: 'Please select an employee.' },
             { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+            { value: priority, message: 'Pleasedetermine the priority of the ticket'},
         ];
     
         for (const field of fields) {

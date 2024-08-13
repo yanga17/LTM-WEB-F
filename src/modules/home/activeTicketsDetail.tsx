@@ -107,7 +107,7 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Employee</p>
-                                    <p className="font-semibold text-md">{activeTickets.Employee || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Employee || '--:--'}</p>
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Client Email</p>
@@ -115,39 +115,39 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Support No</p>
-                                    <p className="font-semibold text-md">{activeTickets.Support_No || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Support_No || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Comments</p>
-                                    <p className="font-semibold text-md">{activeTickets.Comments || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Comments || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Customer</p>
-                                    <p className="font-semibold text-md">{activeTickets.Customer || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Customer || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Problem</p>
-                                    <p className="font-semibold text-md">{activeTickets.Activity || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Activity || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                    <p className="font-semibold text-md">{new Date(activeTickets.StartTime).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{new Date(activeTickets.StartTime).toLocaleString() || '--:--'}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
-                                    <p className="font-semibold text-md">{new Date(activeTickets.Time_Taken).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{new Date(activeTickets.Time_Taken).toLocaleString() || '--:--'}</p>
                                 </div>
                             </div>
                             <div className="w-1/3">
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Client Name</p>
-                                    <p className="font-semibold text-md">{activeTickets.Name || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Name || '--:--'}</p>
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                                    <p className="font-semibold text-md">{activeTickets.Phone_Number || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Phone_Number || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">IssueType</p>

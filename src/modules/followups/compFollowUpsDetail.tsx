@@ -75,7 +75,7 @@ export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpPro
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">IssueType</p>
-                            <p className="font-semibold text-md uppercase">{ActiveFollowUps.IssueType || '--:--'}</p>
+                            <p className={`font-semibold text-md ${ActiveFollowUps.IssueType ? (ActiveFollowUps.IssueType === 'Task' ? 'text-green' : 'text-red') : 'header-text'}`}>{ActiveFollowUps.IssueType || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Priority</p>

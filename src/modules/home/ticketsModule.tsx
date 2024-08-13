@@ -196,14 +196,12 @@ export const TicketsModule = () => {
       {data?.map(({ Call_ID, Customer, Problem, Name, Time, IssueType, Empl, Priority }) => (
         <>
           <tr key={Call_ID} className="border-b">
-            <td className="px-2">{Call_ID}</td>
-            <td className="p-2 whitespace-nowrap truncate">{Customer.includes(':') ? Customer.split(':')[0].trim() : Customer || '--:--'}</td>
-            <td className="p-2 whitespace-nowrap truncate">{Problem || '--:--'}</td>
-            <td className="p-2">{Name || '--:--'}</td>
-            <td className="p-2">
-              {new Date(Time || '--:--').toLocaleString()}
-            </td>
-            <td className="p-2">{Empl || '--:--'}</td>
+            <td className="px-2 sm:text-sm md:text-base">{Call_ID}</td>
+            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Customer.includes(':') ? Customer.split(':')[0].trim() : Customer || '--:--'}</td>
+            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
+            <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
+            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{new Date(Time || '--:--').toLocaleString()}</td>
+            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
                 <button className="view" onClick={() => { openModal(Call_ID)}}>

@@ -118,7 +118,7 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
             </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <button onClick={transferTicket} className="w-full save-detail">
+        <button onClick={transferTicket} className="w-full save-detailExt">
           <span>Save</span>
         </button>
       </div>
