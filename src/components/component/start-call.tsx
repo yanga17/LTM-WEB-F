@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from '@/context';
 import { XIcon } from "lucide-react";
+import { X, Check  } from "lucide-react";
 
 interface Props {
   onClose: () => void;
@@ -222,6 +223,7 @@ export function StartCall({ onClose}: Props) {
         { value: type, message: 'Please select a call type.' },
         { value: employee, message: 'Please select an employee.' },
         { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+        { value: priority, message: 'Pleasedetermine the priority of the ticket'},
       ];
 
       for (const field of fields) {
@@ -250,11 +252,13 @@ export function StartCall({ onClose}: Props) {
         name: clientName,
         email_address: emailAdd,
         issueType: issueType,
+        priority: priority
       };
 
       const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
       console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
       onClose();
+      TakeCallNotification();
   
     } catch (error) {
       console.error('Error taking ticket:', error);
@@ -269,6 +273,20 @@ export function StartCall({ onClose}: Props) {
   const saveComments = (comments: string) => {
     setComments(comments);
   };
+
+  const TakeCallNotification = () => {
+    toast.success('Activity has been started successfully', {
+      icon: <Check color={colors.green} size={24} />,
+      duration: 3000,
+    });
+  }
+
+  const LogTicketNotification = () => {
+    toast.success('Ticket has been logged successfully', {
+      icon: <Check color={colors.green} size={24} />,
+      duration: 3000,
+    });
+  }
 
   
   useEffect(() => {
@@ -388,6 +406,7 @@ export function StartCall({ onClose}: Props) {
       setComments("");
 
       onClose();
+      LogTicketNotification();
     } catch (error) {
       
       console.error('Error submitting ticket:', error);

@@ -103,12 +103,12 @@ export default function Page() {
         <div className="w-full h-screen flex items-center justify-center overflow-hidden bg-login bg-Boardroomm bg-no-repeat bg-center"> 
             <div className="w-11/12 md:w-5/12 lg:w-3/12 xl:w-4/12 shadow-lg p-2 md:p-4 flex flex-col justify-start items-center gap-5 rounded bg-white bg-opacity-50 backdrop-blur-md">
                 <div className="flex flex-col items-center justify-center gap-0">
-                    <h1 className="leading-none font-medium">Welcome</h1>
-                    <p className="text-sm">Please enter your credentials to sign in</p>
+                    <h1 className="leading-none font-medium text-black">Welcome</h1>
+                    <p className="text-sm text-black">Please enter your credentials to sign in</p>
                 </div>
                 <form className="flex flex-col justify-start gap-4 w-full">
                     <div className="relative flex flex-col justify-start items-start gap-1">
-                        <label>Username</label>
+                        <label className="text-black">Username</label>
                         <Controller
                             control={control}
                             name="username"
@@ -129,7 +129,7 @@ export default function Page() {
                         {formState.errors.username && <span className="text-red text-sm">{formState.errors.username.message}</span>}
                     </div>
                     <div className="relative flex flex-col justify-start items-start gap-1">
-                        <label>Password</label>
+                        <label className="text-black">Password</label>
                         <div className='flex items-center justify-between w-full bg-'>
                             <Controller
                                 control={control}

@@ -274,7 +274,7 @@ export const ReportsModule = () => {
             {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div className='relative w-[800px]'>
-                    <button className="absolute top-0 right-0 p-2 h-25 w-25 text-red" onClick={() => setIsModalOpen(false)}
+                    <button className="absolute top-0 right-0 p-2 h-50 w-25 text-red" onClick={() => setIsModalOpen(false)}
                     >
                         &times;
                     </button>
@@ -284,7 +284,7 @@ export const ReportsModule = () => {
                 </div>
             </div>
         )}
-        <div className="h-full overflow-auto report-background">
+        <div className="h-screen overflow-y-scroll report-background scrollable-area">
             <div className="w-full p-2 hidden lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap dark:report-button">
                 <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple text-white' : 'report-button dark:text-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
                 <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple text-white' : 'report-button'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>

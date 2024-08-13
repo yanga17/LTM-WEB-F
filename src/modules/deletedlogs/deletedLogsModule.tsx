@@ -20,6 +20,7 @@ export interface DeletedProps {
     Customer: string,
     Problem: string,
     Client_Name: string,
+    Email_Address: string,
     Phone_Number: number,
     Start_Time: string,
     End_Time: string,
@@ -359,18 +360,18 @@ export const DeletedLogsModule = () => {
                         </div>
                         <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
                                 <div className="max-h-[550px] md:max-h-[700px] lg:max-h-[750px] overflow-auto">
-                                    <table className="w-full table-fixed">
+                                    <table className="w-full table-fixed table-container">
                                         <thead className="table-headerup">
-                                            <tr className="text-left h-10 p-2 text-md font-medium rounded-full">
-                                                <th className="p-2 lg:w-[50px]">Call ID</th>
-                                                <th className="p-2 lg:w-[180px]">Customer</th>
-                                                <th className="p-2 lg:w-[120px]">Problem</th>
-                                                <th className="p-2 lg:w-[70px]">Client Name</th>
-                                                <th className="p-2 lg:w-[120px]">Insertion Time</th>
-                                                <th className="p-2 lg:w-[70px]">IssueType</th>
-                                                <th className="p-2 lg:w-[70px]">Reason</th>
-                                                <th className="p-2 lg:w-[70px]">Employee</th>
-                                                <th className="p-2 lg:w-[70px]">Action</th>
+                                            <tr className="bg-gray text-left h-10 p-2 text-md sm:text-sm md:text-md lg:text-md font-medium border-rounded rounded-full">
+                                                <th className="p-2 w-[80px] sm:w-[60px] md:w-[70px] lg:w-[70px] xl:w-[80px] 2xl:w-[80px]">Call ID</th>
+                                                <th className="p-2 w-[180px] sm:w-[100px] md:w-[140px] lg:w-[180px] xl:w-[300px] 2xl:w-[280px]">Customer</th>
+                                                <th className="p-2 w-[100px] sm:w-[100px] md:w-[115px] lg:w-[140px] xl:w-[190px] 2xl:w-[160px]">Problem</th>
+                                                <th className="p-2 w-[100px] hidden xl:table-cell xl:w-[120px] 2xl:w-[100px]">Client Name</th>
+                                                <th className="p-2 w-[140px] hidden 2xl:table-cell 2xl:w-[170px]">Insertion Time</th>
+                                                {/* <th className="p-2 w-[60px] sm:w-[70px] md:w-[80px] lg:w-[90px] xl:w-[100px] 2xl:w-[70px]">Issue Type</th> */}
+                                                <th className="p-2 w-[90px] hidden xl:table-cell xl:w-[80px] 2xl:w-[60px]">Reason</th>
+                                                <th className="p-2 w-[60px] sm:w-[70px] md:w-[70px] lg:w-[90px] xl:w-[80px] 2xl:w-[60px]">Employee</th>
+                                                <th className="p-2 w-[90px] sm:w-[105px] md:w-[80px] lg:w-[100px] xl:w-[100px] 2xl:w-[100px]">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -378,13 +379,13 @@ export const DeletedLogsModule = () => {
                                                 <>
                                                     <tr key={Call_ID} className="border-b font-medium">
                                                     <td className="p-2">{Call_ID || '--:--'}</td>
-                                                    <td className="">{Customer || '--:--'}</td>
-                                                    <td className="">{Problem || '--:--'}</td>
-                                                    <td className="">{Client_Name || '--:--'}</td>
-                                                    <td className="p-2">{formatDate(insertion_time)}</td>
-                                                    <td className="">{IssueType || '--:--'}</td>
-                                                    <td className="">{Reason || '--:--'}</td>
-                                                    <td className="">{Employee || '--:--'}</td>
+                                                    <td className="px-2 text-sm sm:text-sm md:text-base whitespace-nowrap truncate">{Customer || '--:--'}</td>
+                                                    <td className="p-2 text-sm sm:text-sm md:text-base whitespace-nowrap truncate">{Problem || '--:--'}</td>
+                                                    <td className="p-2 text-sm hidden xl:table-cell lg:text-base whitespace-nowrap truncate">{Client_Name || '--:--'}</td>
+                                                    <td className="p-2 text-sm hidden 2xl:table-cell 2xl:text-base whitespace-nowrap truncate">{formatDate(insertion_time)}</td>
+                                                    {/* <td className="p-2 text-sm sm:text-sm xl:text-base lg:text-base whitespace-nowrap truncate">{IssueType || '--:--'}</td> */}
+                                                    <td className="p-2 text-sm hidden xl:table-cell lg:text-base whitespace-nowrap truncate">{Reason || '--:--'}</td>
+                                                    <td className="p-2 text-sm sm:text-sm md:text-base lg:text-base whitespace-nowrap truncate">{Employee || '--:--'}</td>
                                                     <td className="text-center">
                                                         <div className="flex gap-2">
                                                             <button className="view" onClick={() => { openModal(idx)}}>

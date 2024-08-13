@@ -193,7 +193,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Employee</p>
-                            <p className="font-semibold text-md">{ticket.Empl || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Empl || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-6">
                             <p className="font-medium text-gray-500 text-md">Client Email</p>
@@ -201,39 +201,39 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
-                            <p className="font-semibold text-md">{supportNo || ticket.Support_No || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{supportNo || ticket.Support_No || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Comments</p>
-                            <p className="font-semibold text-md">{ticket.Comments || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Comments || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Customer</p>
-                            <p className="font-semibold text-md">{customerData || ticket.Customer || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{customerData || ticket.Customer || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Problem</p>
-                            <p className="font-semibold text-md">{ticket.Problem || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Problem || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-semibold text-gray-500 text-md">Start Time</p>
-                            <p className="font-semibold text-md">{new Date(ticket.Time).toLocaleString()}</p>
+                            <p className="font-semibold text-md uppercase">{new Date(ticket.Time).toLocaleString()}</p>
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-semibold text-gray-500 text-md">Logger</p>
-                            <p className="font-semibold text-md">{ticket.logger || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.logger || '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">Client Name</p>
-                            <p className="font-semibold text-md">{ticket.Name || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Name || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Phone Number</p>
-                            <p className="font-semibold text-md">{ticket.Phone_Number || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Phone_Number || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 text-md">IssueType</p>

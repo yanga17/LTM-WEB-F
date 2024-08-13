@@ -498,6 +498,32 @@
     background-color: var(--button-background-save-hover-dark);
 }
 
+
+/*   SAVE - DETAIL - EXTENDED */
+.save-detailExt {
+    background-color: var(--button-background-save-light);
+    color: var(--button-text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.375rem; /* rounded-md */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    height: 40px;
+}
+
+.save-detailExt:hover {
+    background-color: var(--button-background-save-hover-light);
+}
+
+.dark .save-detailExt {
+    background-color: var(--button-background-save-dark);
+}
+
+.dark .save-detailExt:hover {
+    background-color: var(--button-background-save-hover-dark);
+}
 /*   CLOSE - DETAIL */
 .close-detail {
     background-color: var(--button-background-close-light);
@@ -1198,7 +1224,7 @@ td, th {
 
 
 ::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -1206,8 +1232,14 @@ td, th {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--purple);
-    border-radius: 2px;
+    background-color: #a17efa; /* var(--purple) */
+    border-radius: 4px;
+}
+
+.scrollable-area {
+    z-index: 100; /* Or higher if needed */
+    position: relative; /* Ensure it's properly positioned */
+    color: purple;
 }
 
 html {

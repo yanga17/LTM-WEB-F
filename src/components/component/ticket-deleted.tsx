@@ -81,7 +81,7 @@ export function TicketDeletion({ callId, onClose }: TicketDeletedProps ){
                     />
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                    <button className="w-full save-detail" onClick={saveReason}>
+                    <button className="w-full save-detailExt" onClick={saveReason}>
                         <span>Save</span>
                     </button>
                 </div>

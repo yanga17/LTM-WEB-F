@@ -155,12 +155,12 @@ export const CompFollowUpsModule = () => {
             <>
               <tr className="pg-background border-b font-medium table-text">
                         <td key={ID}className="p-2">{ID}</td>
-                        <td className="p-2 whitespace-nowrap truncate">{Customer  || '--:--'}</td>
-                        <td className="p-2">{Activity  || '--:--'}</td>
-                        <td className="p-2">{Name  || '--:--'}</td>
-                        <td className="p-3">{Duration  || '--:--'}</td>
-                        <td className="p-2">{Employee  || '--:--'}</td>
-                        <td className="text-center">{Completed === 1 ? '⏳' : Completed}</td>
+                        <td className="px-2 text-sm sm:text-sm md:text-base whitespace-nowrap truncate">{Customer  || '--:--'}</td>
+                        <td className="p-2 text-sm sm:text-sm md:text-base whitespace-nowrap truncate">{Activity  || '--:--'}</td>
+                        <td className="p-2 text-sm hidden lg:table-cell lg:text-base whitespace-nowrap truncate">{Name  || '--:--'}</td>
+                        <td className="p-2 text-sm hidden lg:table-cell lg:text-base whitespace-nowrap truncate">{Duration  || '--:--'}</td>
+                        <td className="p-2 text-sm sm:text-sm md:text-base lg:text-base whitespace-nowrap truncate">{Employee  || '--:--'}</td>
+                        <td className="text-center pr-12">{Completed === 1 ? '⏳' : Completed}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
                                 <button className="viewExt" onClick={() => { openModal(ID)}}>

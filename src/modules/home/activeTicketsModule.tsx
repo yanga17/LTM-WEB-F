@@ -295,12 +295,12 @@ export const ActiveTicketsModule = () => {
             {roleData?.map(({ callid, customer, problem, name, time, employee, type, issuetype, phoneNumber }, index) => (
                 <>
                     <tr key={callid} className="border-b">
-                        <td className="px-2">{callid || '--:--'}</td> 
-                        <td className="p-2 whitespace-nowrap truncate">{customer || '--:--'}</td>
-                        <td className="p-2 whitespace-nowrap truncate">{problem || '--:--'}</td>
-                        <td className="p-2">{name || '--:--'}</td>
-                        <td className="p-2">{time || '--:--'}</td>  
-                        <td className="p-2">{employee || '--:--'}</td>
+                        <td className="px-2 sm:text-sm md:text-base">{callid || '--:--'}</td> 
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{customer || '--:--'}</td>
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{problem || '--:--'}</td>
+                        <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{name || '--:--'}</td>
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{time || '--:--'}</td>  
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
                                 <button className="view" onClick={() => { openModal(callid)}}>
