@@ -260,7 +260,7 @@ export const ActiveTicketsModule = () => {
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
         // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
-        time: new Date(property.StartTime).toLocaleString(),
+        time: new Date(property.StartTime),
         endtime: property.EndTime,
         duration: property.Duration,
         type: property.Type,
@@ -284,7 +284,7 @@ export const ActiveTicketsModule = () => {
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
         // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
-        time: new Date(property.StartTime).toLocaleString(),
+        time: new Date(property.StartTime),
         endtime: property.EndTime,
         duration: property.Duration,
         type: property.Type,
@@ -317,7 +317,7 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{problem || '--:--'}</td>
                         <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{name || '--:--'}</td>
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-                            {time || '--:--'}
+                            {time ? `${new Date(time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                         </td>
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{employee || '--:--'}</td>
                         <td className="text-center">

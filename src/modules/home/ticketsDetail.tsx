@@ -227,7 +227,10 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4">
                             <p className="font-semibold text-gray-500 text-md">Start Time</p>
-                            <p className="font-semibold text-md uppercase">{ticket.Time ? new Date(ticket.Time).toLocaleString() : '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">
+                                {/* {ticket.Time ? `${ new Date(ticket.Time) }`:  '--:--'} */}
+                                {ticket.Time ? `${new Date(ticket.Time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
+                            </p>
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-semibold text-gray-500 text-md">Logger</p>
