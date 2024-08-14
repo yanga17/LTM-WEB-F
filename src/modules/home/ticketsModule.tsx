@@ -65,7 +65,8 @@ export const TicketsModule = () => {
 
       const inputTime = ticket.Time;
       const date = new Date(inputTime); // Convert to Date object
-
+      console.log("MY DATE MY DATE ,Y DATE MY DATE MY DATE", date)
+    
       // Extract year, month, day, hours, minutes, and seconds
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
@@ -73,10 +74,9 @@ export const TicketsModule = () => {
       const hours = String(date.getHours()).padStart(2, '0');
       const minutes = String(date.getMinutes()).padStart(2, '0');
       const seconds = String(date.getSeconds()).padStart(2, '0');
-
+    
       // Format to 'YYYY-MM-DD HH:MM:SS'
       const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      //const nomarlize = new Date(ticket.Time).toLocaleString()
 
 
       try {
@@ -154,22 +154,6 @@ export const TicketsModule = () => {
       });
     }
 
-    function formatTimeWithTimeZone(timeString: any) {
-      // Assuming the database time is in UTC
-      const databaseTime = new Date(timeString);
-    
-      // Get the user's timezone offset in milliseconds
-      const userOffset = new Date().getTimezoneOffset() * 60000;
-    
-      // Convert database time to user's local time
-      const localTime = new Date(databaseTime.getTime() + userOffset);
-    
-      // Format the local time for display
-      const formattedTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(localTime);
-    
-      return formattedTime;
-    }
-
     if (loading) {
       return (
           <tr>
@@ -225,8 +209,8 @@ export const TicketsModule = () => {
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
             <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-              {Time ? new Date(Time).toLocaleString() : '--:--'}
-              {/* {Time ? formatTimeWithTimeZone(Time) : '--:--'} */}
+              {/* {Time ? `${ new Date(Time) }`:  '--:--'} */}
+              {Time ? `${new Date(Time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
             </td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>
             <td className="text-center">

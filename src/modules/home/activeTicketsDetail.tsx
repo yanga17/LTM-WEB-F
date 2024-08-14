@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { ActiveResponseType } from "./activeTicketsModule";  
 import { useState, useContext } from "react";
 import { apiEndPoint, colors } from '@/utils/colors';
-//import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketSolutionDetail } from "@/components/component/ticket-solution-detail";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import axios from "axios";
@@ -134,13 +133,15 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
                                     <p className="font-semibold text-md uppercase">
-                                        {activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'}
+                                        {/* {activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'} */}
+                                        {activeTickets.StartTime ? `${new Date(activeTickets.StartTime).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                                     </p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
                                     <p className="font-semibold text-md uppercase">
-                                        {activeTickets.Time_Taken ? new Date(activeTickets.Time_Taken).toLocaleString() : '--:--'}
+                                        {/* {activeTickets.Time_Taken ? new Date(activeTickets.Time_Taken).toLocaleString() : '--:--'} */}
+                                        {activeTickets.Time_Taken ? `${new Date(activeTickets.Time_Taken).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                                     </p>
                                 </div>
                             </div>
