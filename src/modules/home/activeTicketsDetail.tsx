@@ -61,7 +61,7 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
             //setViewedTicket(response.data)
 
             
-            toast.success('Solutionhas been opened.');
+            // toast.success('Solution has been opened.');
 
         } catch (error) {
 
@@ -111,7 +111,7 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4 mt-4">
                                     <p className="font-medium text-gray-500 text-md">Client Email</p>
-                                    <p className="font-semibold text-md">{activeTickets.Email_Address || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.Email_Address || '--:--'}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Support No</p>
@@ -133,11 +133,13 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                    <p className="font-semibold text-md uppercase">{new Date(activeTickets.StartTime).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">{activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
-                                    <p className="font-semibold text-md uppercase">{new Date(activeTickets.Time_Taken).toLocaleString() || '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">
+                                        {activeTickets.Time_Taken ? new Date(activeTickets.Time_Taken).toLocaleString() : '--:--'}
+                                    </p>
                                 </div>
                             </div>
                             <div className="w-1/3">

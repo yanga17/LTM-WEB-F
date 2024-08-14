@@ -195,33 +195,24 @@ export function StartActivity({ onClose }: Props) {
     const takeCall = async () => {
         let customerData = customer
         let supportNo = null;
-
+    
         if (customer.includes(",")) {
-            const customerArray = customer.split(",");
-            customerData = customerArray[0].trim();
-            supportNo = customerArray[1].trim();
+          const customerArray = customer.split(",");
+          customerData = customerArray[0].trim();
+          supportNo = customerArray[1].trim();
         }
-
+    
+        // Get the current time in MySQL format
+        const now = new Date();
+        const dateTime = now.getFullYear() + '-' + 
+            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+            String(now.getDate()).padStart(2, '0') + ' ' + 
+            String(now.getHours()).padStart(2, '0') + ':' + 
+            String(now.getMinutes()).padStart(2, '0') + ':' + 
+            String(now.getSeconds()).padStart(2, '0');
+    
         try {
-            const payLoad = {
-                employee: employee,
-                customer: customerData,
-                activity: problem,
-                phoneNumber: phonenumber,
-                clientAnydesk: anydesk,
-                // startTime: dateTime,
-                type: type,
-                supportNo: supportNo,
-                comments: comments,
-                name: clientName,
-                email_address: emailAdd,
-                // timeTaken: dateTime,
-                issueType: issueType,
-                priority: priority
-        };
-
-        //check if values have been entered/selected
-        const fields = [
+          const fields = [
             { value: customer, message: 'Please select a client.' },
             { value: problem, message: 'Please select a problem.' },
             { value: phonenumber, message: 'Please enter the phone number.' },
@@ -231,10 +222,10 @@ export function StartActivity({ onClose }: Props) {
             { value: type, message: 'Please select a call type.' },
             { value: employee, message: 'Please select an employee.' },
             { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
-            { value: priority, message: 'Pleasedetermine the priority of the ticket'},
-        ];
+            { value: priority, message: 'Please determine the priority of the ticket'},
+          ];
     
-        for (const field of fields) {
+          for (const field of fields) {
             if (!field.value) {
                 toast.error(field.message, {
                     icon: '🚨',
@@ -245,22 +236,44 @@ export function StartActivity({ onClose }: Props) {
                     },
                 });
                 return;
-            }
-        }
-
-        const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
-        console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
-        onClose();
-        activityNotification();
-
+              }
+          }
+    
+          const payLoad = {
+            employee: employee,
+            customer: customerData,
+            activity: problem,
+            phoneNumber: phonenumber,
+            clientsAnydesk: anydesk,
+            type: type,
+            supportNumber: supportNo,
+            comments: comments,
+            name: clientName,
+            email_address: emailAdd,
+            issueType: issueType,
+            priority: priority
+          };
+    
+          const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
+          console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
+          onClose();
+          TakeCallNotification();
+      
         } catch (error) {
-            console.error('Error starting an activity ticket:', error);
+          console.error('Error taking ticket:', error);
         }
-    }
+      }
 
     const handleCheckStatus = () => {
     setCheckStatus((prevStatus) => !prevStatus);
     }
+
+    const TakeCallNotification = () => {
+        toast.success('Activity has been started successfully', {
+          icon: <Check color={colors.green} size={24} />,
+          duration: 3000,
+        });
+      }
 
     // Function to save comments
     const saveComments = (comments: string) => {

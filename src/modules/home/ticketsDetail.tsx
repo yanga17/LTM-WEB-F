@@ -45,24 +45,27 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
             supportNo = customerArray[1].trim();
         }
 
-        const formatDateToMySQL = (dateString: any) => {
-            const date = new Date(dateString);
-            return date.getFullYear() + '-' + 
-                  String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(date.getDate()).padStart(2, '0') + ' ' + 
-                  String(date.getHours()).padStart(2, '0') + ':' + 
-                  String(date.getMinutes()).padStart(2, '0') + ':' + 
-                  String(date.getSeconds()).padStart(2, '0');
-          };
 
         try {
+            // const formattedStartTime = new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' ');
+        // Manually format the date to YYYY-MM-DD HH:MM:SS
+        const dateObj = new Date(ticket.Time);
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const hours = String(dateObj.getHours()).padStart(2, '0');
+        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+        const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+        
+        const formattedStartTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
             const payLoad = {
                 employee: ticket.Empl,
                 customer: customerData,
                 activity: ticket.Problem,
                 phoneNumber: ticket.Phone_Number,
                 clientAnydesk: ticket.Clients_Anydesk,
-                startTime: formatDateToMySQL(ticket.Time),
+                startTime: formattedStartTime,
                 type: ticket.Type,
                 supportNo: supportNo,
                 comments: ticket.Comments,
@@ -70,7 +73,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 email_address: ticket.Email_Address,
                 timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 issueType: ticket.IssueType,
-                priority: ticket.urgent,
+                priority: ticket.Priority,
             };
 
             const response = await axios.post(`${apiEndPoint}/tickets/insertloggedticket`, payLoad);
@@ -87,18 +90,19 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     const updateTakenTicket = async (callId: number) => {
         try {
-            const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
-            const updateUrl = `${apiEndPoint}/tickets/updateloggedticket/${encodeURIComponent(endTime)}/${callId}`;
-            const updateResponse = await axios.patch(updateUrl);
-
-            console.log('Ticket updated successfully:', updateResponse.data);
-
+            //const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
+            ///updateloggedticket/:callid
+            const url = `tickets//updateloggedticket/${callId}`;
+            const response = await axios.patch(`${apiEndPoint}/${url}`);
+  
+            console.log('Ticket updated successfully:', response.data);
+  
             // Remove the ticket from the local state to reflect the change in the UI
             // This is optional if you want to update the state or UI
         } catch (error) {
             console.error('Error updating ticket:', error);
         }
-    }
+      }
 
     const undoNotification = () => {
         toast.success('Ticket deleted successfully', {
@@ -197,7 +201,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4 mt-6">
                             <p className="font-medium text-gray-500 text-md">Client Email</p>
-                            <p className="font-semibold text-md">{ticket.Email_Address || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Email_Address || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-medium text-gray-500 text-md">Support No</p>
@@ -219,7 +223,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                         <div className="mb-4">
                             <p className="font-semibold text-gray-500 text-md">Start Time</p>
-                            <p className="font-semibold text-md uppercase">{new Date(ticket.Time).toLocaleString()}</p>
+                            <p className="font-semibold text-md uppercase">{ticket.Time ? new Date(ticket.Time).toLocaleString() : '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-8">
                             <p className="font-semibold text-gray-500 text-md">Logger</p>

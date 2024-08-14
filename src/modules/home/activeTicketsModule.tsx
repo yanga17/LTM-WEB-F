@@ -32,7 +32,7 @@ export interface ActiveProps {
     Name: string,
     Email_Address: string,
     number_of_days: number,
-    Time_Taken: number,
+    Time_Taken: string,
     IssueType: string,
     Priority: string
 }

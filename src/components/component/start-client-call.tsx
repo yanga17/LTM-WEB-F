@@ -229,7 +229,7 @@ export function StartClientCall({ onClose, data }: Props) {
         } else {
             setCustomer(client_name); // Set to client_name if no match found
             toast.error("NO MATCH WAS FOUND");
-            console.log("NO MATCHED CUSTOMER: ", client_name);
+            //console.log("NO MATCHED CUSTOMER: ", client_name);
             console.log("LOWER CASE CUSTOMER LOWER CASE CUSTOMER: ", lowerClientName);
         }
 
@@ -269,7 +269,7 @@ export function StartClientCall({ onClose, data }: Props) {
         const ticketData = {
             customer: customer,
             problem: problem,
-            time: dateTime,
+            // time: dateTime,
             phoneNumber: phonenumber,
             clientsAnydesk: anydesk,
             name: clientName,
