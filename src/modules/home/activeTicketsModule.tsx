@@ -243,7 +243,7 @@ export const ActiveTicketsModule = () => {
         problem: property.Activity,
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
-        time: new Date(property.StartTime).toLocaleString(),
+        time: property.StartTime ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(property.StartTime)) : '--:--',
         endtime: property.EndTime,
         duration: property.Duration,
         type: property.Type,
