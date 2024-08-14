@@ -140,6 +140,22 @@ export const ActiveTicketsModule = () => {
         setTransferPopUp(!transferPopUp);
     }
 
+    function formatTimeWithTimeZone(timeString: any) {
+        // Assuming the database time is in UTC
+        const databaseTime = new Date(timeString);
+      
+        // Get the user's timezone offset in milliseconds
+        const userOffset = new Date().getTimezoneOffset() * 60000;
+      
+        // Convert database time to user's local time
+        const localTime = new Date(databaseTime.getTime() + userOffset);
+      
+        // Format the local time for display
+        const formattedTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(localTime);
+      
+        return formattedTime;
+      }
+
     useEffect(() => {
         generateUserTickets();
         const interval = setInterval(generateUserTickets, 60000); // 60000ms = 1 minute
@@ -243,7 +259,7 @@ export const ActiveTicketsModule = () => {
         problem: property.Activity,
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
-        time: property.StartTime ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(property.StartTime)) : '--:--',
+        time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
         endtime: property.EndTime,
         duration: property.Duration,
         type: property.Type,
