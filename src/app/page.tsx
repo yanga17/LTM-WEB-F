@@ -90,7 +90,7 @@ export default function Home() {
               </div>
           </div>
             <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
-              <div className="max-h-[350px] overflow-auto table-container">
+              <div className="max-h-[350px] sm:max-h-[350px] md:max-h-[350px] lg:max-h-[350px] xl:max-h-[410px] 2xl:max-h-[410px] overflow-auto table-container">
                 <table className="w-full table-fixed">
                   <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md sm:text-sm md:text-md font-medium border-rounded rounded-full">
@@ -114,8 +114,8 @@ export default function Home() {
         <div>
             <h6 className="ml-6 text-3xl py-4 font-bold header-text">Logged Tickets</h6>
           </div>
-            <CardContent className="p-0 ml-4 mr-4 shadow-md border rounded-sm">
-              <div className="max-h-[250px] overflow-auto table-container">
+            <CardContent className="p-0 ml-4 mr-4 mb-10 shadow-md border rounded-sm">
+              <div className="max-h-[250px] sm:max-h-[250px] md:max-h-[250px] lg:max-h-[350px] xl:max-h-[380px] 2xl:max-h-[380px] overflow-auto table-container">
                 <table className="w-full table-fixed p-4">
                   <thead className="table-headerup">
                     <tr className="bg-gray text-left h-10 p-2 text-md sm:text-sm md:text-md font-medium border-rounded rounded-full">

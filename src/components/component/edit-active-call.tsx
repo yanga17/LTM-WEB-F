@@ -201,7 +201,7 @@ export function EditActiveCall({ closeEdit, data }: Props) {
     const generateEditedData = () => {
         if (!data) return;
     
-        const { Employee, Customer, Activity, Clients_Anydesk, Phone_Number, Support_No, Comments, Name, Email_Address } = data;
+        const { Employee, Customer, Activity, Clients_Anydesk, Phone_Number, Support_No, Comments, Name, Priority, Email_Address, Type } = data;
     
         // Convert client_name and problem to lowercase for case-insensitive matching
         const lowerClientName = Customer.toLowerCase();
@@ -222,7 +222,7 @@ export function EditActiveCall({ closeEdit, data }: Props) {
     
         if (matchedCustomer) {
             setCustomer(matchedCustomer.original);
-            toast.success("A MATCH WAS FOUND!!!");
+            //toast.success("A MATCH WAS FOUND!!!");
             console.log("A MATCHED CUSTOMER WAS FOUND: ", matchedCustomer.original);
         } else {
             setCustomer(Customer); // Set to client_name if no match found
@@ -241,11 +241,11 @@ export function EditActiveCall({ closeEdit, data }: Props) {
     
         if (matchedProblem) {
             setProblem(matchedProblem.original);
-            toast.success("A PROBLEM MATCH WAS FOUND!!!");
+            //toast.success("A PROBLEM MATCH WAS FOUND!!!");
             console.log("A MATCHED PROBLEM WAS FOUND: ", matchedProblem.original);
         } else {
             setProblem(Activity); // Set to problem if no match found
-            toast.error("NO PROBLEM MATCH WAS FOUND");
+            //toast.error("NO PROBLEM MATCH WAS FOUND");
         }
     
         // Set other fields
@@ -253,7 +253,9 @@ export function EditActiveCall({ closeEdit, data }: Props) {
         setPhoneNumber(Phone_Number);
         setClientName(Name);
         setAnydesk(Clients_Anydesk);
+        setPriority(Priority);
         setComments(Comments);
+        setType(Type);
         setEmployee(Employee);
     };
 
@@ -268,7 +270,8 @@ export function EditActiveCall({ closeEdit, data }: Props) {
             type: type,
             employee: employee,
             issueType: issueType,
-            comments: comments
+            comments: comments,
+            priority: priority
         }
 
         try {
@@ -282,6 +285,7 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 { value: type, message: 'Please select a call type.' },
                 { value: employee, message: 'Please select an employee.' },
                 { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+                { value: priority, message: 'Please determine the priority of the ticket'},
             ];
         
             for (const field of fields) {
@@ -372,7 +376,7 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="email" className="dash-text">Email Address</label>
-                    <input id="email" placeholder="Enter the email address" className="call-input rounded-md shadow-sm p-2" onChange={(e) => setEmailAdd(e.target.value)}/>
+                    <input id="email" placeholder="Enter the email address" value={ emailAdd } className="call-input rounded-md shadow-sm p-2" onChange={(e) => setEmailAdd(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="anydesk" className="dash-text">Clients Anydesk</label>

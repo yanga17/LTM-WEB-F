@@ -29,21 +29,32 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
 
     const [transferedTicket, setTransferedTicket] = useState<ActiveResponseType>([]);
 
-    const getTechnicians = async () => {
+    const getEmployees = async () => {
       try {
-        const url = `customers/getechnicians`
+        const url = `tickets/getemployees`
         const response = await axios.get<EmployeeResponseType>(`${apiEndPoint}/${url}`);
-  
-        setAllTechnicians(response.data)
-        console.log("all employees data:", response.data);
-
-      } catch (error) {
-        console.log("AN ERROR WAS ENCOUNTERED MY NIGGA - NO GODDAMN TECHNICIANS", error);
+    
+        setAllTechnicians(response?.data)
+    
+        if (response.data.length === 0) {
+          toast.error(`No data available for employees.`, {
+            icon: '❌',
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
+    
+      }} catch (error) {
+    
+        console.error('An error occurred while getting employees:', error);
+        
       }
     }
 
-    const viewNotification = () => {
-      toast.error(`The ticket was transferred to ${technician} Successfully.`, {
+    const transferNotification = () => {
+      toast.success(`The ticket was transferred to ${technician} Successfully.`, {
         icon: <Check color={colors.green} size={24} />,
         duration: 3000,
       });
@@ -51,7 +62,7 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
 
     const transferTicket = async () => {
       if (technician === '' || null) {
-        toast.error('Please select a technician from the dropdown.', {
+        toast.success('Please select a technician from the dropdown.', {
           icon: <X color={colors.red} size={24} />,
           duration: 3000,
         });
@@ -59,17 +70,15 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
       }
 
       try {
+        //http://localhost:4200//transferticket/:employee/:callid
         const url = `tickets/transferticket/${technician}/${callId}`;
-        const response = await axios.post<ActiveProps>(`${apiEndPoint}/${url}`);
+        const response = await axios.post(`${apiEndPoint}/${url}`);
 
         console.log("MY TECHNICIAN AFTER SELECTION!!!!!!!!!!!", technician)
         await updateTransferedTicket();
-        viewNotification()
+        transferNotification();
 
-        
-        console.log('Ticket transferred successfully:', response.data);
-
-        
+        console.log('Ticket transferred successfully:', response?.data);
         onClose();
       } catch (error) {
         console.log('ERROR ENCOUNTERED WHEN TRANSFERING TICKET TO SELECTED EMPLOYEE', error);
@@ -90,7 +99,7 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
     }
     
     useEffect(() => {
-      getTechnicians();
+      getEmployees();
     }, []);
 
   return (
@@ -104,14 +113,14 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1 header-text" htmlFor="solution">
-          Please select the Employee you wish to Transfer to:
+          Please select the employee you wish to Transfer to:
         </label>
         <select
             className="call-input"
             value={technician}
             onChange={(e) => setTechnician(e.target.value)}
             >
-              <option value="" className="header-text">Select customer</option>
+              <option value="" className="header-text">Select employee</option>
                 {allTechnicians?.map(({ ID, Technician }) =>
                   <option key={ID} value={Technician}>{Technician}</option>
                 )}

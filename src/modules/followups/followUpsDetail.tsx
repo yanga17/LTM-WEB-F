@@ -35,7 +35,7 @@ export const FollowUpsDetail= ({ onClose, followUpFn }: FollowUpsDetailProps) =>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Client Email</p>
-                            <p className="font-semibold text-md">{followUp.Email_Address || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{followUp.Email_Address || '--:--'}</p>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Support No</p>
