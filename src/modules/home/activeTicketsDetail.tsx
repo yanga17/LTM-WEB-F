@@ -133,7 +133,9 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 </div>
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
-                                    <p className="font-semibold text-md uppercase">{activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'}</p>
+                                    <p className="font-semibold text-md uppercase">
+                                        {activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'}
+                                    </p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>

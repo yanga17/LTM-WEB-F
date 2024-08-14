@@ -204,7 +204,9 @@ export const TicketsModule = () => {
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Customer.includes(':') ? Customer.split(':')[0].trim() : Customer || '--:--'}</td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
             <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
-            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Time ? new Date(Time).toLocaleString() : '--:--'}</td>
+            <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
+              {Time ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(Time)) : '--:--'}
+            </td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>
             <td className="text-center">
               <div className="flex gap-2">
