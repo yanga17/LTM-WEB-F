@@ -150,6 +150,22 @@ export const TicketsModule = () => {
       });
     }
 
+    function formatTimeWithTimeZone(timeString: any) {
+      // Assuming the database time is in UTC
+      const databaseTime = new Date(timeString);
+    
+      // Get the user's timezone offset in milliseconds
+      const userOffset = new Date().getTimezoneOffset() * 60000;
+    
+      // Convert database time to user's local time
+      const localTime = new Date(databaseTime.getTime() + userOffset);
+    
+      // Format the local time for display
+      const formattedTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(localTime);
+    
+      return formattedTime;
+    }
+
     if (loading) {
       return (
           <tr>
@@ -205,7 +221,8 @@ export const TicketsModule = () => {
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
             <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-              {Time ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(Time)) : '--:--'}
+              {/* {Time ? new Date(Time).toLocaleString() : '--:--'} */}
+              {Time ? formatTimeWithTimeZone(Time) : '--:--'}
             </td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>
             <td className="text-center">
