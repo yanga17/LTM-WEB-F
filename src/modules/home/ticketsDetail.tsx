@@ -49,15 +49,19 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         try {
             // const formattedStartTime = new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' ');
         // Manually format the date to YYYY-MM-DD HH:MM:SS
-        const dateObj = new Date(ticket.Time);
-        const year = dateObj.getFullYear();
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const hours = String(dateObj.getHours()).padStart(2, '0');
-        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-        const seconds = String(dateObj.getSeconds()).padStart(2, '0');
-        
-        const formattedStartTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        const inputTime = ticket.Time;
+        const date = new Date(inputTime); // Convert to Date object
+
+        // Extract year, month, day, hours, minutes, and seconds
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        // Format to 'YYYY-MM-DD HH:MM:SS'
+        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
             const payLoad = {
                 employee: ticket.Empl,
@@ -65,7 +69,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 activity: ticket.Problem,
                 phoneNumber: ticket.Phone_Number,
                 clientAnydesk: ticket.Clients_Anydesk,
-                startTime: formattedStartTime,
+                startTime: formattedDate,
                 type: ticket.Type,
                 supportNo: supportNo,
                 comments: ticket.Comments,

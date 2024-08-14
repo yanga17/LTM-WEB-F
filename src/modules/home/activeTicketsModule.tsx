@@ -154,7 +154,7 @@ export const ActiveTicketsModule = () => {
         const formattedTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(localTime);
       
         return formattedTime;
-      }
+    }
 
     useEffect(() => {
         generateUserTickets();
@@ -259,7 +259,8 @@ export const ActiveTicketsModule = () => {
         problem: property.Activity,
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
-        time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
+        // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
+        time: new Date(property.StartTime).toLocaleString(),
         endtime: property.EndTime,
         duration: property.Duration,
         type: property.Type,
@@ -282,6 +283,7 @@ export const ActiveTicketsModule = () => {
         problem: property.Activity,
         clAnydesk: property.Clients_Anydesk,
         phoneNumber: property.Phone_Number,
+        // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
         time: new Date(property.StartTime).toLocaleString(),
         endtime: property.EndTime,
         duration: property.Duration,
@@ -314,7 +316,9 @@ export const ActiveTicketsModule = () => {
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{customer || '--:--'}</td>
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{problem || '--:--'}</td>
                         <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{name || '--:--'}</td>
-                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{time || '--:--'}</td>  
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
+                            {time || '--:--'}
+                        </td>
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">

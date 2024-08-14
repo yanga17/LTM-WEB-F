@@ -49,6 +49,7 @@ export const TicketsModule = () => {
     const url = `tickets/getickets`
     const { data, loading, error } = useQuery<ResponseType>(url); 
     console.log("TICKETSMODULE DATA RETURNED", data)
+    
 
     const takeLoggedTicket = async (ticket: CheckProps) => {
       let customerData = ticket.Customer
@@ -62,27 +63,30 @@ export const TicketsModule = () => {
       console.log("SUPPORT DATA SUPPORT DATA SUPPORT DATA SUPPORT DATA", supportData)
 
 
+      const inputTime = ticket.Time;
+      const date = new Date(inputTime); // Convert to Date object
+
+      // Extract year, month, day, hours, minutes, and seconds
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      // Format to 'YYYY-MM-DD HH:MM:SS'
+      const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      //const nomarlize = new Date(ticket.Time).toLocaleString()
+
+
       try {
-        // const formattedStartTime = new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' ');
-        // Manually format the date to YYYY-MM-DD HH:MM:SS
-        const dateObj = new Date(ticket.Time);
-        const year = dateObj.getFullYear();
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const hours = String(dateObj.getHours()).padStart(2, '0');
-        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-        const seconds = String(dateObj.getSeconds()).padStart(2, '0');
-        
-        const formattedStartTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-
           const payLoad = {
               employee: user?.emp_name,
               customer: customerData,
               activity: ticket.Problem,
               phoneNumber: ticket.Phone_Number,
               clientAnydesk: ticket.Clients_Anydesk,
-              startTime: formattedStartTime,
+              startTime: formattedDate,
               type: ticket.Type,
               support_no: ticket.Support_No,
               comments: ticket.Comments,
@@ -107,7 +111,7 @@ export const TicketsModule = () => {
       try {
           //const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
           ///updateloggedticket/:callid
-          const url = `tickets//updateloggedticket/${callId}`;
+          const url = `tickets/updateloggedticket/${callId}`;
           const response = await axios.patch(`${apiEndPoint}/${url}`);
 
           console.log('Ticket updated successfully:', response.data);
@@ -221,8 +225,8 @@ export const TicketsModule = () => {
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
             <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-              {/* {Time ? new Date(Time).toLocaleString() : '--:--'} */}
-              {Time ? formatTimeWithTimeZone(Time) : '--:--'}
+              {Time ? new Date(Time).toLocaleString() : '--:--'}
+              {/* {Time ? formatTimeWithTimeZone(Time) : '--:--'} */}
             </td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>
             <td className="text-center">
