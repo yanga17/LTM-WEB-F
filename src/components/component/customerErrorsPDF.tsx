@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
-import { Page, Text, Document, StyleSheet, View } from '@react-pdf/renderer'
-import { CustomerErrorResponse } from '../../modules/reports/customerErrorsReport'
+import React from 'react';
+import { Page, Text, Document, StyleSheet, View, Image } from '@react-pdf/renderer';
+import { CustomerErrorResponse } from '../../modules/reports/customerErrorsReport';
+// import Image from 'next/image';
 
 const styles = StyleSheet.create({
   body: {
@@ -78,16 +79,18 @@ interface Props {
 }
 
 export const CustomerErrorsPDF = ({ data, starttime, endtime }: Props) => {
-
-  const startimeFormatted = new Date(starttime).toLocaleString();
-  const endTimeFormatted = new Date(endtime).toLocaleString();
+  const startimeFormatted = new Date(starttime).toString().split(' ').slice(1, 5).join(' ');
+  const endTimeFormatted = new Date(endtime).toString().split(' ').slice(1, 5).join(' ');
   
   return (
     <Document>
       <Page size="A4" style={styles.body}>
+        {/* <Image
+          src="/covers/legendSystems.png"
+          style={{ width: 50, height: 50, marginBottom: 5, }} // Adjust the style to fit within the PDF
+        /> */}
         <Text style={styles.header}>Common Customer Errors Report</Text>
-        <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
-        <img></img>
+        <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <View style={[styles.tableColCustomer, styles.tableColHeader]}>

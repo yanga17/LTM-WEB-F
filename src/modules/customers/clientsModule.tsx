@@ -373,7 +373,7 @@ export const ClientsModule = () => {
                                                 </tr>
                                                 {state.isOpen && state.expandView === uid && (
                                                     <tr>
-                                                        <td colSpan={9} className="p-0">
+                                                        <td colSpan={8} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
                                                                 <ClientsDetail onClose={ closeModal } />
                                                             </div>

@@ -9,7 +9,7 @@ import { CustomerErrorComponent } from "../../components/component/customerError
 import { CustomerCallsComponent } from "../../components/component/customerCallsBarChart";
 import { EmployeeTaskComponent } from "../../components/component/employeeTaskChart";
 import { ErrorChartComponent, EmptyChartComponent } from "../../components/component/error-chart-component";
-import { Filter, XIcon  } from "lucide-react";
+import { Filter, XIcon, X  } from "lucide-react";
 import { SummaryPieChart } from "@/components/component/ticketSummary-pie-chart";
 import { ClientsPieChart } from "@/components/component/clients-pie-chart";
 import { TasksPieChart } from "@/components/component/tasks-pie-chart";
@@ -148,57 +148,78 @@ export const DashboardModule = () => {
     //EMPLOYEEData - Chart
     const filterEmployeeBarChart = async () => {
         try {
+            const newStartTime = new Date(starttime); //change to required format
+            const newEndTime = new Date(endtime);
+
             setEmployeeSumErrorState(false);
-            const url = `dashboard/getempsummary/${starttime}/${endtime}`;
+            const url = `dashboard/getempsummary/${newStartTime}/${newEndTime}`;
             const response = await axios.get<EmployeeResponse>(`${apiEndPoint}/${url}`);
             setEmployeeData(response?.data);
 
             if (response.data.length === 0) {
                 setEmployeeEmptyChart(true);
+
+                toast.error('There is no available data between the selected date periods!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
             }
             
         } catch (error) {
             console.error('An error occurred while fetching reports:', error);
             setEmployeeSumErrorState(true);
+            noDataNotification();
         }
     }
 
     //CUSTOMERSDATA - Chart
     const filterCustomerErrorsChart = async () => {
         try {
+            const newStartTime = new Date(customerStartTime); //change to required format
+            const newEndTime = new Date(customerEndTime);
+            
             setCustomerErrorState(false)
-            const url = `dashboard/getcustomerdata/${customerStartTime}/${customerEndTime}`;
+            const url = `dashboard/getcustomerdata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<CustomerResponse>(`${apiEndPoint}/${url}`);
             setCustomerData(response?.data);
 
         } catch (error) {
             console.error('An error occurred while fetching reports:', error);
             setCustomerErrorState(true);
+            noDataNotification();
         }
     }
 
     const filterEmployeeTasksChart = async () => {
         try {
-            setEmployeeTaskErrorState(false)
-            const url = `dashboard/getemployeetasksdata/${employeeTaskStartTime}/${employeeTaskEndTime}`
+            const newStartTime = new Date(employeeTaskStartTime); //change to required format
+            const newEndTime = new Date(employeeTaskEndTime);
+
+            setEmployeeTaskErrorState(false);
+            const url = `dashboard/getemployeetasksdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeTasksResponse>(`${apiEndPoint}/${url}`);
             setEmployeeTasksData(response?.data)
         } catch (error) {
             console.error('An error occurred while Employee Tasks Data:', error);
             setEmployeeTaskErrorState(true)
+            noDataNotification();
         }
     }
 
     const filterCustomerCallChart = async () => {
         try {
+            const newStartTime = new Date(customerCallStartTime); //change to required format
+            const newEndTime = new Date(customerCallEndTime);
+
             setCustomerCallsErrorState(false);
-            const url = `dashboard/getcustomercalldata/${customerCallStartTime}/${customerCallEndTime}`
+            const url = `dashboard/getcustomercalldata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CustomerCallsResponse>(`${apiEndPoint}/${url}`);
             setCustomerCallsData(response?.data)
 
         } catch (error) {
             console.error('An error occurred while Customer Calls Data:', error);
             setCustomerCallsErrorState(true);
+            noDataNotification()
         }
     }
 
@@ -259,8 +280,11 @@ export const DashboardModule = () => {
     const getEmployeeWeeklyData = async () => {
         //http://localhost:4200/dashboard/getemployeeweeklydata/2024-07-10 06:48:55/2024-07-12 07:12:35
         try {
+            const newStartTime = new Date(employeeWeeklyStartTime); //change to required format
+            const newEndTime = new Date(employeeWeeklyEndTime);
+
             setEmployeeWeeklyErrorState(false);
-            const url = `dashboard/getemployeeweeklydata/${employeeWeeklyStartTime}/${employeeWeeklyEndTime}`
+            const url = `dashboard/getemployeeweeklydata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeWeeklyResponse>(`${apiEndPoint}/${url}`);
             //setEmployeeWeeklyData(response?.data)
             const fetchedData = response.data;

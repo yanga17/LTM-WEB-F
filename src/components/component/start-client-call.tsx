@@ -1,8 +1,8 @@
 'use client'
 
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button"
-import * as React from "react"
+import { Button } from "@/components/ui/button";
+import * as React from "react";
 import {useState, useEffect} from 'react'
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { CheckProps } from '@/modules/home/ticketsModule';
 import { XIcon, Check } from 'lucide-react';
 import { ClientResponseType } from '@/modules/customers/clientsModule';
 import { ClientProps } from '@/modules/customers/clientsModule';
+import { format } from "date-fns";
 
 interface Props {
     onClose: () => void;
@@ -254,34 +255,7 @@ export function StartClientCall({ onClose, data }: Props) {
             supportNo = customerArray[1].trim();
         }
 
-        // Get the current time in MySQL format
-        const now = new Date();
-        const dateTime = now.getFullYear() + '-' + 
-            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-            String(now.getDate()).padStart(2, '0') + ' ' + 
-            String(now.getHours()).padStart(2, '0') + ':' + 
-            String(now.getMinutes()).padStart(2, '0') + ':' + 
-            String(now.getSeconds()).padStart(2, '0');
-    
-        //property names should be exactly like the ones declared in the backend routes
-        //customer, problem, phoneNumber, clientsAnydesk, name, email_address, support_no, empl, 
-        //logger, comments, priority, issueType, type
-        const ticketData = {
-            customer: customer,
-            problem: problem,
-            // time: dateTime,
-            phoneNumber: phonenumber,
-            clientsAnydesk: anydesk,
-            name: clientName,
-            email_address: emailAdd,
-            support_no: supportNo,
-            empl: employee,
-            logger: user ? `${user.emp_name}` : null,
-            comments: comments,
-            priority: priority, 
-            issueType: issueType, 
-            type: type,
-        };
+        
     
         try {
     
@@ -311,28 +285,50 @@ export function StartClientCall({ onClose, data }: Props) {
                 return;
               }
           }
-    
-          const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
-          console.log('Ticket submitted successfully:', response.data);
-          logSuccessNotification();
 
-          //Reset form fields
-          setCustomer("");
-          setProblem("");
-          setPhoneNumber("");
-          setClientName("");
-          setEmailAdd("");
-          setAnydesk("");
-          setType("");
-          setEmployee("");
-          setPriority("");
-          setComments("");
+            //insert new Date with new format
+            const ticketDate = format(
+                new Date(),
+                "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+            );
+        
+            const ticketData = {
+                customer: customerData,
+                problem: problem,
+                time: ticketDate,
+                phoneNumber: phonenumber,
+                clientsAnydesk: anydesk,
+                name: clientName,
+                email_address: emailAdd,
+                support_no: supportNo,
+                empl: employee,
+                logger: user ? `${user.emp_name}` : null,
+                comments: comments,
+                priority: priority, 
+                issueType: issueType, 
+                type: type,
+            };
     
-          onClose();
+            const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
+            console.log('Ticket submitted successfully:', response.data);
+            logSuccessNotification();
+
+            //Reset form fields
+            setCustomer("");
+            setProblem("");
+            setPhoneNumber("");
+            setClientName("");
+            setEmailAdd("");
+            setAnydesk("");
+            setType("");
+            setEmployee("");
+            setPriority("");
+            setComments("");
+    
+            onClose();
         } catch (error) {
-          
-          console.error('Error submitting ticket:', error);
-          logErrorNotification();
+            console.error('Error submitting ticket:', error);
+            logErrorNotification();
         }
     };
 

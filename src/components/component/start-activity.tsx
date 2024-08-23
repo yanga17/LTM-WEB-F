@@ -10,6 +10,7 @@ import axios from 'axios';
 import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox"
 import { useSession } from '@/context';
+import { format } from "date-fns";
 
 
 interface Props {
@@ -238,6 +239,11 @@ export function StartActivity({ onClose }: Props) {
                 return;
               }
           }
+
+          const ticketDate = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+          );
     
           const payLoad = {
             employee: employee,
@@ -245,6 +251,7 @@ export function StartActivity({ onClose }: Props) {
             activity: problem,
             phoneNumber: phonenumber,
             clientsAnydesk: anydesk,
+            startTime: ticketDate,
             type: type,
             supportNumber: supportNo,
             comments: comments,

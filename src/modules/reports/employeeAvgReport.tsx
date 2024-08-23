@@ -38,12 +38,15 @@ export const EmployeeAvgReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeAvgResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['Call ID', 'Employee', 'Average Time Per Ticket', 'Total Tickets']
+    const headers = ['No.', 'Employee', 'Average Time Per Ticket', 'Total Tickets']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const filterEmployeeAvgReport = async () => {
         try {
-            const url = `reports/getemployeeavgdata/${startTime}/${endTime}`
+            const newStartTime = new Date(startTime); //change to required format
+            const newEndTime = new Date(endTime);
+
+            const url = `reports/getemployeeavgdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeAvgResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 
@@ -159,7 +162,7 @@ export const EmployeeAvgReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto mb-6">
+        <div className="h-screen overflow-y-scroll mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="header-text">Start Date:</label>
@@ -205,8 +208,8 @@ export const EmployeeAvgReport = () => {
             </div>
             
             {filteredData?.map(({ ID, Employee, EmployeeCount, AvgTimePerTicket, TotalTickets, MinStartTime, MaxEndTime, TotalAllEmpTickets }, index) => (
-                <div key={ID} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{ID}</p>
+                <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{TotalTickets}</p>

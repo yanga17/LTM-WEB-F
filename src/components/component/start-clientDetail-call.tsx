@@ -12,6 +12,7 @@ import { useSession } from '@/context';
 import { CheckProps } from '@/modules/home/ticketsModule';
 import { XIcon, Check } from 'lucide-react';
 import { ClientProps } from '@/modules/customers/clientsModule';
+import { format } from "date-fns";
 
 interface Props {
     onClose: () => void;
@@ -244,41 +245,12 @@ export function StartClientDetailCall({ onClose, client }: Props) {
         let supportNo;
     
         if (customer.includes(",")) {
-          const customerArray = customer.split(",");
-          customerData = customerArray[0].trim();
-          supportNo = customerArray[1].trim();
+            const customerArray = customer.split(",");
+            customerData = customerArray[0].trim();
+            supportNo = customerArray[1].trim();
         }
-
-            // Get the current time in MySQL format
-        const now = new Date();
-        const dateTime = now.getFullYear() + '-' + 
-            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-            String(now.getDate()).padStart(2, '0') + ' ' + 
-            String(now.getHours()).padStart(2, '0') + ':' + 
-            String(now.getMinutes()).padStart(2, '0') + ':' + 
-            String(now.getSeconds()).padStart(2, '0');
-    
-        //property names should be exactly like the ones declared in the backend routes
-        const ticketData = {
-            customer: customer,
-            problem: problem,
-            time: dateTime,
-            phoneNumber: phonenumber,
-            clientsAnydesk: anydesk,
-            name: clientName,
-            email_address: emailAdd,
-            support_no: supportNo,
-            empl: employee,
-            logger: user ? `${user.emp_name}` : null,
-            comments: comments,
-            priority: priority, 
-            issueType: issueType, 
-            type: type,
-        };
     
         try {
-    
-          //values notEntered
           const fields = [
             { value: customer, message: 'Please select a client.' },
             { value: problem, message: 'Please select a problem.' },
@@ -304,6 +276,30 @@ export function StartClientDetailCall({ onClose, client }: Props) {
                 return;
               }
           }
+
+          //insert new Date with new format
+        const ticketDate = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+        );
+    
+        //property names should be exactly like the ones declared in the backend routes
+        const ticketData = {
+            customer: customerData,
+            problem: problem,
+            time: ticketDate,
+            phoneNumber: phonenumber,
+            clientsAnydesk: anydesk,
+            name: clientName,
+            email_address: emailAdd,
+            support_no: supportNo,
+            empl: employee,
+            logger: user ? `${user.emp_name}` : null,
+            comments: comments,
+            priority: priority, 
+            issueType: issueType, 
+            type: type,
+        };
     
           const response = await axios.post(`${apiEndPoint}/tickets/insertcallticket`, ticketData);
           console.log('Ticket submitted successfully:', response.data);

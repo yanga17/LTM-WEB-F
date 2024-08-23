@@ -203,33 +203,33 @@ export function EditCall({ closeEdit, data }: Props) {
         if (!data) return;
     
         const { Customer, Support_No, Phone_Number, Problem, Name, Time, Empl, Email_Address, Clients_Anydesk, Priority, Comments, Type } = data;
-        console.log("EMIAL EMAIL EMAIL", Email_Address)
-    
-        // Convert client_name and problem to lowercase for case-insensitive matching
-        const lowerClientName = Customer.toLowerCase();
-        const lowerProblem = Problem.toLowerCase();
-    
+
+        // Convert client_name to lowercase for case-insensitive matching
+        //const lowerClientName = client_name.toLowerCase();
+        const lowerClientName = Customer.trim().toLowerCase();
+        const lowerProblem = Problem.trim().toLowerCase();
+
         // Extract Customer names
-        const customerNames = allCustomers.map(customerObj => ({
-            original: customerObj.Customer,
-            lower: customerObj.Customer.toLowerCase()
-        }));
+        const customerNames = allCustomers.map(customerObj => customerObj.Customer);
         console.log("NEW CUSTOMER NAMES NEW CUSTOMER NAMES", customerNames);
-    
+
         // Find matching customer from allCustomers
-        const matchedCustomer = customerNames.find(customerObj => {
-            //const [name, legNum] = customerObj.original.split(',');
-            const  [name, legNum] = customerObj.original.split(',' || '-');
-            return name.trim().toLowerCase() === lowerClientName && legNum.trim() === Support_No;
+        const matchedCustomer = customerNames.find(customer => {
+            const [name, leg] = customer.split(',');
+            //return name.trim().toLowerCase() === lowerClientName && leg.trim() === LEG_num;
+            //return name.trim().toLowerCase() === lowerClientName;
+            return name.trim().toLowerCase() === lowerClientName;
         });
-    
+
         if (matchedCustomer) {
-            setCustomer(matchedCustomer.original);
-            toast.success("A MATCH WAS FOUND!!!");
-            console.log("A MATCHED CUSTOMER WAS FOUND: ", matchedCustomer.original);
+            setCustomer(matchedCustomer);
+            //toast.success("A MATCH WAS FOUND!!!");
+            console.log("MATCHED CUSTOMER MATCHED CUSTOMER MATCHED CUSTOMER MATCHED CUSTOMER: ", matchedCustomer);
         } else {
             setCustomer(Customer); // Set to client_name if no match found
             toast.error("NO MATCH WAS FOUND");
+            //console.log("NO MATCHED CUSTOMER: ", client_name);
+            console.log("LOWER CASE CUSTOMER LOWER CASE CUSTOMER: ", lowerClientName);
         }
     
         // Extract Problem names

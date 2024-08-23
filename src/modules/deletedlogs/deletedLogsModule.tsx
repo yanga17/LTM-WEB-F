@@ -1,17 +1,19 @@
 'use client'
 
-import * as React from "react"
-import {useState, useEffect} from 'react'
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
-import { createContext } from "react"
+import { createContext } from "react";
 import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { Undo2, Loader, Check, CircleSlash, Ellipsis, PanelTopOpen } from "lucide-react";
 import { EachDeletedTicketsModule } from './deletedLogsDetail';
-import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog'
+import { DeletedLogsDialog } from '@/components/component/deletedLogsDialog';
+import { format } from "date-fns";
+import { useSession } from '@/context';
 
 export interface DeletedProps {
     idx: number,
@@ -44,6 +46,7 @@ export const DeletedLogsModule = () => {
 
     const [currentOpen, setCurrentOpen] = useState('');
     const [viewticket, setViewTicket] = useState<DeletedProps | null>(null); 
+    const { user } = useSession();
 
     const [state, setState] = useState({
         isOpen: true,
@@ -72,14 +75,22 @@ export const DeletedLogsModule = () => {
       }
 
       try {
+        const takenValue = 0; //loggedticket to appear
+
+        const ticketDate = format(
+            new Date(ticket.Start_Time),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+          ); //new date-time format
+
         const payLoad = {
           customer: customerData,
           problem: ticket.Problem,
           phoneNo: ticket.Phone_Number,
-          starttime: new Date(ticket.Start_Time).toISOString().slice(0, 19).replace('T', ' '),
+          starttime: ticketDate,
           emp: ticket.Employee,
           clientname: ticket.Client_Name,
-          Supportnumber: supportNo,
+          taken: takenValue,
+          supportnumber: supportNo,
           priority: ticket.Priority,
           issueType: ticket.IssueType,
           type: ticket.Type,
@@ -334,11 +345,13 @@ export const DeletedLogsModule = () => {
         )
         : data; 
 
+    const { role } = user
+
     return (
         <>
         <DeletedLogsContext.Provider value={viewticket}>
         <div className="pg-background">
-            <div className="h-screen w-full overflow-auto">
+            <div className="h-screen w-full overflow-y-auto">
             <header className="text-gray-50 px-5 py-0 mt-4 flex items-center justify-between">
                 <DeletedLogsDialog />
                     <div className="flex items-center">
@@ -391,7 +404,7 @@ export const DeletedLogsModule = () => {
                                                             <button className="view" onClick={() => { openModal(idx)}}>
                                                                 <Ellipsis size={18} strokeWidth={2} />
                                                             </button>
-                                                            <button className="cancel"
+                                                            <button disabled={role === 'Technician'} className={`cancel ${role === 'Technician' ? 'cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700'}`}
                                                                 onClick={() => {
                                                                 const selectedTicket = data?.find(t => t.idx === idx);
                                                                 if (selectedTicket) {
@@ -408,7 +421,7 @@ export const DeletedLogsModule = () => {
                                                 </tr>
                                                 {state.isOpen && state.expandView === idx && (
                                                     <tr>
-                                                        <td colSpan={9} className="p-0">
+                                                        <td colSpan={7} className="p-0">
                                                             <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
                                                                 <EachDeletedTicketsModule onClose={closeModal} />
                                                             </div>

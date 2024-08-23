@@ -14,7 +14,7 @@ import { CallHistoryPDF } from '../../components/component/customerCallHistoryPD
 import { Button } from "@/components/ui/button"
 import { Expand } from "lucide-react";
 import { PDFViewer } from '@react-pdf/renderer';
-import { X, Minimize2, Check } from "lucide-react";
+import { X, Minimize2, Check, FileText, Filter } from "lucide-react";
 
 interface CallHistoryProps {
     ID: number,
@@ -113,9 +113,13 @@ export const ReportsModule = () => {
 
     const filterCallHistoryReportEmp = async () => {
         try {
-            const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
+            const newStartTime = new Date(clHistoryStartTime); //change to required format
+            const newEndTime = new Date(clHistoryEndTime);
+
+            const url = `reports/getclienthistorydata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
+            console.log("url: " + url);
 
             if (fetchedData.length === 0) {
                 toast.error('There is no available data between the selected date periods!', {
@@ -285,7 +289,7 @@ export const ReportsModule = () => {
             </div>
         )}
         <div className="h-screen overflow-y-scroll report-background scrollable-area">
-            <div className="w-full p-2 hidden lg:flex items-center justify-center md:justify-start gap-2 md:gap-4 flex-wrap dark:report-button">
+            <div className="w-full p-2 sm:flex justify-start md:gap-2 flex-wrap md:flex justify-start md:gap-4 flex-wrap lg:flex items-center justify-start dark:report-button">
                 <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple text-white' : 'report-button dark:text-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
                 <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple text-white' : 'report-button'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>
                 <button onClick={() => setCurrentReport('CustomerCalls')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CustomerCalls'? 'bg-purple text-white' : 'report-button'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Customer Calls</button>
@@ -318,15 +322,17 @@ export const ReportsModule = () => {
                 </select>
                 </div>
                 <div className="flex-grow"></div>
-                <div className="flex items-center gap-4 mt-6 mr-2">
+                <div className="flex items-center gap-4 mt-8 mr-2 sm:pl-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterCallHistoryReportEmp } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterCallHistoryReportEmp } className="start-call font-medium gap-1">
                             Filter
+                            <Filter size={18} strokeWidth={2} />
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="start-call font-medium gap-1">
                             View PDF
+                            <FileText size={18} strokeWidth={2} />
                         </button>
                     </div>
                 </div>
@@ -340,10 +346,10 @@ export const ReportsModule = () => {
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase text-purple">{ID || '--:--'}</p>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Customer || '--:--'}</p>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Activity || '--:--'}</p>
-                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
-                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
-                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase">{Duration || '--:--'}</p>
-                        <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{StartTime ? `${new Date(StartTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{EndTime ? `${new Date(EndTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Duration || '--:--'}</p>
+                        <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase ${IssueType === 'Task' ? 'text-green' : IssueType === 'Problem' ? 'text-red' : 'report-text'}`}>{IssueType || '--:--'}</p>
                         <Expand onClick={() => { openReport(ID)}} className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center hover:cursor-pointer z-10" />
                     </div>
                     <div>
@@ -364,7 +370,7 @@ export const ReportsModule = () => {
                                     </div>
                                     <div className='mt-4'>
                                         <p className="font-medium reportdetail-headertext text-md">IssueType</p>
-                                        <p className={`font-semibold text-md ${IssueType === 'Task' ? 'text-green' : 'text-red'}`}>{IssueType || '--:--'}</p>
+                                        <p className={`font-semibold text-md uppercase ${IssueType === 'Task' ? 'text-green' : IssueType === 'Problem' ? 'text-red' : 'report-text'}`}>{IssueType || '--:--'}</p>
                                     </div>
                                     <div className="mt-4">
                                         <p className="font-medium reportdetail-headertext text-md">Solution</p>
@@ -382,11 +388,11 @@ export const ReportsModule = () => {
                                     </div>
                                     <div className="mb-4">
                                         <p className="font-medium reportdetail-headertext text-md">Start Time</p>
-                                        <p className="font-semibold text-md uppercase report-text">{new Date(StartTime.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                        <p className="font-semibold text-md uppercase report-text">{StartTime ? `${new Date(StartTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
                                     </div>
                                     <div>
                                         <p className="font-medium reportdetail-headertext text-md">End Time</p>
-                                        <p className="font-semibold text-md uppercase report-text">{new Date(EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString()  || '--:--'}</p>
+                                        <p className="font-semibold text-md uppercase report-text">{EndTime ? `${new Date(EndTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
                                     </div>
                                 </div>
                                 <div className="w-1/3">

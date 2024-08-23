@@ -1,15 +1,16 @@
 'use client'
 
-import * as React from "react"
-import {useState, useEffect, createContext } from 'react'
+import * as React from "react";
+import {useState, useEffect, createContext } from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import { EachTicketsModule } from "./ticketsDetail";
 import { Loader, CircleSlash2, CircleSlash, Check, PhoneOutgoing, Ellipsis, PanelTopOpen } from "lucide-react";
 import { useSession } from '@/context';
+import { format } from "date-fns";
 
 //interface for all tickets - tblcalls
 export interface CheckProps {
@@ -62,23 +63,6 @@ export const TicketsModule = () => {
       }
       console.log("SUPPORT DATA SUPPORT DATA SUPPORT DATA SUPPORT DATA", supportData)
 
-
-      const inputTime = ticket.Time;
-      const date = new Date(inputTime); // Convert to Date object
-      console.log("MY DATE MY DATE ,Y DATE MY DATE MY DATE", date)
-    
-      // Extract year, month, day, hours, minutes, and seconds
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-    
-      // Format to 'YYYY-MM-DD HH:MM:SS'
-      const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-
       try {
           const payLoad = {
               employee: user?.emp_name,
@@ -86,7 +70,7 @@ export const TicketsModule = () => {
               activity: ticket.Problem,
               phoneNumber: ticket.Phone_Number,
               clientAnydesk: ticket.Clients_Anydesk,
-              startTime: formattedDate,
+              startTime: ticket.Time,
               type: ticket.Type,
               support_no: ticket.Support_No,
               comments: ticket.Comments,
@@ -109,9 +93,14 @@ export const TicketsModule = () => {
 
     const updateTakenTicket = async (callId: number) => {
       try {
-          //const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
-          ///updateloggedticket/:callid
-          const url = `tickets/updateloggedticket/${callId}`;
+          //new route
+          ///updateloggedticket/:endtime/:callid
+          const ticketDate = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+          );
+
+          const url = `tickets/updateloggedticket/${ticketDate}/${callId}`;
           const response = await axios.patch(`${apiEndPoint}/${url}`);
 
           console.log('Ticket updated successfully:', response.data);
@@ -209,7 +198,6 @@ export const TicketsModule = () => {
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Problem || '--:--'}</td>
             <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-              {/* {Time ? `${ new Date(Time) }`:  '--:--'} */}
               {Time ? `${new Date(Time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
             </td>
             <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Empl || '--:--'}</td>

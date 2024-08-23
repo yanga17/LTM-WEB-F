@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from '@/context';
 import { XIcon } from "lucide-react";
 import { X, Check  } from "lucide-react";
+import { format } from "date-fns";
 
 interface Props {
   onClose: () => void;
@@ -150,7 +151,7 @@ export function StartCall({ onClose}: Props) {
       const url = `tickets/getemployees`
       const response = await axios.get<EmployeeType>(`${apiEndPoint}/${url}`);
   
-      setAllEmployees(response.data)
+      setAllEmployees(response?.data)
   
       if (response.data.length === 0) {
         toast.error(`No data available for problem types.`, {
@@ -202,15 +203,7 @@ export function StartCall({ onClose}: Props) {
       customerData = customerArray[0].trim();
       supportNo = customerArray[1].trim();
     }
-
-    // Get the current time in MySQL format
-    const now = new Date();
-    const dateTime = now.getFullYear() + '-' + 
-        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-        String(now.getDate()).padStart(2, '0') + ' ' + 
-        String(now.getHours()).padStart(2, '0') + ':' + 
-        String(now.getMinutes()).padStart(2, '0') + ':' + 
-        String(now.getSeconds()).padStart(2, '0');
+    
 
     try {
       const fields = [
@@ -240,12 +233,18 @@ export function StartCall({ onClose}: Props) {
           }
       }
 
+      const ticketDate = format(
+        new Date(),
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+      );
+
       const payLoad = {
         employee: employee,
         customer: customerData,
         activity: problem,
         phoneNumber: phonenumber,
         clientsAnydesk: anydesk,
+        startTime: ticketDate,
         type: type,
         supportNumber: supportNo,
         comments: comments,
@@ -256,7 +255,7 @@ export function StartCall({ onClose}: Props) {
       };
 
       const response = await axios.post<TakeCallType>(`${apiEndPoint}/tickets/insertactiveticket`, payLoad);
-      console.log('TAKE CALL BUTTON WORKS!!!!!!!!!!:', response.data);
+      console.log('Take Call:', response.data);
       onClose();
       TakeCallNotification();
   
@@ -325,20 +324,20 @@ export function StartCall({ onClose}: Props) {
     console.log("SUPPORT SUPPORT SUPPORT: " + supportNo)
 
     // Get the current time in MySQL format
-    const now = new Date();
-    const dateTime = now.getFullYear() + '-' + 
-        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-        String(now.getDate()).padStart(2, '0') + ' ' + 
-        String(now.getHours()).padStart(2, '0') + ':' + 
-        String(now.getMinutes()).padStart(2, '0') + ':' + 
-        String(now.getSeconds()).padStart(2, '0');
+    // const now = new Date();-
+
+    //insert new Date with new format
+    const ticketDate = format(
+      new Date(),
+      "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+    );
+
 
     //property names should be exactly like the ones declared in the backend routes
-    //time
     const ticketData = {
       customer: customerData,
       problem: problem,
-      // time: dateTime,
+      time: ticketDate,
       phoneNumber: phonenumber,
       clientsAnydesk: anydesk,
       name: clientName,

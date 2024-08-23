@@ -33,7 +33,7 @@ export const ClientsDetail = ({ onClose }: ClientDetailProps) => {
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 text-md">Nr</p>
-                            <p className="font-semibold text-md">{client.uid || 'N/A'}</p>
+                            <p className="font-semibold text-md text-purple">{client.uid || 'N/A'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Number 1</p>

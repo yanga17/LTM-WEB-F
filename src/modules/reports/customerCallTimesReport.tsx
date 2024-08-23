@@ -22,8 +22,8 @@ export type CallTimesResponse = CustomerCallTimesProps[]
 interface CustomerProps {
     uid: number;
     Customer: any;
-  }
-  type CustomerType = CustomerProps[]
+}
+type CustomerType = CustomerProps[]
 
 export const CustomerCallTimesReport = () => {
     const [startTime, setStartTime] = useState('');
@@ -42,12 +42,19 @@ export const CustomerCallTimesReport = () => {
         return customerName.split(',')[0].trim().toLocaleLowerCase();
     };
 
-
     const filterCallHistoryReport = async () => {
         try {
-            const url = `reports/getcalltimesdata/${startTime}/${endTime}`
+            //http://localhost:4200/reports/getcalltimesdata/Mon Aug 05 2024 07:00:01 GMT+02:00/Thu Aug 15 2024 12:32:53 GMT+02:00
+            const newStartTime = new Date(startTime); //change to required format
+            const newEndTime = new Date(endTime);
+
+            console.log("start time: " + newStartTime);
+            console.log("end time: " + newEndTime);
+
+            const url = `reports/getcalltimesdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CallTimesResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
+            console.log("url: " + url);
 
             if (fetchedData.length === 0) {
                 toast.error('There is no available data between the selected date periods!', {
@@ -140,7 +147,7 @@ export const CustomerCallTimesReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto">
+        <div className="h-screen overflow-y-scroll mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="header-text">Start Date:</label>
@@ -185,7 +192,7 @@ export const CustomerCallTimesReport = () => {
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Customer}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{CallCount}</p>
                     <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center">{AverageTime}</p>
-                    <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center text-overflow truncate ${TotalHours.includes('Min') ? 'text-green' : TotalHours.includes('Hours') ? 'text-red' : ''}`}>
+                    <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center">
                         {TotalHours}
                     </p>
                 </div>

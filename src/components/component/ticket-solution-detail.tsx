@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { format } from "date-fns";
 
 interface TicketSolutionProps {
   callId: number;
@@ -65,12 +66,19 @@ export function TicketSolutionDetail({ callId, onClose }: TicketSolutionProps ){
       try {
         const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${newNumberOfDays}/${newFollowUp}/${newCompleted}/${callId}`
         const updatedSolution = await axios.patch<TicketSolutionProps>(`${apiEndPoint}/${ticketSolutionurl}`);
+        console.log("Ticket-Solution-Detail has successfully ended the ticket:", updatedSolution)
         
         await insertfollowup();
         console.log("called the insert followup function")
 
+        const ticketDate = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+        );
 
-        const endurl = `tickets/endticket/${callId}`
+        //'/endticketdetail/:endtime/:callid'
+        // const endurl = `tickets/endticket/${callId}`
+        const endurl = `tickets/endticketdetail/${ticketDate}/${callId}`;
         const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
         toast.success('Ticket Has been ended successfully');
         onClose();
