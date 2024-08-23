@@ -48,9 +48,19 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
     const [checkStatus, setCheckStatus] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null); // New ref for textarea
 
-    const handleCheckStatus = (event: any) => {
-      setCheckStatus(event.target.checked);
+    const handleCheckStatus = () => {
+      setCheckStatus((prevStatus) => !prevStatus);
     }
+
+    useEffect(() => {
+      if (checkStatus === true) {
+          setFollowUp(1);
+          setNumberOfDays(numberofdays);
+      } else {
+          setFollowUp(0);
+      }
+          console.log("MY CHECKSTATUS TEXT:", checkStatus)
+  }, [checkStatus])
 
     const saveSolution = async () => { 
       if (solution.trim() === '') {
@@ -59,11 +69,12 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
       }
 
       const newNumberOfDays = numberofdays > 0 ? numberofdays : 0;
-      const newFollowUp = numberofdays > 0 ? 1 : 0;
+      const followup = checkStatus ? 1 : 0;
       const newCompleted = 1;
+      console.log("FOLLOW UP FOLLOW UP", followup)
 
       try {
-        const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${newNumberOfDays}/${newFollowUp}/${newCompleted}/${callId}`
+        const ticketSolutionurl = `tickets/updateactivesolution/${solution}/${newNumberOfDays}/${followup}/${newCompleted}/${callId}`
         const updatedSolution = await axios.patch<TicketSolutionProps>(`${apiEndPoint}/${ticketSolutionurl}`);
         toast.success('Ticket has been ended successfully.');
         
@@ -90,10 +101,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
         const newNumberOfDays = numberofdays > 0 ? numberofdays : 0;
         const newFollowUp = numberofdays > 0 ? 1 : 0;
         const newCompleted = 1;
-
-        const currentDate = new Date().toISOString().slice(0, 10); 
-        const currentTime = new Date().toISOString().slice(11, 19); 
-        const dateTime = currentDate + ' ' + currentTime;
+        
   
         if (!ticketData) {
           throw new Error('No ticket data found');
@@ -108,8 +116,8 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
           activity: ticketData.Activity,
           clientsAnydesk: ticketData.Clients_Anydesk,
           phoneNumber: ticketData.Phone_Number,
-          startTime: new Date(ticketData.StartTime).toISOString().slice(0, 19).replace('T', ' '),
-          endTime: new Date(ticketData.EndTime).toISOString().slice(0, 19).replace('T', ' '),
+          startTime: ticketData.StartTime,
+          endTime: ticketData.EndTime,
           duration: ticketData.Duration,
           type: ticketData.Type,
           solution: ticketData.Solution,
@@ -163,7 +171,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
         />
       </div>
       <div className="flex items-center mb-4">
-        <Checkbox id="follow-up" onClick={handleCheckStatus}/>
+        <Checkbox id="follow-up" onClick={ handleCheckStatus }/>
         <label className="ml-2 text-sm header-text" htmlFor="follow-up">
           Require Follow Up
         </label>
@@ -176,6 +184,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
           <select
             className="days-input"
             id="number-of-days"
+            value={ numberofdays }
             onChange={(e) => setNumberOfDays(parseInt(e.target.value))}
           >
             <option value="1">1</option>

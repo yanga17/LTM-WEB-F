@@ -47,7 +47,10 @@ export const EmployeeSummaryReport = () => {
 
     const filterEmployeeAvgReport = async () => {
         try {
-            const url = `reports/getemployeeummarydata/${startTime}/${endTime}`
+            const newStartTime = new Date(startTime); //change to required format
+            const newEndTime = new Date(endTime);
+
+            const url = `reports/getemployeeummarydata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeSumResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 
@@ -163,7 +166,7 @@ export const EmployeeSummaryReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto mb-6">
+        <div className="h-screen  overflow-y-scroll mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="dash-text">Start Date:</label>
@@ -209,8 +212,8 @@ export const EmployeeSummaryReport = () => {
             </div>
             
             {filteredData?.map(({ ID, Employee, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, OverallTotal }, index) => (
-                <div key={ID} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{ID}</p>
+                <div key={index + 1} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                    <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Monday}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Tuesday}</p>

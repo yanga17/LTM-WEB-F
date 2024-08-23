@@ -1,17 +1,17 @@
 'use client'
 
 import * as React from "react"
-import {useState, useEffect, createContext } from 'react'
+import {useState, useEffect, createContext } from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
-import { Button } from "@/components/ui/button"
 import { EachActiveTicketsModule } from "./activeTicketsDetail";
 import { TicketSolution } from "@/components/component/ticket-solution";
 import { TicketTransfer } from "@/components/component/ticket-transfer";
 import { Loader, CircleSlash, PhoneOff, PanelTopOpen, Ellipsis } from "lucide-react";
 import { useSession } from "@/context";
+import { format } from "date-fns";
 
 export interface ActiveProps {
     ID: number,
@@ -42,8 +42,6 @@ export type ActiveResponseType = ActiveProps[]
 
 export const ActiveTicketsContext = createContext<ActiveProps | null>(null);
 
-const Admin = ['Markus', 'Kats', 'Manny', 'Morne', 'Stefan', 'Brandon Nhlanhla', 'Admin', 'Yanga']
-
 export const ActiveTicketsModule = () => {
     const { user } = useSession();
 
@@ -70,10 +68,15 @@ export const ActiveTicketsModule = () => {
     const { data, loading, error } = useQuery<ActiveResponseType>(url);
 
     
-    const endTicket = async (currentemployee: string, callid: number) => {
+    const endTicket = async (callid: number) => {
         try {
+            ///endticket/:endtime/:callid
+            const ticketDate = format(
+                new Date(),
+                "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+            );
 
-            const endurl = `tickets/endticket/${currentemployee}/${callid}`;
+            const endurl = `tickets/endticket/${ticketDate}/${callid}`;
             const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
             //setViewTicket(response.data);
 
@@ -94,13 +97,14 @@ export const ActiveTicketsModule = () => {
     }
 
     const generateUserTickets = async () => {
-        //http://localhost:4200/tickets/getactiveusertickets/Yanga
+        //http://localhost:4200/tickets/getactiveusertickets/Robin
         setLoadingUserTickets(true)
         try {
             const userUrl = `tickets/getactiveusertickets/${user?.emp_name}`
             const response = await axios.get<ActiveResponseType>(`${apiEndPoint}/${userUrl}`);
             setUserTickets(response?.data)
             console.log('User Active Tickets Returned:', response.data)
+            //toast.success("USER ACTIVE TICKETS HAS BEEN RETURNED SUCCESSFULLY!!");
         } catch (error) {
             console.log('An error occurred while fetching User Active Tickets:', error);
             setErrorUserTickets(true);
@@ -140,34 +144,22 @@ export const ActiveTicketsModule = () => {
         setTransferPopUp(!transferPopUp);
     }
 
-    function formatTimeWithTimeZone(timeString: any) {
-        // Assuming the database time is in UTC
-        const databaseTime = new Date(timeString);
-      
-        // Get the user's timezone offset in milliseconds
-        const userOffset = new Date().getTimezoneOffset() * 60000;
-      
-        // Convert database time to user's local time
-        const localTime = new Date(databaseTime.getTime() + userOffset);
-      
-        // Format the local time for display
-        const formattedTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(localTime);
-      
-        return formattedTime;
-    }
-
     useEffect(() => {
-        const interval = setInterval(() => {
-            generateUserTickets();
-        }, 1200000); //2min
-
-        return () => clearInterval(interval); 
+        generateUserTickets();
     }, []);
 
-    const loggedInUser = Admin.includes(user?.emp_name ?? '');
+    // Decide which tickets to display based on the user's role
+    const ticketsToDisplay = user?.role === "Admin" ? data : userTickets;
+
+    // Map and transform tickets for display, including necessary formatting
+    const transformedTickets = ticketsToDisplay?.map((ticket) => ({
+        ...ticket,
+        Customer: ticket.Customer.includes(':') ? ticket.Customer.split(':')[0].trim() : ticket.Customer,
+        StartTime: new Date(ticket.StartTime).toString().split(' ').slice(1, 5).join(' ')
+    }));
     
     //AllTicketsLoadingData State
-    if (loading) {
+    if (loading || loadingUserTickets) {
         return (
             <tr>
                 <td colSpan={7} className="h-[150px]">
@@ -180,22 +172,9 @@ export const ActiveTicketsModule = () => {
         );
     }
 
-    //userLoadingState
-    if (loadingUserTickets) {
-        return (
-            <tr>
-                <td colSpan={7} className="h-[150px]">
-                    <div className="flex flex-col items-center justify-center h-full w-full">
-                        <Loader className="h-12 w-12" />
-                        <p className="text-gray-500 text-lg mt-2 text-center uppercase">Loading data, Please be patient</p>
-                    </div>
-                </td>
-            </tr>
-        );
-    }
 
     //userErrorState
-    if (error) {
+    if (error || errorUserTickets) {
         return (
             <tr>
                 <td colSpan={7} className="h-[150px]">
@@ -208,101 +187,21 @@ export const ActiveTicketsModule = () => {
         );
     }
 
-    //userError State
-    if (!loggedInUser && errorUserTickets) {
+    if (transformedTickets?.length === 0) {
         return (
             <tr>
                 <td colSpan={7} className="h-[150px]">
                     <div className="flex flex-col items-center justify-center h-full w-full">
-                        <CircleSlash className="h-12 w-12" />
-                        <p className="text-red text-lg mt-2 text-center uppercase">An error was encountered when fetching tickets data, please refresh the page!</p>
+                        <PanelTopOpen className="h-12 w-12" />
+                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no active tickets being worked on</p>
                     </div>
                 </td>
             </tr>
         );
     }
 
-    //AllTicketsNoData State
-    if (data?.length === 0) {
-        return (
-        <>
-            <tr>
-                <td colSpan={7} className="h-[150px]">
-                    <div className="flex flex-col items-center justify-center h-full w-full">
-                        <PanelTopOpen className="h-12 w-12" />
-                        <p className="text-green text-lg mt-2 text-center uppercase">There are currently no user Active Tickets being worked on</p>
-                    </div>
-                </td>
-            </tr>
-        </>
-        )
-    }
+    console.log("USER ACTIVE TICKETS BELOW!!:", userTickets);
 
-    //userNoData State
-    if (!loggedInUser && userTickets?.length === 0) {
-        return (
-        <>
-            <tr>
-                <td colSpan={7} className="h-[150px]">
-                    <div className="flex flex-col items-center justify-center h-full w-full">
-                        <PanelTopOpen className="h-12 w-12" />
-                        <p className="text-green text-lg mt-2 text-center uppercase">there are currently no user active tickets being worked on</p>
-                    </div>
-                </td>
-            </tr>
-        </>
-        )
-    }
-
-    const activecheckInLog = data?.map((property) => ({
-        callid: property?.ID,
-        customer: property.Customer.includes(':') ? property.Customer.split(':')[0].trim() : property.Customer,
-        problem: property.Activity,
-        clAnydesk: property.Clients_Anydesk,
-        phoneNumber: property.Phone_Number,
-        // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
-        time: new Date(property.StartTime),
-        endtime: property.EndTime,
-        duration: property.Duration,
-        type: property.Type,
-        solution: property.Solution,
-        support_no: property.Support_No,
-        comments: property.Comments,
-        followup: property.FollowUp,
-        completed: property.Completed,
-        name: property.Name,
-        numberOfDays: property.number_of_days,
-        timetaken: property.Time_Taken,
-        issuetype: property.IssueType,
-        employee: property.Employee,
-        priority: property.Priority
-    }))
-
-    const userActiveTicketsLog = userTickets?.map((property) => ({
-        callid: property?.ID,
-        customer: property.Customer.includes(':') ? property.Customer.split(':')[0].trim() : property.Customer,
-        problem: property.Activity,
-        clAnydesk: property.Clients_Anydesk,
-        phoneNumber: property.Phone_Number,
-        // time: property.StartTime ? formatTimeWithTimeZone(property.StartTime) : '--:--',
-        time: new Date(property.StartTime),
-        endtime: property.EndTime,
-        duration: property.Duration,
-        type: property.Type,
-        solution: property.Solution,
-        support_no: property.Support_No,
-        comments: property.Comments,
-        followup: property.FollowUp,
-        completed: property.Completed,
-        name: property.Name,
-        numberOfDays: property.number_of_days,
-        timetaken: property.Time_Taken,
-        issuetype: property.IssueType,
-        employee: property.Employee,
-        priority: property.Priority
-    }))
-
-    const roleData = loggedInUser ? activecheckInLog : userActiveTicketsLog;
 
     return (
         <>
@@ -310,29 +209,29 @@ export const ActiveTicketsModule = () => {
             {transferPopUp && <TicketTransfer callId={transferid} onClose={toggleTransfer} />}
             {solutionPopup && <TicketSolution callId={solutionid} onClose={toggleSolution} />}
         
-            {roleData?.map(({ callid, customer, problem, name, time, employee, type, issuetype, phoneNumber }, index) => (
+            {transformedTickets?.map(({ ID, Customer, Activity, Name, StartTime, Employee, Type }, index) => (
                 <>
-                    <tr key={callid} className="border-b">
-                        <td className="px-2 sm:text-sm md:text-base">{callid || '--:--'}</td> 
-                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{customer || '--:--'}</td>
-                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{problem || '--:--'}</td>
-                        <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{name || '--:--'}</td>
+                    <tr key={ID} className="border-b">
+                        <td className="px-2 sm:text-sm md:text-base">{ID || '--:--'}</td> 
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Customer || '--:--'}</td>
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Activity || '--:--'}</td>
+                        <td className="p-2 hidden lg:table-cell whitespace-nowrap truncate uppercase">{Name || '--:--'}</td>
                         <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">
-                            {time ? `${new Date(time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
+                            {StartTime ? `${new Date(StartTime).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                         </td>
-                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{employee || '--:--'}</td>
+                        <td className="p-2 sm:text-sm md:text-base whitespace-nowrap truncate uppercase">{Employee || '--:--'}</td>
                         <td className="text-center">
                             <div className="flex gap-2">
-                                <button className="view" onClick={() => { openModal(callid)}}>
+                                <button className="view" onClick={() => { openModal(ID)}}>
                                     <Ellipsis size={18} strokeWidth={2} />
                                 </button>
-                                <button className="cancel" onClick={() => { endTicket( employee, callid)}}>
+                                <button className="cancel" onClick={() => { endTicket(ID)}}>
                                     <PhoneOff size={18} strokeWidth={2} />
                                 </button>
                             </div>
                         </td>
                     </tr>
-                    {state.isOpen && state.expandView === callid && (
+                    {state.isOpen && state.expandView === ID && (
                         <tr>
                             <td colSpan={6} className="p-0">
                                 <div className="justify-start w-full duration-500 ease-in-out transition-max-height">

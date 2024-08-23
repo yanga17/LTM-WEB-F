@@ -78,8 +78,8 @@ interface Props {
 }
 
 export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
-  const startimeFormatted = new Date(starttime).toLocaleString();
-  const endTimeFormatted = new Date(endtime).toLocaleString();
+  const startimeFormatted = new Date(starttime).toString().split(' ').slice(1, 5).join(' ');
+  const endTimeFormatted = new Date(endtime).toString().split(' ').slice(1, 5).join(' ');
   
   return (
     <Document>

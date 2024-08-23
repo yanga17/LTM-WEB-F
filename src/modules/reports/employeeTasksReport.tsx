@@ -21,8 +21,8 @@ export type EmployeeTaskResponse = EmployeeTaskProps[]
 interface EmployeeProps {
     ID: number;
     Technician: string;
-  }
-  type EmployeeType = EmployeeProps[]
+}
+type EmployeeType = EmployeeProps[]
 
 
 export const EmployeeTaskReport = () => {
@@ -41,7 +41,10 @@ export const EmployeeTaskReport = () => {
 
     const filterEmployeeTaskReport = async () => {
         try {
-            const url = `reports/getemployeetaskdata/${startTime}/${endTime}`
+            const newStartTime = new Date(startTime); //change to required format
+            const newEndTime = new Date(endTime);
+
+            const url = `reports/getemployeetaskdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeTaskResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 
@@ -157,7 +160,7 @@ export const EmployeeTaskReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto mb-6">
+        <div className="h-screen  overflow-y-scroll mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="dash-text">Start Date:</label>

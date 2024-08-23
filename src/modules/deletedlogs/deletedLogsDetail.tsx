@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
@@ -10,6 +10,8 @@ import { Undo2, Minimize2, Check  } from "lucide-react";
 import { useContext } from 'react'; 
 import { DeletedResponseType } from './deletedLogsModule';
 import { DeletedLogsContext } from './deletedLogsModule';
+import { format } from "date-fns";
+import { useSession } from '@/context';
 
 interface EachTicketsProps {
     onClose: () => void;
@@ -23,6 +25,7 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
     const [deletedData, setDeletedData] = useState<DeletedResponseType>([]);
     const [deletePopUp, setDeletePopUp] = useState(false);
     const [deletionId, setDeletionId] = useState(0);
+    const { user } = useSession();
 
     const deletedlog = useContext(DeletedLogsContext);
 
@@ -48,13 +51,22 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
       }
 
       try {
+        const takenValue = 0; //loggedticket to appear
+
+        const ticketDate = format(
+            new Date(deletedlog.Start_Time),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+          ); //new date-time format
+
+
         const payLoad = {
           customer: customerData,
           problem: deletedlog.Problem,
           phoneNo: deletedlog.Phone_Number,
-          starttime: new Date(deletedlog.Start_Time).toISOString().slice(0, 19).replace('T', ' '),
+          starttime: ticketDate,
           emp: deletedlog.Employee,
           clientname: deletedlog.Client_Name,
+          taken: takenValue,
           Supportnumber: supportNo,
           urgent: deletedlog.Priority,
           issueType: deletedlog.IssueType,
@@ -77,6 +89,8 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
         setDeletePopUp(!deletePopUp);
     }
 
+    const { role } = user
+
 
     return (
     <>
@@ -86,7 +100,7 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 text-md">Call ID</p>
-                            <p className="font-semibold text-md uppercase">{deletedlog.Call_ID}</p>
+                            <p className="font-semibold text-md text-purple uppercase">{deletedlog.Call_ID}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 text-md">Employee</p>
@@ -146,7 +160,7 @@ export const EachDeletedTicketsModule = ({ onClose }: EachTicketsProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5 gap-4">
-                        <button onClick={undoTicket} className="cancel-detail">
+                        <button onClick={undoTicket} disabled={role === 'Technician'} className={`cancel-detail ${role === 'Technician' ? 'cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700'}`}>
                             <span>Undo</span>
                             <Undo2 size={18} strokeWidth={2} className="ml-2" />
                         </button>

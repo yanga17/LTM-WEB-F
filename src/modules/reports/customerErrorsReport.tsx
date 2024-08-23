@@ -32,7 +32,10 @@ export const CustomerErrorsReport = () => {
 
     const filterCustomerErrorsReport = async () => {
         try {
-            const url = `reports/getcustomererrordata/${startTime}/${endTime}`
+            const newStartTime = new Date(startTime); //change to required format
+            const newEndTime = new Date(endTime);
+            
+            const url = `reports/getcustomererrordata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CustomerErrorResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 
@@ -198,7 +201,7 @@ export const CustomerErrorsReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-auto mb-6">
+        <div className="h-screen overflow-y-scroll mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="header-text">Start Date:</label>

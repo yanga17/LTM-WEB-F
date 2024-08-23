@@ -27,7 +27,7 @@ export const FollowUpsDetail= ({ onClose, followUpFn }: FollowUpsDetailProps) =>
                     <div className="w-1/3">
                         <div>
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Call ID</p>
-                            <p className="font-semibold text-md">{followUp.ID || '--:--'}</p>
+                            <p className="font-semibold text-md text-purple">{followUp.ID || '--:--'}</p>
                         </div>
                         <div className="mb-4 mt-4">
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Employee</p>
@@ -57,11 +57,11 @@ export const FollowUpsDetail= ({ onClose, followUpFn }: FollowUpsDetailProps) =>
                         </div>
                         <div className="mb-4">
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">Start Time</p>
-                            <p className="font-semibold text-md uppercase">{new Date(followUp.StartTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{followUp.StartTime ? `${new Date(followUp.StartTime).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}</p>
                         </div>
                         <div>
                             <p className="font-medium text-gray-500 sm:text-gray-500 text-md">End Time</p>
-                            <p className="font-semibold text-md uppercase">{new Date(followUp.EndTime?.slice(0, 19).replace('T', ' ')).toLocaleString() || '--:--'}</p>
+                            <p className="font-semibold text-md uppercase">{followUp.StartTime ? `${new Date(followUp.StartTime).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}</p>
                         </div>
                     </div>
                     <div className="w-1/3">

@@ -51,21 +51,10 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
 
     const endTicket = async (currentemployee: string, callid: number) => {
         try {
-
             setSolutionId(callid);
             setSolutionPopup(true);
-
-            // const endurl = `tickets/endticket/${currentemployee}/${callid}`
-            // const response = await axios.patch<ActiveResponseType>(`${apiEndPoint}/${endurl}`);
-            //setViewedTicket(response.data)
-
-            
-            // toast.success('Solution has been opened.');
-
         } catch (error) {
-
             console.log('ERROR ENCOUNTERED WHEN ENDING A TICKET', error);
-
         }
     }
 
@@ -133,14 +122,12 @@ export const EachActiveTicketsModule = ({ onClose }: EachActiveTicketProps) => {
                                 <div className="mb-4">
                                     <p className="font-medium text-gray-500 text-md">Start Time</p>
                                     <p className="font-semibold text-md uppercase">
-                                        {/* {activeTickets.StartTime ? new Date(activeTickets.StartTime).toLocaleString() : '--:--'} */}
                                         {activeTickets.StartTime ? `${new Date(activeTickets.StartTime).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                                     </p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-500 text-md">Time Taken</p>
                                     <p className="font-semibold text-md uppercase">
-                                        {/* {activeTickets.Time_Taken ? new Date(activeTickets.Time_Taken).toLocaleString() : '--:--'} */}
                                         {activeTickets.Time_Taken ? `${new Date(activeTickets.Time_Taken).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                                     </p>
                                 </div>

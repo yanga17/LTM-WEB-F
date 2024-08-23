@@ -47,35 +47,19 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
 
         try {
-            // const formattedStartTime = new Date(ticket.Time).toISOString().slice(0, 19).replace('T', ' ');
-        // Manually format the date to YYYY-MM-DD HH:MM:SS
-        const inputTime = ticket.Time;
-        const date = new Date(inputTime); // Convert to Date object
-
-        // Extract year, month, day, hours, minutes, and seconds
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-
-        // Format to 'YYYY-MM-DD HH:MM:SS'
-        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
             const payLoad = {
                 employee: ticket.Empl,
                 customer: customerData,
                 activity: ticket.Problem,
                 phoneNumber: ticket.Phone_Number,
                 clientAnydesk: ticket.Clients_Anydesk,
-                startTime: formattedDate,
+                startTime: ticket.Time,
                 type: ticket.Type,
                 supportNo: supportNo,
                 comments: ticket.Comments,
                 name: ticket.Name,
                 email_address: ticket.Email_Address,
-                timeTaken: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                timeTaken: new Date(),
                 issueType: ticket.IssueType,
                 priority: ticket.Priority,
             };
@@ -106,7 +90,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
         } catch (error) {
             console.error('Error updating ticket:', error);
         }
-      }
+    }
 
     const undoNotification = () => {
         toast.success('Ticket deleted successfully', {
@@ -185,6 +169,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
     }
 
     const { customerData, supportNo } = filterCustomer();
+    const { role } = user
 
 
     return (
@@ -228,7 +213,6 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                         <div className="mb-4">
                             <p className="font-semibold text-gray-500 text-md">Start Time</p>
                             <p className="font-semibold text-md uppercase">
-                                {/* {ticket.Time ? `${ new Date(ticket.Time) }`:  '--:--'} */}
                                 {ticket.Time ? `${new Date(ticket.Time).toString().split(' ').slice(1, 5).join(' ')}` : '--:--'}
                             </p>
                         </div>
@@ -266,7 +250,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                             <span>Edit</span>
                             <PencilRuler size={18} strokeWidth={2} className="ml-2" />
                         </button>
-                        <button onClick={() => deleteTicket(ticket.Call_ID)} className="cancel-detail">
+                        <button onClick={() => deleteTicket(ticket.Call_ID)} disabled={role === 'Technician'} className={`cancel-detail ${role === 'Technician' ? 'cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700'}`}>
                             <span>Delete</span>
                             <Trash2 size={18} strokeWidth={2} className="ml-2" />
                         </button>
