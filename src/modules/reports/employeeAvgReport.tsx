@@ -43,6 +43,7 @@ export const EmployeeAvgReport = () => {
 
     const filterEmployeeAvgReport = async () => {
         try {
+            //
             const newStartTime = new Date(startTime); //change to required format
             const newEndTime = new Date(endTime);
 
@@ -147,6 +148,11 @@ export const EmployeeAvgReport = () => {
     }, []);
 
 
+    // Assuming TotalAllEmpTickets from filtered data is to be used as total value
+    //const totalAllEmpTickets = filteredData.reduce((total, item) => total + item.TotalAllEmpTickets, 0);
+    const allTotals = filteredData[0]?.TotalAllEmpTickets
+
+
     return (
         <>
         {isModalOpen && (
@@ -196,11 +202,6 @@ export const EmployeeAvgReport = () => {
                             View PDF
                         </button>
                     </div>
-                    {/* <div className="flex flex-col">
-                        <button onClick={ generateCustomerCallsPDF } className="bg-purple hover:bg-white hover:text-purple border border-purple text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
-                            Generate PDF
-                        </button>
-                    </div> */}
                 </div>
             </div>
             <div className="flex items-center justify-between divide-x divide-gray-500 report-header p-3 mt-4 mx-2 rounded">
@@ -215,6 +216,13 @@ export const EmployeeAvgReport = () => {
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{TotalTickets}</p>
                 </div>
             ))}
+            {/* New row for TotalAllEmpTickets
+            <div className="report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 bg-gray-200 font-bold">
+                <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">Total</p>
+                <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">-</p>
+                <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">-</p>
+                <p className="text-sm uppercase text-green font-medium w-1/4 lg:w-1/4 text-center">{allTotals}</p>
+            </div> */}
         </div>
         </>
     )
