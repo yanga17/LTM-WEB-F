@@ -346,8 +346,8 @@ export const ReportsModule = () => {
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase text-purple">{ID || '--:--'}</p>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Customer || '--:--'}</p>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Activity || '--:--'}</p>
-                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{StartTime ? `${new Date(StartTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
-                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{EndTime ? `${new Date(EndTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{StartTime ? `${(StartTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
+                        <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{EndTime ? `${(EndTime).toString().split(' ').slice(1, 5).join(' ')}`  : '--:--'}</p>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase">{Duration || '--:--'}</p>
                         <p className={`text-sm font-medium w-1/4 lg:w-1/4 text-center break-words line-clamp-1 uppercase ${IssueType === 'Task' ? 'text-green' : IssueType === 'Problem' ? 'text-red' : 'report-text'}`}>{IssueType || '--:--'}</p>
                         <Expand onClick={() => { openReport(ID)}} className="text-sm text-purple font-medium w-1/4 lg:w-1/4 text-center hover:cursor-pointer z-10" />
