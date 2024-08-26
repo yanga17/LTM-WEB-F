@@ -510,7 +510,7 @@ export function StartCall({ onClose}: Props) {
                       value={search}
                       onChange={ handleSearchChange }
                     />
-                    <CommandList className="">
+                    <CommandList>
                     {filteredCustomers.length > 0 ? (
                   <CommandGroup>
                     {filteredCustomers.map((client) => (
@@ -528,7 +528,7 @@ export function StartCall({ onClose}: Props) {
                       className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-300"
                       onClick={handleAddNewCustomer}
                     >
-                      Add "{search}" as a new customer
+                      Add {search} as a new customer
                     </div>
                   </CommandEmpty>
                 )}
