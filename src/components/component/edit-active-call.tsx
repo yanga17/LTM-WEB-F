@@ -291,12 +291,12 @@ export function EditActiveCall({ closeEdit, data }: Props) {
                 { value: phonenumber, message: "Please enter the phone number." },
                 { value: clientName, message: "Please enter the client name." },
                 { value: emailAdd, message: "Please enter the clients email address." },
-                { value: anydesk, message: "Please enter the client&#39;s Anydesk." }, // Escaped single quote
+                { value: anydesk, message: "Please enter the clients Anydesk." }, // Escaped single quote
                 { value: type, message: "Please select a call type." },
                 { value: employee, message: "Please select an employee." },
                 { value: comments, message: "Please enter any comments relevant to the Task/Error." },
                 { value: priority, message: "Please determine the priority of the ticket." },
-            ];
+              ];
 
         
         for (const field of fields) {
