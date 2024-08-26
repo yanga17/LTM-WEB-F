@@ -144,8 +144,18 @@ export const ActiveTicketsModule = () => {
         setTransferPopUp(!transferPopUp);
     }
 
+    // useEffect(() => {
+    //     generateUserTickets();
+    // }, []);
+    
     useEffect(() => {
         generateUserTickets();
+
+        const interval = setInterval(() => {
+            generateUserTickets();
+        }, 120000); // 2 minutes in milliseconds
+
+        return () => clearInterval(interval);
     }, []);
 
     // Decide which tickets to display based on the user's role
