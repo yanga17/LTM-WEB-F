@@ -41,7 +41,7 @@ export const EmployeeSummaryReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeSumResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['Call ID', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total Tickets Per Employee']
+    const headers = ['No.', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total Tickets Per Employee']
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,7 +50,7 @@ export const EmployeeSummaryReport = () => {
             const newStartTime = new Date(startTime); //change to required format
             const newEndTime = new Date(endTime);
 
-            const url = `reports/getemployeeummarydata/${newStartTime}/${newEndTime}`
+            const url = `reports/getemployeesummarydata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeSumResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 

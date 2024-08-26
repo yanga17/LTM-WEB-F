@@ -53,8 +53,7 @@ export const CustomerCallTimesReport = () => {
             const fetchedData = response.data;
 
             if (fetchedData.length === 0) {
-                toast.error('There is no available data between the selected date periods!', {
-                    icon: <X color={colors.red} size={24} />,
+                toast.error('No data was found for the selected customer between the date periods!', {
                     duration: 3000,
                 });
                 return;
@@ -126,6 +125,8 @@ export const CustomerCallTimesReport = () => {
     useEffect(() => {
         generateCustomers();
     }, [])
+
+    console.log("MY FILTERED DATA: MY FILTERED DATA:", filteredData);
 
 
     return (
