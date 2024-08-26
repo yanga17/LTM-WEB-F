@@ -12,6 +12,10 @@ import { useSession } from '@/context';
 import { XIcon } from "lucide-react";
 import { X, Check  } from "lucide-react";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { Command, CommandEmpty, CommandGroup, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface Props {
   onClose: () => void;
@@ -72,6 +76,28 @@ interface TakeCallProps {
 
 type TakeCallType = TakeCallProps[]
 
+//customer combobox
+// customer combobox item
+// Custom command item for the dropdown list
+const CustomCommandItem = ({ client, isSelected, onSelect }: any) => {
+  if (!client) return null;
+
+  return (
+    <div
+      className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+      onClick={() => onSelect(client.Customer)} // Pass the customer name instead of UID
+    >
+      {client.Customer}
+      <CheckIcon
+        className={cn(
+          "ml-auto h-4 w-4",
+          isSelected ? "opacity-100" : "opacity-0"
+        )}
+      />
+    </div>
+  );
+};
+
 export function StartCall({ onClose}: Props) {
   const { user } = useSession();
 
@@ -82,7 +108,7 @@ export function StartCall({ onClose}: Props) {
   const [alltypes, setAllType] = useState<TypeErrors>([]);
 
   //inserting data into tables
-  const [customer, setCustomer] = useState("");
+  //const [customer, setCustomer] = useState("");
   const [problem, setProblem] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
   const [clientName, setClientName] = useState("");
@@ -94,6 +120,10 @@ export function StartCall({ onClose}: Props) {
   const [comments, setComments] = useState("");
   const [issueType, setIssueType] = useState("Problem");
   const [emailAdd, setEmailAdd] = useState("");
+
+  const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+  const [customer, setCustomer] = React.useState<string>(""); // State to store the selected customer name
 
   const [tickets, setTickets] = useState("");
   const [checkStatus, setCheckStatus] = useState(false); //checkbox
@@ -287,6 +317,37 @@ export function StartCall({ onClose}: Props) {
     });
   }
 
+  // Customers combobox
+  const handleSelect = (customerName: string) => {
+    console.log(`Selected: ${customerName}`);
+    setCustomer(customerName === customer ? "" : customerName);
+    setOpen(false);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredCustomers = allCustomers.filter((client) =>
+    client.Customer.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleAddNewCustomer = () => {
+    if (search.trim()) {
+      setCustomer(search.trim());
+      setOpen(false);
+    } else {
+      toast.error("Please enter a valid customer name.", {
+        icon: '🚨',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+    }
+  };
+
   
   useEffect(() => {
     generateCustomers();
@@ -425,16 +486,55 @@ export function StartCall({ onClose}: Props) {
         <div className="space-y-2">
           <label htmlFor="customer" className="dash-text">Customer</label>
           <div className="relative">
-            <select
-              className="call-input p-2 uppercase"
-              value={customer}
-              onChange={(e) => setCustomer(e.target.value)}
-            >
-              <option value="" className="dash-text">Select Customer</option>
-                {allCustomers?.map(({ uid, Customer }) =>
-                  <option key={uid} value={Customer}>{Customer}</option>
+            {/* combobox */}
+            <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="call-input shadow shadow-md chart-background justify-between truncate break-words uppercase"
+                  >
+                    {/* Convert the value to a number for comparison */}
+                    {customer || "Select Customer"}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] p-0 chart-background">
+                  <Command>
+                    <input
+                      type="text"
+                      placeholder="Search customer"
+                      className="h-9 w-full px-2 call-input"
+                      value={search}
+                      onChange={ handleSearchChange }
+                    />
+                    <CommandList className="">
+                    {filteredCustomers.length > 0 ? (
+                  <CommandGroup>
+                    {filteredCustomers.map((client) => (
+                      <CustomCommandItem
+                        key={client.uid}
+                        client={client}
+                        isSelected={customer === client.Customer}
+                        onSelect={handleSelect}
+                      />
+                    ))}
+                  </CommandGroup>
+                ) : (
+                  <CommandEmpty>
+                    <div
+                      className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-300"
+                      onClick={handleAddNewCustomer}
+                    >
+                      Add "{search}" as a new customer
+                    </div>
+                  </CommandEmpty>
                 )}
-            </select>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+            </Popover>
           </div>
         </div>
         <div className="space-y-2">
