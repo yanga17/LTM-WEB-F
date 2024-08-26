@@ -13,26 +13,27 @@ import axios from 'axios';
 
 [
   {
-    "Problem": "QUOTE",
-    "CommonTasks": 127
+    "Activity": "QUOTE",
+    "CommonTasks": 119
   },
   {
-    "Problem": "ACCOUNT QUERIES",
-    "CommonTasks": 97
+    "Activity": "ACCOUNT QUERIES",
+    "CommonTasks": 83
   },
   {
-    "Problem": "GRV",
-    "CommonTasks": 68
+    "Activity": "GRV",
+    "CommonTasks": 72
   },
   {
-    "Problem": "PERFORMANCE TRACKER ",
+    "Activity": "PERFORMANCE TRACKER ",
     "CommonTasks": 53
   },
   {
-    "Problem": "PRINTER",
-    "CommonTasks": 37
+    "Activity": "STOCK",
+    "CommonTasks": 39
   }
 ]
+
 
 const chartConfig = {
   "QUOTE": {
@@ -51,14 +52,14 @@ const chartConfig = {
     label: "Performance Tracker",
     color: "#1ec3ff",
   },
-  "PRINTER": {
-    label: "PRINTER",
+  "STOCK": {
+    label: "STOCK",
     color: "#ff6600",
   },
 } satisfies ChartConfig
 
 interface TaskProps {
-    Problem: string,
+    Activity: string,
     CommonTasks: number
 }
 type TaskResponse = TaskProps[]
@@ -74,15 +75,16 @@ export function TasksPieChart() {
 
   const getCommonTasks= async () => {
     try {
+      //http://localhost:4200/dashboard/getcommontasks
       const commonerrorsurl = `dashboard/getcommontasks`;
       const response = await axios.get<TaskResponse>(`${apiEndPoint}/${commonerrorsurl}`);
       const data = response?.data;
       if (data) {
         setCommonTasks(data);
         const transformedData = data.map((item) => ({
-          field: item.Problem,
+          field: item.Activity,
           desktop: item.CommonTasks,
-          fill: chartConfig[item.Problem as keyof typeof chartConfig].color,
+          fill: chartConfig[item.Activity as keyof typeof chartConfig].color,
         }));
         setNewdesktopData(transformedData);
       }
