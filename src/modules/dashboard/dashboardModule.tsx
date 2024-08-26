@@ -148,11 +148,12 @@ export const DashboardModule = () => {
     //EMPLOYEEData - Chart
     const filterEmployeeBarChart = async () => {
         try {
+            //http://localhost:4200/dashboard/getempticketsdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
             const newStartTime = new Date(starttime); //change to required format
             const newEndTime = new Date(endtime);
 
             setEmployeeSumErrorState(false);
-            const url = `dashboard/getempsummary/${newStartTime}/${newEndTime}`;
+            const url = `dashboard/getempticketsdata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<EmployeeResponse>(`${apiEndPoint}/${url}`);
             setEmployeeData(response?.data);
 
@@ -175,11 +176,12 @@ export const DashboardModule = () => {
     //CUSTOMERSDATA - Chart
     const filterCustomerErrorsChart = async () => {
         try {
+            //http://localhost:4200/dashboard/getcustomererrorsdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
             const newStartTime = new Date(customerStartTime); //change to required format
             const newEndTime = new Date(customerEndTime);
             
             setCustomerErrorState(false)
-            const url = `dashboard/getcustomerdata/${newStartTime}/${newEndTime}`;
+            const url = `dashboard/getcustomererrorsdata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<CustomerResponse>(`${apiEndPoint}/${url}`);
             setCustomerData(response?.data);
 
@@ -220,6 +222,32 @@ export const DashboardModule = () => {
             console.error('An error occurred while Customer Calls Data:', error);
             setCustomerCallsErrorState(true);
             noDataNotification()
+        }
+    }
+
+    const getEmployeeWeeklyData = async () => {
+        //http://localhost:4200/dashboard/getemployeeweeklydata/2024-07-10 06:48:55/2024-07-12 07:12:35
+        try {
+            const newStartTime = new Date(employeeWeeklyStartTime); //change to required format
+            const newEndTime = new Date(employeeWeeklyEndTime);
+
+            setEmployeeWeeklyErrorState(false);
+            const url = `dashboard/getemployeeweeklydata/${newStartTime}/${newEndTime}`
+            const response = await axios.get<EmployeeWeeklyResponse>(`${apiEndPoint}/${url}`);
+            //setEmployeeWeeklyData(response?.data)
+            const fetchedData = response.data;
+
+            if (employee) {
+                const filteredByEmployee = fetchedData.filter((item) => item.Employee === employee);
+                setEmployeeWeeklyData(filteredByEmployee);
+            } else {
+                setEmployeeWeeklyData(fetchedData);
+            }
+
+        } catch (error) {
+            console.error('An error occurred while getting the Employee Weekly Data:', error);
+            setEmployeeWeeklyErrorState(true);
+            noDataNotification();
         }
     }
 
@@ -277,31 +305,7 @@ export const DashboardModule = () => {
         }
     }
 
-    const getEmployeeWeeklyData = async () => {
-        //http://localhost:4200/dashboard/getemployeeweeklydata/2024-07-10 06:48:55/2024-07-12 07:12:35
-        try {
-            const newStartTime = new Date(employeeWeeklyStartTime); //change to required format
-            const newEndTime = new Date(employeeWeeklyEndTime);
 
-            setEmployeeWeeklyErrorState(false);
-            const url = `dashboard/getemployeeweeklydata/${newStartTime}/${newEndTime}`
-            const response = await axios.get<EmployeeWeeklyResponse>(`${apiEndPoint}/${url}`);
-            //setEmployeeWeeklyData(response?.data)
-            const fetchedData = response.data;
-
-            if (employee) {
-                const filteredByEmployee = fetchedData.filter((item) => item.Employee === employee);
-                setEmployeeWeeklyData(filteredByEmployee);
-            } else {
-                setEmployeeWeeklyData(fetchedData);
-            }
-
-        } catch (error) {
-            console.error('An error occurred while getting the Employee Weekly Data:', error);
-            setEmployeeWeeklyErrorState(true);
-            noDataNotification();
-        }
-    }
 
     const noDataNotification = () => {
         toast.error('There is not data available between the selected date periods!', {
