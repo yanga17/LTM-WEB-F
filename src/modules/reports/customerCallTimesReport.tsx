@@ -44,17 +44,13 @@ export const CustomerCallTimesReport = () => {
 
     const filterCallHistoryReport = async () => {
         try {
-            //http://localhost:4200/reports/getcalltimesdata/Mon Aug 05 2024 07:00:01 GMT+02:00/Thu Aug 15 2024 12:32:53 GMT+02:00
+            //http://localhost:4200/reports/getcalltimesdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
             const newStartTime = new Date(startTime); //change to required format
             const newEndTime = new Date(endTime);
-
-            console.log("start time: " + newStartTime);
-            console.log("end time: " + newEndTime);
 
             const url = `reports/getcalltimesdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CallTimesResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
-            console.log("url: " + url);
 
             if (fetchedData.length === 0) {
                 toast.error('There is no available data between the selected date periods!', {
