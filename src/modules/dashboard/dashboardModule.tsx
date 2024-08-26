@@ -109,8 +109,8 @@ type AllEmployeeResponse = AllEmployeeProps[]
 
 export const DashboardModule = () => {
     //EmployeeBarChart
-    const [starttime, setStartTime] = useState('2024-05-30 14:29:33');
-    const [endtime, setEndTime] = useState('2024-06-11 09:25:26');
+    const [starttime, setStartTime] = useState('2024-05-30 14:29:33'); //ticketsPerEmployee
+    const [endtime, setEndTime] = useState('2024-06-11 09:25:26'); //Tue Aug 20 2024 08:47:14 GMT+0200, Fri Aug 23 2024 13:47:07 GMT+02:00
     const [employeeData, setEmployeeData] = useState<EmployeeResponse>([]);
 
     //employeeErrorState
@@ -123,8 +123,8 @@ export const DashboardModule = () => {
     const [employeeEmptyChart, setEmployeeEmptyChart] = useState(false);
 
     //CustomersBarChart
-    const [customerStartTime, setCustomerStartTime] = useState('2024-06-01 08:00:17');
-    const [customerEndTime, setCustomerEndTime] = useState('2024-06-18 08:00:00');
+    const [customerStartTime, setCustomerStartTime] = useState('2024-06-01 08:00:17'); //errorsPerCustomer
+    const [customerEndTime, setCustomerEndTime] = useState('2024-06-18 08:00:00'); //errorsPerCustomer
     const [customerCallStartTime, setCustomerCallStartTime] =useState('2024-06-03 08:00:17');
     const [customerCallEndTime, setCustomerCallEndTime] = useState('2024-06-18 16:07:01');
     const [employeeTaskStartTime, setEmployeeTaskStartTime] = useState('2024-06-01 08:00:17');

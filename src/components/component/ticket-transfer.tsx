@@ -70,11 +70,11 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
       }
 
       try {
-        //http://localhost:4200//transferticket/:employee/:callid
+        //http://localhost:4200/tickets/transferticket/Support/17760
         const url = `tickets/transferticket/${technician}/${callId}`;
         const response = await axios.post(`${apiEndPoint}/${url}`);
 
-        console.log("MY TECHNICIAN AFTER SELECTION!!!!!!!!!!!", technician)
+        console.log("technician:", technician)
         await updateTransferedTicket();
         transferNotification();
 
@@ -88,7 +88,7 @@ export function TicketTransfer({ onClose, callId }: TicketTransferProps){
 
     const updateTransferedTicket = async () => {
       try {
-
+        //http://localhost:4200/tickets/updatetransferedticket/17750
         const url = `tickets/updatetransferedticket/${callId}`;
         const response = await axios.patch(`${apiEndPoint}/${url}`);
 
