@@ -135,10 +135,10 @@ export const CustomerCallTimesReport = () => {
         <>
         {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className='relative w-[800px]'>
-                    <button className="absolute top-0 right-0 p-2 h-25 w-25 text-red" onClick={() => setIsModalOpen(false)}
+                <div className='relative w-[1000px]'>
+                    <button className="absolute top-0 -right-2 p-2" onClick={() => setIsModalOpen(false)}
                     >
-                        &times;
+                        <X size={24} strokeWidth={2} color="red" /> 
                     </button>
                     <PDFViewer width="100%" height="600">
                         <CustomerCallTimesPDF data={filteredData} starttime={startTime} endtime={endTime} />
