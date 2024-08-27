@@ -13,10 +13,8 @@ interface EmployeeAvgProps {
     ID: number,
     Employee: string,
     EmployeeCount: number,
+    Activities: string,
     AvgTimePerTicket: string,
-    TotalTickets: number,
-    MinStartTime: string,
-    MaxEndTime: string,
     TotalAllEmpTickets: number
 }
 export type EmployeeAvgResponse = EmployeeAvgProps[]
@@ -38,7 +36,7 @@ export const EmployeeAvgReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeAvgResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['No.', 'Employee', 'Average Time Per Ticket', 'Total Tickets']
+    const headers = ['No.', 'Employee', 'Average Time Per Ticket', 'Tasks', 'Total Tickets']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const filterEmployeeAvgReport = async () => {
@@ -158,9 +156,9 @@ export const EmployeeAvgReport = () => {
         {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div className='relative w-[800px]'>
-                    <button className="absolute top-0 right-0 p-2 h-25 w-25 text-red" onClick={() => setIsModalOpen(false)}
+                    <button className="absolute top-0 -right-2 p-2" onClick={() => setIsModalOpen(false)}
                     >
-                        &times;
+                        <X size={24} strokeWidth={2} color='red'/>
                     </button>
                     <PDFViewer width="100%" height="600">
                         <EmployeeAvgTimePDF data={filteredData} starttime={startTime} endtime={endTime} />
@@ -193,12 +191,12 @@ export const EmployeeAvgReport = () => {
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterEmployeeAvgReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterEmployeeAvgReport } className="start-call font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="start-call font-medium gap-1">
                             View PDF
                         </button>
                     </div>
@@ -208,12 +206,13 @@ export const EmployeeAvgReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ ID, Employee, EmployeeCount, AvgTimePerTicket, TotalTickets, MinStartTime, MaxEndTime, TotalAllEmpTickets }, index) => (
+            {filteredData?.map(({ ID, Employee, EmployeeCount, Activities, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{TotalTickets}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Activities}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{EmployeeCount}</p>
                 </div>
             ))}
             {/* New row for TotalAllEmpTickets

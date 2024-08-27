@@ -190,12 +190,12 @@ export const CustomerCallsReport = () => {
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterCustomerCallsReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterCustomerCallsReport } className="start-call font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="start-call font-medium gap-1">
                             View PDF
                         </button>
                     </div>

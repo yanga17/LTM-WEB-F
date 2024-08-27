@@ -237,18 +237,17 @@ export function StartCall({ onClose}: Props) {
 
     try {
       const fields = [
-        { value: customer, message: "Please select a client." },
-        { value: problem, message: "Please select a problem." },
-        { value: phonenumber, message: "Please enter the phone number." },
-        { value: clientName, message: "Please enter the client name." },
-        { value: emailAdd, message: "Please enter the clients email address." },
-        { value: anydesk, message: "Please enter the clients Anydesk" }, 
-        { value: type, message: "Please select a call type." },
-        { value: employee, message: "Please select an employee." },
-        { value: comments, message: "Please enter any comments relevant to the Task/Error." },
-        { value: priority, message: "Please determine the priority of the ticket." },
+        { value: customer, message: 'Please select a client.' },
+        { value: problem, message: 'Please select a problem.' },
+        { value: phonenumber, message: 'Please enter the phone number.' },
+        { value: clientName, message: 'Please enter the client name.' },
+        { value: emailAdd, message: 'Please enter the clients email address.' },
+        { value: anydesk, message: 'Please enter the clients Anydesk.' },
+        { value: type, message: 'Please select a call type.' },
+        { value: employee, message: 'Please select an employee.' },
+        { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+        { value: priority, message: 'Please determine the priority of the ticket'},
       ];
-      
 
       for (const field of fields) {
         if (!field.value) {
@@ -417,16 +416,16 @@ export function StartCall({ onClose}: Props) {
 
       //values notEntered
       const fields = [
-        { value: customer, message: "Please select a client." },
-        { value: problem, message: "Please select a problem." },
-        { value: phonenumber, message: "Please enter the phone number." },
-        { value: clientName, message: "Please enter the client name." },
-        { value: emailAdd, message: "Please enter the clients email address." },
-        { value: anydesk, message: "Please enter the clients Anydesk" }, 
-        { value: type, message: "Please select a call type." },
-        { value: employee, message: "Please select an employee." },
-        { value: comments, message: "Please enter any comments relevant to the Task/Error." },
-        { value: priority, message: "Please determine the priority of the ticket." },
+        { value: customer, message: 'Please select a client.' },
+        { value: problem, message: 'Please select a problem.' },
+        { value: phonenumber, message: 'Please enter the phone number.' },
+        { value: clientName, message: 'Please enter the client name.' },
+        { value: emailAdd, message: 'Please enter the clients email address.' },
+        { value: anydesk, message: 'Please enter the clients Anydesk.' },
+        { value: type, message: 'Please select a call type.' },
+        { value: employee, message: 'Please select an employee.' },
+        { value: comments, message: 'Please entered any comments relevant to the Task/Error'},
+        { value: priority, message: 'Please determine the priority of the ticket'},
       ];
 
       for (const field of fields) {
@@ -497,7 +496,7 @@ export function StartCall({ onClose}: Props) {
                     className="call-input shadow shadow-md chart-background justify-between truncate break-words uppercase"
                   >
                     {/* Convert the value to a number for comparison */}
-                    {customer || "Select Customer"}
+                    {customer || "Selects Customer"}
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -510,7 +509,7 @@ export function StartCall({ onClose}: Props) {
                       value={search}
                       onChange={ handleSearchChange }
                     />
-                    <CommandList>
+                    <CommandList className="">
                     {filteredCustomers.length > 0 ? (
                   <CommandGroup>
                     {filteredCustomers.map((client) => (
