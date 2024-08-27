@@ -160,7 +160,7 @@ export const EmployeeTaskReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen  overflow-y-scroll mb-6">
+        <div className="h-screen mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="dash-text">Start Date:</label>
@@ -185,12 +185,12 @@ export const EmployeeTaskReport = () => {
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterEmployeeTaskReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterEmployeeTaskReport } className="start-call font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="start-call font-medium gap-1">
                             View PDF
                         </button>
                     </div>

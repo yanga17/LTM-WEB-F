@@ -94,6 +94,9 @@ export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
             <View style={[styles.tableColError, styles.tableColHeader]}>
               <Text>Average Time Time Per Ticket</Text>
             </View>
+            <View style={[styles.tableColError, styles.tableColHeader]}>
+              <Text>Tasks</Text>
+            </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
               <Text>Total Tickets</Text>
             </View>
@@ -106,8 +109,11 @@ export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
               <View style={[styles.tableColError, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
                 <Text>{row.AvgTimePerTicket}</Text>
               </View>
+              <View style={[styles.tableColError]}>
+                <Text>{row.Activities}</Text>
+              </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.TotalTickets}</Text>
+                <Text>{row.EmployeeCount}</Text>
               </View>
             </View>
           ))}

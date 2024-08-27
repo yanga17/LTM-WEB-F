@@ -45,12 +45,13 @@ export const CustomerCallTimesReport = () => {
     const filterCallHistoryReport = async () => {
         try {
             //http://localhost:4200/reports/getcalltimesdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
-            const newStartTime = new Date(startTime); //change to required format
-            const newEndTime = new Date(endTime);
+            const newStartTime = new Date(startTime).toString().split(' ').slice(1, 5).join(' '); //change to required format
+            const newEndTime = new Date(endTime).toString().split(' ').slice(1, 5).join(' ');
 
             const url = `reports/getcalltimesdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CallTimesResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
+            console.log("MY RESPONSE DATA: MY RESPONSE DATA:", response);
 
             if (fetchedData.length === 0) {
                 toast.error('No data was found for the selected customer between the date periods!', {
@@ -126,7 +127,8 @@ export const CustomerCallTimesReport = () => {
         generateCustomers();
     }, [])
 
-    console.log("MY FILTERED DATA: MY FILTERED DATA:", filteredData);
+    //console.log("MY FILTERED DATA: MY FILTERED DATA:", filteredData);
+    console.log("MY RESPONSE DATA: MY RESPONSE DATA:", filteredData);
 
 
     return (
@@ -169,12 +171,12 @@ export const CustomerCallTimesReport = () => {
                 <div className="flex-grow"></div>
                 <div className="flex items-center gap-4 mt-6 mr-2">
                     <div className="flex flex-col">
-                        <button onClick={ filterCallHistoryReport } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ filterCallHistoryReport } className="start-call uppercase font-medium gap-1">
                             Filter
                         </button>
                     </div>
                     <div className="flex flex-col">
-                        <button onClick={ viewPDF } className="bg-purple hover:bg-violet-300 text-white cursor-pointer px-4 lg:px-8 lg:py-3 text-sm rounded uppercase font-medium gap-1">
+                        <button onClick={ viewPDF } className="start-call uppercase font-medium gap-1">
                             View PDF
                         </button>
                     </div>
