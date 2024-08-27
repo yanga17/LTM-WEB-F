@@ -155,7 +155,7 @@ export const EmployeeAvgReport = () => {
         <>
         {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className='relative w-[800px]'>
+                <div className='relative w-[1000px]'>
                     <button className="absolute top-0 -right-2 p-2" onClick={() => setIsModalOpen(false)}
                     >
                         <X size={24} strokeWidth={2} color='red'/>

@@ -231,12 +231,15 @@ export const ReportsModule = () => {
     }
 
     const viewPDF = () => {
+        console.log("filteredData in viewPDF:", filteredData); // Add this line for debugging
+    
         if (filteredData.length === 0) {
             viewNotification();
         } else {
             setIsModalOpen(true);
         }
     };
+    
 
     const openReport = (id: any) => {
         if (currentOpen === id) {
@@ -272,23 +275,24 @@ export const ReportsModule = () => {
         generateEmployees();
     }, [])
 
+    console.log("filtered data:", filteredData)
+
     
     return (
         <>
             <ReportsContext.Provider value={reportDetail}>
-            {isModalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className='relative w-[800px]'>
-                    <button className="absolute top-0 right-0 p-2 h-50 w-25 text-red" onClick={() => setIsModalOpen(false)}
-                    >
-                        &times;
-                    </button>
-                    <PDFViewer width="100%" height="600">
-                        <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />
-                    </PDFViewer>
-                </div>
-            </div>
-        )}
+            {isModalOpen && (  
+                <div className="relative w-full bg-blend-multiply">  
+                    <button  
+                        className="absolute top-0 -right-2 p-2"  
+                        onClick={() => setIsModalOpen(false)} >  
+                        <X size={24} strokeWidth={2} color="red" />  
+                    </button>  
+                    <PDFViewer width="100%" height="600">  
+                        <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />  
+                    </PDFViewer>  
+                </div>  
+            )}
         <div className="h-screen overflow-y-scroll report-background scrollable-area">
             <div className="w-full p-2 sm:flex justify-start md:gap-2 flex-wrap md:flex justify-start md:gap-4 flex-wrap lg:flex items-center justify-start dark:report-button">
                 <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple text-white' : 'report-button dark:text-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
