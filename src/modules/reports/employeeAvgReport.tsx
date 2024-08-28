@@ -12,6 +12,7 @@ import { X } from "lucide-react";
 interface EmployeeAvgProps {
     ID: number,
     Employee: string,
+    Surname: string,
     Type: string,
     EmployeeCount: number,
     Activities: string,
@@ -37,7 +38,7 @@ export const EmployeeAvgReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeAvgResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['No.', 'Employee', 'Average Time Per Ticket', 'Tasks', 'Total Tickets']
+    const headers = ['No.', 'Employee', 'Surname', 'Average Time Per Ticket', 'Tasks', 'Total Tickets']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const filterEmployeeAvgReport = async () => {
@@ -207,10 +208,11 @@ export const EmployeeAvgReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ ID, Employee, EmployeeCount, Type, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
+            {filteredData?.map(({ ID, Employee, Surname, EmployeeCount, Type, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Type}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{EmployeeCount}</p>

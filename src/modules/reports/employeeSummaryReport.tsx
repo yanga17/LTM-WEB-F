@@ -12,6 +12,7 @@ import { X } from "lucide-react";
 interface EmployeeSumProps {
     ID: number,
     Employee: string,
+    Surname: string,
     Monday: number,
     Tuesday: number,
     Wednesday: number,
@@ -41,7 +42,7 @@ export const EmployeeSummaryReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeSumResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['No.', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total']
+    const headers = ['No.', 'Employee', 'Surname', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total']
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -221,10 +222,11 @@ export const EmployeeSummaryReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ ID, Employee, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, OverallTotal }, index) => (
+            {filteredData?.map(({ ID, Employee, Surname, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, OverallTotal }, index) => (
                 <div key={index + 1} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Monday}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Tuesday}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Wednesday}</p>
@@ -237,6 +239,7 @@ export const EmployeeSummaryReport = () => {
             ))}
             <div className="report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500">
                 <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center text-purple">Total:</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">--:--</p>
                 <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">--:--</p>
                 <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalMonday}</p>
                 <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalTuesday}</p>

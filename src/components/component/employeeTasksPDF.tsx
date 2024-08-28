@@ -41,6 +41,12 @@ const styles = StyleSheet.create({
     padding: 8,
     textAlign: "center",
   },
+  tableColSurname: {
+    width: "30%", // Extended width for the Customer column
+    border: "1px solid #ddd",
+    padding: 8,
+    textAlign: "center",
+  },
   tableColError: {
     width: "60%", // Extended width for the Customer column
     border: "1px solid #ddd",
@@ -93,26 +99,32 @@ export const EmployeeTasksPDF = ({ data, starttime, endtime }: Props) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.body}>
+      <Page size="A4" style={styles.body} orientation='landscape'>
         <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Common Employee Tasks Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
         <View style={styles.table}>
           <View style={styles.tableRow}>
-            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
-              <Text>Employee</Text>
+            <View style={[styles.tableColError, styles.tableColHeader]}>
+              <Text>Name</Text>
+            </View>
+            <View style={[styles.tableColError, styles.tableColHeader]}>
+              <Text>Surname</Text>
             </View>
             <View style={[styles.tableColError, styles.tableColHeader]}>
               <Text>Tasks</Text>
             </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
-              <Text>Task Count</Text>
+              <Text>Count</Text>
             </View>
           </View>
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
-              <View style={[styles.tableColEmployee]}>
+              <View style={[styles.tableColError]}>
                 <Text>{row.Employee}</Text>
+              </View>
+              <View style={[styles.tableColError]}>
+                <Text>{row.Surname}</Text>
               </View>
               <View style={[styles.tableColError, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
                 <Text>{row.Activity}</Text>

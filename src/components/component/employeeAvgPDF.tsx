@@ -101,8 +101,11 @@ export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
         <View style={styles.table}>
           <View style={styles.tableRow}>
-            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
-              <Text>Employee</Text>
+            <View style={[styles.tableColError, styles.tableColHeader]}>
+              <Text>Name</Text>
+            </View>
+            <View style={[styles.tableColError, styles.tableColHeader]}>
+              <Text>Surname</Text>
             </View>
             <View style={[styles.tableColError, styles.tableColHeader]}>
               <Text>AVG Time p/Ticket</Text>
@@ -116,8 +119,11 @@ export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
           </View>
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
-              <View style={[styles.tableColEmployee]}>
+              <View style={[styles.tableColError]}>
                 <Text>{row.Employee}</Text>
+              </View>
+              <View style={[styles.tableColError]}>
+                <Text>{row.Surname}</Text>
               </View>
               <View style={[styles.tableColError, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
                 <Text>{row.AvgTimePerTicket}</Text>

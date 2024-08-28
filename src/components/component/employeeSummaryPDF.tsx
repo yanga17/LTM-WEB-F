@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   tableColEmployee: {
-    width: "300px",
+    width: "340px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "center",
   },
   tableColDays: {
-    width: "260px",
+    width: "200px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "center",
@@ -111,7 +111,10 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <View style={[styles.tableColEmployee, styles.tableColHeader]}>
-              <Text>Employee</Text>
+              <Text>Name</Text>
+            </View>
+            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
+              <Text>Surname</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
               <Text>Mon</Text>
@@ -143,6 +146,9 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
               <View style={[styles.tableColEmployee]}>
                 <Text>{row.Employee}</Text>
               </View>
+              <View style={[styles.tableColEmployee]}>
+                <Text>{row.Surname}</Text>
+              </View>
               <View style={[styles.tableColDays]}>
                 <Text>{row.Monday}</Text>
               </View>
@@ -173,6 +179,9 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
           <View style={[styles.tableRow, { backgroundColor: '#d3d3d3' }]}>
             <View style={[styles.tableColEmployee]}>
               <Text>Total</Text>
+            </View>
+            <View style={[styles.tableColEmployee]}>
+              <Text>--:--</Text>
             </View>
             <View style={[styles.tableColDays]}>
               <Text>{totalMonday}</Text>
