@@ -40,16 +40,16 @@ const styles = StyleSheet.create({
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "left",
-    wordWrap: 'break-word',
+    wordWrap: 'truncate',
   },
   tableColActivity: {
-    width: "520px",
+    width: "400px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "left",
   },
-  tableColComments: {
-    width: "500px",
+  tableColEmployee: {
+    width: "400px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "left",
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     wordWrap: 'break-word',
   },
   tableColSolution: {
-    width: "450px",
+    width: "520px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "left",
@@ -151,12 +151,12 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
           <View style={styles.tableRow}>
             <View style={[styles.tableColCustomer, styles.tableColHeader]}>
               <Text>Customer</Text>
-            </View>
+            </View>                           
             <View style={[styles.tableColActivity, styles.tableColHeader]}>
               <Text>Activity</Text>
             </View>
-            <View style={[styles.tableColComments, styles.tableColHeader]}>
-              <Text>Comments</Text>
+            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
+              <Text>Employee</Text>
             </View>
             <View style={[styles.tableColStartTime, styles.tableColHeader]}>
               <Text>Start Time</Text>
@@ -179,14 +179,14 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
               <View style={[styles.tableColActivity]}>
                 <Text>{row.Activity}</Text>
               </View>
-              <View style={[styles.tableColComments]}>
-                <Text>{row.Comments}</Text>
+              <View style={[styles.tableColEmployee]}>
+                <Text>{row.Employee}</Text>
               </View>
               <View style={[styles.tableColStartTime]}>
-                <Text>{new Date(row.StartTime).toLocaleString()}</Text>
+                <Text>{new Date(row.StartTime).toString().split(' ').slice(1, 5).join(' ')}</Text>
               </View>
               <View style={[styles.tableColEndTime]}>
-                <Text>{new Date(row.EndTime).toLocaleString()}</Text>
+                <Text>{new Date(row.EndTime).toString().split(' ').slice(1, 5).join(' ')}</Text>
               </View>
               <View style={[styles.tableColDuration]}>
                 <Text>{row.Duration}</Text>

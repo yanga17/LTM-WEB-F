@@ -50,18 +50,6 @@ type EmployeeType = EmployeeProps[]
 
 export const ReportsContext = createContext<CallHistoryProps | null>(null)
 
-// Make sure the modal is absolutely positioned over the entire viewport
-const ModalOverlay = ({ onClose, children }: any) => (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="relative w-[1000px] bg-white p-4 rounded-lg">
-        <button className="absolute top-2 right-2 p-2" onClick={onClose}>
-          <X size={24} strokeWidth={2} color="red" />
-        </button>
-        {children}
-      </div>
-    </div>
-  );
-
 export const ReportsModule = () => {
     const [clHistoryStartTime, setCLHistoryStartTime] = useState('');
     const [clHistoryEndTime, setCLHistoryEndTime] = useState('');
@@ -87,41 +75,6 @@ export const ReportsModule = () => {
 
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
-
-    // const splitCustomerName = (customerName: string) => {
-    //     return customerName.split(',')[0].trim().toLocaleLowerCase();
-    // };
-
-    // const filterCallHistoryReport = async () => {
-    //     try {
-    //         const url = `reports/getclienthistorydata/${clHistoryStartTime}/${clHistoryEndTime}`
-    //         const response = await axios.get<CallHistoryResponse>(`${apiEndPoint}/${url}`);
-    //         const fetchedData = response.data;
-
-    //         if (fetchedData.length === 0) {
-    //             toast.error('There is no available data between the selected date periods!', {
-    //                 icon: <X color={colors.red} size={24} />,
-    //                 duration: 3000,
-    //             });
-    //             return;
-    //         }
-
-    //         const filtered = customer 
-    //             ? fetchedData.filter(item => splitCustomerName(item.Customer) === splitCustomerName(customer)) 
-    //             : fetchedData;
-                
-    //             if (filtered.length === 0) {
-    //                 toast.error('No data was found for the selected customer between the date periods!', {
-    //                     duration: 3000,
-    //                 });
-    //             }
-        
-    //             setFilteredData(filtered);
-    //     } catch (error) {
-    //         console.error('An error occurred while fetching the Client History Reports:', error);
-    //         filterNotification();
-    //     }
-    // }
 
     const filterCallHistoryReportEmp = async () => {
         try {
@@ -303,9 +256,9 @@ export const ReportsModule = () => {
                             <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />
                         </PDFViewer>
                     </div>
-            </div> 
+                </div>
             )}
-        <div className="h-screen overflow-y-scroll report-background scrollable-area">
+        <div className="h-screen overflow-y-scroll report-background">
             <div className="w-full p-2 sm:flex justify-start md:gap-2 flex-wrap md:flex justify-start md:gap-4 flex-wrap lg:flex items-center justify-start dark:report-button">
                 <button onClick={() => setCurrentReport('CallHistory')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallHistory'? 'bg-purple text-white' : 'report-button dark:text-white'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call History</button>
                 <button onClick={() => setCurrentReport('CallTimes')} className={`whitespace-nowrap w-10 lg:ease-in-out duration-500 shadow ${currentReport === 'CallTimes'? 'bg-purple text-white' : 'report-button'} rounded text-sm p-2 cursor-pointer text-gray-500 font-medium hover:text-white hover:bg-purple lg:ease-in-out duration-300 w-44 outline-none`}>Call Times</button>
