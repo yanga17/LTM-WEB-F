@@ -55,6 +55,10 @@ export const EmployeeSummaryReport = () => {
             const response = await axios.get<EmployeeSumResponse>(`${apiEndPoint}/${url}`);
             const fetchedData = response.data;
 
+            if (!Array.isArray(fetchedData)) {
+                throw new Error('Fetched data is not an array');
+            }
+
             if (fetchedData.length === 0) {
                 toast.error('There is no available data between the selected date periods!', {
                     icon: <X color={colors.red} size={24} />,
@@ -141,7 +145,9 @@ export const EmployeeSummaryReport = () => {
     }
 
     const viewPDF = () => {
-        if (data.length === 0) {
+        console.log("filteredData in viewPDF:", filteredData); // Add this line for debugging
+    
+        if (!Array.isArray(filteredData) || filteredData.length === 0) {
             viewNotification();
         } else {
             setIsModalOpen(true);
