@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Page, Text, Document, StyleSheet, View } from '@react-pdf/renderer'
+import { Page, Text, Document, StyleSheet, View, Image } from '@react-pdf/renderer'
 import { EmployeeSumResponse } from '../../modules/reports/employeeSummaryReport'
 
 const styles = StyleSheet.create({
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 10,
+    marginTop: 10,
     textAlign: 'center',
   },
   infoText: {
@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
     width: "300px",
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColDays: {
     width: "260px",
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColHeader: {
     backgroundColor: "#04AA6D",
@@ -66,6 +66,18 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     textAlign: 'center',
+  },
+  image: {
+    // marginBottom: 20,
+    width: 250,
+    height: 70,
+    alignSelf: 'center',
+  },
+  footerText: {
+    position: 'absolute',
+    fontSize: 10,
+    bottom: 10,
+    left: 10,
   }
 });
 
@@ -79,10 +91,21 @@ interface Props {
 export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
   const startimeFormatted = new Date(starttime).toString().split(' ').slice(1, 5).join(' ');
   const endTimeFormatted = new Date(endtime).toString().split(' ').slice(1, 5).join(' ');
+
+    // Calculate totals for each day
+    const totalMonday = data.reduce((total, row) => total + row.Monday, 0);
+    const totalTuesday = data.reduce((total, row) => total + row.Tuesday, 0);
+    const totalWednesday = data.reduce((total, row) => total + row.Wednesday, 0);
+    const totalThursday = data.reduce((total, row) => total + row.Thursday, 0);
+    const totalFriday = data.reduce((total, row) => total + row.Friday, 0);
+    const totalSaturday = data.reduce((total, row) => total + row.Saturday, 0);
+    const totalSunday = data.reduce((total, row) => total + row.Sunday, 0);
+    const totalOverall = data.reduce((total, row) => total + row.OverallTotal, 0);
   
   return (
     <Document>
       <Page size="A4" style={styles.body} orientation='landscape'>
+        <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Employee Summary Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
         <View style={styles.table}>
@@ -91,25 +114,25 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
               <Text>Employee</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Monday</Text>
+              <Text>Mon</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Tuesday</Text>
+              <Text>Tue</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Wednesday</Text>
+              <Text>Wed</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Thursday</Text>
+              <Text>Thur</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Friday</Text>
+              <Text>Fri</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Saturday</Text>
+              <Text>Sat</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
-              <Text>Sunday</Text>
+              <Text>Sun</Text>
             </View>
             <View style={[styles.tableColDays, styles.tableColHeader]}>
               <Text>Total</Text>
@@ -146,7 +169,38 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
               </View>
             </View>
           ))}
+          {/* Total Row */}
+          <View style={[styles.tableRow, { backgroundColor: '#d3d3d3' }]}>
+            <View style={[styles.tableColEmployee]}>
+              <Text>Total</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalMonday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalTuesday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalWednesday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalThursday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalFriday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalSaturday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalSunday}</Text>
+            </View>
+            <View style={[styles.tableColDays]}>
+              <Text>{totalOverall}</Text>
+            </View>
+          </View>
         </View>
+        <Text style={styles.footerText}>Emp Summary</Text> {/* Added footer text */}
         <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed />
       </Page>
     </Document>

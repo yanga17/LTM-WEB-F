@@ -12,6 +12,7 @@ import { X } from "lucide-react";
 interface EmployeeAvgProps {
     ID: number,
     Employee: string,
+    Type: string,
     EmployeeCount: number,
     Activities: string,
     AvgTimePerTicket: string,
@@ -166,7 +167,7 @@ export const EmployeeAvgReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-y-scroll mb-6">
+        <div className="h-screen mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="header-text">Start Date:</label>
@@ -206,12 +207,12 @@ export const EmployeeAvgReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ ID, Employee, EmployeeCount, Activities, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
+            {filteredData?.map(({ ID, Employee, EmployeeCount, Type, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Activities}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Type}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{EmployeeCount}</p>
                 </div>
             ))}

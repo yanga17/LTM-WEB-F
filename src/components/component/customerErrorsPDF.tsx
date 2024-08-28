@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
     width: "25%", // Fixed width for each column
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColCustomer: {
     width: "70%", // Extended width for the Customer column
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColError: {
     width: "60%", // Extended width for the Customer column
@@ -67,6 +67,18 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     textAlign: 'center',
+  },
+  image: {
+    // marginBottom: 20,
+    width: 250,
+    height: 70,
+    alignSelf: 'center',
+  },
+  footerText: {
+    position: 'absolute',
+    fontSize: 10,
+    bottom: 10,
+    left: 10,
   }
 });
 
@@ -85,10 +97,7 @@ export const CustomerErrorsPDF = ({ data, starttime, endtime }: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.body}>
-        {/* <Image
-          src="/covers/legendSystems.png"
-          style={{ width: 50, height: 50, marginBottom: 5, }} // Adjust the style to fit within the PDF
-        /> */}
+        <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Common Customer Errors Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text>
         <View style={styles.table}>
@@ -111,6 +120,7 @@ export const CustomerErrorsPDF = ({ data, starttime, endtime }: Props) => {
             </View>
           ))}
         </View>
+        <Text style={styles.footerText}>Customer Errors</Text> {/* Added footer text */}
         <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed />
       </Page>
     </Document>
