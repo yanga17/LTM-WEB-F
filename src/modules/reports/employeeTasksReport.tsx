@@ -12,6 +12,7 @@ import { X } from "lucide-react";
 interface EmployeeTaskProps {
     ID: number,
     Employee: string,
+    Surname: string,
     Activity: string,
     TaskCount: number
 }
@@ -35,7 +36,7 @@ export const EmployeeTaskReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeTaskResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['No.', 'Employee', 'Task', 'No. Tasks Counted']
+    const headers = ['No.', 'Employee', 'Surname', 'Task', 'No. Tasks Counted']
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -144,6 +145,8 @@ export const EmployeeTaskReport = () => {
         }
     };
 
+    console.log("my filtered my filtered:", filteredData)
+
 
     return (
         <>
@@ -200,10 +203,11 @@ export const EmployeeTaskReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ ID, Employee, Activity, TaskCount }, index) => (
+            {filteredData?.map(({ ID, Employee, Surname, Activity, TaskCount }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Activity}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{TaskCount}</p>
                 </div>
