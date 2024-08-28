@@ -87,6 +87,10 @@ export const ReportsModule = () => {
             const fetchedData = response.data;
             console.log("url: " + url);
 
+            if (!Array.isArray(fetchedData)) {
+                throw new Error('Fetched data is not an array');
+            }
+
             if (fetchedData.length === 0) {
                 toast.error('There is no available data between the selected date periods!', {
                     icon: <X color={colors.red} size={24} />,
@@ -198,7 +202,7 @@ export const ReportsModule = () => {
     const viewPDF = () => {
         console.log("filteredData in viewPDF:", filteredData); // Add this line for debugging
     
-        if (filteredData.length === 0) {
+        if (!Array.isArray(filteredData) || filteredData.length === 0) {
             viewNotification();
         } else {
             setIsModalOpen(true);
@@ -310,7 +314,7 @@ export const ReportsModule = () => {
             <div className="flex items-center justify-between divide-x divide-gray-500 report-header p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
-            {filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
+            {Array.isArray(filteredData) ? filteredData?.map(({ ID, Customer, Activity, Support_No, StartTime, EndTime, Duration, Comments, Phone_Number, Solution, IssueType, Employee, Type, name }, index) => (
                 <div key={ID}>
                     <div className={`report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''} h-20`}>
                         <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center uppercase text-purple">{ID || '--:--'}</p>
@@ -392,7 +396,7 @@ export const ReportsModule = () => {
                         </div>
                     </div>
                 </div>
-            ))}
+            )) : <p>No data available</p>}
         </>
         )}
         {currentReport === 'CallTimes' && (<CustomerCallTimesReport />)}
