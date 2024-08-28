@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Page, Text, Document, StyleSheet, View } from '@react-pdf/renderer'
+import { Page, Text, Document, StyleSheet, View, Image } from '@react-pdf/renderer'
 import { CallHistoryResponse } from '../../modules/reports/customerCallHistoryModule'
 
 const styles = StyleSheet.create({
@@ -115,6 +115,18 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     textAlign: 'center',
+  },
+  image: {
+    // marginBottom: 20,
+    width: 250,
+    height: 70,
+    alignSelf: 'center',
+  },
+  footerText: {
+    position: 'absolute',
+    fontSize: 10,
+    bottom: 10,
+    left: 10,
   }
 });
 
@@ -132,6 +144,7 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.body} orientation='landscape'>
+        <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Customer Call History Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text>
         <View style={styles.table}>
@@ -184,6 +197,7 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
             </View>
           ))}
         </View>
+        <Text style={styles.footerText}>Client History</Text> {/* Added footer text */}
         <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed />
       </Page>
     </Document>

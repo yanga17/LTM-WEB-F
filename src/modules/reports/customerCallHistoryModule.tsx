@@ -50,6 +50,18 @@ type EmployeeType = EmployeeProps[]
 
 export const ReportsContext = createContext<CallHistoryProps | null>(null)
 
+// Make sure the modal is absolutely positioned over the entire viewport
+const ModalOverlay = ({ onClose, children }: any) => (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="relative w-[1000px] bg-white p-4 rounded-lg">
+        <button className="absolute top-2 right-2 p-2" onClick={onClose}>
+          <X size={24} strokeWidth={2} color="red" />
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+
 export const ReportsModule = () => {
     const [clHistoryStartTime, setCLHistoryStartTime] = useState('');
     const [clHistoryEndTime, setCLHistoryEndTime] = useState('');
@@ -282,16 +294,16 @@ export const ReportsModule = () => {
         <>
             <ReportsContext.Provider value={reportDetail}>
             {isModalOpen && (  
-                <div className="relative w-full bg-blend-multiply">  
-                    <button  
-                        className="absolute top-0 -right-2 p-2"  
-                        onClick={() => setIsModalOpen(false)} >  
-                        <X size={24} strokeWidth={2} color="red" />  
-                    </button>  
-                    <PDFViewer width="100%" height="600">  
-                        <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />  
-                    </PDFViewer>  
-                </div>  
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className='relative w-[1000px]'>
+                        <button className="absolute top-0 -right-2 p-2" onClick={() => setIsModalOpen(false)}>
+                            <X size={24} strokeWidth={2} color='red'/>
+                        </button>
+                        <PDFViewer width="100%" height="600px">
+                            <CallHistoryPDF data={filteredData} starttime={clHistoryStartTime} endtime={clHistoryEndTime} />
+                        </PDFViewer>
+                    </div>
+            </div> 
             )}
         <div className="h-screen overflow-y-scroll report-background scrollable-area">
             <div className="w-full p-2 sm:flex justify-start md:gap-2 flex-wrap md:flex justify-start md:gap-4 flex-wrap lg:flex items-center justify-start dark:report-button">

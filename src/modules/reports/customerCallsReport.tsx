@@ -168,7 +168,7 @@ export const CustomerCallsReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen overflow-y-scroll mb-6">
+        <div className="h-screen mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="header-text">Start Date:</label>

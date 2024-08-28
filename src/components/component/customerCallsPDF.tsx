@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
     width: "25%", // Fixed width for each column
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColCustomer: {
     width: "70%", // Extended width for the Customer column
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColError: {
     width: "60%", // Extended width for the Customer column
@@ -65,6 +65,18 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     textAlign: 'center',
+  },
+  image: {
+    // marginBottom: 20,
+    width: 250,
+    height: 70,
+    alignSelf: 'center',
+  },
+  footerText: {
+    position: 'absolute',
+    fontSize: 10,
+    bottom: 10,
+    left: 10,
   }
 });
 
@@ -81,6 +93,7 @@ export const CustomerCallPDF = ({ data, starttime, endtime }: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.body}>
+        <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Customer Call Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
         <img></img>
@@ -90,7 +103,7 @@ export const CustomerCallPDF = ({ data, starttime, endtime }: Props) => {
               <Text>Customer</Text>
             </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
-              <Text>No. Times Called</Text>
+              <Text>Count</Text>
             </View>
           </View>
           {data.map((row, rowIndex) => (
@@ -104,6 +117,7 @@ export const CustomerCallPDF = ({ data, starttime, endtime }: Props) => {
             </View>
           ))}
         </View>
+        <Text style={styles.footerText}>Customer Calls</Text> {/* Added footer text */}
         <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed />
       </Page>
     </Document>

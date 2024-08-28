@@ -41,7 +41,7 @@ export const EmployeeSummaryReport = () => {
     const [filteredData, setFilteredData] = useState<EmployeeSumResponse>([]);
     const [dropdownValue, setDropDownvalue] = useState('');
 
-    const headers = ['No.', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total Tickets Per Employee']
+    const headers = ['No.', 'Employee', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Total']
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -151,6 +151,16 @@ export const EmployeeSummaryReport = () => {
         generateEmployees();
     }, []);
 
+        // Calculate totals for each day
+        const totalMonday = data.reduce((total, row) => total + row.Monday, 0);
+        const totalTuesday = data.reduce((total, row) => total + row.Tuesday, 0);
+        const totalWednesday = data.reduce((total, row) => total + row.Wednesday, 0);
+        const totalThursday = data.reduce((total, row) => total + row.Thursday, 0);
+        const totalFriday = data.reduce((total, row) => total + row.Friday, 0);
+        const totalSaturday = data.reduce((total, row) => total + row.Saturday, 0);
+        const totalSunday = data.reduce((total, row) => total + row.Sunday, 0);
+        const totalOverall = data.reduce((total, row) => total + row.OverallTotal, 0);
+
     return (
         <>
         {isModalOpen && (
@@ -166,7 +176,7 @@ export const EmployeeSummaryReport = () => {
                 </div>
             </div>
         )}
-        <div className="h-screen  overflow-y-scroll mb-6">
+        <div className="h-screen mb-6">
         <div className="w-full flex items-center gap-2 md:gap-4 flex-wrap">
                 <div className="flex flex-col p-2">
                     <label className="dash-text">Start Date:</label>
@@ -225,6 +235,18 @@ export const EmployeeSummaryReport = () => {
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{OverallTotal}</p>
                 </div>
             ))}
+            <div className="report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500">
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center text-purple">Total:</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">--:--</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalMonday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalTuesday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalWednesday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalThursday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalFriday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalSaturday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalSunday}</p>
+                <p className="text-sm uppercase font-sm w-1/4 lg:w-1/4 text-center">{totalOverall}</p>
+            </div>
         </div>
         </>
     )
