@@ -53,7 +53,8 @@ export const EmployeeSummaryReport = () => {
 
             const url = `reports/getemployeesummarydata/${newStartTime}/${newEndTime}`
             const response = await axios.get<EmployeeSumResponse>(`${apiEndPoint}/${url}`);
-            const fetchedData = response.data;
+            const fetchedData = response?.data;
+            console.log("fetched data response:", fetchedData);
 
             if (!Array.isArray(fetchedData)) {
                 throw new Error('Fetched data is not an array');

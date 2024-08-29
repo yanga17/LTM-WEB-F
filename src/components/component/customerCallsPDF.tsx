@@ -114,7 +114,7 @@ export const CustomerCallPDF = ({ data, starttime, endtime }: Props) => {
           </View>
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
-              <View style={[styles.tableCol, styles.tableColHeader]}>
+              <View style={[styles.tableCol]}>
                 <Text>{rowIndex + 1}</Text>
               </View>
               <View style={[styles.tableColCustomer]}>
