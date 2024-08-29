@@ -158,6 +158,9 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
             <View style={[styles.tableColEmployee, styles.tableColHeader]}>
               <Text>Employee</Text>
             </View>
+            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
+              <Text>Surname</Text>
+            </View>
             <View style={[styles.tableColStartTime, styles.tableColHeader]}>
               <Text>Start Time</Text>
             </View>
@@ -181,6 +184,9 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
               </View>
               <View style={[styles.tableColEmployee]}>
                 <Text>{row.Employee}</Text>
+              </View>
+              <View style={[styles.tableColEmployee]}>
+                <Text>{row.Surname}</Text>
               </View>
               <View style={[styles.tableColStartTime]}>
                 <Text>{new Date(row.StartTime).toString().split(' ').slice(1, 5).join(' ')}</Text>
