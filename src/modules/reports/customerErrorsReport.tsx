@@ -11,7 +11,7 @@ import { X } from "lucide-react";
 
 interface CustomerErrorProps {
     Call_ID: number,
-    Problem: string,
+    Activity: string,
     Customer: string,
     ErrorCount: number
 }
@@ -126,7 +126,7 @@ export const CustomerErrorsReport = () => {
 
     const customerErrorsLog = data?.map((property) => ({
         callid: property?.Call_ID,
-        error: property.Problem,
+        error: property.Activity,
         customer: property.Customer,
         errorCount: property.ErrorCount
     }))
@@ -243,10 +243,10 @@ export const CustomerErrorsReport = () => {
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
             
-            {filteredData?.map(({ Call_ID, Problem, Customer, ErrorCount }, index) => (
+            {filteredData?.map(({ Call_ID, Activity, Customer, ErrorCount }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Problem}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Activity}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Customer}</p>
                     <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{ErrorCount}</p>
                 </div>
