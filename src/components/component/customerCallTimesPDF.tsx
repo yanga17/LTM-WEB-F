@@ -118,9 +118,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // marginBottom: 20,
-    width: 250,
-    height: 70,
-    alignSelf: 'center',
+    width: 200,
+    height: 30,
+    float: 'left',
   },
   footerText: {
     position: 'absolute',

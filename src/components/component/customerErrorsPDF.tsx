@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // marginBottom: 20,
-    width: 250,
-    height: 70,
-    alignSelf: 'center',
+    width: 200,
+    height: 30,
+    float: 'left',
   },
   footerText: {
     position: 'absolute',
@@ -96,25 +96,37 @@ export const CustomerErrorsPDF = ({ data, starttime, endtime }: Props) => {
   
   return (
     <Document>
-      <Page size="A4" style={styles.body}>
+      <Page size="A4" style={styles.body} orientation='landscape'>
         <Image style={styles.image} src="/covers/legendSystems.png" />
         <Text style={styles.header}>Common Customer Errors Report</Text>
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
+            <View style={[styles.tableCol, styles.tableColHeader]}>
+              <Text>No.</Text>
+            </View>
+            <View style={[styles.tableColCustomer, styles.tableColHeader]}>
+              <Text>Customer</Text>
+            </View>
             <View style={[styles.tableColCustomer, styles.tableColHeader]}>
               <Text>Errors</Text>
             </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
-              <Text>Error Count</Text>
+              <Text>Count</Text>
             </View>
           </View>
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
-              <View style={[styles.tableColCustomer, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
+              <View style={[styles.tableCol]}>
+                <Text>{rowIndex + 1}</Text>
+              </View>
+              <View style={[styles.tableColCustomer]}>
                 <Text>{row.Customer}</Text>
               </View>
-              <View style={[styles.tableCol, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
+              <View style={[styles.tableColCustomer]}>
+                <Text>{row.Activity}</Text>
+              </View>
+              <View style={[styles.tableCol]}>
                 <Text>{row.ErrorCount}</Text>
               </View>
             </View>

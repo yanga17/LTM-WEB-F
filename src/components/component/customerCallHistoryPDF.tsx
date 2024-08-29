@@ -118,9 +118,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // marginBottom: 20,
-    width: 250,
-    height: 70,
-    alignSelf: 'center',
+    width: 200,
+    height: 30,
+    float: 'left',
   },
   footerText: {
     position: 'absolute',
@@ -152,23 +152,23 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
             <View style={[styles.tableColCustomer, styles.tableColHeader]}>
               <Text>Customer</Text>
             </View>                           
-            <View style={[styles.tableColActivity, styles.tableColHeader]}>
+            <View style={[styles.tableColStartTime, styles.tableColHeader]}>
               <Text>Activity</Text>
             </View>
-            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
+            <View style={[styles.tableColSolution, styles.tableColHeader]}>
               <Text>Employee</Text>
             </View>
-            <View style={[styles.tableColEmployee, styles.tableColHeader]}>
+            <View style={[styles.tableColSolution, styles.tableColHeader]}>
               <Text>Surname</Text>
             </View>
             <View style={[styles.tableColStartTime, styles.tableColHeader]}>
-              <Text>Start Time</Text>
+              <Text>Start</Text>
             </View>
             <View style={[styles.tableColEndTime, styles.tableColHeader]}>
-              <Text>End Time</Text>
+              <Text>End</Text>
             </View>
             <View style={[styles.tableColDuration, styles.tableColHeader]}>
-              <Text>Duration</Text>
+              <Text>Dur</Text>
             </View>
             <View style={[styles.tableColSolution, styles.tableColHeader]}>
               <Text>Solution</Text>
@@ -179,13 +179,13 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
               <View style={[styles.tableColCustomer]}>
                 <Text>{row.Customer}</Text>
               </View>
-              <View style={[styles.tableColActivity]}>
+              <View style={[styles.tableColStartTime]}>
                 <Text>{row.Activity}</Text>
               </View>
-              <View style={[styles.tableColEmployee]}>
+              <View style={[styles.tableColSolution]}>
                 <Text>{row.Employee}</Text>
               </View>
-              <View style={[styles.tableColEmployee]}>
+              <View style={[styles.tableColSolution]}>
                 <Text>{row.Surname}</Text>
               </View>
               <View style={[styles.tableColStartTime]}>
