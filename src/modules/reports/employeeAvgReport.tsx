@@ -217,11 +217,11 @@ export const EmployeeAvgReport = () => {
             {filteredData?.map(({ ID, Employee, Surname, EmployeeCount, Type, AvgTimePerTicket, TotalAllEmpTickets }, index) => (
                 <div key={index} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Type}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{EmployeeCount}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{AvgTimePerTicket || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Type || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{EmployeeCount || '--:--'}</p>
                 </div>
             ))}
             {/* New row for TotalAllEmpTickets
