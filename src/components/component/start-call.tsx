@@ -270,17 +270,17 @@ export function StartCall({ onClose}: Props) {
 
       const payLoad = {
         employee: employee,
-        customer: customerData,
-        activity: problem,
+        customer: customerData.toUpperCase(),
+        activity: problem.toUpperCase(),
         phoneNumber: phonenumber,
         clientsAnydesk: anydesk,
         startTime: ticketDate,
-        type: type,
+        type: type.toUpperCase(),
         supportNumber: supportNo,
-        comments: comments,
-        name: clientName,
+        comments: comments.toUpperCase(),
+        name: clientName.toUpperCase(),
         email_address: emailAdd,
-        issueType: issueType,
+        issueType: issueType.toUpperCase(),
         priority: priority
       };
 
@@ -396,20 +396,20 @@ export function StartCall({ onClose}: Props) {
 
     //property names should be exactly like the ones declared in the backend routes
     const ticketData = {
-      customer: customerData,
-      problem: problem,
+      customer: customerData.toUpperCase(),
+      problem: problem.toUpperCase(),
       time: ticketDate,
       phoneNumber: phonenumber,
       clientsAnydesk: anydesk,
-      name: clientName,
-      email_address: emailAdd,
+      name: clientName.toUpperCase(),
+      email_address: emailAdd.toUpperCase(),
       support_no: supportNo, 
       empl: employee,
       logger: user ? `${user.emp_name}` : null,
-      comments: comments,
+      comments: comments.toUpperCase(),
       priority: priority, 
-      issueType: issueType, 
-      type: type,
+      issueType: issueType.toUpperCase(), 
+      type: type.toUpperCase(),
     };
 
     try {

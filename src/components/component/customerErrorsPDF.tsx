@@ -121,10 +121,10 @@ export const CustomerErrorsPDF = ({ data, starttime, endtime }: Props) => {
                 <Text>{rowIndex + 1}</Text>
               </View>
               <View style={[styles.tableColCustomer]}>
-                <Text>{row.Customer}</Text>
+                <Text>{row.Customer.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColCustomer]}>
-                <Text>{row.Activity}</Text>
+                <Text>{row.Activity.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableCol]}>
                 <Text>{row.ErrorCount}</Text>

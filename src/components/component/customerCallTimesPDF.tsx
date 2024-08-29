@@ -166,16 +166,16 @@ export const CustomerCallTimesPDF = ({ data, starttime, endtime }: Props) => {
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
               <View style={[styles.tableColCustomer]}>
-                <Text>{row.Customer}</Text>
+                <Text>{row.Customer.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.CallCount}</Text>
+                <Text>{row.CallCount || '--:--'}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.AverageTime}</Text>
+                <Text>{row.AverageTime || '--:--'}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.TotalHours}</Text>
+                <Text>{row.TotalHours || '--:--'}</Text>
               </View>
             </View>
           ))}
