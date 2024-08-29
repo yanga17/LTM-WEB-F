@@ -177,16 +177,16 @@ export const CallHistoryPDF = ({ data, starttime, endtime }: Props) => {
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
               <View style={[styles.tableColCustomer]}>
-                <Text>{row.Customer}</Text>
+                <Text>{row.Customer.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColStartTime]}>
-                <Text>{row.Activity}</Text>
+                <Text>{row.Activity.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColSolution]}>
-                <Text>{row.Employee}</Text>
+                <Text>{row.Employee.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColSolution]}>
-                <Text>{row.Surname}</Text>
+                <Text>{row.Surname.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColStartTime]}>
                 <Text>{new Date(row.StartTime).toString().split(' ').slice(1, 5).join(' ')}</Text>

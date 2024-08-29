@@ -232,16 +232,16 @@ export const EmployeeSummaryReport = () => {
             {filteredData?.map(({ ID, Employee, Surname, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, OverallTotal }, index) => (
                 <div key={index + 1} className={`report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                     <p className="text-sm uppercase text-purple font-medium w-1/4 lg:w-1/4 text-center">{index + 1}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Monday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Tuesday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Wednesday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Thursday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Friday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Saturday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Sunday || '--:--'}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{OverallTotal || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Employee}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Surname}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Monday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Tuesday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Wednesday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Thursday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Friday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Saturday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Sunday}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{OverallTotal}</p>
                 </div>
             ))}
             <div className="report-header report-text p-2 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500">

@@ -144,34 +144,34 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
               <View style={[styles.tableColEmployee]}>
-                <Text>{row.Employee || '--:--'}</Text>
+                <Text>{row.Employee.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColEmployee]}>
-                <Text>{row.Surname || '--:--'}</Text>
+                <Text>{row.Surname.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Monday || '--:--'}</Text>
+                <Text>{row.Monday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Tuesday || '--:--'}</Text>
+                <Text>{row.Tuesday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Wednesday || '--:--'}</Text>
+                <Text>{row.Wednesday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Thursday || '--:--'}</Text>
+                <Text>{row.Thursday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Friday || '--:--'}</Text>
+                <Text>{row.Friday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Saturday || '--:--'}</Text>
+                <Text>{row.Saturday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Sunday || '--:--'}</Text>
+                <Text>{row.Sunday}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.OverallTotal || '--:--'}</Text>
+                <Text>{row.OverallTotal}</Text>
               </View>
             </View>
           ))}
