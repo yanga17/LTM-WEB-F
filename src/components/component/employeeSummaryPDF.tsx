@@ -144,34 +144,34 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
               <View style={[styles.tableColEmployee]}>
-                <Text>{row.Employee}</Text>
+                <Text>{row.Employee || '--:--'}</Text>
               </View>
               <View style={[styles.tableColEmployee]}>
-                <Text>{row.Surname}</Text>
+                <Text>{row.Surname || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Monday}</Text>
+                <Text>{row.Monday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Tuesday}</Text>
+                <Text>{row.Tuesday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Wednesday}</Text>
+                <Text>{row.Wednesday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Thursday}</Text>
+                <Text>{row.Thursday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Friday}</Text>
+                <Text>{row.Friday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Saturday}</Text>
+                <Text>{row.Saturday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.Sunday}</Text>
+                <Text>{row.Sunday || '--:--'}</Text>
               </View>
               <View style={[styles.tableColDays]}>
-                <Text>{row.OverallTotal}</Text>
+                <Text>{row.OverallTotal || '--:--'}</Text>
               </View>
             </View>
           ))}
@@ -184,28 +184,28 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
               <Text>--:--</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalMonday}</Text>
+              <Text>{totalMonday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalTuesday}</Text>
+              <Text>{totalTuesday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalWednesday}</Text>
+              <Text>{totalWednesday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalThursday}</Text>
+              <Text>{totalThursday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalFriday}</Text>
+              <Text>{totalFriday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalSaturday}</Text>
+              <Text>{totalSaturday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalSunday}</Text>
+              <Text>{totalSunday || '--:--'}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalOverall}</Text>
+              <Text>{totalOverall || '--:--'}</Text>
             </View>
           </View>
         </View>

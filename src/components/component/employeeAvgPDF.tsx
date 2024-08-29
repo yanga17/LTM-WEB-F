@@ -120,19 +120,19 @@ export const EmployeeAvgTimePDF = ({ data, starttime, endtime }: Props) => {
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
               <View style={[styles.tableColError]}>
-                <Text>{row.Employee}</Text>
+                <Text>{row.Employee || '--:--'}</Text>
               </View>
               <View style={[styles.tableColError]}>
-                <Text>{row.Surname}</Text>
+                <Text>{row.Surname || '--:--'}</Text>
               </View>
               <View style={[styles.tableColError, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
-                <Text>{row.AvgTimePerTicket}</Text>
+                <Text>{row.AvgTimePerTicket || '--:--'}</Text>
               </View>
               <View style={[styles.tableColError]}>
-                <Text>{row.Type}</Text>
+                <Text>{row.Type || '--:--'}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.EmployeeCount}</Text>
+                <Text>{row.EmployeeCount || '--:--'}</Text>
               </View>
             </View>
           ))}
