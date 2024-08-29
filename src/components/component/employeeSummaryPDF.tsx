@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   tableColEmployee: {
-    width: "340px",
+    width: "400px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "center",
   },
   tableColDays: {
-    width: "200px",
+    width: "150px",
     border: "1px solid #ddd",
     padding: 8,
     textAlign: "center",
@@ -184,28 +184,28 @@ export const EmployeeSummaryPDF = ({ data, starttime, endtime }: Props) => {
               <Text>--:--</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalMonday || '--:--'}</Text>
+              <Text>{totalMonday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalTuesday || '--:--'}</Text>
+              <Text>{totalTuesday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalWednesday || '--:--'}</Text>
+              <Text>{totalWednesday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalThursday || '--:--'}</Text>
+              <Text>{totalThursday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalFriday || '--:--'}</Text>
+              <Text>{totalFriday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalSaturday || '--:--'}</Text>
+              <Text>{totalSaturday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalSunday || '--:--'}</Text>
+              <Text>{totalSunday || 0}</Text>
             </View>
             <View style={[styles.tableColDays]}>
-              <Text>{totalOverall || '--:--'}</Text>
+              <Text>{totalOverall || 0}</Text>
             </View>
           </View>
         </View>
