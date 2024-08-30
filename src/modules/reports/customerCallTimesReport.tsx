@@ -10,11 +10,11 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { X } from 'lucide-react';
 
 interface CustomerCallTimesProps {
-    Call_ID: number,
+    ID: number,
     Customer: string,
     CallCount: number,
     AverageTime: string,
-    TotalHours: string
+    TotalTime: string
 }
 export type CallTimesResponse = CustomerCallTimesProps[]
 
@@ -35,7 +35,7 @@ export const CustomerCallTimesReport = () => {
     const [customer, setCustomer] = useState('')
     const [filteredData, setFilteredData] = useState<CallTimesResponse>([]);
 
-    const headers = ['Customer', 'Call Count', 'Average Time', 'Total']
+    const headers = ['Call ID', 'Customer', 'Call Count', 'Average Time', 'Total']
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const splitCustomerName = (customerName: string) => {
@@ -44,12 +44,13 @@ export const CustomerCallTimesReport = () => {
 
     const filterCallHistoryReport = async () => {
         try {
-            //http://localhost:4200/reports/getcalltimesdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
-            const newStartTime = new Date(startTime).toString().split(' ').slice(1, 5).join(' '); //change to required format
-            const newEndTime = new Date(endTime).toString().split(' ').slice(1, 5).join(' ');
+            //http://localhost:4200/reports/getcalltimesdata/Mon Aug 20 2024 08:22:04/Thu Aug 29 2024 08:22:04
+            const newStartTime = new Date(startTime);
+            const newEndTime = new Date(endTime);
 
             const url = `reports/getcalltimesdata/${newStartTime}/${newEndTime}`
             const response = await axios.get<CallTimesResponse>(`${apiEndPoint}/${url}`);
+            //setFilteredData(response.data);
             const fetchedData = response.data;
             console.log("MY RESPONSE DATA: MY RESPONSE DATA:", response);
 
@@ -185,15 +186,14 @@ export const CustomerCallTimesReport = () => {
             <div className="flex items-center justify-between divide-x divide-gray-500 report-header p-3 mt-4 mx-2 rounded">
                 {headers?.map((header, index) => <p key={index} className={`text-xs uppercase report-text font-medium w-${100 / headers?.length} w-full text-center ${index === 1 && 'hidden lg:block'}`}>{header}</p>)}
             </div>
-            
-            {filteredData?.map(({ Call_ID, Customer, CallCount, AverageTime, TotalHours }, index) => (
-                <div key={Call_ID} className={` report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Customer}</p>
-                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{CallCount}</p>
-                    <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center">{AverageTime}</p>
-                    <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center">
-                        {TotalHours}
-                    </p>
+
+            {filteredData?.map(({ ID, Customer, CallCount, AverageTime, TotalTime }, index) => (
+                <div key={ID} className={` report-header report-text p-4 mt-2 mx-2 rounded flex items-center justify-between divide-x divide-gray-500 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center text-purple">{ID}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{Customer || '--:--'}</p>
+                    <p className="text-sm uppercase font-medium w-1/4 lg:w-1/4 text-center">{CallCount || '--:--'}</p>
+                    <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center">{AverageTime || '--:--'}</p>
+                    <p className="text-sm font-medium w-1/4 lg:w-1/4 text-center text-green">{TotalTime || '--:--'}</p>
                 </div>
             ))}
         </div>
