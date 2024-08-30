@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: "250px",
     border: "1px solid #ddd",
     padding: 8,
-    textAlign: "left",
+    textAlign: "center",
   },
   tableColCustomer: {
     width: "500px",
@@ -150,11 +150,14 @@ export const CustomerCallTimesPDF = ({ data, starttime, endtime }: Props) => {
         <Text style={styles.infoText}>The report was generated from ({startimeFormatted}) to ({endTimeFormatted})</Text> {/* Added info text with formatted date and time */}
         <View style={styles.table}>
           <View style={styles.tableRow}>
+            <View style={[styles.tableCol, styles.tableColHeader]}>
+              <Text>Call ID</Text>
+            </View>
             <View style={[styles.tableColCustomer, styles.tableColHeader]}>
               <Text>Customer</Text>
             </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
-              <Text>No. Calls</Text>
+              <Text>Call Count</Text>
             </View>
             <View style={[styles.tableCol, styles.tableColHeader]}>
               <Text>Average Time</Text>
@@ -165,17 +168,20 @@ export const CustomerCallTimesPDF = ({ data, starttime, endtime }: Props) => {
           </View>
           {data.map((row, rowIndex) => (
             <View key={rowIndex} style={[styles.tableRow, rowIndex % 2 === 0 ? styles.evenRow : {}]}>
+              <View style={[styles.tableCol]}>
+                <Text>{row.ID}</Text>
+              </View>
               <View style={[styles.tableColCustomer]}>
                 <Text>{row.Customer.toLocaleUpperCase()}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.CallCount || '--:--'}</Text>
+                <Text>{row.CallCount || 0}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.AverageTime || '--:--'}</Text>
+                <Text>{row.AverageTime || 0}</Text>
               </View>
               <View style={[styles.tableCol]}>
-                <Text>{row.TotalHours || '--:--'}</Text>
+                <Text>{row.TotalTime || 0}</Text>
               </View>
             </View>
           ))}

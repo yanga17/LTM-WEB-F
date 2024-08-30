@@ -93,22 +93,28 @@ export const ReportsModule = () => {
             }
 
             if (fetchedData.length === 0) {
-                toast.error('There is no available data between the selected date periods!', {
-                    icon: <X color={colors.red} size={24} />,
+                toast.error('No data was found for the selected employee between the date periods!', {
                     duration: 3000,
                 });
                 return;
             }
 
-            const filtered = employee 
-                ? fetchedData.filter(item => (item.Employee) ===(employee)) 
-                : fetchedData;
-                
-                if (filtered.length === 0) {
-                    toast.error('No data was found for the selected employee between the date periods!', {
-                        duration: 3000,
-                    });
-                }
+             // Split the customer name by comma and take the first part
+            const customerName = customer ? customer.split(',')[0].trim() : '';
+            const employeeName = employee ? employee.trim() : '';
+
+            // Filter data based on both customer and employee
+            const filtered = fetchedData.filter(item => {
+                const customerMatch = customerName ? item.Customer.split(',')[0].trim() === customerName : true;
+                const employeeMatch = employeeName ? item.Employee.trim() === employeeName : true;
+                return customerMatch && employeeMatch;
+            });
+
+            if (filtered.length === 0) {
+                toast.error('No data was found for the selected customer and employee between the date periods!', {
+                    duration: 3000,
+                });
+            }
         
                 setFilteredData(filtered);
                 filterEmployeeNotification();
@@ -284,9 +290,19 @@ export const ReportsModule = () => {
                     <label className="header-text">End Date:</label>
                     <input type="datetime-local" name="endtime" value={clHistoryEndTime} onChange={(e) => setCLHistoryEndTime(e.target.value)} className="select-input"></input>
                 </div>
-                <div className="mt-6 w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48 flex flex-col text-gray-500 rounded">
+                <div className="mt-6 flex gap-4 text-gray-500 rounded">
                 <select 
-                    className="select-input"
+                    className="select-input w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48"
+                    value={ customer }
+                    onChange={(e) => setCustomer(e.target.value)}
+                    >
+                    <option value="" className="option-item rounded-lg">All</option>
+                        {allCustomers?.map(({ uid, Customer }) =>
+                        <option key={uid} value={Customer}>{Customer}</option>
+                    )}
+                </select>
+                <select 
+                    className="select-input w-36 sm:w-32 md:w-40 lg:w-44 xl:w-48"
                     value={employee}
                     onChange={(e) => setEmployee(e.target.value)}
                     >
@@ -336,8 +352,12 @@ export const ReportsModule = () => {
                                         <p className="font-semibold text-md text-purple">{ID || '--:--'}</p>
                                     </div>
                                     <div className="mb-4 mt-4">
-                                        <p className="font-medium reportdetail-headertext text-md">Employee</p>
+                                        <p className="font-medium reportdetail-headertext text-md">Employee Name</p>
                                         <p className="font-semibold text-md uppercase report-text">{Employee || '--:--'}</p>
+                                    </div>
+                                    <div className="mb-4 mt-4">
+                                        <p className="font-medium reportdetail-headertext text-md">Surname</p>
+                                        <p className="font-semibold text-md uppercase report-text">{Surname || '--:--'}</p>
                                     </div>
                                     <div className="mb-2">
                                         <p className="font-medium reportdetail-headertext text-md">Support No</p>
@@ -389,7 +409,7 @@ export const ReportsModule = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-end mt-5 gap-4">
-                                    <Button onClick={ closeReport } className="bg-red hover:bg-rose-300 mr-2">Close
+                                    <Button onClick={ closeReport } className="cancel-detail mr-2">Close
                                         <Minimize2 size={18} strokeWidth={2} color="white" className="ml-2" />
                                     </Button>
                                 </div>
