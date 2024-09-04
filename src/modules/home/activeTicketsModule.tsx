@@ -153,7 +153,7 @@ export const ActiveTicketsModule = () => {
 
         const interval = setInterval(() => {
             generateUserTickets();
-        }, 120000); // 2 minutes in milliseconds
+        }, 150000); // 120000 milliseconds = 2 minutes 
 
         return () => clearInterval(interval);
     }, []);
