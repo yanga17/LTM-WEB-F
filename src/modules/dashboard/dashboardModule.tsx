@@ -108,9 +108,30 @@ interface AllEmployeeProps {
 type AllEmployeeResponse = AllEmployeeProps[]
 
 export const DashboardModule = () => {
+    //get current start time
+    const getCurrentStartTime = () => {
+        const now = new Date();
+        now.setHours(6, 0, 0, 0);
+        const startTime = now.toISOString().slice(0, 19);
+        console.log("Current Start Time:", startTime);
+        
+        return startTime;
+    }
+
+    //get current end time
+    const getCurrentEndTime = () => {
+        const endTime = new Date().toISOString().slice(0, 19);
+        console.log("Current End Time:", endTime);
+        return endTime;
+    }
+
     //EmployeeBarChart
     const [starttime, setStartTime] = useState('2024-05-30 14:29:33'); //ticketsPerEmployee
     const [endtime, setEndTime] = useState('2024-06-11 09:25:26'); //Tue Aug 20 2024 08:47:14 GMT+0200, Fri Aug 23 2024 13:47:07 GMT+02:00
+    //const [starttime, setStartTime] = useState(getCurrentStartTime());
+    //const [endtime, setEndTime] = useState(getCurrentEndTime());
+
+
     const [employeeData, setEmployeeData] = useState<EmployeeResponse>([]);
 
     //employeeErrorState

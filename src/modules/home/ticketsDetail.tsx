@@ -12,6 +12,7 @@ import { Minimize2, Check, Trash2, PhoneOutgoing, PencilRuler } from "lucide-rea
 import { useContext } from 'react';
 import { TicketsContext } from './ticketsModule';
 import { useSession } from '@/context';
+import { format } from "date-fns";
 
 interface EachTicketsProps {
     onClose: () => void;
@@ -45,6 +46,11 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
             supportNo = customerArray[1].trim();
         }
 
+        const timeTaken = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+        );
+
 
         try {
             const payLoad = {
@@ -59,7 +65,7 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
                 comments: ticket.Comments,
                 name: ticket.Name,
                 email_address: ticket.Email_Address,
-                timeTaken: new Date(),
+                timeTaken: timeTaken,
                 issueType: ticket.IssueType,
                 priority: ticket.Priority,
             };
@@ -78,13 +84,18 @@ export const EachTicketsModule = ({ onClose }: EachTicketsProps) => {
 
     const updateTakenTicket = async (callId: number) => {
         try {
-            //const endTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format to match SQL datetime format
-            ///updateloggedticket/:callid
-            const url = `tickets//updateloggedticket/${callId}`;
+            //new route
+            ///updateloggedticket/:endtime/:callid
+            const ticketDate = format(
+                new Date(),
+                "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+            );
+
+            const url = `tickets/updateloggedticket/${ticketDate}/${callId}`;
             const response = await axios.patch(`${apiEndPoint}/${url}`);
-  
+
             console.log('Ticket updated successfully:', response.data);
-  
+
             // Remove the ticket from the local state to reflect the change in the UI
             // This is optional if you want to update the state or UI
         } catch (error) {

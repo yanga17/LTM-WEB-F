@@ -11,29 +11,6 @@ import { useState, useEffect } from "react";
 import { ListChecks, LayoutList } from "lucide-react"
 import axios from 'axios';
 
-[
-  {
-    "Activity": "QUOTE",
-    "CommonTasks": 119
-  },
-  {
-    "Activity": "ACCOUNT QUERIES",
-    "CommonTasks": 83
-  },
-  {
-    "Activity": "GRV",
-    "CommonTasks": 72
-  },
-  {
-    "Activity": "PERFORMANCE TRACKER ",
-    "CommonTasks": 53
-  },
-  {
-    "Activity": "STOCK",
-    "CommonTasks": 39
-  }
-]
-
 
 const chartConfig = {
   "QUOTE": {
@@ -52,8 +29,8 @@ const chartConfig = {
     label: "Performance Tracker",
     color: "#1ec3ff",
   },
-  "STOCK": {
-    label: "STOCK",
+  "JOB CARDS": {
+    label: "JOB CARDS",
     color: "#ff6600",
   },
 } satisfies ChartConfig

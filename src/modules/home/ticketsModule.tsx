@@ -63,6 +63,11 @@ export const TicketsModule = () => {
       }
       console.log("SUPPORT DATA SUPPORT DATA SUPPORT DATA SUPPORT DATA", supportData)
 
+      const timeTaken = format(
+        new Date(),
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+      );
+
       try {
           const payLoad = {
               employee: user?.emp_name,
@@ -76,6 +81,7 @@ export const TicketsModule = () => {
               comments: ticket.Comments,
               name: ticket.Name,
               email_address: ticket.Email_Address,
+              timeTaken: timeTaken,
               issueType: ticket.IssueType,
               priority: ticket.Priority,
           };
