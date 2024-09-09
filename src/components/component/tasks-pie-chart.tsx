@@ -29,8 +29,8 @@ import axios from 'axios';
     "CommonTasks": 53
   },
   {
-    "Activity": "STOCK",
-    "CommonTasks": 39
+    "Activity": "JOB CARDS",
+    "CommonTasks": 41
   }
 ]
 
@@ -52,8 +52,8 @@ const chartConfig = {
     label: "Performance Tracker",
     color: "#1ec3ff",
   },
-  "STOCK": {
-    label: "STOCK",
+  "JOB CARDS": {
+    label: "JOB CARDS",
     color: "#ff6600",
   },
 } satisfies ChartConfig
@@ -226,4 +226,3 @@ return (
   </Card>
 )
 }
-//ListChecks, CircleXIcon, TicketXIcon, User
