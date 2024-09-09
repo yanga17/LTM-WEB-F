@@ -280,7 +280,7 @@ export function StartCall({ onClose}: Props) {
         comments: comments.toUpperCase(),
         name: clientName.toUpperCase(),
         email_address: emailAdd,
-        issueType: issueType.toUpperCase(),
+        issueType: issueType,
         priority: priority
       };
 
@@ -408,7 +408,7 @@ export function StartCall({ onClose}: Props) {
       logger: user ? `${user.emp_name}` : null,
       comments: comments.toUpperCase(),
       priority: priority, 
-      issueType: issueType.toUpperCase(), 
+      issueType: issueType, 
       type: type.toUpperCase(),
     };
 
