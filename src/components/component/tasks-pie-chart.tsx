@@ -11,30 +11,6 @@ import { useState, useEffect } from "react";
 import { ListChecks, LayoutList } from "lucide-react"
 import axios from 'axios';
 
-[
-  {
-    "Activity": "QUOTE",
-    "CommonTasks": 119
-  },
-  {
-    "Activity": "ACCOUNT QUERIES",
-    "CommonTasks": 83
-  },
-  {
-    "Activity": "GRV",
-    "CommonTasks": 72
-  },
-  {
-    "Activity": "PERFORMANCE TRACKER ",
-    "CommonTasks": 53
-  },
-  {
-    "Activity": "JOB CARDS",
-    "CommonTasks": 41
-  }
-]
-
-
 const chartConfig = {
   "QUOTE": {
     label: "Quote",
