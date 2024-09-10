@@ -9,7 +9,7 @@ import { CustomerErrorComponent } from "../../components/component/customerError
 import { CustomerCallsComponent } from "../../components/component/customerCallsBarChart";
 import { EmployeeTaskComponent } from "../../components/component/employeeTaskChart";
 import { ErrorChartComponent, EmptyChartComponent } from "../../components/component/error-chart-component";
-import { Filter, XIcon, X  } from "lucide-react";
+import { Filter, XIcon, X, Aperture, Command, Component } from "lucide-react";
 import { SummaryPieChart } from "@/components/component/ticketSummary-pie-chart";
 import { ClientsPieChart } from "@/components/component/clients-pie-chart";
 import { TasksPieChart } from "@/components/component/tasks-pie-chart";
@@ -128,9 +128,6 @@ export const DashboardModule = () => {
     //EmployeeBarChart
     const [starttime, setStartTime] = useState('2024-05-30 14:29:33'); //ticketsPerEmployee
     const [endtime, setEndTime] = useState('2024-06-11 09:25:26'); //Tue Aug 20 2024 08:47:14 GMT+0200, Fri Aug 23 2024 13:47:07 GMT+02:00
-    //const [starttime, setStartTime] = useState(getCurrentStartTime());
-    //const [endtime, setEndTime] = useState(getCurrentEndTime());
-
 
     const [employeeData, setEmployeeData] = useState<EmployeeResponse>([]);
 
@@ -166,7 +163,7 @@ export const DashboardModule = () => {
     const [allEmployees, setAllEmployees] = useState<AllEmployeeResponse>([]);
     //const [filteredData, setFilteredData] = useState<EmployeeAvgResponse>([]);
 
-    //EMPLOYEEData - Chart
+    //EmployeeBarChart
     const filterEmployeeBarChart = async () => {
         try {
             //http://localhost:4200/dashboard/getempticketsdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
@@ -194,7 +191,40 @@ export const DashboardModule = () => {
         }
     }
 
-    //CUSTOMERSDATA - Chart
+    //current day employee chart
+    const filterDailyEmplChart = async () => {
+        try {
+            //new starttime set to the beginning of the day (00:00)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const startOfDay = today;
+
+            //new endtime set to the current time
+            const now = new Date();
+            const endOfDay = now;
+
+            setEmployeeSumErrorState(false);
+            const url = `dashboard/getempticketsdata/${startOfDay}/${endOfDay}`; //Modified: Use startOfDay and endOfDay in the API call
+            const response = await axios.get<EmployeeResponse>(`${apiEndPoint}/${url}`);
+            setEmployeeData(response?.data);
+
+            if (response.data.length === 0) {
+                setEmployeeEmptyChart(true);
+
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+            
+        } catch (error) {
+            console.error('An error occurred while fetching todays reports:', error);
+            setEmployeeSumErrorState(true);
+            noDataNotification();
+        }
+    }
+
+    //CustomerErrorsBarChart
     const filterCustomerErrorsChart = async () => {
         try {
             //http://localhost:4200/dashboard/getcustomererrorsdata/Thu Aug 15 2024 18:49:34/Fri Aug 23 2024 16:19:50
@@ -213,13 +243,47 @@ export const DashboardModule = () => {
         }
     }
 
+    //current day customer errors chart
+    const filterDailyCustErrorsChart = async () => {
+        try {
+            //new starttime set to the beginning of the day (00:00)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const startofday = today;
+    
+            //new endtime set to the current time
+            const now = new Date();
+            const endofday = now;
+    
+            setCustomerErrorState(false)
+            const url = `dashboard/getcustomererrorsdata/${startofday}/${endofday}`;
+            const response = await axios.get<CustomerResponse>(`${apiEndPoint}/${url}`);
+            setCustomerData(response?.data);
+    
+            if (response.data.length === 0) {
+                setCustomerErrorState(true);
+    
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+                
+        } catch (error) {
+            console.error('An error occurred while fetching todays customer errors reports:', error);
+            setCustomerErrorState(true);
+            noDataNotification();
+        }
+    }
+
+    //EmployeeTasksBarChart
     const filterEmployeeTasksChart = async () => {
         try {
             const newStartTime = new Date(employeeTaskStartTime); //change to required format
             const newEndTime = new Date(employeeTaskEndTime);
 
             setEmployeeTaskErrorState(false);
-            const url = `dashboard/getemployeetasksdata/${newStartTime}/${newEndTime}`
+            const url = `dashboard/getemployeetasksdata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<EmployeeTasksResponse>(`${apiEndPoint}/${url}`);
             setEmployeeTasksData(response?.data)
         } catch (error) {
@@ -229,13 +293,47 @@ export const DashboardModule = () => {
         }
     }
 
+    //current day employee tasks chart
+    const filterDailyEmplTasksChart = async () => {
+        try {
+            //new starttime set to the beginning of the day (00:00)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const startofday = today;
+        
+            //new endtime set to the current time
+            const now = new Date();
+            const endofday = now;
+        
+            setEmployeeTaskErrorState(false);
+            const url = `dashboard/getemployeetasksdata/${startofday}/${endofday}`;
+            const response = await axios.get<EmployeeTasksResponse>(`${apiEndPoint}/${url}`);
+            setEmployeeTasksData(response?.data)
+        
+            if (response.data.length === 0) {
+                setEmployeeTaskErrorState(true);
+        
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+                    
+        } catch (error) {
+            console.error('An error occurred while fetching todays customer errors reports:', error);
+            setCustomerErrorState(true);
+            noDataNotification();
+        }
+    }
+
+    //CustomerCallsBarChart
     const filterCustomerCallChart = async () => {
         try {
             const newStartTime = new Date(customerCallStartTime); //change to required format
             const newEndTime = new Date(customerCallEndTime);
 
             setCustomerCallsErrorState(false);
-            const url = `dashboard/getcustomercalldata/${newStartTime}/${newEndTime}`
+            const url = `dashboard/getcustomercalldata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<CustomerCallsResponse>(`${apiEndPoint}/${url}`);
             setCustomerCallsData(response?.data)
 
@@ -246,6 +344,40 @@ export const DashboardModule = () => {
         }
     }
 
+    //current day customer calls chart
+    const filterDailyCustCallsChart = async () => {
+        try {
+            //new starttime set to the beginning of the day (00:00)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const startofday = today;
+            
+            //new endtime set to the current time
+            const now = new Date();
+            const endofday = now;
+            
+            setCustomerCallsErrorState(false);
+            const url = `dashboard/getcustomercalldata/${startofday}/${endofday}`;
+            const response = await axios.get<CustomerCallsResponse>(`${apiEndPoint}/${url}`);
+            setCustomerCallsData(response?.data)
+            
+            if (response.data.length === 0) {
+                setCustomerCallsErrorState(true);
+            
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+                        
+        } catch (error) {
+            console.error('An error occurred while fetching todays customer calls reports:', error);
+            setCustomerCallsErrorState(true);
+            noDataNotification();
+        }
+    }
+
+    //EmployeeWeeklyBarChart
     const getEmployeeWeeklyData = async () => {
         //http://localhost:4200/dashboard/getemployeeweeklydata/2024-07-10 06:48:55/2024-07-12 07:12:35
         try {
@@ -253,7 +385,7 @@ export const DashboardModule = () => {
             const newEndTime = new Date(employeeWeeklyEndTime);
 
             setEmployeeWeeklyErrorState(false);
-            const url = `dashboard/getemployeeweeklydata/${newStartTime}/${newEndTime}`
+            const url = `dashboard/getemployeeweeklydata/${newStartTime}/${newEndTime}`;
             const response = await axios.get<EmployeeWeeklyResponse>(`${apiEndPoint}/${url}`);
             //setEmployeeWeeklyData(response?.data)
             const fetchedData = response.data;
@@ -265,8 +397,57 @@ export const DashboardModule = () => {
                 setEmployeeWeeklyData(fetchedData);
             }
 
+            if (fetchedData.length === 0) {
+                setCustomerCallsErrorState(true);
+                
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+
         } catch (error) {
             console.error('An error occurred while getting the Employee Weekly Data:', error);
+            setEmployeeWeeklyErrorState(true);
+            noDataNotification();
+        }
+    }
+
+    //current day employee weekly chart
+    const filterDailyEmplWeeklyChart = async () => {
+        try {
+            //new starttime set to the beginning of the day (00:00)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const startofday = today;
+                
+            //new endtime set to the current time
+            const now = new Date();
+            const endofday = now;
+                
+            setEmployeeWeeklyErrorState(false);
+            const url = `dashboard/getemployeeweeklydata/${startofday}/${endofday}`;
+            const response = await axios.get<EmployeeWeeklyResponse>(`${apiEndPoint}/${url}`);
+            const fetchedData = response.data;
+
+            if (employee) {
+                const filteredByEmployee = fetchedData.filter((item) => item.Employee === employee);
+                setEmployeeWeeklyData(filteredByEmployee);
+            } else {
+                setEmployeeWeeklyData(fetchedData);
+            }
+                
+            if (fetchedData.length === 0) {
+                setCustomerCallsErrorState(true);
+                
+                toast.error('There is no available data for today!', {
+                    icon: <X color={colors.red} size={24} />,
+                    duration: 3000,
+                });
+            }
+                            
+        } catch (error) {
+            console.error('An error occurred while fetching todays Employee Weekly Data:', error);
             setEmployeeWeeklyErrorState(true);
             noDataNotification();
         }
@@ -327,7 +508,6 @@ export const DashboardModule = () => {
     }
 
 
-
     const noDataNotification = () => {
         toast.error('There is not data available between the selected date periods!', {
             icon: <XIcon color={colors.red} size={24} />,
@@ -369,7 +549,14 @@ export const DashboardModule = () => {
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[600px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(s)</span></p>
+                        <div className="flex">
+                            <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee
+                                <span className="text-xs dash-text">(s)</span>
+                            </p>
+                            <button onClick={ filterDailyEmplChart }>
+                                <Aperture size={18} strokeWidth={2} className="ml-2" color="orange" />
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="dash-text mr-2">Start Date</label>
                             <input type="datetime-local" name="empstarttime" onChange={(e) => setStartTime(e.target.value)} className="dash-input pr-6" />
@@ -395,7 +582,14 @@ export const DashboardModule = () => {
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="dash-text font-medium uppercase text-md">No. Errors Per Customer <span className="text-xs dash-text">(s)</span></p>
+                        <div className="flex">
+                            <p className="dash-text font-medium uppercase text-md">No. Errors Per Customer
+                                <span className="text-xs dash-text">(s)</span>
+                            </p>
+                            <button onClick={ filterDailyCustErrorsChart }>
+                                <Aperture size={18} strokeWidth={2} className="ml-2" color="orange" />
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="dash-text mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setCustomerStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
@@ -421,7 +615,14 @@ export const DashboardModule = () => {
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="dash-text font-medium uppercase text-md">No. Common Tasks Completed<span className="text-xs dash-text">(s)</span></p>
+                        <div className="flex">
+                            <p className="dash-text font-medium uppercase text-md">No. Common Tasks Completed
+                                <span className="text-xs dash-text">(s)</span>
+                            </p>
+                            <button onClick={ filterDailyEmplTasksChart }>
+                                <Aperture size={18} className="ml-2" color="orange" />
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="dash-text mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeTaskStartTime(e.target.value)} className="dash-input dark:border-white pr-6 mt-2" />
@@ -447,7 +648,14 @@ export const DashboardModule = () => {
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="dash-text font-medium uppercase text-md">No. Customer Calls <span className="text-xs dash-text">(s)</span></p>
+                        <div className="flex">
+                            <p className="dash-text font-medium uppercase text-md">No. Customer Calls
+                                <span className="text-xs dash-text">(s)</span>
+                            </p>
+                            <button onClick={ filterDailyCustCallsChart } >
+                                <Aperture size={18} className="ml-2" color="orange" />
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="dash-text mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setCustomerCallStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
@@ -470,11 +678,18 @@ export const DashboardModule = () => {
                     </div>
                 </div>
             </div>
-            {/* new chart */}
+            {/* last chart */}
             <div className="flex flex-col justify-start space-y-2">
                 <div className="w-full rounded p-2 shadow h-[450px] chart-background flex items-start justify-between flex-col">
                     <div className="flex items-center justify-between w-full h-[15%]">
-                        <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee <span className="text-xs dash-text">(weekly)</span></p>
+                        <div className="flex">
+                            <p className="dash-text font-medium uppercase text-md">No. Tickets Per Employee
+                                <span className="text-xs dash-text">(weekly)</span>
+                            </p>
+                            <button onClick={ filterDailyEmplWeeklyChart } >
+                                <Aperture size={18} className="ml-2" color="orange" />
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2 mr-2">
                             <label className="dash-text mr-2">Start Date</label>
                             <input type="datetime-local" name="starttime" onChange={(e) => setEmployeeWeeklyStartTime(e.target.value)} className="dash-input pr-6 mt-2" />
