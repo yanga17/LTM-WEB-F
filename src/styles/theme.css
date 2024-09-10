@@ -839,13 +839,42 @@
     border-color: #6B7280;
 }
 
-/* .dark .chartoption-item:hover {
-    background-color: #2b2b2b;
+/* Override unwanted button styles  FOR CHART-INPUT */
+button.chart-input {
+    background-color: transparent; /* Reset background to transparent */
+    border: 1px solid hsl(var(--input-border)); /* Remove default border */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Remove any button shadow */
+    font-size: 0.875rem; /* Reset button appearance */
+    padding: 4; /* Adjust padding if needed */
+    cursor: pointer;
+    height: 40px;
 }
 
-.dark .chartoption-item:focus {
-    background-color: hsl(var(--muted));
-} */
+button.chart-input:focus {
+    outline: none;
+    background-color: transparent;
+}
+
+button.chartoption-item {
+    background-color: white;
+    color: black,
+}
+
+/* Dark mode button */
+.dark button.chartoption-item {
+    background-color: inherit; /* Dark mode background */
+    color: inherit;
+}
+
+.dark button.chartoption-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Dark mode hover */
+}
+
+.dark button.chartoption-item:focus {
+    background-color: rgba(255, 255, 255, 0.2); /* Optional: Dark mode focus */
+}
+/* Override unwanted button styles  FOR CHART-INPUT -- END END END END */
+
 
 
 

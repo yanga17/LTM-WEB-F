@@ -3,7 +3,7 @@ import { Activity, CookingPot } from "lucide-react";
 export function ErrorChartComponent() {
   return (
     <div className="">
-      <div className="bg-red w-[700px] h-[200px] rounded-lg p-8 text-center dark:bg-red-900">
+      <div className="bg-red w-[700px] h-[200px] rounded-lg p-8 text-center">
         <TriangleAlertIcon className="h-12 w-12 mx-auto text-white dark:text-gray-50" />
         <h3 className="text-2xl font-bold mt-4 text-white dark:text-gray-50">No Data Available</h3>
         <p className="text-base text-white mt-2 dark:text-gray-50 uppercase">
@@ -17,7 +17,7 @@ export function ErrorChartComponent() {
 export function EmptyChartComponent() {
   return (
     <div className="">
-      <div className="bg-green w-[700px] h-[200px] rounded-lg p-8 text-center dark:bg-emerald-200">
+      <div className="bg-green w-[700px] h-[200px] rounded-lg p-8 text-center">
         <CookingPot size={44} strokeWidth={2} className="mx-auto text-white dark:text-gray-50" />
         <h3 className="text-2xl font-bold mt-4 text-white dark:text-gray-50">No Available Data</h3>
         <p className="text-base text-white mt-2 dark:text-gray-50 uppercase">
