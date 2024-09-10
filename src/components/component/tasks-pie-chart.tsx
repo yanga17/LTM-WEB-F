@@ -11,7 +11,6 @@ import { useState, useEffect } from "react";
 import { ListChecks, LayoutList } from "lucide-react"
 import axios from 'axios';
 
-
 const chartConfig = {
   "QUOTE": {
     label: "Quote",
@@ -203,4 +202,3 @@ return (
   </Card>
 )
 }
-//ListChecks, CircleXIcon, TicketXIcon, User
