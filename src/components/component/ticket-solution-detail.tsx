@@ -168,7 +168,7 @@ export function TicketSolutionDetail({ callId, onClose }: TicketSolutionProps ){
           Please enter the solution of the problem:
         </label>
         <Textarea
-        className="call-input"
+        className="call-input uppercase"
         id="solution"
         ref={textareaRef}
         onChange={(e) => setSolution(e.target.value)}

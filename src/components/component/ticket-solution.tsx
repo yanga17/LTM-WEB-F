@@ -57,7 +57,8 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
           setFollowUp(1);
           setNumberOfDays(numberofdays);
       } else {
-          setFollowUp(0);
+          setFollowUp(1);
+          setNumberOfDays(1);
       }
           console.log("MY CHECKSTATUS TEXT:", checkStatus)
   }, [checkStatus])
@@ -69,7 +70,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
       }
 
       const newNumberOfDays = numberofdays > 0 ? numberofdays : 0;
-      const followup = checkStatus ? 1 : 0;
+      const followup = checkStatus ? 1 : 1;
       const newCompleted = 1;
       console.log("FOLLOW UP FOLLOW UP", followup)
 
@@ -164,7 +165,7 @@ export function TicketSolution({ callId, onClose }: TicketSolutionProps ){
           Please enter the solution of the problem:
         </label>
         <Textarea
-        className="call-input"
+        className="call-input uppercase"
         id="solution"
         ref={textareaRef}
         onChange={(e) => setSolution(e.target.value)}

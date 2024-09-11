@@ -1,7 +1,7 @@
 'use client'
 
-import * as React from "react"
-import {useState, useEffect} from 'react'
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { View, CircleSlash, PhoneOutgoing, Loader, Ellipsis } from "lucide-react";
 import { createContext } from "react";
 import { FollowUpsDetail } from "./followUpsDetail";
+import { format } from "date-fns";
 
 interface FollowUpsProps {
     idx: number,
@@ -75,8 +76,13 @@ export const FollowUpsModule = () => {
         const selectedTicket = data?.find(ticket => ticket.ID === id);
         console.log("Selected Ticket:", selectedTicket);
 
-        const flStartTime = getCurrentDateTimeString();
+        //const flStartTime = getCurrentDateTimeString();
         const followUpValue = 2;
+
+        const currentDate = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+        );
 
         if (selectedTicket) {
             const payload = {
@@ -86,8 +92,8 @@ export const FollowUpsModule = () => {
                 activity: selectedTicket.Activity,
                 clientsAnydesk: selectedTicket.Clients_Anydesk,
                 phoneNumber: selectedTicket.Phone_Number,
-                startTime: new Date(selectedTicket.StartTime).toISOString().slice(0, 19).replace('T', ' '),
-                endTime: new Date(selectedTicket.EndTime).toISOString().slice(0, 19).replace('T', ' '),
+                startTime: selectedTicket.StartTime,
+                endTime: selectedTicket.EndTime,
                 duration: selectedTicket.Duration,
                 type: selectedTicket.Type,
                 solution: selectedTicket.Solution,
@@ -97,7 +103,7 @@ export const FollowUpsModule = () => {
                 completed: selectedTicket.Completed,
                 name: selectedTicket.name,
                 numberOfDays: selectedTicket.NumberOfDays,
-                flStartTime: flStartTime, // Assuming this is the start time for the follow-up
+                flStartTime: currentDate, // Assuming this is the start time for the follow-up
                 issueType: selectedTicket.IssueType,
                 priority: selectedTicket.Priority,
             };

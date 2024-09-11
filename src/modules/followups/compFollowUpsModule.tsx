@@ -1,15 +1,15 @@
 'use client'
 
-import * as React from "react"
-import {useState, useEffect} from 'react'
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import { apiEndPoint, colors } from '@/utils/colors';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "@/hooks/useQuery";
-import { Button } from "@/components/ui/button"
 import { CircleSlash2, CircleSlash, PhoneOff, Loader, Ellipsis } from "lucide-react";
 import { createContext } from "react";
-import { CompFollowUpsDetail } from "./compFollowUpsDetail"
+import { CompFollowUpsDetail } from "./compFollowUpsDetail";
+import { format } from "date-fns";
 
 //interface for all tickets - tblcalls
 interface CompletedFLProps {
@@ -60,8 +60,14 @@ export const CompFollowUpsModule = () => {
     const { data, loading, error } = useQuery<FolowUpsType>(url);
 
     const endFollowUp = async (idx: any) => {
+      const flEndTime = format(
+        new Date(),
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+      );
+
       try {
-        const endUrl = `followups/endactivefollowup/${idx}`;
+        //endactivefollowup/:flendtime/:idx
+        const endUrl = `followups/endactivefollowup/${flEndTime}/${idx}`;
         const response = await axios.patch<FolowUpsType>(`${apiEndPoint}/${endUrl}`);
         console.log("ENDING ACTIVE FOLLOW-UP WAS SUCCESSFUL:", response.data);
         toast.success('Follow-Up has been ended successfully.');
@@ -176,7 +182,7 @@ export const CompFollowUpsModule = () => {
                 <tr>
                   <td colSpan={6} className="p-0">
                     <div className="justify-start w-full duration-500 ease-in-out transition-max-height">
-                      <CompFollowUpsDetail onClose={closeModal} endFollowUpFn={endFollowUp}/>
+                      <CompFollowUpsDetail onClose={closeModal} />
                     </div>
                   </td>
                 </tr>

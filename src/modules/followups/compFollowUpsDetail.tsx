@@ -1,22 +1,72 @@
 'use client'
 
 import React from 'react';
-import { Button } from "@/components/ui/button"
 import { PhoneOff, Minimize2 } from "lucide-react";
 import { useContext } from 'react';
 import { ActiveFollowUpsContext } from './compFollowUpsModule';
+import { format } from "date-fns";
+import { apiEndPoint, colors } from '@/utils/colors';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 interface ActiveFollowUpProp {
     onClose: () => void;
-    endFollowUpFn: (idx: any) => void;
 }
 
+interface CompletedFLProps {
+    idx: number,
+    ID: number,
+    Employee: string,
+    Customer: string,
+    Activity: string,
+    Phone_Number: number,
+    StartTime: string
+    EndTime: string,
+    Duration: number,
+    Type: string,
+    Solution: string,
+    Support_No: null,
+    Comments: string,
+    FollowUp: null,
+    Completed: null,
+    Name: string,
+    Email_Address: string,
+    Clients_Anydesk: null,
+    NumberOfDays: number,
+    TimeTaken: null,
+    FLStartTime: string,
+    FLEndTime: string
+    IssueType: string,
+    Priority: string
+}
 
-export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpProp) => {
+type FolowUpsType = CompletedFLProps[]
+
+
+export const CompFollowUpsDetail= ({ onClose }: ActiveFollowUpProp) => {
     const ActiveFollowUps = useContext(ActiveFollowUpsContext);
 
     if (!ActiveFollowUps) {
         return <div>No data available</div>;
+    }
+
+    const endFollowUp = async (idx: any) => {
+        const flendtime = format(
+            new Date(),
+            "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX"
+        );
+
+        try {
+            //endactivefollowup/:flendtime/:idx
+            const endUrl = `followups/endactivefollowup/${flendtime}/${idx}`;
+            const response = await axios.patch<FolowUpsType>(`${apiEndPoint}/${endUrl}`);
+            console.log("ENDING ACTIVE FOLLOW-UP WAS SUCCESSFUL:", response.data);
+            toast.success('Follow-Up has been ended successfully.');
+
+        } catch (error) {
+            console.error('Error ending active follow-up ticket:', error);
+            toast.error('An error occurred while ending the follow-up.');
+        }
     }
 
     return (
@@ -83,7 +133,7 @@ export const CompFollowUpsDetail= ({ onClose, endFollowUpFn }: ActiveFollowUpPro
                         </div>
                     </div>
                     <div className="flex justify-end gap-4">
-                        <button className="cancel-detail" onClick={() => { endFollowUpFn(ActiveFollowUps.ID)}}>
+                        <button className="cancel-detail" onClick={() => { endFollowUp(ActiveFollowUps.idx)}}>
                             <span>End</span>
                             <PhoneOff size={18} strokeWidth={2} className="ml-2" />
                         </button>
